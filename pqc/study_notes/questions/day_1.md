@@ -164,3 +164,56 @@ Spot on. Your logic is tight, and you're thinking like an auditor—looking at t
 
 
 4. **Compressed Keys:** * **The Nuance:** Correct. No change in security. It’s the same point on the curve, just a different way of writing the "address."
+
+
+### more questions
+## Understanding Check - Quantum Cryptography 🎯
+
+**Question 1: The Finite Group Concept**
+Using the clock analogy: If an elliptic curve has an order of 17 (meaning 17·G = ∞), and you compute 20·G, what point do you actually get? Walk me through why.
+
+**Question 2: The Core Problem**
+Fill in the blanks:
+```
+Given: Q = d·G
+We know: _____ and _____
+We need to find: _____
+Classical computers struggle because: _____
+```
+
+## Feedback on Your Answers 📝
+
+---
+
+### ✅ Question 1: **EXCELLENT!**
+
+Your walkthrough is perfect:
+```
+17·G = ∞ (period = 17)
+18·G = G (starts over)
+19·G = 2G
+20·G = 3G ✅
+```
+
+You correctly calculated: **20 mod 17 = 3**, so **20·G = 3·G**
+
+**Small notation note:** You wrote "G1" and "G 2" - I think you meant `2G` and `3G` (standard notation), but your understanding is spot-on!
+
+**The period relationship you showed:**
+```
+d ≡ (period relationship) mod n
+```
+Good attempt! The actual relationship is more complex (involves continued fractions from the QFT output), but you've grasped the key concept: **periodicity creates modular relationships that reveal d**.
+
+---
+
+### ✅ Question 2: **PERFECT!**
+
+```
+We know: Q and G ✅
+We need to find: d ✅
+Classical computers struggle because: they have to try 2^256 possibilities ✅
+```
+
+Spot on! You could also add: "...and there's no known shortcut" - emphasizing that it's not just the number of tries, but the lack of any clever mathematical trick classically.
+
