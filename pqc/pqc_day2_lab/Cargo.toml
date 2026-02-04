@@ -1,0 +1,11 @@
+[package]
+name = "pqc_day2_lab"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+# The current world
+k256 = { version = "0.13", features = ["ecdsa"] }
+# The quantum-safe world
+pqcrypto-dilithium = "0.5"
+pqcrypto-traits = "0.3"
