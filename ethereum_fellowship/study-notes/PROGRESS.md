@@ -13,6 +13,7 @@
 |---|----------------|---------------|-------|-------|--------|
 | 1 | 2026-03-16 | 2026-03-16 | Protocol 101: Ethereum Intro & Overview | Protocol 101 | ✅ Done |
 | 2 | 2026-03-16 | 2026-03-16 | Pre-reading refresh: Merkle trees, p2p networking, cryptography basics | Protocol 101 | ✅ Done |
+| 2.5 | 2026-03-16 | 2026-03-16 | Gap fill: EOA/contracts, gas, tx fields, design principles, EIP process, specs, hard forks, FOSS, Cypherpunks | Protocol 101 | ✅ Done |
 | 3 | 2026-03-17 | — | Protocol 101: Consensus Layer Overview | Protocol 101 | ⏳ Pending |
 | 4 | 2026-03-17 | — | Protocol 101: Execution Layer Overview | Protocol 101 | ⏳ Pending |
 | 5 | 2026-03-18 | — | Protocol 101: CL & EL Specs Overview | Protocol 101 | ⏳ Pending |
