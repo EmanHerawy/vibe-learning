@@ -11,13 +11,14 @@
 
 | # | Date (Planned) | Date (Actual) | Topic | Track | Status |
 |---|----------------|---------------|-------|-------|--------|
-| 1 | 2026-03-16 | — | Protocol 101: Ethereum Intro & Overview | Protocol 101 | ⏳ Pending |
-| 2 | 2026-03-16 | — | Protocol 101: Consensus Layer Overview | Protocol 101 | ⏳ Pending |
-| 3 | 2026-03-17 | — | Protocol 101: Execution Layer Overview | Protocol 101 | ⏳ Pending |
-| 4 | 2026-03-17 | — | Protocol 101: CL & EL Specs Overview | Protocol 101 | ⏳ Pending |
-| 5 | 2026-03-18 | — | Finite Groups & Fields (missed Mar 9) | Cryptography | ⏳ Pending |
-| 6 | 2026-03-18 | — | Lean Consensus Overview (missed Mar 11) | zkEVM/Lean | ⏳ Pending |
-| 7 | 2026-03-19 | — | Discrete Fourier Transform (today Mar 16) | Cryptography | ⏳ Pending |
+| 1 | 2026-03-16 | 2026-03-16 | Protocol 101: Ethereum Intro & Overview | Protocol 101 | ✅ Done |
+| 2 | 2026-03-16 | 2026-03-16 | Pre-reading refresh: Merkle trees, p2p networking, cryptography basics | Protocol 101 | ✅ Done |
+| 3 | 2026-03-17 | — | Protocol 101: Consensus Layer Overview | Protocol 101 | ⏳ Pending |
+| 4 | 2026-03-17 | — | Protocol 101: Execution Layer Overview | Protocol 101 | ⏳ Pending |
+| 5 | 2026-03-18 | — | Protocol 101: CL & EL Specs Overview | Protocol 101 | ⏳ Pending |
+| 6 | 2026-03-18 | — | Finite Groups & Fields (missed Mar 9) | Cryptography | ⏳ Pending |
+| 7 | 2026-03-18 | — | Lean Consensus Overview (missed Mar 11) | zkEVM/Lean | ⏳ Pending |
+| 8 | 2026-03-19 | — | Discrete Fourier Transform (today Mar 16) | Cryptography | ⏳ Pending |
 
 ## Live Session Schedule (from Mar 16)
 
@@ -43,6 +44,6 @@
 ---
 
 ## Current Position
-- Last lesson: Protocol 101 — Ethereum Intro & Overview
+- Last lesson: Pre-reading refresh — Merkle trees, p2p, cryptography primitives
 - Last session: 2026-03-16
 - Next up: Protocol 101 — Consensus Layer Overview

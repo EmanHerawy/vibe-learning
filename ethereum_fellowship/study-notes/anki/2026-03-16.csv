@@ -1,4 +1,12 @@
 Front,Back
+"What are the 3 Merkle roots in every Ethereum block header?","transactions_root (all txs), receipts_root (logs/gas/status), state_root (entire world state after block)."
+"How does a light client verify a transaction is in a block without downloading the full block?","Uses a Merkle inclusion proof — sibling hashes along the path from the tx leaf to the root. Recomputes the root and checks it matches transactions_root in the header."
+"Why does Ethereum use a Merkle Patricia Trie for state instead of a plain Merkle tree?","State is a key-value store (address → account data). MPT supports efficient lookup by key + both inclusion and exclusion proofs. Plain Merkle trees only work on ordered lists."
+"How does a brand new Ethereum node find its first peers?","Hardcoded bootnodes → ping/pong handshake → request peer list → expand via discv5 DHT (UDP). Then gossips over devp2p (EL) / libp2p (CL) over TCP."
+"What are the 3 Ethereum sync strategies and when is each used?","Full sync = re-execute from genesis (archival). Snap sync = download recent state snapshot, default EL (hours). Checkpoint sync = start from trusted finalized checkpoint, default CL (minutes)."
+"Why does EL use devp2p and CL use libp2p?","devp2p built 2014 when no p2p library existed. libp2p was mature + modular by the time CL was designed. Two separate peer networks run in parallel on every full node."
+"Why can't Ethereum use ECDSA for validator attestations?","~700,000 validators attest per 12-second slot. ECDSA = 65 bytes × 700,000 = ~45 MB/slot — impossible. BLS aggregation collapses all into one 96-byte signature."
+"How is an Ethereum address derived from a private key?","private key (32 bytes) → ECDSA secp256k1 → public key (64 bytes) → keccak256 → last 20 bytes = address."
 "What is Ethereum's formal computation model? Define state, transition, and consensus.","State machine. State = all accounts + balances + contract storage. Transition = a transaction changes the state. Consensus = thousands of nodes agree on which state is valid."
 "What does the Execution Layer (EL) do?","Runs the EVM, processes transactions, manages and updates state. Also owns the mempool and builds block payloads."
 "What does the Consensus Layer (CL) do?","Runs Proof of Stake, finalizes the canonical chain, proposes and attests to blocks every 12-second slot."
