@@ -1,0 +1,12 @@
+Front,Back
+"What is Ethereum's formal computation model? Define state, transition, and consensus.","State machine. State = all accounts + balances + contract storage. Transition = a transaction changes the state. Consensus = thousands of nodes agree on which state is valid."
+"What does the Execution Layer (EL) do?","Runs the EVM, processes transactions, manages and updates state. Also owns the mempool and builds block payloads."
+"What does the Consensus Layer (CL) do?","Runs Proof of Stake, finalizes the canonical chain, proposes and attests to blocks every 12-second slot."
+"Why does Ethereum enforce client diversity (no client >33% of validators)?","If a dominant client has a bug and >33% of validators run it, the network could halt or be compromised. Multiple independent codebases in different languages mean one bug doesn't take down the network."
+"How do EL and CL communicate? Name the API, port, and 3 key methods.","Engine API over JSON-RPC on port 8551. Key methods: engine_forkchoiceUpdated, engine_newPayload, engine_getPayload."
+"Why does the Engine API use a JWT secret?","Protects against local process impersonation — an attacker with machine access could forge Engine API calls without it, feeding invalid blocks to the EL."
+"JWT secret vs validator signing key — what's the difference?","JWT = local auth token between EL + CL processes, no stake involved. Validator signing key = BLS private key on the CL protecting the 32 ETH stake. EL has zero awareness of validators."
+"What happens to your 32 ETH stake if your EL goes down?","CL can't fulfill validator duties → inactivity penalties (slow ETH leak). Both layers must stay healthy 24/7. This is why DVT (Distributed Validator Technology) exists."
+"Trace a transaction: where does it go from 'send' to finalized?","1) EL mempool → 2) EL builds block payload → 3) EL executes (validates balance/nonce, runs EVM, updates state) → 4) CL validator proposes block (every 12s slot) → 5) validators attest → 6) finalized after 2 epochs (~12.8 min)"
+"What is Ethereum's slot time, and when is a block considered finalized?","1 slot = 12 seconds. Finality = after 2 epochs (~12.8 minutes). Before finality: soft agreement. After finality: cryptographically irreversible."
+"What's the difference between Ethereum finality and Bitcoin confirmations?","Bitcoin = probabilistic (reorg gets harder over time, never truly impossible). Ethereum PoS = cryptographic (reversing a finalized block requires slashing >1/3 of all staked ETH — economically catastrophic by design)."

@@ -38,11 +38,11 @@
 
 | # | Date | Topic | Goal | Planned hrs | Actual hrs | Status | Session file |
 |---|------|-------|------|-------------|------------|--------|--------------|
+| 1 | 2026-03-16 | Protocol 101: Ethereum Intro & Overview | Understand WHY Ethereum exists, two-layer architecture, EL/CL communication | 1.5 | ~1 | ✅ ACHIEVED | sessions/2026-03-16.md |
 
 ---
 
 ## Current Position
-- Last lesson: —
-- Last session: —
-- Next up: **Catch-up — Protocol 101 foundations**
-  Run `/orchestrate-learn` to begin
+- Last lesson: Protocol 101 — Ethereum Intro & Overview
+- Last session: 2026-03-16
+- Next up: Protocol 101 — Consensus Layer Overview
