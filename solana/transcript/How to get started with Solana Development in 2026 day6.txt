@@ -1,0 +1,3498 @@
+00:00:00
+Hello and welcome to day six of the how
+
+00:00:04
+to get started with Salana development
+
+00:00:05
+in 2026 video series. Today we're going
+
+00:00:09
+to once again build our own program but
+
+00:00:11
+this time not with anchor but with
+
+00:00:14
+Pinocchio. And we're doing this because
+
+00:00:16
+I want you to understand one more
+
+00:00:18
+essential thing and that is
+
+00:00:20
+serialization and des serialization of
+
+00:00:23
+data specifically account data because
+
+00:00:27
+so far anchor has taken a lot of the
+
+00:00:30
+difficulty away from us but I want you
+
+00:00:33
+to understand how it works under the
+
+00:00:35
+hood such that you really understand
+
+00:00:37
+what's happening because that's a dev's
+
+00:00:39
+job to know what you're doing to know
+
+00:00:42
+what's happening. I mean, of course, you
+
+00:00:44
+can go through your life without
+
+00:00:46
+understanding all of the things and keep
+
+00:00:48
+relying on the frameworks to take care
+
+00:00:50
+of that for you or the AIS to fix that.
+
+00:00:52
+I'm not your grammar. I'm not telling
+
+00:00:54
+you what to do. But I'm just suggesting
+
+00:00:57
+that having an understanding of what
+
+00:00:59
+serialization is and how it's used in
+
+00:01:01
+the context of Salana development is
+
+00:01:03
+really helpful for writing your own
+
+00:01:05
+programs correctly and efficiently. Not
+
+00:01:08
+saying you can't get around it, just
+
+00:01:10
+saying that it's helpful. That's why I
+
+00:01:12
+put it into this video series because on
+
+00:01:14
+other systems it might not be that
+
+00:01:16
+prominent but on Solana it really is
+
+00:01:20
+essential. That's one of the tasks of a
+
+00:01:24
+Solana developer is to come up with how
+
+00:01:28
+data is being stored in what form
+
+00:01:31
+because really underlying it's all just
+
+00:01:33
+bytes. So we as the devs are responsible
+
+00:01:37
+for serialization and deserialization.
+
+00:01:39
+So, let's get started with day six. How
+
+00:01:41
+we really write accounts subtitle, it's
+
+00:01:45
+all just bites. Okay, let's get started.
+
+00:01:48
+Yesterday, we were talking about tokens
+
+00:01:50
+and we were getting codeex here already.
+
+00:01:53
+We're going to talk about codecs in a
+
+00:01:55
+second a bit more. Codec are going to be
+
+00:01:57
+relevant for today's video because
+
+00:02:00
+codeex is how we do the serialization
+
+00:02:02
+and deserialization with the Solana kit.
+
+00:02:04
+But I want to get started with writing a
+
+00:02:07
+Pinocchio program. So what I'm going to
+
+00:02:09
+do is I will cargo init. So I'll
+
+00:02:12
+basically just create a Rust program.
+
+00:02:15
+Specifically, I want a library. Oops.
+
+00:02:18
+Now day six is my entire rust thing.
+
+00:02:21
+Well, sure, why not? Let's call it day
+
+00:02:22
+six cuz this doesn't create a new
+
+00:02:24
+project folder for me. It just takes
+
+00:02:26
+what it has here. That's fine. And in
+
+00:02:28
+the source, we have the lip. Again, this
+
+00:02:31
+is pure rust. We want to make it Solana.
+
+00:02:34
+So I'm going to cargo add Pinocchio.
+
+00:02:38
+This is basically a library that just
+
+00:02:40
+has a few dependencies like Solana
+
+00:02:43
+address, Solana program error, some of
+
+00:02:46
+the Solana crates. Pinocchio used to not
+
+00:02:49
+have any dependencies and now it has a
+
+00:02:51
+few because it uses the same types as
+
+00:02:53
+the Solana SDK and Pinocchio itself is
+
+00:02:56
+like the Solana SDK. If you write native
+
+00:03:00
+programs in Solana, you would use the
+
+00:03:02
+Salana SDK. Pinocchio is just a little
+
+00:03:05
+more efficient. That's why I enjoy
+
+00:03:07
+writing with this one. So, might as well
+
+00:03:10
+teach you that since it's not that much
+
+00:03:13
+different, but it doesn't give you such
+
+00:03:15
+a nice template. So, the way I like to
+
+00:03:17
+go about this is I like to copy the
+
+00:03:21
+entry point code from here. That's just
+
+00:03:24
+the GitHub. And put that in there. And
+
+00:03:26
+that if you want to use Salana program
+
+00:03:29
+log, we can cargo add that. But this one
+
+00:03:33
+has a bunch of dependencies. And again,
+
+00:03:35
+I don't try to write an efficient
+
+00:03:37
+program today. I'm just saying that
+
+00:03:40
+Pinocchio is your goto SDK if you want
+
+00:03:44
+to write compute efficient programs.
+
+00:03:46
+What that really is is also out of the
+
+00:03:48
+scope of this video. Watch some on the
+
+00:03:51
+compute budget program that I did today.
+
+00:03:53
+I just want to use it to understand
+
+00:03:56
+zeroization. Okay. Now, this is already
+
+00:03:59
+a working program. We could already
+
+00:04:03
+compile this. We could say cargo build
+
+00:04:07
+SPF. That by the way also comes with the
+
+00:04:10
+Solana CLI when we installed that. And
+
+00:04:13
+then it will build all the dependencies
+
+00:04:16
+first and then our D6 program. Great.
+
+00:04:19
+Just have three warnings. And that did a
+
+00:04:21
+similar thing that the anchor build
+
+00:04:23
+does. It creates this target. Oops.
+
+00:04:27
+Another thing, if you're writing Salana
+
+00:04:29
+programs, I keep forgetting how that is
+
+00:04:32
+done, so I always need to look it up
+
+00:04:35
+here. We need to set the crate type.
+
+00:04:37
+There we go. You just got to copy that
+
+00:04:40
+in. And then if you build, then it
+
+00:04:42
+actually creates this deploy binary
+
+00:04:45
+here. So that's an ELF file. Same as we
+
+00:04:48
+had with anchor, just this time it's a
+
+00:04:50
+bit smaller. And to deploy this, I don't
+
+00:04:52
+say anchor deploy. I need to go through
+
+00:04:55
+the Solana CLI. I would need to say
+
+00:04:57
+Solana program deploy and then give the
+
+00:05:01
+path to this target day 6.So
+
+00:05:05
+and like that I could deploy this. There
+
+00:05:08
+we go. My program ID is ECQ because
+
+00:05:11
+that's that key pair here. I could
+
+00:05:13
+provide a different key pair and have a
+
+00:05:15
+different program ID but for us that's
+
+00:05:17
+fine here today. And then I could
+
+00:05:19
+directly call this program by putting it
+
+00:05:22
+in here, creating an instruction to our
+
+00:05:26
+program and then sending it through the
+
+00:05:28
+RPC. It's the same script as we had
+
+00:05:31
+before. And here we go. That would be a
+
+00:05:34
+transaction on our program that we just
+
+00:05:37
+deployed here. It doesn't know what the
+
+00:05:39
+program is because we're not uploading
+
+00:05:41
+any IDLs. But it says hello from my
+
+00:05:44
+Pinocchio program, which is exactly what
+
+00:05:47
+our program is doing. That's all it
+
+00:05:49
+does. And then it says okay. So same
+
+00:05:52
+thing, the okay makes the instruction
+
+00:05:54
+return with success. And that makes the
+
+00:05:58
+entire transaction be successful. And
+
+00:06:00
+that's it so far. Wow. It now has size
+
+00:06:03
+and bytes. The explorer is changing with
+
+00:06:05
+every day. Now before we make any
+
+00:06:08
+progress with our program, I want to
+
+00:06:10
+explain to you what I mean with
+
+00:06:12
+serialization and des serialization cuz
+
+00:06:15
+that happens everywhere. Just that you
+
+00:06:18
+might not be super aware of it. For
+
+00:06:20
+instance, it does happen when we send
+
+00:06:22
+our transaction. The send and confirm
+
+00:06:25
+transaction. what this thing does before
+
+00:06:28
+it actually sends the transaction cuz
+
+00:06:30
+here we have basically an object with
+
+00:06:33
+the transaction message and the
+
+00:06:35
+signatures and the transaction message
+
+00:06:37
+contains the instructions and the block
+
+00:06:39
+hash and all of that is being sent to an
+
+00:06:41
+RPC. Now obviously it's not sent in that
+
+00:06:45
+format. it's being somehow converted
+
+00:06:48
+first and the kit does those conversions
+
+00:06:51
+with codecs in this case a transaction
+
+00:06:55
+codec. A codec always has a decode and
+
+00:06:58
+an encode function. The encode function
+
+00:07:01
+always takes the highle object in our
+
+00:07:05
+case this signed transaction and it will
+
+00:07:08
+return bytes in the form of a U in 8
+
+00:07:12
+array. So we have a readonly U and 8
+
+00:07:14
+array here. We'll call this the
+
+00:07:17
+transaction bytes maybe or in other
+
+00:07:19
+words the serialized transaction because
+
+00:07:23
+what that does it takes the infos of the
+
+00:07:26
+transaction and it has a certain way of
+
+00:07:29
+it has a certain order of where it puts
+
+00:07:33
+stuff. But maybe let's start a bit
+
+00:07:35
+simpler and encode something else. Let's
+
+00:07:39
+encode a string. So the serialized
+
+00:07:42
+string we use a UTF8 codec. We can
+
+00:07:46
+encode a string hello. Let's do 78 with
+
+00:07:51
+three exclamation marks. And then let's
+
+00:07:54
+do something even more simple. Numberes
+
+00:07:57
+and get a U64 codec and encode a number.
+
+00:08:02
+I could do a big number. Maybe let's do
+
+00:08:05
+a classic computer science number 124.
+
+00:08:09
+and I will log the string bytes and I
+
+00:08:12
+will log the number bytes. So the
+
+00:08:15
+serialized string and the serialized
+
+00:08:18
+number. Let's just look at that cuz that
+
+00:08:20
+looks as follows. The string is eight
+
+00:08:24
+bytes in length because I have a 8
+
+00:08:26
+character string and here we see the 72
+
+00:08:30
+because that's the ask key characters.
+
+00:08:32
+It takes one character, converts it to a
+
+00:08:35
+number, and that it does for all eight
+
+00:08:39
+characters. We see the double L must be
+
+00:08:43
+here and the three exclamation marks
+
+00:08:46
+must be those. And if we look at the
+
+00:08:48
+number, that's a lot of zeros and the
+
+00:08:51
+four here. Why? Because I chose that
+
+00:08:55
+specific number, which is a power of
+
+00:08:57
+two. So that's two to the power of 10.
+
+00:08:59
+So basically what we're having here is
+
+00:09:01
+one number that's made up of eight
+
+00:09:04
+bytes. That's a so-called U64 64 bits.
+
+00:09:09
+First eight bits are here. The next one
+
+00:09:11
+here. So here is 2 ^ of 0. Here is 2 to
+
+00:09:16
+the^ of 8. 2 the^ of 16 and so on. So if
+
+00:09:19
+we have a four here then we have a 4 * 2
+
+00:09:23
+^ of 8 which is the same as 2 ^ of 10.
+
+00:09:27
+And that's why this represents this
+
+00:09:31
+number. And here comes in the
+
+00:09:34
+interesting part. Looking at those two
+
+00:09:37
+integer arrays, I can make a guess what
+
+00:09:41
+they represent, but I cannot be sure.
+
+00:09:44
+For instance, this here could also just
+
+00:09:48
+be a very large number. And there's no
+
+00:09:51
+one who can stop me from saying hey my
+
+00:09:54
+number is I'm getting this codec again
+
+00:09:58
+and I decode now that's the other way
+
+00:10:01
+that takes the bytes and returns the
+
+00:10:04
+highle representation and I could just
+
+00:10:06
+decode the string bytes to a number that
+
+00:10:10
+would be a very freaking big number this
+
+00:10:14
+one but we could interpret this as a
+
+00:10:17
+number same way as we could interp
+
+00:10:19
+interpret this as a string. It would
+
+00:10:22
+just not represent much because there's
+
+00:10:24
+a lot of null characters. So if I would
+
+00:10:27
+take the number bytes and I would decode
+
+00:10:30
+those then obviously I should get back
+
+00:10:32
+the same number that I put in. Okay, now
+
+00:10:35
+that's for simple things just one string
+
+00:10:39
+or one number. Now let's say I wanted to
+
+00:10:43
+put both the string and the number into
+
+00:10:46
+one single bite array. How would I do
+
+00:10:49
+that? Well, I would need to define which
+
+00:10:52
+one comes first. And usually a good
+
+00:10:54
+practice is to have the ones with fixed
+
+00:10:57
+length first. That would be my number
+
+00:10:59
+here. So I would create a strct codec.
+
+00:11:03
+And don't worry here it gets a bit
+
+00:11:04
+complicated. I don't want you to be able
+
+00:11:06
+to reproduce this. Just follow along for
+
+00:11:09
+now. Here we put in an array of and I
+
+00:11:13
+can name them as I want. I'll name the
+
+00:11:16
+first thing number and it's going to be
+
+00:11:19
+this codec and the second thing I call
+
+00:11:22
+it the string and that's going to be
+
+00:11:25
+UTF8 codec. Okay. So how do I use this
+
+00:11:30
+thing now? Forget about that part. Let's
+
+00:11:33
+call it serialized bytes because we
+
+00:11:36
+serialize both the number and the
+
+00:11:39
+string. we call the end code and we put
+
+00:11:43
+the number this and the string this and
+
+00:11:47
+that just represents those things that I
+
+00:11:49
+put in the strct here. And then if I
+
+00:11:51
+print that this now results in a 16 byt
+
+00:11:58
+array where the first eight bytes are my
+
+00:12:01
+number and then directly afterwards the
+
+00:12:04
+string. And what I did here is I
+
+00:12:07
+serialized a number and a string.
+
+00:12:10
+Serializing just meaning put them in a
+
+00:12:13
+series. First the number then the string
+
+00:12:16
+in this case. And I define the order of
+
+00:12:19
+this. I could say no do the string first
+
+00:12:22
+then the number. Then it would look
+
+00:12:24
+different. Then it would be first the
+
+00:12:26
+string then the number. But there we
+
+00:12:28
+might already see an issue. we don't
+
+00:12:31
+know how long the string is. We can
+
+00:12:34
+define that it always must be exactly
+
+00:12:37
+eight characters long. Or we could for
+
+00:12:40
+instance add a codec size prefix and say
+
+00:12:46
+my maximum is 255. So I just get a U8
+
+00:12:51
+codec here for encoding the length. Then
+
+00:12:54
+I would add one more bite that says how
+
+00:12:58
+long is the upcoming string? Eight bytes
+
+00:13:02
+in this case. So that's the eight bytes
+
+00:13:05
+representing the string. Then comes my
+
+00:13:07
+number. But now my total grew to 17
+
+00:13:09
+bytes. And see all of that making those
+
+00:13:13
+decisions is our jobs as developers.
+
+00:13:17
+It's always a question of how is the
+
+00:13:20
+data serialized and then also
+
+00:13:23
+deserialized because this thing I could
+
+00:13:26
+go the other way around. I'm going to
+
+00:13:29
+store that codec duct codec and then I
+
+00:13:33
+can des serialize my data with the same
+
+00:13:37
+codec using the decode and I put in the
+
+00:13:40
+serialized bytes and then I should get
+
+00:13:43
+out the same thing I put in. Let's
+
+00:13:46
+check. There you go. Then we're getting
+
+00:13:48
+out the same thing that we put in from
+
+00:13:51
+that data. We des serialized that data
+
+00:13:55
+into this representation. That's what I
+
+00:13:59
+mean with serialization and
+
+00:14:01
+deserialization. Okay, so far so good.
+
+00:14:03
+Coming back to my transaction, the
+
+00:14:06
+transaction codec is nothing else than a
+
+00:14:09
+more complex example of what we had
+
+00:14:11
+here. just that here we need to encode
+
+00:14:13
+all of the accounts, all of the
+
+00:14:15
+instructions, what's the block cache,
+
+00:14:18
+what type of transaction it is, and all
+
+00:14:21
+of the signatures. So, we have a bunch
+
+00:14:23
+of things to encode. But there is one
+
+00:14:26
+standard way of how a transaction is
+
+00:14:29
+supposed to be serialized such that the
+
+00:14:33
+RPC then also understands that data
+
+00:14:36
+because those byes we will then put them
+
+00:14:39
+in base 64 such that we can put it in
+
+00:14:42
+HTTP such that we can send it but that's
+
+00:14:45
+essentially what the RPC will get from
+
+00:14:47
+us not this highle object here. So if
+
+00:14:50
+you also want to have a look at this, we
+
+00:14:53
+can print the transaction bytes for fun.
+
+00:14:55
+Those are the individual bytes. And I
+
+00:14:58
+did make specific videos on transaction
+
+00:15:00
+serialization where we go into more
+
+00:15:03
+detail. Just real quick for you, this
+
+00:15:06
+might be just random data. For me,
+
+00:15:09
+having worked with Solana a bunch, I
+
+00:15:11
+see, okay, this transaction has one
+
+00:15:14
+signature. That's the signature. It has
+
+00:15:17
+one signing account, zero writable
+
+00:15:20
+accounts and one readonly account.
+
+00:15:23
+That's the program, that's the fee payer
+
+00:15:25
+and so on. And that's also the same
+
+00:15:28
+thing that we would get if we get a B 64
+
+00:15:32
+encoded wire transaction for this signed
+
+00:15:35
+transaction. Just that here we're
+
+00:15:37
+actually getting B 64. There we go. So
+
+00:15:41
+that's the base 64 string then of those
+
+00:15:45
+bytes. And that is something that I
+
+00:15:47
+could put into the inspector here and
+
+00:15:50
+then it will des serialize the
+
+00:15:52
+transaction again and show me all of the
+
+00:15:55
+accounts. This is the fee payer. Those
+
+00:15:58
+are the other accounts and that's the
+
+00:15:59
+instruction. And here I could also
+
+00:16:01
+simulate that and then I see what would
+
+00:16:04
+be happening if we were to actually send
+
+00:16:06
+that transaction. So yeah, that's a
+
+00:16:09
+serialized transaction. Just to point
+
+00:16:12
+out that this happens in a lot of places
+
+00:16:16
+where we have the object that we work
+
+00:16:19
+with in code. But then it's put into
+
+00:16:22
+just some bytes and from those byes that
+
+00:16:27
+could mean anything. But if we know that
+
+00:16:30
+it's a transaction then we can associate
+
+00:16:33
+the byes correctly and be like oh that
+
+00:16:35
+one means that there's one signature.
+
+00:16:38
+Oh, that one means that there's one
+
+00:16:40
+writable serer and so on. Okay, good
+
+00:16:43
+enough. I think you understand what I
+
+00:16:45
+mean with serialization. Let's come back
+
+00:16:48
+to the actual program because also here
+
+00:16:51
+we find ourselves using serialization or
+
+00:16:54
+des serialization in that case in the
+
+00:16:57
+program the program already deserializes
+
+00:17:00
+the input for us. That entry point macro
+
+00:17:04
+does that for us because the program ID,
+
+00:17:07
+the accounts and the instruction data is
+
+00:17:09
+also just provided as one long piece of
+
+00:17:13
+just bytes to the program but those
+
+00:17:17
+bytes come in a specific order and so we
+
+00:17:20
+can deserialize it and then we get the
+
+00:17:23
+instruction data accounts and program
+
+00:17:25
+ID. If you're interested in the details
+
+00:17:27
+also I made a video on the entry point.
+
+00:17:30
+You can look that up. But here we can
+
+00:17:33
+just take that for granted. That's how
+
+00:17:35
+this data comes in. However, we will
+
+00:17:38
+once again need to des serialize it
+
+00:17:42
+further when we are working with
+
+00:17:44
+instruction data. And here for the first
+
+00:17:47
+time we can finally decide how that's
+
+00:17:50
+supposed to look because with a
+
+00:17:52
+transaction and with the entry point
+
+00:17:54
+that's already defined by the Solanda
+
+00:17:57
+specification or with the entry points
+
+00:17:59
+case the loader programs specification
+
+00:18:02
+but with the instruction data here all
+
+00:18:05
+of a sudden we are in control because
+
+00:18:08
+remember with our anchor program anchor
+
+00:18:11
+did that for us that we just implement
+
+00:18:14
+instructions s and then anchor knows how
+
+00:18:17
+they are called. Not with Pinocchio.
+
+00:18:19
+With Pinocchio, we will need to
+
+00:18:21
+implement that ourselves. We just get
+
+00:18:23
+the raw instruction data as a slice of
+
+00:18:27
+bytes. So if we want to have different
+
+00:18:29
+instructions, we will need to work with
+
+00:18:32
+this instruction data. So for instance,
+
+00:18:34
+I could match the first bite of the
+
+00:18:37
+instruction data to be my instruction
+
+00:18:40
+discriminator for instance. And I could
+
+00:18:42
+say if it's one then execute init for
+
+00:18:47
+instance and if it's two set the mood
+
+00:18:51
+and if it's three get the mood and if
+
+00:18:54
+it's anything else than that we say
+
+00:18:57
+invalid instruction data. This could be
+
+00:18:59
+how I map my instructions manually
+
+00:19:03
+because what I get as instruction data I
+
+00:19:06
+define that I as the developer can say
+
+00:19:10
+that's how I interpret the instruction
+
+00:19:12
+data because I'm responsible how that is
+
+00:19:15
+serialized and deserialized. So that's
+
+00:19:17
+the one way. Let me quickly build that
+
+00:19:20
+and deploy that because then we will see
+
+00:19:22
+when we call it our instruction. If we
+
+00:19:25
+just call it like this, if I just do
+
+00:19:27
+this, then I will now get a panic. Oh
+
+00:19:32
+yeah, I will get a panic because I'm not
+
+00:19:34
+providing any instruction data, but my
+
+00:19:38
+implementation uses the first bite. So
+
+00:19:41
+we panic. So maybe as a good dev I
+
+00:19:45
+should do something like check that the
+
+00:19:47
+length of my instruction data is at
+
+00:19:50
+least what I expect and if it isn't then
+
+00:19:53
+also in return that error then redeploy
+
+00:19:56
+that real quick wrong way around that
+
+00:19:59
+happens to me a lot sorry fixed it okay
+
+00:20:02
+now then I'm getting this invalid
+
+00:20:04
+instruction data error from here or also
+
+00:20:08
+because I will need to provide data here
+
+00:20:12
+and again I as the developer say how
+
+00:20:15
+this data is interpreted which means
+
+00:20:19
+what I put in here must reflect that the
+
+00:20:22
+first bite here is my instruction
+
+00:20:25
+discriminator. So for instance if I want
+
+00:20:27
+the initialize instruction I need to put
+
+00:20:29
+a one then my program would run the
+
+00:20:33
+init. If I put something invalid like
+
+00:20:36
+the zero, then I will once again get the
+
+00:20:39
+invalid instruction data because I'm now
+
+00:20:42
+manually mapping that because I said
+
+00:20:44
+that the first bite of instruction data
+
+00:20:47
+represents my instruction discriminator
+
+00:20:50
+and that decides what real instruction
+
+00:20:53
+is being called. And here we see that in
+
+00:20:56
+reality a program just has one execution
+
+00:21:02
+path. it can just take the input that it
+
+00:21:05
+takes the instruction data to then
+
+00:21:07
+behave differently. That's what we then
+
+00:21:09
+mean with it's a different instruction.
+
+00:21:12
+But really, as we discussed on day two,
+
+00:21:15
+an instruction really is just that this
+
+00:21:17
+program is being called with this
+
+00:21:19
+instruction data and those accounts and
+
+00:21:22
+then it's doing some execution logic.
+
+00:21:24
+But for us as devs, if we want a program
+
+00:21:27
+to have different instructions, then we
+
+00:21:29
+need to define that through the
+
+00:21:31
+instruction data. For instance, with
+
+00:21:33
+just one bite or anchor uses eight bytes
+
+00:21:36
+of the instruction discriminator. For
+
+00:21:38
+most cases, it's good enough to have
+
+00:21:40
+just one bite. So that's how we would do
+
+00:21:42
+that. That's how we could distinguish
+
+00:21:44
+between different instructions. If we
+
+00:21:46
+want one program to do different things,
+
+00:21:48
+which usually you want to. Okay, let's
+
+00:21:51
+go a step further and actually work with
+
+00:21:54
+accounts as well. Here, we're going to
+
+00:21:56
+build a similar program that we did on
+
+00:22:00
+day three with this set mood and get
+
+00:22:03
+mood. And we're using a mood account.
+
+00:22:07
+And let's start with the most difficult
+
+00:22:09
+thing, the initialize. Actually, I think
+
+00:22:12
+to keep it simple, I'm going to skip the
+
+00:22:14
+initialize for now and not work with
+
+00:22:16
+PDAs. We will go there later but I want
+
+00:22:19
+to stay with the account serialization
+
+00:22:21
+first. So we just create the account
+
+00:22:23
+with the system program as a separate
+
+00:22:25
+instruction as we also did in the first
+
+00:22:27
+iteration of our anchor program. So
+
+00:22:30
+let's go with a set mood instruction and
+
+00:22:33
+I'm going to just copy this process set
+
+00:22:37
+mood are going to be my implementations
+
+00:22:41
+for well I don't really need the program
+
+00:22:43
+ID. I don't even need it here. And here
+
+00:22:45
+I'm just going to call the process set
+
+00:22:48
+mood with accounts and instruction data.
+
+00:22:51
+And here pro get mood. And we'll get to
+
+00:22:54
+the initialize later. Now for the
+
+00:22:56
+implementation, let's get the accounts
+
+00:22:59
+also that I need to define in which
+
+00:23:01
+order they come in like I did here. I
+
+00:23:05
+had the state and the authority. So the
+
+00:23:09
+mood account and the authority. I'm
+
+00:23:11
+going to do the same thing again, but
+
+00:23:13
+maybe I want to do one more time a guard
+
+00:23:16
+of accounts. I'll do invalid argument.
+
+00:23:19
+If you don't know which error you should
+
+00:23:21
+use, I made a video on those. Invalid
+
+00:23:24
+argument is for the accounts if they're
+
+00:23:28
+invalid. Or actually, there's one even
+
+00:23:30
+better one. There's a not enough account
+
+00:23:33
+keys. That's the even better error in
+
+00:23:35
+this case because we're expecting two
+
+00:23:38
+accounts. And then I'll save them. My
+
+00:23:41
+mood account is the first one and my
+
+00:23:45
+authority account the second one. And
+
+00:23:48
+since I haven't even initialized that
+
+00:23:49
+account, let's not even work with the
+
+00:23:51
+authority account yet. Let's just do the
+
+00:23:55
+mood account because now we need to
+
+00:23:57
+define what is stored in that mood
+
+00:24:00
+account. Similar to how we did it here,
+
+00:24:04
+we say, "Oh, first is this, then is
+
+00:24:06
+this, just that anchor also did the type
+
+00:24:10
+of account for us, which we might want
+
+00:24:13
+to do as well, like a account
+
+00:24:16
+discriminator. But for this to make
+
+00:24:18
+sense, I think I will need to initialize
+
+00:24:21
+it as well. I'm going to do the separate
+
+00:24:24
+initialize even if it the initialize
+
+00:24:26
+doesn't create the account, but it
+
+00:24:29
+initializes the account. Otherwise, this
+
+00:24:31
+does not make sense. Okay, I'll also do
+
+00:24:33
+a process initialize and then we got to
+
+00:24:37
+say how that account looks like because
+
+00:24:41
+otherwise it is just data. The data of
+
+00:24:44
+the account is always just a bunch of
+
+00:24:47
+bytes. So, we get to define what those
+
+00:24:50
+bytes mean. For instance, I'm just going
+
+00:24:52
+to call it mood account here. I say
+
+00:24:55
+there will be a discriminator and I'm
+
+00:24:58
+just going to do a U8 anchor does eight
+
+00:25:01
+bytes. I'm just doing one. Then I will
+
+00:25:04
+store the mood as the U8. And then while
+
+00:25:08
+I'm here, I think I might as well add
+
+00:25:10
+the authority as well. Yeah, that would
+
+00:25:12
+do the same thing as with the other one.
+
+00:25:13
+And this one I'm going to do differently
+
+00:25:16
+though, just so you see something else.
+
+00:25:18
+I'm going to do an option for an
+
+00:25:21
+address. So there can be an authority
+
+00:25:23
+but there doesn't have to be. Just so
+
+00:25:25
+you see how that is serialized. Okay.
+
+00:25:28
+Now how do we use this? For now there's
+
+00:25:30
+just a strct. Now to use this strct
+
+00:25:34
+actually hold on before let's do it this
+
+00:25:37
+super ugly way. Just so you understand
+
+00:25:39
+why we do the things that we do. We
+
+00:25:41
+could say something like okay mood
+
+00:25:44
+account we get the data and to
+
+00:25:47
+initialize we write to the
+
+00:25:49
+discriminator. So we write to data zero.
+
+00:25:52
+Let's say this zero is uninitialized and
+
+00:25:57
+one means it's a mood account. This bite
+
+00:26:00
+here I use to tell me what type of
+
+00:26:03
+account it is. Compare token program
+
+00:26:05
+having token accounts and token mints.
+
+00:26:07
+Those are two different types. They
+
+00:26:09
+don't use a discriminator. They do it
+
+00:26:11
+with the account length. Token
+
+00:26:13
+extensions then had to manually add
+
+00:26:15
+that. But anyway, so for us, I want to
+
+00:26:17
+write a one to identify my mood account.
+
+00:26:20
+So I write data zero is one. And then
+
+00:26:23
+the mood, I will let that stay at zero
+
+00:26:27
+because we will set that later. And the
+
+00:26:30
+authority could be like data 1 to 6
+
+00:26:36
++ 32. Guess I got to try borrow this
+
+00:26:39
+instead. Not work with the pointer. Then
+
+00:26:42
+I can copy from slice. Now I threw away
+
+00:26:45
+their authority. No, give me the
+
+00:26:47
+authority back. I want the authority
+
+00:26:49
+account as well. So from the authority
+
+00:26:51
+account address two bytes maybe. Yeah,
+
+00:26:56
+that looks like it compiles. Okay. So we
+
+00:26:59
+borrow the data mutably. Then we
+
+00:27:02
+manually write the first bite. So that's
+
+00:27:04
+writing it into here. And then we
+
+00:27:06
+manually write the address in the
+
+00:27:09
+authority. And I will also need to
+
+00:27:11
+manually write a one here to say for the
+
+00:27:15
+option it's present. That all looks a
+
+00:27:17
+bit ugly but it should work. Let's test
+
+00:27:21
+this. Okay. Now we will call our program
+
+00:27:24
+and we need to manually add the create
+
+00:27:27
+account instruction for a new account.
+
+00:27:31
+We just generate a new one. We add it to
+
+00:27:35
+our program. We pay for it. Space. Now
+
+00:27:39
+this one is interesting because again we
+
+00:27:42
+need to know how much all of that is
+
+00:27:46
+going to be. So we need to understand
+
+00:27:48
+how all of the individual parts are
+
+00:27:51
+serialized. That's one bite. That's
+
+00:27:53
+going to be serialized as one bite. Same
+
+00:27:54
+here. How is the option serialized?
+
+00:27:57
+Well, that's the good question. The
+
+00:27:59
+address is 32 bytes. We know that. But
+
+00:28:02
+the option we again have several
+
+00:28:04
+possibilities how we can serialize it.
+
+00:28:06
+Depending what library you use, it might
+
+00:28:08
+take four bytes to say whether the
+
+00:28:11
+option is present or not or maybe just
+
+00:28:13
+one bite to say whether the option is
+
+00:28:15
+present or not. Ideally, it would use
+
+00:28:17
+one. It could use four just to be on the
+
+00:28:20
+safe side because I don't know how I'm
+
+00:28:21
+going to do it yet. I will calculate
+
+00:28:23
+with four. So, I will have 32. Although,
+
+00:28:26
+that might be a C option and not an
+
+00:28:28
+option, but whatever. 32 36 78. Let's go
+
+00:28:33
+with 38 just so we're on the safe side.
+
+00:28:35
+And then lamperts we get minimum balance
+
+00:28:37
+for rent exemption for 38. That's the
+
+00:28:40
+create account instruction. We got to do
+
+00:28:42
+that before our instruction in the
+
+00:28:45
+transaction. And then we say call the
+
+00:28:48
+initialize. So we put the one here. And
+
+00:28:51
+we need to provide the correct accounts
+
+00:28:53
+as well. So accounts you will get first
+
+00:28:57
+the new account. So that's going to be
+
+00:28:59
+my mood account with RO writable. And
+
+00:29:02
+the second one is the authority which is
+
+00:29:05
+going to be my key pair with RO signer.
+
+00:29:08
+Okay, let's try and call our program.
+
+00:29:10
+Cool, that even worked. We created this
+
+00:29:12
+new account and the initialize
+
+00:29:14
+instruction was executed with success.
+
+00:29:17
+So let's see if that account was
+
+00:29:19
+actually written to. Yep, that looks
+
+00:29:22
+good. That did what I expected it to do.
+
+00:29:26
+I wrote the one for the discriminator.
+
+00:29:29
+The mood is still zero. I said yes, an
+
+00:29:32
+option is present and then I wrote the
+
+00:29:34
+authority into here as well. That's what
+
+00:29:36
+I did with this code. Nice. However,
+
+00:29:40
+that's still a bit ugly, but I hope
+
+00:29:43
+you're getting the idea of
+
+00:29:46
+serialization. You as the developer are
+
+00:29:49
+responsible how the bytes of the account
+
+00:29:51
+are being used. The bytes of the
+
+00:29:54
+accounts is just a bunch of bytes and
+
+00:29:56
+what you make of them is your thing. You
+
+00:30:00
+got to decide that you need to say how
+
+00:30:03
+it's being serialized and then des
+
+00:30:05
+serialized. So we defined hey the
+
+00:30:07
+discriminator that's the first bite
+
+00:30:09
+here. This one is the option and then
+
+00:30:12
+this one is the authority. We wrote that
+
+00:30:14
+at this location here because I said
+
+00:30:17
+four bytes is for the option. Now this
+
+00:30:19
+is still ugly. Why is this ugly? Well,
+
+00:30:23
+because we are working with those
+
+00:30:25
+numbers directly and it's like I do have
+
+00:30:29
+this strct that neatly says what it is,
+
+00:30:31
+but I'm not really using this strct. I'm
+
+00:30:34
+just referencing it kind of like by I,
+
+00:30:37
+but that's not nice code. So, I could
+
+00:30:40
+use a serialization library. And the
+
+00:30:43
+most wellknown one is Borsch. By far not
+
+00:30:47
+the best one. And I will make videos on
+
+00:30:50
+better and faster ones. But we did use
+
+00:30:52
+it in Anchor and it is used in other
+
+00:30:54
+anchor programs. So for this basic
+
+00:30:57
+tutorial, let's just use it. So we
+
+00:30:59
+wanted to be able to serialize and
+
+00:31:01
+deserialize this strct. So I got to
+
+00:31:05
+somehow import that stuff. So I say
+
+00:31:09
+cargo add borch. There we go. Then we
+
+00:31:12
+should be able to import this. Ah, and
+
+00:31:15
+address then doesn't have Porsche
+
+00:31:17
+serialize. Okay, maybe I don't want to
+
+00:31:19
+use Borsch then since Borsch doesn't
+
+00:31:21
+support address. I think I'm just not
+
+00:31:23
+going to do that. I could and not use
+
+00:31:26
+this. That would work. But if I use
+
+00:31:28
+address, I mean I could hack my way
+
+00:31:31
+around this. Just to quickly show you
+
+00:31:33
+how that would differ. Then now if I
+
+00:31:35
+have B serialized and D serial, I could
+
+00:31:37
+instead of this do mood state myself a
+
+00:31:42
+mood account. So that's my account state
+
+00:31:45
+and set the discriminator that I want
+
+00:31:48
+and the mood that I want and the
+
+00:31:51
+authority and yeah here again that's a
+
+00:31:54
+hecky situation because it doesn't like
+
+00:31:56
+my address but I'm just going to do
+
+00:31:58
+this. Oh sorry my bad. There we go. And
+
+00:32:01
+then from that account state I could say
+
+00:32:05
+serialize into the data. Yeah. Okay. I
+
+00:32:09
+don't know how to get to a writer. I
+
+00:32:10
+mean okay that's ugly as And I
+
+00:32:13
+don't even know if that works. Let's
+
+00:32:15
+check. Yes. And we also learned that
+
+00:32:19
+Borsch does serialize options with a one
+
+00:32:22
+bite, which makes way more sense than
+
+00:32:25
+how I did it. They're not wasting three
+
+00:32:27
+bytes. So, we could say 35
+
+00:32:31
+instead. And my native implementation
+
+00:32:34
+would change that here as well to three.
+
+00:32:38
+So, that would then be equivalent. Just
+
+00:32:40
+now we're doing it with Borsch, which if
+
+00:32:43
+we check the account, there we go.
+
+00:32:45
+That's how it looks like now. Fewer
+
+00:32:47
+bytes. Great. So using Borsch to
+
+00:32:49
+serialize this into this data here might
+
+00:32:53
+be cleaner than doing it manually like
+
+00:32:56
+this. On the other hand, this is very
+
+00:32:58
+hacky and I don't really like it. So
+
+00:33:03
+you're probably not supposed to use
+
+00:33:05
+Porsche in Pinocchio. And I will make a
+
+00:33:07
+video about proper serialization
+
+00:33:09
+libraries. I wanted to talk about win
+
+00:33:12
+code for a while. So here's that cuz
+
+00:33:15
+borch maybe not ideal cuz I would like
+
+00:33:18
+to use an address here. So that's how we
+
+00:33:20
+would do it with borch. That's how you
+
+00:33:22
+would do it manually. And that's just
+
+00:33:25
+the initialize. Let's implement the get
+
+00:33:27
+cuz that's going to be straightforward.
+
+00:33:30
+I don't even need the instruction data
+
+00:33:32
+which is log the mood is plus I can't be
+
+00:33:35
+bothered to put it as a return value
+
+00:33:38
+because I would need to change that
+
+00:33:40
+which I leave it as homework for you if
+
+00:33:42
+it's important for you. How can we do
+
+00:33:44
+return values with Pinocchio? Maybe I do
+
+00:33:46
+a deep dive on that at some point. So
+
+00:33:49
+let's talk about the mood. I would say
+
+00:33:51
+we do the exact same thing as we did
+
+00:33:54
+here. just have a bunch of moods like
+
+00:33:57
+these and then we can get the mood from
+
+00:33:59
+our mood account. Try borrow and we know
+
+00:34:02
+that the mood wait let's do it in two
+
+00:34:05
+steps. First get the data and then get
+
+00:34:08
+the mood from the data and we know it's
+
+00:34:11
+at location one for the bite number two
+
+00:34:14
+is the mood because that's how we
+
+00:34:16
+defined it here. And then we can make an
+
+00:34:19
+actual mood from a U8. There you go. And
+
+00:34:22
+if mood is sum, we print this. Guess I
+
+00:34:26
+need the message I am bored. Nailed it.
+
+00:34:30
+Okay, good. Wrote myself a quick little
+
+00:34:32
+two string function that takes care of
+
+00:34:33
+that for me. Let's just quickly see if
+
+00:34:36
+that would also work if I add an
+
+00:34:39
+instruction to get the mood. So a get
+
+00:34:43
+mood instruction with the same accounts
+
+00:34:46
+except with this one. And we do three
+
+00:34:49
+for get mood. Then we build and deploy.
+
+00:34:51
+And we call this confirmed. Let's check.
+
+00:34:54
+And we do see the mood is set because
+
+00:34:57
+zero is still set. If it's uninitialized
+
+00:35:00
+or if it just got initialized, then that
+
+00:35:02
+account is still set. So let's set it.
+
+00:35:05
+Let's also implement the functionality
+
+00:35:08
+for setting the mood. And now here we
+
+00:35:10
+need to be a little careful because
+
+00:35:12
+again we're not in anchor. We will once
+
+00:35:15
+again need to have the authority
+
+00:35:18
+account. And this time, and this is
+
+00:35:20
+something that you might forget, you
+
+00:35:22
+will need to make sure that the
+
+00:35:25
+authority account is actually a ser cuz
+
+00:35:29
+if not, you will want to return an
+
+00:35:32
+error. I would say invalid argument. So,
+
+00:35:34
+this is a ser check. We as the
+
+00:35:36
+developers of this program need to make
+
+00:35:39
+sure that the account that's coming in
+
+00:35:42
+here actually was signed for. Whether
+
+00:35:45
+that's with a key pair or through a CPI
+
+00:35:48
+with a PDA, we don't mind, but it must
+
+00:35:51
+be a signer. Also, we should probably do
+
+00:35:54
+an owner check that we actually own this
+
+00:35:56
+account. But hey, otherwise we won't be
+
+00:35:58
+able to write to it anyway, so it will
+
+00:36:00
+fail later. Anyway, whatever. This one,
+
+00:36:02
+it's a it's a good one. Anchor did that
+
+00:36:05
+for us because we say serer here. But if
+
+00:36:08
+we write the program manually like we're
+
+00:36:10
+doing now, then we need to manually add
+
+00:36:12
+this. And then we got to check if. So
+
+00:36:16
+now let's get the data. Might as well
+
+00:36:19
+get it mutably right away. And if data
+
+00:36:22
+two, so that's the option. So has
+
+00:36:26
+authority that's this bite. If it has an
+
+00:36:30
+authority, then again I'm doing this
+
+00:36:33
+manually. I'm going to say incorrect
+
+00:36:35
+authority. If that doesn't match, I
+
+00:36:37
+guess we'll see if that works. I got to
+
+00:36:39
+test that. And only if it works, if it
+
+00:36:42
+has the correct authority, then I'll
+
+00:36:45
+write to wait where am I writing to? To
+
+00:36:48
+the mood what we take from instruction
+
+00:36:51
+data by number two. Oh, again I didn't
+
+00:36:54
+make this mutable. So here the
+
+00:36:56
+instruction data we once again say it's
+
+00:36:59
+got a it has to have some more bytes. So
+
+00:37:01
+maybe I also check that before. There we
+
+00:37:03
+go. Something like that. Not the
+
+00:37:06
+cleanest implementation but I guess that
+
+00:37:08
+should work. So let's add an instruction
+
+00:37:12
+for set mood. We do number two. We
+
+00:37:16
+provide this account and then also my
+
+00:37:20
+key pair as assigner. And I write one to
+
+00:37:24
+say that I am happy with this account.
+
+00:37:27
+Let's see. Nope, that didn't work. Hold
+
+00:37:30
+on. This instruction should also go into
+
+00:37:32
+my transaction. Otherwise, that's not
+
+00:37:34
+working. Try again. There we go. And now
+
+00:37:36
+we can check this account with Solana
+
+00:37:39
+account. And we will see. There we go.
+
+00:37:42
+One for the discriminator, one for the
+
+00:37:44
+mood happy, one for authorities present.
+
+00:37:48
+And that's the authority. Cool. So that
+
+00:37:51
+worked. Just to see if I would provide
+
+00:37:55
+anything else here. Another account.
+
+00:37:58
+Then it should complain. Yeah, incorrect
+
+00:38:00
+authority provided. Good. So that also
+
+00:38:03
+seems to work. Perfect. I think I'm
+
+00:38:05
+happy with that. Look at this. We can
+
+00:38:07
+create a new account that we initialize
+
+00:38:09
+with our program where we set the mood
+
+00:38:11
+with our program and then we get the
+
+00:38:13
+mood and the mood is happy. Now,
+
+00:38:16
+admittedly, working with Pinocchio is a
+
+00:38:19
+bit more exhausting than it is with
+
+00:38:21
+Ankor. Also, this stuff is pretty ugly.
+
+00:38:25
+I'm not super happy with this program,
+
+00:38:27
+honestly. But it works. It does what
+
+00:38:30
+it's supposed to do. But you know what?
+
+00:38:32
+I will give you an implementation that
+
+00:38:34
+we actually use a mood account and not
+
+00:38:37
+just the data directly. We shouldn't use
+
+00:38:40
+Borsch with Pinocchio anyway because
+
+00:38:43
+Borsch is not super efficient. That's
+
+00:38:45
+why Pinocchio doesn't like it. It would
+
+00:38:48
+allow us to work with variable things.
+
+00:38:50
+But let's just get rid of it and
+
+00:38:52
+implement it ourself. And to make it
+
+00:38:55
+easy for us, let's just work with a
+
+00:38:58
+fixed size account. We don't have any
+
+00:39:00
+variable length stuff in here anyway. So
+
+00:39:03
+it's going to be fine. The only thing
+
+00:39:05
+that is not trivial is this option here.
+
+00:39:08
+So I'm going to split this up to a has
+
+00:39:12
+authority, which is going to be just a
+
+00:39:14
+U8. I can't do anything smaller than a
+
+00:39:16
+bite anyway for whether or not the
+
+00:39:18
+option is present. So one we have an
+
+00:39:21
+authority and zero we have no authority
+
+00:39:25
+and then I use the address for the
+
+00:39:28
+authority. I could pack this more
+
+00:39:31
+efficient by just using the authority
+
+00:39:33
+and just the address and if the address
+
+00:39:36
+is all zeros then it represents that
+
+00:39:40
+there is no authority. So I would just
+
+00:39:42
+check for that. That's one way how we
+
+00:39:44
+could do that. But in our example, we
+
+00:39:47
+always use this additional bite. So
+
+00:39:49
+let's keep this bite for the has
+
+00:39:51
+authority. If we wanted to pack
+
+00:39:52
+efficiently, we could get rid of that.
+
+00:39:54
+But that's your choice as the developer
+
+00:39:57
+how you serialize and deserialize your
+
+00:39:59
+account. Okay. And now I'm just going to
+
+00:40:02
+implement pecking. I have two
+
+00:40:04
+possibilities now. I could either work
+
+00:40:07
+just with pointers and convert that to
+
+00:40:10
+an array of 32 bytes. again or I keep it
+
+00:40:15
+like this and implement the packing and
+
+00:40:17
+unpacking myself. I think that's what
+
+00:40:19
+I'm going to do. We're going to
+
+00:40:21
+implement for the mood account. First of
+
+00:40:24
+all, if it's constant length, good
+
+00:40:26
+practice is to give it a length which
+
+00:40:28
+will be a U size and it's 1 + 1 + 32. So
+
+00:40:33
+that's 3 + 32 which is 35. And then I
+
+00:40:37
+implement the serialization and the
+
+00:40:39
+derialization. And commonly you would
+
+00:40:41
+call this pecking. So we implement a
+
+00:40:44
+pack that takes the mood account and
+
+00:40:48
+we'll pack it into some data which is a
+
+00:40:53
+mutable slice of U8 and then the
+
+00:40:56
+opposite will be I unpack from the data
+
+00:41:01
+which here is just going to be a slice
+
+00:41:03
+of U8 doesn't need to be mutable and
+
+00:41:05
+this will return a self like this. And
+
+00:41:08
+then we just quickly implement this. So
+
+00:41:10
+this is basically what we're doing here
+
+00:41:13
+now this thing. So I'll copy that in
+
+00:41:16
+there. And instead of the one I say self
+
+00:41:19
+discriminator and instead of this one I
+
+00:41:22
+say self has authority. And then we're
+
+00:41:25
+missing the data one which was the mood.
+
+00:41:29
+And here I also get that from the self
+
+00:41:33
+authority which is an address and copy
+
+00:41:36
+the bytes into here. So that's the
+
+00:41:38
+packing and then the unpacking is the
+
+00:41:40
+other way around. We have the data and
+
+00:41:43
+we want to create a cell. So we create a
+
+00:41:45
+cell with those where the discriminator
+
+00:41:48
+is the data zero. The mood is the data
+
+00:41:51
+one, data 2. And here we need to create
+
+00:41:53
+an authority. So far we've just compared
+
+00:41:56
+the bytes. Now we will actually get an
+
+00:41:59
+actual address new from array. That
+
+00:42:02
+sounds about right. That takes you and 8
+
+00:42:04
+array. Perfect. And then we have to try
+
+00:42:07
+into because it's not guaranteed that's
+
+00:42:10
+actually 32 bytes but I know that it's
+
+00:42:12
+32 bytes. So there you go. So we have
+
+00:42:14
+the pack and unpack implemented. Now we
+
+00:42:17
+can also use that such that we actually
+
+00:42:19
+use the mood account for once. So
+
+00:42:21
+basically instead of that we create
+
+00:42:24
+ourselves a mood account except now I
+
+00:42:27
+have to split this option out. I need to
+
+00:42:30
+say has authority is one. There's no
+
+00:42:33
+possibility in this case to not have an
+
+00:42:35
+authority anyway. And this one is the
+
+00:42:37
+actual address. Not super efficient
+
+00:42:39
+because I'll have to clone this, which
+
+00:42:41
+is not ideal, but whatever. And now I
+
+00:42:44
+can account state pack this into the
+
+00:42:48
+data. And that should then write this
+
+00:42:52
+account state into the actual mood
+
+00:42:56
+account. And then when we use the mood
+
+00:42:58
+account instead of working with the data
+
+00:43:01
+directly we can get I'll call it mood
+
+00:43:03
+data mood account unpack this data and
+
+00:43:07
+then I get a mood account from this and
+
+00:43:10
+here and now basically replace this with
+
+00:43:13
+a mood data has authority so this now
+
+00:43:17
+converts this bite to a bool that we can
+
+00:43:20
+use it and then here when we compare the
+
+00:43:23
+account address I don't need to go
+
+00:43:25
+through bytes I can compare the mood
+
+00:43:28
+data authority directly. However, now we
+
+00:43:32
+also still want to write. So what I
+
+00:43:34
+would do is mood data mood set this to
+
+00:43:39
+the new mood. Therefore, I will also
+
+00:43:41
+need to make this mutable. But then this
+
+00:43:45
+of course is not yet persisted to the
+
+00:43:48
+actual account. So I would need to do
+
+00:43:50
+the same thing as before as well. So now
+
+00:43:53
+basically I need to write it back.
+
+00:43:56
+However, that is a bit inefficient
+
+00:43:58
+because we would really just need to
+
+00:44:00
+write one bite. This one and now we're
+
+00:44:03
+writing back the entire thing if we use
+
+00:44:06
+the pack and unpack. So yeah, that's a
+
+00:44:09
+bit inefficient. However, it will work.
+
+00:44:12
+Let's first just check out that this
+
+00:44:14
+will actually work. Let me add a
+
+00:44:16
+message. Mood account initialized just
+
+00:44:18
+so we know we're in this version. and we
+
+00:44:20
+deploy this program and then we call
+
+00:44:24
+this program and check this account and
+
+00:44:27
+we'll see 35 bytes and it's packed the
+
+00:44:31
+same way as before even with this
+
+00:44:34
+version of the program. So this also
+
+00:44:36
+works now we're actually using this mood
+
+00:44:39
+account but as I said it's a bit
+
+00:44:40
+inefficient. So the other way how I can
+
+00:44:43
+do this is just using pointers directly
+
+00:44:47
+also going to show you that while I show
+
+00:44:49
+you stuff. So instead of implementing
+
+00:44:52
+the packing and unpacking I can just say
+
+00:44:56
+this thing here is just a U8 array
+
+00:45:00
+really it's an address and then I'll
+
+00:45:02
+just work with pointers which is not
+
+00:45:05
+great but it will work. So I get a mood
+
+00:45:08
+data pointer from the data. For this to
+
+00:45:12
+work reliably we need to say represent C
+
+00:45:15
+such that it has a constant pointer
+
+00:45:18
+layout. Otherwise this will result in
+
+00:45:20
+weird behavior that we don't want. And
+
+00:45:22
+then we can just work with a pointer as
+
+00:45:25
+a mutable pointer to a mood account. And
+
+00:45:28
+now we can do this again but we can
+
+00:45:30
+directly work with instead of the data
+
+00:45:32
+zero we say mood data. There we go.
+
+00:45:36
+However, dreferencing a raw pointer is
+
+00:45:39
+unsafe. So, this is the efficient way of
+
+00:45:43
+doing it. But obviously, you need to
+
+00:45:46
+know what you're doing. And Rust is
+
+00:45:48
+like, this is unsafe. I want you to know
+
+00:45:50
+that this is unsafe. But I'm like, okay,
+
+00:45:53
+fine. I agree that this is unsafe and
+
+00:45:56
+I'm okay with this. And then I can
+
+00:45:57
+directly work with it like this. So this
+
+00:46:00
+is the mood data has authority and this
+
+00:46:04
+is the mood data authority. So now we're
+
+00:46:07
+using those fields directly from here
+
+00:46:11
+because we just cast the pointer which
+
+00:46:14
+again unsafe not super clean but
+
+00:46:17
+internally it will do the same thing as
+
+00:46:20
+we did earlier just that now we don't
+
+00:46:21
+need to remember oh discriminator was at
+
+00:46:24
+zero has authority was at one. It's just
+
+00:46:27
+nicer to write it like this. And then
+
+00:46:29
+also down here if we do the same thing
+
+00:46:33
+instead of the unpacking just casting
+
+00:46:36
+this pointer then we can do the same
+
+00:46:39
+things as before except here we now need
+
+00:46:41
+to compare bytes from the address again
+
+00:46:43
+and then we don't need to peg because if
+
+00:46:46
+I now say mood data mood then it will
+
+00:46:49
+still write this directly because it's
+
+00:46:52
+now just a pointer there. So this should
+
+00:46:54
+still work. There we go. Same result
+
+00:46:57
+also with this and also here even with
+
+00:47:00
+using a raw pointer the mood in the end
+
+00:47:02
+is happy. So that worked again maybe
+
+00:47:04
+this solution is not for how to get
+
+00:47:06
+started with Solana development but I
+
+00:47:09
+wanted to show it to you anyway just
+
+00:47:11
+what the possibilities are if you don't
+
+00:47:13
+use a library to des serialize but do it
+
+00:47:15
+yourself. Okay, that was just a quick
+
+00:47:17
+excursion because I didn't want to leave
+
+00:47:19
+you without that. But the gist of it
+
+00:47:21
+really is just you have to define what
+
+00:47:23
+your account layout is and then you got
+
+00:47:26
+to stick to it basically. Oh, and also
+
+00:47:29
+when you're doing this, maybe it would
+
+00:47:30
+be a good idea to keep the length here
+
+00:47:33
+and do a check that the data of this
+
+00:47:36
+account is at least the mood account
+
+00:47:40
+length. And if it's not, we return some
+
+00:47:43
+error like invalid account data. That
+
+00:47:46
+would be good to be added before we do
+
+00:47:49
+an unsafe cast like this. Yeah, cuz
+
+00:47:51
+again, if you don't use anchor, who does
+
+00:47:54
+it all for you, then you got to do those
+
+00:47:56
+checks yourself. And maybe also the same
+
+00:47:59
+down here. Yeah, that's that. And the
+
+00:48:02
+real important thing for me was just for
+
+00:48:05
+you to get a better understanding of how
+
+00:48:09
+accounts are being serialized and then
+
+00:48:12
+deserialized. So to wrap this up, let's
+
+00:48:15
+deserialize such an account because we
+
+00:48:17
+know how it is being serialized through
+
+00:48:20
+our program. We have that kind of state
+
+00:48:23
+here. That's usually what you find in
+
+00:48:25
+the state rs file. If you have a look at
+
+00:48:28
+examples, you'll find that in the state
+
+00:48:30
+usually. I just put it all in my lip
+
+00:48:32
+file because I'm a lazy dev. So, we want
+
+00:48:35
+to des serialize this account. Anchor
+
+00:48:37
+also does that automatically for us, but
+
+00:48:40
+we're not using anchor. We don't even
+
+00:48:42
+have an IDL. So, for instance, let's
+
+00:48:43
+take this account. This is our mood
+
+00:48:46
+account. And we will do something
+
+00:48:48
+similar than what we did earlier. So,
+
+00:48:51
+first of all, we're going to use the RPC
+
+00:48:53
+to get the raw data. So we get account
+
+00:48:56
+info for this mood account. Send this
+
+00:48:58
+await this and then the account info in
+
+00:49:03
+value will have date except I probably
+
+00:49:06
+want a diff base 64 encoding. Then I
+
+00:49:09
+have base 64 encoded data here. And here
+
+00:49:12
+comes one of the weirdest things about
+
+00:49:14
+the kit. We get a base 64 codec. And now
+
+00:49:20
+usually you would from the base 64
+
+00:49:23
+decode to get the data but it is encode
+
+00:49:28
+because we want to stay consistent and
+
+00:49:31
+end code always takes the highle thing
+
+00:49:35
+and creates a U8 array from it. So if
+
+00:49:38
+you want the actual bytes from that base
+
+00:49:41
+64 string then we got to actually encode
+
+00:49:45
+this to data which will then be a vint 8
+
+00:49:48
+array. That's a bit weird but you'll get
+
+00:49:51
+used to it if you work with a kit. And
+
+00:49:52
+now we just need to build something
+
+00:49:54
+similar that we have here where we say
+
+00:49:58
+discriminator mood and optional
+
+00:50:00
+authority. So we build ourselves a
+
+00:50:03
+codec. Let's say it's the mood account
+
+00:50:06
+codec that has the discriminator, the
+
+00:50:10
+mood and the authority. This one is a
+
+00:50:13
+U8. This one is a U8. And this one is a
+
+00:50:18
+option codec with a address inside. So
+
+00:50:22
+that's how we would build a codec that
+
+00:50:24
+can D and encode this mood account. So
+
+00:50:28
+the decoded mood account we use that
+
+00:50:32
+codec to decode the data and then we
+
+00:50:36
+have in this decoded mood account the
+
+00:50:38
+mood discriminator and authority the
+
+00:50:40
+discriminator I'm not too interested in
+
+00:50:42
+but the mood is interesting and I could
+
+00:50:44
+also match that to the corresponding
+
+00:50:48
+type one being happy or whatever and the
+
+00:50:51
+authority would be authority I could say
+
+00:50:55
+if we have an authority
+
+00:50:58
+then we print the authority otherwise no
+
+00:51:02
+authority and then here it will actually
+
+00:51:05
+let me access the value for the
+
+00:51:07
+authority if I checked for sum yeah and
+
+00:51:10
+if we run that des serialize account
+
+00:51:13
+let's go then we see the mood is one
+
+00:51:16
+it's happy and that's the authority so
+
+00:51:18
+that is how we would now on client side
+
+00:51:22
+des serialize the account because we
+
+00:51:25
+have the data the serialized data which
+
+00:51:27
+is just some bytes and then to get our
+
+00:51:30
+information again we need to des
+
+00:51:32
+serialize it in the correct way. Okay,
+
+00:51:35
+good. I hope that after today's video
+
+00:51:38
+that you understand what serialization
+
+00:51:40
+and des serialization is and how we do
+
+00:51:43
+it with the kit and in Solana programs
+
+00:51:46
+and also why it is so important for
+
+00:51:49
+Solana programs because both for
+
+00:51:52
+instruction data and account data we as
+
+00:51:55
+the developers are responsible to say in
+
+00:51:58
+which order the bytes need to be
+
+00:52:00
+provided and what they represent because
+
+00:52:02
+they are just bytes. They can represent
+
+00:52:04
+anything. the program needs to interpret
+
+00:52:06
+that correctly and so it's your job as
+
+00:52:08
+the developer to take care of that as a
+
+00:52:10
+homework just play around with it maybe
+
+00:52:12
+write your own little Pinocchio program
+
+00:52:15
+or Solano Rust program if you want to
+
+00:52:18
+really I want you to understand how
+
+00:52:20
+deserialization works so if you want a
+
+00:52:23
+challenge try to manually deserialize an
+
+00:52:27
+account of a program maybe a simple one
+
+00:52:30
+like mine or a more complex one like a
+
+00:52:33
+token mint or a token account. For that,
+
+00:52:36
+you will need to know how those accounts
+
+00:52:40
+look like. But we said we can find that
+
+00:52:43
+in the state of the implementation. So
+
+00:52:46
+for instance, a mint account would look
+
+00:52:49
+like this. Here we have a C option. What
+
+00:52:52
+does that mean? We already hinted at
+
+00:52:54
+that earlier. Or a token account would
+
+00:52:57
+look like this. So create yourself a
+
+00:53:00
+token account and try to manually des
+
+00:53:03
+serialize an account knowing that those
+
+00:53:07
+are the fields of it. That's always a
+
+00:53:09
+good exercise to do. So that's why I
+
+00:53:11
+give you this as homework because I want
+
+00:53:13
+you to understand what accounts look
+
+00:53:16
+like. What's really written inside the
+
+00:53:18
+account because otherwise it's just
+
+00:53:21
+byes. So yeah, that's the homework. Is
+
+00:53:23
+it clear? I want you to build such a
+
+00:53:26
+thing for a token account or token mint
+
+00:53:29
+and then actually create a mint and d
+
+00:53:32
+serialize it just to check that you get
+
+00:53:34
+the right things back. Okay, good. That
+
+00:53:36
+was day six already. We only have one
+
+00:53:39
+more day tomorrow where we're going to
+
+00:53:42
+wrap it all up and see where we can go
+
+00:53:45
+from here. Cuz obviously I did not cover
+
+00:53:49
+all the topics that are relevant. We
+
+00:53:51
+didn't talk about local testing yet. We
+
+00:53:53
+didn't talk about surfpool. We didn't
+
+00:53:56
+talk about simies. We didn't talk about
+
+00:53:58
+so many things. So come back tomorrow
+
+00:54:01
+for one last time this week and I'll
+
+00:54:03
+walk you through the next steps now that
+
+00:54:06
+you have the basics where you can go
+
+00:54:08
+from here to become a real Solana dev.
+
+00:54:12
+So see you tomorrow for day seven.
+
+00:54:14
+You'll find that one here. Like this
+
+00:54:16
+one. Subscribe if you haven't already.
+
+00:54:18
+And I'll see you tomorrow. Don't forget
+
+00:54:20
+your homework.
+

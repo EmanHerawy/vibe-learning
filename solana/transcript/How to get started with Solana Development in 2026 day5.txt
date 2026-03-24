@@ -1,0 +1,3417 @@
+00:00:00
+Hello and welcome to day five of how to
+
+00:00:04
+get started with Solana development in
+
+00:00:06
+2026.
+
+00:00:07
+Today we're gonna talk about tokens
+
+00:00:10
+because tokens are everywhere. You won't
+
+00:00:14
+get around understanding what tokens are
+
+00:00:18
+when you want to do Salana development.
+
+00:00:20
+So I really want to cover that topic in
+
+00:00:22
+this series as well. Especially also
+
+00:00:25
+because tokens work differently on
+
+00:00:28
+Solana than they do on other
+
+00:00:30
+blockchains. For instance, on Solana,
+
+00:00:34
+you don't need to deploy your own
+
+00:00:36
+program or smart contract to create a
+
+00:00:39
+token. Theoretically, you can, but
+
+00:00:41
+that's not recommended. What I'm saying
+
+00:00:43
+is you don't need to deploy a program in
+
+00:00:46
+order to work with tokens. Of course,
+
+00:00:48
+you can do whatever you want. I am still
+
+00:00:51
+not your mom to tell you what you should
+
+00:00:53
+do. However, I will still try to give
+
+00:00:55
+you good advice on how you could be
+
+00:00:58
+doing things if you want to go the easy
+
+00:01:01
+and most compatible way because what
+
+00:01:04
+tokens are essentially coming back to
+
+00:01:07
+our idea from day one with the ledger
+
+00:01:09
+here we just had one entry per wallet
+
+00:01:12
+right so on Solana that would be Andy
+
+00:01:15
+has some soul anati has some soul but
+
+00:01:18
+now we can also have tokens and they can
+
+00:01:22
+represent basic basically whatever. For
+
+00:01:25
+instance, they could represent a stable
+
+00:01:27
+coin like USDC. Then I can have Saul and
+
+00:01:31
+USDC in my wallet. And there can be
+
+00:01:33
+several tokens. I can have a stable coin
+
+00:01:36
+for euro. I can have a stable coin for
+
+00:01:38
+yen. I can have tokenized real estate. I
+
+00:01:41
+can have voting tokens. I can even have
+
+00:01:44
+fine art or art as an NFT. I can have
+
+00:01:48
+some custom tokens that only mean
+
+00:01:50
+something to a specific application. and
+
+00:01:52
+all of that in my same wallet. So token
+
+00:01:56
+is really just a thing in my wallet that
+
+00:01:58
+can represent something. It doesn't need
+
+00:02:00
+to. I can just have a token that is just
+
+00:02:02
+a token that I created myself. Not every
+
+00:02:05
+token must represent something, but most
+
+00:02:07
+of them do. That's where they get the
+
+00:02:09
+use case from. No, actually most of them
+
+00:02:11
+are probably useless. Let's be honest.
+
+00:02:13
+But they still represent something.
+
+00:02:15
+Something useless maybe. That's
+
+00:02:16
+opinionated. We don't need to go
+
+00:02:18
+further. I'm pretty sure that you have
+
+00:02:19
+heard about tokens if you're in crypto.
+
+00:02:21
+And I would say that almost every single
+
+00:02:24
+program in one way or another interacts
+
+00:02:26
+with tokens directly or indirectly. So
+
+00:02:29
+that's why this is such an important
+
+00:02:30
+topic and that's why we're going to talk
+
+00:02:32
+about it today. And maybe I should talk
+
+00:02:34
+a little bit about why tokens are
+
+00:02:36
+useful. So you can think of a token as
+
+00:02:40
+something that we give to the user and
+
+00:02:43
+let them have control over it basically.
+
+00:02:47
+So they can send it around, they can
+
+00:02:51
+destroy it if they want, but it's really
+
+00:02:53
+theirs. And so using the existing token
+
+00:02:57
+program is really nice for us as
+
+00:02:59
+developers because we don't need to
+
+00:03:02
+bother about the functionality of the
+
+00:03:05
+user being able to send that around and
+
+00:03:07
+give it to someone else or whatever. We
+
+00:03:09
+just represent it as a token and the
+
+00:03:12
+functionality is already there. That's
+
+00:03:13
+why so many programs use tokens because
+
+00:03:17
+you don't need to reinvent the wheel. So
+
+00:03:19
+basically, you can think of a token as
+
+00:03:22
+something that sits in a wallet and that
+
+00:03:25
+can be transferred. By the way, you can
+
+00:03:28
+also think of soul as a token just that
+
+00:03:31
+it's the native token on Solana. So we
+
+00:03:35
+don't call it a token, we call it a
+
+00:03:37
+coin, but really it's kind of the same
+
+00:03:39
+thing. Soul however can be represented
+
+00:03:42
+as a token then it is an actual token we
+
+00:03:45
+would then call that wrapped soul
+
+00:03:47
+because the actual soul is wrapped
+
+00:03:49
+inside a token and the token we call the
+
+00:03:51
+native mint and I did make a video about
+
+00:03:54
+wrapped soul before if you're interested
+
+00:03:56
+but yeah today for the general case of
+
+00:03:58
+tokens we're going to get more technical
+
+00:04:00
+but before we actually start talking
+
+00:04:02
+about tokens we need to have a look at
+
+00:04:04
+the homework from yesterday did you do
+
+00:04:06
+your homework the task was to call the
+
+00:04:08
+initialize instruction of the program
+
+00:04:10
+that wrote with the correct accounts and
+
+00:04:12
+one of them is a PDA. So the challenge
+
+00:04:16
+was to find out how we can create this
+
+00:04:18
+PDA and we will need this for today's
+
+00:04:21
+topic because PDAs will come back for
+
+00:04:25
+tokens as well. So we want to understand
+
+00:04:27
+how we can derive them in the kit. If
+
+00:04:30
+you haven't done the homework and you
+
+00:04:32
+still want to try it, you can pause the
+
+00:04:34
+video. That's the cool thing about
+
+00:04:35
+having an asynchronous classroom like
+
+00:04:37
+this. you can just pause but otherwise
+
+00:04:40
+you can just check if you did it right
+
+00:04:41
+or watch me do it. So we're going to
+
+00:04:43
+basically do the same thing as we did
+
+00:04:45
+last time when we called our program
+
+00:04:48
+except there we called the set and yeah
+
+00:04:51
+actually I can keep that keep setting it
+
+00:04:53
+to happy but then I will need another
+
+00:04:56
+instruction. So that's the set mood
+
+00:04:59
+instruction. I will also need the
+
+00:05:02
+initialize instruction and for that I
+
+00:05:05
+will need to have the instruction
+
+00:05:07
+discriminator. I could find that on
+
+00:05:09
+chain or in the IDL of my program, our
+
+00:05:13
+program. Let's see. We do have the IDL.
+
+00:05:17
+So, you can look at the instructions and
+
+00:05:20
+the instruction discriminator and you
+
+00:05:22
+can copy that or you find an instruction
+
+00:05:24
+that does that in. So, this time it's in
+
+00:05:27
+a different code. This time I'm actually
+
+00:05:30
+giving you the 8 array directly. Here
+
+00:05:34
+you go. And then we just need to find
+
+00:05:36
+the correct addresses also that I could
+
+00:05:38
+find in the IDL or from looking here in
+
+00:05:42
+my initialize accounts. We need the
+
+00:05:44
+payer the authority which in our case is
+
+00:05:47
+going to be the same thing. It's going
+
+00:05:48
+to be my key pair. So we're going to
+
+00:05:50
+create the PDA for this address. And we
+
+00:05:53
+haven't created an PDA for this address
+
+00:05:54
+yet. So that should work. So, we're
+
+00:05:57
+going to use twice my key pair address
+
+00:06:01
+as a writable serer. For the authority,
+
+00:06:05
+it wouldn't need to be writable, but it
+
+00:06:07
+would need to be assigner still. But
+
+00:06:08
+since it's the same address, it doesn't
+
+00:06:10
+matter anyway. It's provided as a
+
+00:06:12
+writable serer because it's both
+
+00:06:14
+writable and assigner. And then comes
+
+00:06:17
+the interesting account, the state
+
+00:06:19
+account, which is our PDA with the keys
+
+00:06:22
+state and authority. And then the system
+
+00:06:25
+program. The system program should be
+
+00:06:26
+fairly simple. We could even import that
+
+00:06:30
+from Solana program system. It has the
+
+00:06:34
+system program address which is just a
+
+00:06:37
+bunch of ones. So I'm going to use that.
+
+00:06:39
+And then here goes my state PDA which
+
+00:06:43
+will not be a signup but will need to be
+
+00:06:44
+writable because we created and the
+
+00:06:46
+system program is read only of course.
+
+00:06:48
+Okay. And now the challenge is how do we
+
+00:06:51
+get that state PDA? And there is a nice
+
+00:06:54
+function in GIL or in the kit and it's
+
+00:06:57
+called get program derived address PDA.
+
+00:07:03
+We're getting a PDA for a specific
+
+00:07:07
+program in this case our program. We're
+
+00:07:10
+going to save that address as our
+
+00:07:13
+program. So provide that as the program
+
+00:07:16
+address. And then we twice call that
+
+00:07:18
+program. And then we will need to
+
+00:07:21
+provide the seeds. But we also know what
+
+00:07:23
+those are. We know it from the IDL or we
+
+00:07:26
+look here state and the pub key from the
+
+00:07:30
+authority or the address of the
+
+00:07:31
+authority. So state fairly easy. It's
+
+00:07:34
+just a string. And then for the
+
+00:07:36
+authority, this is a bit more
+
+00:07:38
+complicated. So that's going to be my
+
+00:07:40
+key pair address. But because the type
+
+00:07:43
+in Typescript here is a string and I
+
+00:07:45
+want the actual 32 bytes, I need to get
+
+00:07:49
+an address encoder and encode this
+
+00:07:53
+address. So it takes the address and
+
+00:07:56
+encodes it to bytes because the bytes is
+
+00:07:59
+what we'll need. And with the program
+
+00:08:01
+address and the seeds, we get the PDA.
+
+00:08:04
+Do we really get the PDA? know we get
+
+00:08:07
+the address and the bump seat because
+
+00:08:11
+remember the bump is that one bite that
+
+00:08:15
+makes sure that the address is off curve
+
+00:08:17
+that is added basically additionally
+
+00:08:21
+after the seeds here but the get program
+
+00:08:23
+derived address does that automatically
+
+00:08:25
+it adds a bump it finds the canonical
+
+00:08:28
+bump is what it's called the first valid
+
+00:08:30
+bump and it will also return that so we
+
+00:08:32
+can save the PDA and the bump bump even
+
+00:08:36
+though we will not use the bump but
+
+00:08:38
+we're going to save it here anyway or we
+
+00:08:40
+got to await this and then I can put
+
+00:08:42
+that state PDA in here and also for the
+
+00:08:46
+other instruction in here and then it
+
+00:08:49
+will also need my key pair and with
+
+00:08:51
+those two instructions if I put them
+
+00:08:54
+into a transaction and send that should
+
+00:08:58
+hopefully work let's check it so in day
+
+00:09:01
+five npxtsx
+
+00:09:04
+let's call that program and see yes look
+
+00:09:08
+that transaction got confirmed and it
+
+00:09:11
+did what we expected to do. It does
+
+00:09:13
+create that PDA. So that was the address
+
+00:09:17
+that we got back when we did this the
+
+00:09:20
+state PDA. I could have logged it. If I
+
+00:09:23
+just log that's the address just so you
+
+00:09:25
+see I returned here because I can't send
+
+00:09:27
+the transaction again because I can't
+
+00:09:29
+create the PDA again right it it is
+
+00:09:32
+already initialized now. So that account
+
+00:09:34
+got created and then we even in the same
+
+00:09:36
+transaction already set the mood for it
+
+00:09:38
+to happy and the account is now happy.
+
+00:09:41
+Isn't that great? Cool. And with that
+
+00:09:43
+knowledge of how to derive the PDA in
+
+00:09:46
+Typescript, we can finally talk about
+
+00:09:48
+tokens. Let me get my green screen back
+
+00:09:51
+for that. Let me get a pen cuz I noticed
+
+00:09:53
+that you can't really read this. Could
+
+00:09:55
+even use colors. Let's say each of those
+
+00:09:58
+sheets represents an account because
+
+00:10:00
+everything on Solana is an account. So
+
+00:10:04
+we have the token program. I really
+
+00:10:07
+don't know why I use sheets and not do
+
+00:10:10
+that digitally, but that this is how I
+
+00:10:12
+want to work today. I'm really going
+
+00:10:15
+crazy now. I did not plan this. This is
+
+00:10:17
+improvised. There we go. Token program.
+
+00:10:19
+Amazing. The token program. That's the
+
+00:10:22
+program that we're going to be
+
+00:10:24
+interacting with. That's the program
+
+00:10:25
+that has all the instructions that we
+
+00:10:27
+need to do. So what can we do with a
+
+00:10:29
+token program? Well, we can create a
+
+00:10:33
+token. If we create a token, we create a
+
+00:10:36
+new account that we call the mint. So
+
+00:10:39
+with a token program, we create a token
+
+00:10:41
+mint account. This represents the token.
+
+00:10:45
+It might have metadata stored like its
+
+00:10:48
+name or the symbol of the token. This is
+
+00:10:51
+what we mean when we talk about the
+
+00:10:52
+token. And the address of this account
+
+00:10:55
+is how we identify this token. This
+
+00:10:58
+account also keeps track of how many
+
+00:11:00
+tokens there are in existence. But it
+
+00:11:03
+does not actually hold tokens. So let's
+
+00:11:06
+go back to my wallet. That's ugly. You
+
+00:11:09
+can't tell if it's my or wallet, right?
+
+00:11:12
+Anoli or it's our it's our maybe it's
+
+00:11:14
+our common one. Anyway, so that's a
+
+00:11:16
+wallet. Let's say my wallet. That wallet
+
+00:11:19
+account doesn't hold the tokens directly
+
+00:11:22
+because as we said wallets account are
+
+00:11:26
+owned by the system program. So the
+
+00:11:28
+system program owns this account which
+
+00:11:31
+means the token program couldn't even
+
+00:11:33
+write to that and also we don't want to
+
+00:11:36
+have all of the possible tokens in one
+
+00:11:40
+account. That would be really bad for
+
+00:11:41
+execution. So what we're doing is we're
+
+00:11:44
+creating a token account for this
+
+00:11:49
+wallet. So this is now Andy's token
+
+00:11:52
+account. We create this account and
+
+00:11:54
+other wallets could have other token
+
+00:11:57
+accounts and also my wallet can have
+
+00:12:01
+several token accounts for different
+
+00:12:04
+mints. And even it could have several
+
+00:12:08
+token accounts for the same mint. That's
+
+00:12:11
+how we started out on Solana. But
+
+00:12:13
+because that got complicated because
+
+00:12:15
+then you have some tokens here and some
+
+00:12:17
+here and then it got a bit messy with
+
+00:12:20
+those auxiliary token accounts. That's
+
+00:12:22
+why we introduced another program, the
+
+00:12:26
+associated token program that will
+
+00:12:29
+create associated token accounts. So now
+
+00:12:32
+there will always be just one account
+
+00:12:35
+per mint and wallet and token program
+
+00:12:38
+and not several. And guess how we do
+
+00:12:41
+that? Through PDAs. So now this is my
+
+00:12:44
+associated token account. Now to recap,
+
+00:12:48
+with a token program, I can create a
+
+00:12:50
+mint. Then with the associated token
+
+00:12:53
+program, I create an associated token
+
+00:12:57
+account. So the ATA is a PDA of the
+
+00:13:00
+associated token program, but we give
+
+00:13:03
+ownership of that account to the token
+
+00:13:05
+program. And see that's why it comes
+
+00:13:07
+handy if you understand those concepts
+
+00:13:09
+that we've been talking about in the
+
+00:13:11
+previous videos. In case you don't
+
+00:13:13
+understand ownership, authority and
+
+00:13:15
+PDAs, watch the previous videos first
+
+00:13:18
+and then it will have an authority of
+
+00:13:22
+who can move those tokens and that will
+
+00:13:25
+then be my wallet. So mint is owned by
+
+00:13:28
+the token program represents the token
+
+00:13:30
+itself. ATA references the mint. So it's
+
+00:13:35
+a token account of a specific token and
+
+00:13:39
+for a specific wallet and this account
+
+00:13:43
+here now actually contains the amount of
+
+00:13:46
+tokens. So the actual tokens are in here
+
+00:13:50
+the amount and if we send the tokens to
+
+00:13:52
+another wallet then we modify this ATA
+
+00:13:56
+and the other wallets ATA and move like
+
+00:13:59
+we did with lamperts just now with
+
+00:14:02
+tokens and it's not the system program
+
+00:14:04
+doing that it's the token program doing
+
+00:14:06
+that and because there are not enough
+
+00:14:08
+accounts here there's one more caveat to
+
+00:14:11
+this which is that there is more than
+
+00:14:14
+one token programs as well one is the
+
+00:14:16
+old one token ke the regular one with
+
+00:14:19
+the regular features. And then we have a
+
+00:14:21
+new one called token extensions that has
+
+00:14:24
+some more features like being able to
+
+00:14:26
+store metadata in the mint account and a
+
+00:14:29
+bunch more extensions. I made a bunch of
+
+00:14:31
+videos. There's a playlist on that up
+
+00:14:33
+here. And we're not going to go into the
+
+00:14:35
+details of the extensions today. We just
+
+00:14:37
+want to understand that setup of
+
+00:14:40
+accounts that are involved when we
+
+00:14:42
+create a token which are quite a lot.
+
+00:14:45
+And that's just for one wallet with one
+
+00:14:48
+token. And then obviously we'll have
+
+00:14:51
+more in each direction. So yeah, this
+
+00:14:53
+board is getting too small. And also my
+
+00:14:56
+drawing skills are probably not the
+
+00:14:58
+best. So let's move back to the digital
+
+00:15:02
+age. And actually look at that on chain.
+
+00:15:04
+But just to quickly recap, the token
+
+00:15:06
+program lets you create a token. So
+
+00:15:10
+that's the initialize mint. With the
+
+00:15:12
+associated token program, we create an
+
+00:15:14
+associated token account. The mint
+
+00:15:16
+account stores the authority who's
+
+00:15:19
+allowed to create more tokens, the
+
+00:15:22
+so-called mint authority. And with a
+
+00:15:24
+token program, we can then mint tokens
+
+00:15:28
+into a token account. Then we can also
+
+00:15:30
+use the token program to transfer tokens
+
+00:15:33
+between token accounts. the token
+
+00:15:36
+program or as I like to call it token
+
+00:15:39
+keg because that's the address of the
+
+00:15:42
+account where this program lives. That
+
+00:15:45
+is the token program which is the
+
+00:15:48
+program that is used for most tokens. As
+
+00:15:52
+I also mentioned there's also token Z
+
+00:15:56
+the token 2022 program because that's
+
+00:15:59
+when they developed that. So yeah, those
+
+00:16:01
+are the two main token or the official
+
+00:16:04
+token programs that exist on Salana.
+
+00:16:07
+Obviously, anybody can deploy their own
+
+00:16:09
+token program. It's just a question of
+
+00:16:12
+compatibility with other programs. But
+
+00:16:14
+the good thing is you don't need to
+
+00:16:16
+create your own program for most use
+
+00:16:18
+cases. The standard token program, token
+
+00:16:20
+cake, will be good enough. If you need
+
+00:16:23
+special features like non-transferable
+
+00:16:26
+tokens or metadata, confidential
+
+00:16:29
+transfers, then you might want to work
+
+00:16:31
+with token extensions, so the token 2022
+
+00:16:35
+program. But for today, let's stay with
+
+00:16:37
+token cake, which will also soon be
+
+00:16:39
+updated to be even more efficient,
+
+00:16:41
+mentioned in one of the videos. I make a
+
+00:16:43
+lot of videos in case you can't tell.
+
+00:16:45
+This is not my first rodeo. Okay, fun
+
+00:16:47
+fact also, my first ever video was on
+
+00:16:50
+creating tokens. That's how essential
+
+00:16:52
+this is. And that's really then what got
+
+00:16:55
+me hooked on Solana. Yeah, good old
+
+00:16:57
+times in 2021. Nowadays, we have several
+
+00:17:01
+options how we can create our tokens.
+
+00:17:04
+So, let's go through this process and
+
+00:17:06
+create ourselves our own token. There's
+
+00:17:08
+many ways how we can do this. One is by
+
+00:17:11
+using the CLI. If you have the Solana
+
+00:17:14
+CLI, that comes with SPL token, which is
+
+00:17:18
+its own command line utility that allows
+
+00:17:21
+you to create tokens and do all that
+
+00:17:24
+stuff with them. Now, that's for both
+
+00:17:26
+tokens and token extensions. That's why
+
+00:17:28
+there's a long list here. But let's go
+
+00:17:30
+through the most essential stuff, which
+
+00:17:32
+is to just create a token. I can enter
+
+00:17:35
+that command and it will create me a
+
+00:17:38
+token under token keg and that will be
+
+00:17:43
+the address. So that's the mint public
+
+00:17:47
+key or the mints address. In this case
+
+00:17:49
+it was a public key and it will tell me
+
+00:17:51
+how many decimals it used. Also that I
+
+00:17:55
+could change with d- decimals and set it
+
+00:17:58
+to zero for instance. And really that
+
+00:18:01
+would kind of be the same thing. is just
+
+00:18:04
+a question of how you represent stuff.
+
+00:18:08
+Zero means that the smallest entity you
+
+00:18:10
+can send around is one full token and
+
+00:18:14
+nine means that you can send a billionth
+
+00:18:18
+of a token. Like with soul, think of
+
+00:18:22
+lamperts. You can think of soul as a
+
+00:18:24
+nine decimal token. One lampert is the
+
+00:18:28
+minimum that you can send. and a token
+
+00:18:30
+that has nine decimals, the minimum that
+
+00:18:32
+you can send is also one billionth. Or
+
+00:18:36
+think of it the other way around. You
+
+00:18:38
+need to add nine zeros to get to the
+
+00:18:42
+actual token amount, but that's really
+
+00:18:44
+just important for UI stuff and how you
+
+00:18:47
+want that token to be represented.
+
+00:18:49
+Sometimes it makes sense to have it a
+
+00:18:51
+zero decimal token. Sometimes it makes
+
+00:18:53
+sense to have it a nine decimal tokens,
+
+00:18:55
+which is the default, but you can have
+
+00:18:57
+everything in between. and even above.
+
+00:18:59
+But at some point it doesn't make sense
+
+00:19:01
+anymore because then you can only have
+
+00:19:02
+so many total tokens and I did make a
+
+00:19:05
+video about that as well which I will
+
+00:19:08
+link up here diving deeper into
+
+00:19:10
+decimals. Not going to spend all too
+
+00:19:12
+much time here. So now we have created
+
+00:19:14
+this token. We can look at that on
+
+00:19:17
+chain. This is now the mint account.
+
+00:19:20
+It's a token mint as the explorer says
+
+00:19:23
+but currently there are no tokens of
+
+00:19:26
+that in existence yet. We created the
+
+00:19:28
+token but not the tokens. We didn't mint
+
+00:19:31
+tokens yet. Also, one of the most
+
+00:19:33
+important things that the mint account
+
+00:19:35
+stores is actually the mint authority.
+
+00:19:40
+Remember authorities, that's the account
+
+00:19:42
+that needs to sign in order to be
+
+00:19:46
+authorized to mint tokens. And when we
+
+00:19:49
+say mint tokens, what we really mean is
+
+00:19:52
+the create more tokens. But the creating
+
+00:19:56
+a token, what we just did here with
+
+00:20:00
+create token that creates a mint. So it
+
+00:20:02
+just creates one of that. Hey, this is a
+
+00:20:06
+token now. It's this type. It's
+
+00:20:08
+basically that type that token type. And
+
+00:20:12
+then to create real tokens of that type
+
+00:20:16
+of token, we mint. But before we can
+
+00:20:20
+actually mint, we need an account to
+
+00:20:23
+mint into. So we need a place where we
+
+00:20:25
+can put the tokens. Because for now, the
+
+00:20:27
+green one, that was just the account
+
+00:20:30
+that describes the token. And then the
+
+00:20:33
+yellow ones, that was the token account.
+
+00:20:36
+That's where the actual tokens live in.
+
+00:20:38
+you know there will be several token
+
+00:20:40
+accounts where the actual tokens live in
+
+00:20:43
+and to create one of those token
+
+00:20:45
+accounts with CLI I just say create
+
+00:20:48
+account it's that simple I just need to
+
+00:20:51
+tell it for which token so as per token
+
+00:20:54
+create account for which token and the
+
+00:20:55
+rest it will figure out itself so this
+
+00:20:58
+is now my token account the token
+
+00:21:01
+account has an address because it's an
+
+00:21:03
+account every account has an address but
+
+00:21:05
+the interesting part as we will see
+
+00:21:06
+later is that that was derived. So
+
+00:21:09
+that's actually a PDA, not a pup key
+
+00:21:11
+anymore. The mint was a pup key. In our
+
+00:21:14
+case, we created a key pair. I mean, you
+
+00:21:16
+can look at the transaction. What
+
+00:21:18
+happened? The system program created an
+
+00:21:20
+account. This was the new address. So
+
+00:21:23
+this was actually a signer. We actually
+
+00:21:25
+did create a key pair for this, but then
+
+00:21:27
+we threw it away because after we create
+
+00:21:29
+the account, we don't need the key pair
+
+00:21:31
+anymore. And we will look at that in a
+
+00:21:32
+second in more detail. The point I was
+
+00:21:34
+making here is this is a PDA because in
+
+00:21:38
+this transaction that account is
+
+00:21:40
+actually created through the associated
+
+00:21:42
+token program which does a CPI to the
+
+00:21:46
+system program with create account but
+
+00:21:49
+now it the new address is this one and
+
+00:21:52
+this one guess what that's why it's done
+
+00:21:54
+with the CPI such that this can be a PDA
+
+00:21:58
+because we did not actually sign for
+
+00:22:00
+that but we know that the system program
+
+00:22:02
+requires that to be a ser. So the only
+
+00:22:05
+way this works is that that's a PDA. So
+
+00:22:08
+yeah, that account is indeed a PDA and
+
+00:22:11
+it stores the mint. So it references
+
+00:22:14
+back to the mint account. Which type of
+
+00:22:18
+token is this? Is that field? And the
+
+00:22:21
+owner, which is such a bad word. I keep
+
+00:22:24
+complaining about this. It still didn't
+
+00:22:26
+change. That's one of the legacy things
+
+00:22:28
+that we still drag around that we call
+
+00:22:30
+this the owner. It's not the owner in
+
+00:22:33
+the sense of every account has an owner.
+
+00:22:35
+If we check Solana account for this
+
+00:22:39
+account, the owner is actually the token
+
+00:22:42
+program because it's the token program
+
+00:22:44
+that can write to this account. So the
+
+00:22:47
+owner of the account is the token
+
+00:22:49
+program. But what that really says is
+
+00:22:52
+the transfer authority or the authority
+
+00:22:56
+that should really say authority of that
+
+00:22:59
+account. who is authorized to transfer
+
+00:23:02
+tokens out of this account or burn
+
+00:23:06
+tokens in that account. That is my
+
+00:23:09
+wallet. Ignore that. That says owner.
+
+00:23:11
+It's the authority. And then it also
+
+00:23:15
+stores the token balance. So how many
+
+00:23:17
+actual tokens do I have? That's the
+
+00:23:19
+interesting stuff for us as a user.
+
+00:23:22
+That's what my wallet should display. I
+
+00:23:25
+have so many tokens of that kind. And
+
+00:23:27
+then the status which is initialized
+
+00:23:30
+which means that account is good to go.
+
+00:23:32
+It's not frozen and it's not closed and
+
+00:23:36
+it's not uninitialized meaning there's
+
+00:23:38
+nothing in there yet. And I already
+
+00:23:40
+noticed I could make a 5hour video just
+
+00:23:44
+about token cake as well because there
+
+00:23:46
+are so many things that we could explore
+
+00:23:48
+from here. For instance, we could have a
+
+00:23:51
+look at how that's actually stored in
+
+00:23:53
+their account just real quick because
+
+00:23:55
+that's a little bit of a spoiler for
+
+00:23:56
+tomorrow. Tomorrow we're really going to
+
+00:23:58
+talk about serialization and des
+
+00:24:00
+serialization because we're going to
+
+00:24:02
+figure out that stuff that's stored in
+
+00:24:04
+an account is not like this in a key
+
+00:24:07
+value. It's really just a series of
+
+00:24:09
+bytes. And if you really look at it, the
+
+00:24:11
+series of bytes looks like this where
+
+00:24:14
+here is the mint address, here is the
+
+00:24:17
+authority or owner, and then here is the
+
+00:24:22
+token balance and here is the status.
+
+00:24:25
+But that's spoilers. Let's continue with
+
+00:24:27
+our process of really creating a token
+
+00:24:30
+because for now we just created the type
+
+00:24:33
+to actually get stuff into circulation
+
+00:24:36
+or mint tokens. We can just say token
+
+00:24:41
+mint and then we need to say for which
+
+00:24:43
+token we have that information here.
+
+00:24:46
+That's the mint. Then we need to say how
+
+00:24:49
+many. Let's say I mean just one token
+
+00:24:53
+for now. Actually, no. To showcase
+
+00:24:55
+something, I'm going to mint the minimum
+
+00:24:57
+that I could possibly mint, the smallest
+
+00:25:00
+unit of a nine decimal token. And then I
+
+00:25:03
+could provide the destination. If I
+
+00:25:06
+don't, it automatically takes my ATA.
+
+00:25:08
+So, I don't even need to say anything
+
+00:25:09
+more. That should work. And finalizing
+
+00:25:13
+transaction. Boom. See, it did get the
+
+00:25:17
+recipient address. That's my token
+
+00:25:19
+account. It calculated that
+
+00:25:21
+automatically because it's a PDA. So we
+
+00:25:24
+can derive it. And now if I look into
+
+00:25:26
+this account, I should see that I have
+
+00:25:28
+0.00001
+
+00:25:31
+tokens. And if I look at the account in
+
+00:25:35
+raw bytes, then I see here is suddenly a
+
+00:25:38
+one because that's the amount of tokens
+
+00:25:40
+that I have in the account. And the
+
+00:25:42
+token balance really is just represented
+
+00:25:44
+with a U64. So a 64bit so 8 byt number.
+
+00:25:49
+Okay, let's mint one entire token.
+
+00:25:51
+Great. Then I have 1.00001
+
+00:25:55
+in here or this number, which if you
+
+00:25:59
+don't read hex fluently, it might not be
+
+00:26:01
+so easy to decode, but we still have the
+
+00:26:03
+one here. If we don't like this one here
+
+00:26:06
+anymore, we can also destroy tokens.
+
+00:26:09
+That's the opposite of minting them. And
+
+00:26:13
+that's also maybe an interesting thing
+
+00:26:14
+to note. Anybody can just destroy tokens
+
+00:26:18
+if they have the authority of a token
+
+00:26:21
+account where tokens are in. And that
+
+00:26:24
+would be with SPL token burn. And here
+
+00:26:28
+for some reason I really need to give
+
+00:26:30
+the token account address. I've been
+
+00:26:33
+doing this wrong so many times that I
+
+00:26:36
+now know that this really needs the
+
+00:26:38
+token account. And then how many we
+
+00:26:40
+delete or burn. Let's go burn them. And
+
+00:26:44
+we're done. Refresh. And we're down to
+
+00:26:48
+one exact token.
+
+00:26:51
+And also here, down to just one token.
+
+00:26:54
+And now the mint. If you refresh that,
+
+00:26:58
+the current supply also says one. So
+
+00:27:01
+here it looks like as if there's always
+
+00:27:04
+just been one token. The Sana state says
+
+00:27:08
+there's just one of this token in
+
+00:27:10
+existence. However, the Solana ledger
+
+00:27:13
+knows if we look at the previous
+
+00:27:16
+transactions that at one point there
+
+00:27:19
+have been more tokens. Once again, to
+
+00:27:21
+reference the difference between the
+
+00:27:23
+ledger and the state cuz state is all
+
+00:27:26
+the accounts. The accounts don't know
+
+00:27:28
+historical data, but the ledger does.
+
+00:27:32
+Okay, cool. And that's how you create a
+
+00:27:34
+token. We have a token here. There's a
+
+00:27:37
+few more features that the token program
+
+00:27:39
+has that we didn't explore. so far like
+
+00:27:42
+a freeze authority and then freezing
+
+00:27:44
+token accounts. Basically not enabling
+
+00:27:47
+transfers or burns even if you have the
+
+00:27:50
+authority of the token account if it's
+
+00:27:53
+frozen. If the state is frozen then you
+
+00:27:56
+can't do anything with it which is also
+
+00:27:57
+an attack vector by the way but also for
+
+00:28:00
+that I made a separate video that
+
+00:28:02
+explains that in detail. The one thing
+
+00:28:04
+that I do want to still talk about and
+
+00:28:07
+show you real quick is the most common
+
+00:28:10
+use case for a token, which is to
+
+00:28:13
+transfer it. Cuz as we said in the
+
+00:28:15
+beginning, a token is just something
+
+00:28:18
+that sits in your wallet that can be
+
+00:28:20
+transferred. So, let's do an actual
+
+00:28:22
+transfer. It's super simple with SPL
+
+00:28:24
+token transfer. And then we say which
+
+00:28:27
+token and then we say how many? How
+
+00:28:30
+about half a token? and I split my funds
+
+00:28:33
+with totally who we want to send to. And
+
+00:28:36
+since that person doesn't have an ATA
+
+00:28:39
+yet, I also need to say I fund their
+
+00:28:42
+account. So I fund recipient. That's
+
+00:28:45
+just the CLI requiring that. And let's
+
+00:28:47
+go. So the ATA for tolli would be this.
+
+00:28:51
+We were funding that account as well.
+
+00:28:53
+And we sent half a token to that
+
+00:28:56
+address. If we check that account now,
+
+00:28:58
+we see that it has half a token. and
+
+00:29:02
+Tuli is the owner, the authority of that
+
+00:29:05
+account. And now really half a token is
+
+00:29:09
+forever lost because that account
+
+00:29:10
+doesn't really exist and nobody has the
+
+00:29:12
+key for that. But you know that's what
+
+00:29:14
+happens. People constantly send tokens
+
+00:29:16
+to the wrong address for some reason and
+
+00:29:19
+then complain to me that they lost it.
+
+00:29:21
+So be careful when you send tokens
+
+00:29:23
+around. You can't just do that and then
+
+00:29:24
+not get them back cuz as soon as you
+
+00:29:27
+transfer them, you lose the authority. A
+
+00:29:29
+transfer is basically just giving
+
+00:29:31
+authority to someone else. Or there's
+
+00:29:34
+also authorizing within the same
+
+00:29:36
+account. We can also do that with a
+
+00:29:39
+token program where we authorize another
+
+00:29:41
+address to take some tokens off my
+
+00:29:44
+account. And you can look at that as a
+
+00:29:46
+homework, but it's outside of the scope
+
+00:29:48
+of this video because it's not the
+
+00:29:50
+basics anymore. And I still want to do
+
+00:29:53
+something more with you because for now
+
+00:29:55
+we've just used the CLI which is boring.
+
+00:29:59
+I mean yeah okay does it take a death to
+
+00:30:02
+use the CLI? Not really. Anybody can do
+
+00:30:04
+that for you to really understand what's
+
+00:30:07
+happening here. I want to go through the
+
+00:30:09
+actual steps cuz for one such transfer
+
+00:30:13
+look at that. We're using nine accounts
+
+00:30:16
+just for this little transfer. Okay, we
+
+00:30:18
+also created Tli's token account first
+
+00:30:22
+with the associated token program. So
+
+00:30:24
+yeah, let's look at that in depth.
+
+00:30:27
+What's really happening here? I mean, we
+
+00:30:29
+got the basics down. I think you
+
+00:30:31
+understand what tokens are. Now, it's
+
+00:30:33
+just about what are the real
+
+00:30:35
+instructions that we need to call, what
+
+00:30:38
+are the right accounts for the
+
+00:30:39
+instructions, and what do we need to set
+
+00:30:41
+up beforehand? cuz that's also then
+
+00:30:44
+important when you want to work with
+
+00:30:46
+tokens inside your program. It's going
+
+00:30:49
+to be pretty much the same as here. But
+
+00:30:52
+to get started, I just want to do it
+
+00:30:54
+with the kit and then you can transfer
+
+00:30:56
+that to within your program as well.
+
+00:30:58
+Really, it's not so complicated once you
+
+00:31:01
+really understand what instructions you
+
+00:31:03
+need to do because then you just need to
+
+00:31:05
+do the same instructions from within
+
+00:31:06
+your program as a CPI. Okay, so let's go
+
+00:31:10
+back to an empty. which is sending a
+
+00:31:12
+transaction script with our wallet. And
+
+00:31:16
+like the system program also the token
+
+00:31:19
+program has its own package. We just
+
+00:31:22
+need to install Solana program/token.
+
+00:31:29
+And in here we have a bunch of stuff
+
+00:31:33
+like the token program addresses in here
+
+00:31:37
+as well. and all of the get
+
+00:31:40
+instructions. So if you want a burn, a
+
+00:31:43
+close, a freeze, initialize, and so on.
+
+00:31:47
+And here it's really just important to
+
+00:31:50
+know what are the correct instructions
+
+00:31:53
+on the token program that we really want
+
+00:31:55
+to call. Again, you could just do it
+
+00:31:57
+with CLI and then look on the explorer
+
+00:32:00
+or just watch this video or just try it
+
+00:32:03
+out and see what they do. But yeah,
+
+00:32:06
+actually trial and error is really not
+
+00:32:08
+such a bad idea. If you know you want to
+
+00:32:10
+create a token, you just type create
+
+00:32:13
+token and then see what could fit.
+
+00:32:14
+Create associated token. No, that's not
+
+00:32:17
+quite what we want because that creates
+
+00:32:18
+a token account. We want to create a
+
+00:32:21
+mint. Huh. Okay. Create mint instruction
+
+00:32:24
+plan. Oh, also not. But it has something
+
+00:32:27
+to do with mint. Mint. Mint. Mint.
+
+00:32:30
+Initialize mint. Maybe that's the right
+
+00:32:32
+thing. Oh, and but there is two
+
+00:32:34
+initialized means. So, yeah, it would
+
+00:32:37
+probably take you a while and you're
+
+00:32:39
+probably even faster if you just vibe
+
+00:32:41
+code that as well. But you would get
+
+00:32:43
+there. I think that's usually how I like
+
+00:32:45
+to do it. But yeah, I'm going to tell
+
+00:32:46
+you what we need is the get initialize
+
+00:32:48
+mint two instruction two again because
+
+00:32:52
+we weren't happy with the first one
+
+00:32:53
+apparently. And back then with a token
+
+00:32:56
+program, we still just didn't do the
+
+00:32:58
+naming so nicely. Newer programs do that
+
+00:33:01
+way nicer. Anyway, we just use that and
+
+00:33:04
+don't ask questions. And then when we do
+
+00:33:07
+that to create our initialize mint
+
+00:33:11
+instruction, this thing will tell us
+
+00:33:13
+what it needs. Anyway, it needs the
+
+00:33:16
+mint. So that's the account, the
+
+00:33:18
+decimals, and the mint authority. And
+
+00:33:21
+optionally, we can if we want provide
+
+00:33:23
+the freeze authority. Okay, so mint,
+
+00:33:26
+that's going to be the address of the
+
+00:33:29
+account that we create. And there's a
+
+00:33:32
+reason why this is called initialize
+
+00:33:35
+and not create because it just
+
+00:33:38
+initializes that account and it doesn't
+
+00:33:41
+create it. Also, if we have a look at
+
+00:33:45
+the actual transaction of where our mint
+
+00:33:48
+was created all the way an hour ago
+
+00:33:52
+here, we also see that there's first a
+
+00:33:55
+system program create account and then
+
+00:33:57
+the initialize mint. Those two make up
+
+00:34:00
+creating the mint cuz we first need to
+
+00:34:03
+create the account and then we
+
+00:34:05
+initialize it. That's why this itself is
+
+00:34:07
+not called create cuz the token program
+
+00:34:10
+itself can't create the account.
+
+00:34:12
+Remember we said every account is owned
+
+00:34:14
+by the system program per default. So
+
+00:34:16
+the token program first needs to get
+
+00:34:19
+something from the system program. It
+
+00:34:21
+could do that through CPI. But the way
+
+00:34:24
+they implemented the token program is
+
+00:34:26
+that this instruction already expects an
+
+00:34:30
+account to be created for the token
+
+00:34:33
+program as the min because that makes it
+
+00:34:34
+more flexible as well. So we want to
+
+00:34:37
+generate a key pair signer which
+
+00:34:39
+basically allows us to have a new key
+
+00:34:41
+pair a new random one and then we put
+
+00:34:44
+the address as the mint decimals we can
+
+00:34:47
+go with a default of nine. mint
+
+00:34:50
+authority. We're going to use my key
+
+00:34:52
+pair and we're not going to use a freeze
+
+00:34:54
+authority. And that is enough for this
+
+00:34:57
+instruction, but by itself does not
+
+00:35:00
+work. Why not? Well, because that
+
+00:35:02
+account doesn't exist. And then we get
+
+00:35:04
+invalid account data for instruction.
+
+00:35:06
+So, we need to first already create this
+
+00:35:09
+account with a system program. And
+
+00:35:11
+that's just something that you need to
+
+00:35:14
+know. That's why we practice it
+
+00:35:15
+together. create an account instruction.
+
+00:35:20
+So we get create account instruction
+
+00:35:24
+that is also in Solana program system
+
+00:35:27
+and we just need to provide the correct
+
+00:35:29
+things here. The new account that we
+
+00:35:31
+create is our mint. The payer will be my
+
+00:35:34
+key pair. So those are the two signers
+
+00:35:36
+that we provide. The program address so
+
+00:35:38
+that will be the new owner of that
+
+00:35:40
+account will be the token program. The
+
+00:35:43
+space now that's interesting. If you
+
+00:35:46
+don't know that by heart, there is a get
+
+00:35:49
+mint size in Solana program token the
+
+00:35:53
+package here that will give you a number
+
+00:35:56
+and that's the bytes of the mint account
+
+00:35:58
+size. Token ke has constant account
+
+00:36:01
+sizes. Token extensions has variable
+
+00:36:04
+ones. Then you can enter the extensions
+
+00:36:06
+in here as well. But for us, this is
+
+00:36:08
+fine. And now we're just missing
+
+00:36:10
+lamperts. And that's once again an RPC
+
+00:36:15
+request. Get minimum balance for rent
+
+00:36:17
+exemption for that same size. And then
+
+00:36:21
+send that. I did complain about that
+
+00:36:22
+before. I will complain about that
+
+00:36:24
+again. But at some point we got to make
+
+00:36:27
+it a big one of the pains. Whatever. I
+
+00:36:30
+tried to fix it and I was told off. So
+
+00:36:33
+it's just how we got to do it. If you
+
+00:36:35
+want to work with a kit, that's how you
+
+00:36:36
+do. Good. If we add that in front. So
+
+00:36:40
+obviously we need to do the instructions
+
+00:36:42
+first. I hope I mentioned this but in
+
+00:36:45
+case I haven't because this is kind of
+
+00:36:47
+implied but maybe it's not clear.
+
+00:36:50
+Instructions obviously are executed in
+
+00:36:53
+order. So it's first this instruction
+
+00:36:55
+and then this instruction. So now if we
+
+00:36:58
+create the token there we go that works.
+
+00:37:01
+And just like that we have created a
+
+00:37:03
+token with nine decimals where we are
+
+00:37:06
+the authority. Easy. Now, where it gets
+
+00:37:08
+a little bit more complicated is
+
+00:37:10
+creating the token account, especially
+
+00:37:13
+if you want it to be an associated token
+
+00:37:16
+account, which I recommend that you do.
+
+00:37:18
+Working without associated token
+
+00:37:20
+accounts is a bit weird, unless you're
+
+00:37:24
+within your program and you know exactly
+
+00:37:26
+what you're doing. Maybe it's a PDA from
+
+00:37:28
+your program itself or something, then I
+
+00:37:30
+would say yeah, it's fine. But if you're
+
+00:37:32
+creating it for a user wallet, in 99% of
+
+00:37:35
+cases, you do want it to be an ATA.
+
+00:37:37
+There are special cases where you might
+
+00:37:39
+specifically want it somewhere else. But
+
+00:37:41
+in our case, let's say we want to create
+
+00:37:44
+an associated token account. So we do
+
+00:37:46
+want the associated token program to do
+
+00:37:49
+the account creation for us. So
+
+00:37:52
+basically now we just tell the
+
+00:37:54
+associated token program, hey, please
+
+00:37:56
+create the ATA for us. And then it does
+
+00:37:58
+all the CPIs to the system program and
+
+00:38:00
+to the token program. And that is done
+
+00:38:04
+with a get create. So here it is
+
+00:38:06
+actually called create associated token
+
+00:38:10
+instruction. This one this one takes the
+
+00:38:13
+ATA the mint the owner the payer system
+
+00:38:16
+program and token program. Let's start
+
+00:38:18
+with the simple things. Payer is going
+
+00:38:20
+to be my key pair. Owners who do we
+
+00:38:23
+create it for a new receiver maybe.
+
+00:38:26
+Let's create a keeper for that guy as
+
+00:38:28
+well. This is just to to showcase some
+
+00:38:31
+stuff. So, I'm going to lock stuff and
+
+00:38:32
+I'm going to log as well. I'm going to
+
+00:38:34
+lock the mint address. I'm going to lock
+
+00:38:37
+the receiver. If you're doing something
+
+00:38:39
+like that, maybe you do want to store
+
+00:38:41
+the private key here as well, but don't
+
+00:38:44
+log private keys. This is just as an
+
+00:38:47
+example. In a productive environment, I
+
+00:38:49
+would load my receiver from an
+
+00:38:51
+environment variable or something. Okay.
+
+00:38:53
+So the owner will be the receiver. Now
+
+00:38:57
+the mint should also be fairly clear.
+
+00:38:59
+That's the address of my mint account.
+
+00:39:02
+And now the really interesting part is
+
+00:39:04
+the ATA. Where do we get that from? That
+
+00:39:08
+we need to derive. And we could do it
+
+00:39:10
+the same way as we did here when we
+
+00:39:14
+created the PDA for our program with
+
+00:39:17
+this get program derived address. So
+
+00:39:20
+something like this or there is also a
+
+00:39:24
+function for that get associated token
+
+00:39:28
+account address. Oh by the way gill
+
+00:39:31
+slashp programs exports all of the
+
+00:39:33
+program stuff that you don't need to
+
+00:39:35
+import all of the programs like I did
+
+00:39:38
+here but I just like to show you where
+
+00:39:41
+they actually are. So basically I could
+
+00:39:43
+get rid of that and import all of the
+
+00:39:46
+missing things from gill slash programs
+
+00:39:49
+anyway. So get associated token account
+
+00:39:52
+address at aa address needs the mint the
+
+00:39:57
+owner and the token program if it's not
+
+00:40:00
+token ke. So that's simple the mint
+
+00:40:03
+address and the owner which is my key
+
+00:40:06
+pair. So it's also this owner. It's the
+
+00:40:08
+authority address like this. We can get
+
+00:40:12
+the ATA but I do want to tell you what
+
+00:40:15
+this does internally. So we're going to
+
+00:40:18
+do a second one. I'm going to do a
+
+00:40:20
+compare to this because what's behind
+
+00:40:22
+that really is just get a PDA for the
+
+00:40:29
+associated token program with the seeds.
+
+00:40:33
+And I'm not sure if I'm getting them in
+
+00:40:35
+the right order, but it was the mint,
+
+00:40:38
+the authority, the owner, and the token
+
+00:40:41
+program. Although I'm not sure in which
+
+00:40:43
+order anymore. So, let's quickly check.
+
+00:40:46
+Nah, let's quickly try. So that's the
+
+00:40:49
+authority. I think before that was the
+
+00:40:52
+mint and after that the token program
+
+00:40:56
+like this with those seats I think you
+
+00:40:58
+would get to the same ATA. Let's quickly
+
+00:41:01
+check. Nope. Maybe the token program.
+
+00:41:04
+Okay. I quickly checked. It's first the
+
+00:41:07
+wallet for which the token is created
+
+00:41:10
+then the token program then the min.
+
+00:41:12
+That's the right order. Okay. then we
+
+00:41:14
+get the the right ATA or the same ATA
+
+00:41:18
+and this one still gives me the bump as
+
+00:41:20
+well. So really I just need this. But
+
+00:41:23
+anyway that's just to check that's just
+
+00:41:26
+to compare. This is how you would do it
+
+00:41:28
+manually. There is this nice function. I
+
+00:41:30
+just want you to understand what this
+
+00:41:34
+does is that that is creates a PDA with
+
+00:41:38
+the seeds of the wallet, the token
+
+00:41:40
+program and the mint because that's what
+
+00:41:44
+we saw that this depends on the ATA
+
+00:41:48
+depends on the mint the wallet that it's
+
+00:41:51
+an ATA for and the token program because
+
+00:41:55
+if we have a different token program, we
+
+00:41:57
+still need to make sure that it's a mint
+
+00:41:59
+of this token. So that's why definitely
+
+00:42:02
+the token program is also relevant and
+
+00:42:05
+is just part of the seeds when creating
+
+00:42:08
+this PDA. And we create this PDA for the
+
+00:42:11
+associated token program. So that's why
+
+00:42:13
+that is also in there. But the
+
+00:42:15
+associated token program is always the
+
+00:42:16
+same no matter the token program it
+
+00:42:19
+uses. Complicated? Yes. But if you get
+
+00:42:22
+it, you get it. Okay. Now that we have
+
+00:42:24
+the ATA and we can create this associate
+
+00:42:28
+token instruction
+
+00:42:30
+to create the ATA. Create ATA. We just
+
+00:42:34
+put that in here as well. And then while
+
+00:42:36
+we're here, we might as well create a
+
+00:42:39
+mint instruction. So get mint 2 is what
+
+00:42:43
+it's called. Wait a second. I was
+
+00:42:45
+already one step ahead. Forget what I
+
+00:42:48
+did here with a receiver. I wanted to
+
+00:42:50
+create for someone else. Obviously, we
+
+00:42:53
+created for our own key pair. We're
+
+00:42:56
+still in the process of creating the
+
+00:42:57
+token, not of transferring it. Sorry, my
+
+00:43:00
+bad. Forget what I did here. We then
+
+00:43:02
+also first mint to us and then later we
+
+00:43:05
+can do transfer. So, get mint to
+
+00:43:07
+instruction. Let's go with a get mint to
+
+00:43:10
+instruction which takes the amount. And
+
+00:43:13
+now here, here we're dealing with actual
+
+00:43:16
+numbers. So here we're one level lower
+
+00:43:21
+if you will where it's like we're more
+
+00:43:24
+being developers and less being users.
+
+00:43:27
+Here we need to provide the amount in
+
+00:43:32
+actual number of tokens considering the
+
+00:43:36
+decimals. So, if we want to mint one
+
+00:43:39
+token that has nine decimals, then we
+
+00:43:43
+need to add 1 2 3 5 6 7 8 nine zeros.
+
+00:43:47
+And because that looks like I'm
+
+00:43:49
+going to write it like this. That would
+
+00:43:51
+mint us one token of that mint and we
+
+00:43:57
+are the mint authority. my key pair and
+
+00:44:00
+token that is the token account that's
+
+00:44:04
+going to be the ATA we're going to mint
+
+00:44:06
+into my ATA and then I just add this
+
+00:44:10
+instruction in here and then we have all
+
+00:44:12
+of those instruction in one transaction
+
+00:44:15
+and then we can neatly just create a
+
+00:44:17
+token and already mint some tokens all
+
+00:44:19
+in one except the initialize mint
+
+00:44:22
+doesn't work hold on what are we doing
+
+00:44:25
+structure modified an account that it
+
+00:44:27
+doesn't own Oh, did they change the
+
+00:44:30
+default to token extensions? That's new.
+
+00:44:33
+So, apparently when we say we initialize
+
+00:44:37
+mint Oh, I got that. Oh, hold eye.
+
+00:44:40
+Because we imported that from Gill
+
+00:44:43
+programs, it's a bit of a problem if
+
+00:44:47
+both because both token programs have
+
+00:44:50
+the same instructions and therefore they
+
+00:44:54
+have the same instruction names. So I
+
+00:44:56
+need to I I will specifically import
+
+00:44:59
+that from token such that I can make
+
+00:45:02
+sure that it is actually token keg and
+
+00:45:04
+not token Z. It's just one downside of
+
+00:45:06
+working with Gil. If we use the token
+
+00:45:09
+program use Salana program token then
+
+00:45:12
+we're safe because otherwise Gil exports
+
+00:45:16
+all of them and therefore this doesn't
+
+00:45:17
+work anymore. Okay, cool. Now this
+
+00:45:19
+should work again. Associated address
+
+00:45:21
+does not match seat derivation. So we
+
+00:45:25
+are not providing the correct ATA cuz
+
+00:45:27
+maybe also that was done for the
+
+00:45:31
+different program address or here we
+
+00:45:34
+might have the different token program
+
+00:45:36
+as default. So let's put in this token
+
+00:45:39
+program the token keg. I said it's easy.
+
+00:45:43
+Yeah. Then we get incorrect program ID
+
+00:45:44
+for instruction. Oh you mother. This is
+
+00:45:47
+just annoying. You know what? I don't
+
+00:45:49
+enjoy Gil anymore. Besides we're day
+
+00:45:51
+five. We don't need Gil anymore. We can
+
+00:45:53
+just use regular Sana kit or at least
+
+00:45:57
+I'm going to get rid of the Gil
+
+00:45:59
+programs. I'm going to keep gil node but
+
+00:46:02
+I'm going to again import everything
+
+00:46:04
+from Solana program. Oh, okay. So
+
+00:46:09
+interesting. I didn't even know that
+
+00:46:10
+before. Gil has Gil programs and then
+
+00:46:14
+Gil program/token
+
+00:46:16
+for the token program. And in programs
+
+00:46:19
+is apparently the token 2022 program. So
+
+00:46:23
+I would have for specifically to import
+
+00:46:25
+them from gil programs token.
+
+00:46:28
+Interesting. Okay. If we import from
+
+00:46:31
+gil/token then it's a Nope. That's still
+
+00:46:34
+from token Z. What? That's token. That's
+
+00:46:37
+still wrong then. Screw that. Okay. Now
+
+00:46:40
+I have everything from Solana program
+
+00:46:42
+token. Then that should hopefully work
+
+00:46:44
+now. Yeah. There we go. I said it's
+
+00:46:46
+great because there's just one token
+
+00:46:48
+program on Solana. what could possibly
+
+00:46:50
+go wrong that we introduced a second
+
+00:46:53
+one. Oh yeah, we did that and now it's
+
+00:46:55
+maybe a bit more confusing and a bit
+
+00:46:57
+more challenging technically to get them
+
+00:47:00
+right and use the correct accounts. But
+
+00:47:02
+once we use the correct accounts, this
+
+00:47:04
+is actually quite straightforward with
+
+00:47:07
+this nice little helper of the
+
+00:47:09
+associated token program create
+
+00:47:11
+instruction. It puts in all the right
+
+00:47:13
+accounts and instruction data to create
+
+00:47:16
+this PDA that we can then in the end
+
+00:47:19
+directly mint tokens to one token. And
+
+00:47:23
+you also see in the explorer the change
+
+00:47:26
+of tokens. So that is the mint we
+
+00:47:28
+created and that's the ATA. So in this
+
+00:47:32
+ATA for this mint we got one token.
+
+00:47:36
+Nice. So that's how you do it
+
+00:47:38
+programmatically with TypeScript and I
+
+00:47:41
+think that's good enough for you to get
+
+00:47:43
+the gist of it. I am of course going to
+
+00:47:45
+give you homework because the next step
+
+00:47:47
+from here is obviously to do a transfer
+
+00:47:50
+of tokens. So as a homework you create
+
+00:47:54
+yourself a token with Gil or the kit or
+
+00:47:58
+even just the CLI if you need to. So you
+
+00:48:01
+can use this script as well. It will be
+
+00:48:02
+on my GitHub. And then I want you to do
+
+00:48:05
+a transfer of this token or a few tokens
+
+00:48:09
+to some other ATA of another account.
+
+00:48:12
+See what you need to do for that and do
+
+00:48:14
+it really programmatically like this
+
+00:48:16
+where you manually do the instructions
+
+00:48:19
+cuz that way you can make sure that you
+
+00:48:21
+really understand it. What are the
+
+00:48:23
+accounts that need to be involved? Which
+
+00:48:25
+accounts do I still need to create?
+
+00:48:27
+Hint, you will need to create the ATA of
+
+00:48:30
+the receiver unless that already exists.
+
+00:48:32
+Yeah. And then you can transfer tokens
+
+00:48:35
+back and forth. Maybe send them to a
+
+00:48:37
+wallet that you have in a browser
+
+00:48:38
+extension or if you feel ready for it,
+
+00:48:41
+create a token on mainnet. It's the
+
+00:48:44
+exact same just that it's on mainet. So
+
+00:48:47
+that procedure is the exact same.
+
+00:48:49
+Obviously mainet and defet are not the
+
+00:48:51
+same things. Yeah. And I think that's
+
+00:48:53
+good enough for today. We did learn
+
+00:48:55
+about what tokens are and we do
+
+00:48:57
+understand all of the accounts that are
+
+00:48:59
+involved. Tokens are fun. Tokens are a
+
+00:49:02
+reason why people come to Solana. Tokens
+
+00:49:05
+are a reason why people leave Solana.
+
+00:49:07
+Tokens are just one of those how do you
+
+00:49:09
+say like building blocks and so it's
+
+00:49:12
+crucial that you do understand how
+
+00:49:13
+tokens work on Solana otherwise you will
+
+00:49:15
+have a very hard time as a deaf. So
+
+00:49:19
+yeah, good that we went over this today
+
+00:49:22
+once again. And obviously this is by far
+
+00:49:25
+not everything that we could talk about
+
+00:49:26
+when it comes to tokens. There is the
+
+00:49:28
+entire token 2022 program with all of
+
+00:49:31
+its extensions and features and stuff
+
+00:49:34
+and even token cake has a few more
+
+00:49:36
+features that we didn't get through and
+
+00:49:38
+then there's the whole side of how do we
+
+00:49:40
+work with tokens inside our programs
+
+00:49:42
+basically through CPIing into the token
+
+00:49:46
+program or the associated token program
+
+00:49:48
+but they are helpers for that as well.
+
+00:49:50
+Tomorrow we're going to build another
+
+00:49:52
+program, but this time not with anchor.
+
+00:49:56
+And the real topic of tomorrow is going
+
+00:49:59
+to be serialization and deserialization
+
+00:50:02
+because as I already teasered today,
+
+00:50:04
+most of the things on Salana is just a
+
+00:50:07
+bunch of bites because machines are just
+
+00:50:10
+good at working with that. So really
+
+00:50:13
+understanding how the data is stored and
+
+00:50:16
+how instructions and transactions are
+
+00:50:18
+really serialized will help you as a
+
+00:50:21
+Solana dev. That's why that's going to
+
+00:50:23
+be the last big content block tomorrow
+
+00:50:26
+and then we have one last day where we
+
+00:50:28
+wrap it all up in this series of how to
+
+00:50:32
+get started with Solana development in
+
+00:50:34
+2026. I hope you enjoyed. If you do,
+
+00:50:38
+leave me a like, subscribe if you
+
+00:50:40
+haven't done that yet, check out my
+
+00:50:41
+other videos. I do a lot more than just
+
+00:50:44
+this basic stuff. And yeah, I'll see you
+
+00:50:46
+back here tomorrow, fresh and early for
+
+00:50:50
+day six. Till then good night, sleep
+
+00:50:52
+well and play around with tokens on
+
+00:50:55
+Solana.
+

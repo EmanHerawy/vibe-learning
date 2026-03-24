@@ -1,0 +1,2550 @@
+00:00:00
+Hello and welcome to day two of the how
+
+00:00:04
+to get started with Solana development
+
+00:00:06
+in 2026 series. Today we're going to
+
+00:00:09
+talk about the fundamentals, the
+
+00:00:12
+concepts you really need to understand
+
+00:00:14
+in order to do anything on Solana. In
+
+00:00:17
+particular, we're going to define what
+
+00:00:19
+is an account, an instruction, a
+
+00:00:23
+transaction, a program, all core
+
+00:00:26
+concepts to Solana development. So don't
+
+00:00:29
+skip this one. Unless you already know
+
+00:00:32
+those things, then of course you can do
+
+00:00:33
+whatever. Again, I'm not your mom. I'm
+
+00:00:36
+not telling you what to do. So if we
+
+00:00:38
+have anything to discuss, let's not
+
+00:00:40
+waste time and get started right away
+
+00:00:42
+with what is an account. So yesterday we
+
+00:00:45
+had this idea of the Andy has this much
+
+00:00:48
+money, Anatoli has this much money.
+
+00:00:51
+Those are the accounts. Think of it as a
+
+00:00:54
+bank account. On your bank account, you
+
+00:00:56
+have a certain amount of money. And now
+
+00:00:58
+on Solana, that's similar, just that
+
+00:01:00
+this account doesn't live on some server
+
+00:01:03
+of your bank, but it's stored on the
+
+00:01:05
+blockchain. All of their accounts make
+
+00:01:07
+up the so-called state of the
+
+00:01:09
+blockchain. And in case you're familiar
+
+00:01:11
+with the Bitcoin blockchain, they do it
+
+00:01:13
+differently. They use UTXOs, so unspent
+
+00:01:16
+transaction outputs. Basically, whenever
+
+00:01:18
+they do a transfer, they have the inputs
+
+00:01:20
+and the outputs, and the outputs then
+
+00:01:22
+become inputs for the next transaction.
+
+00:01:24
+Ethereum does it differently. Ethereum
+
+00:01:27
+went to an account model where they
+
+00:01:29
+don't remember the outputs but they
+
+00:01:31
+remember for each account the number the
+
+00:01:34
+actual number of what is in there which
+
+00:01:37
+conceptually is also easier to
+
+00:01:39
+understand. So we don't even need to
+
+00:01:41
+worry about the UTXOs. Let's just go
+
+00:01:43
+with the accounts model. Solana also has
+
+00:01:46
+this accounts model. Every account has a
+
+00:01:48
+certain amount of soul. And then you can
+
+00:01:50
+say and this account has so much soul
+
+00:01:53
+and a tall account has so much soul.
+
+00:01:55
+Great. In addition to the soul that is
+
+00:01:57
+on the account, it also stores some
+
+00:02:00
+metadata like the owner which we will
+
+00:02:03
+discuss tomorrow. And also as we already
+
+00:02:07
+mentioned yesterday, an account can have
+
+00:02:09
+data. So it might not just store how
+
+00:02:12
+much soul is there, but it can also hold
+
+00:02:15
+arbitrary bytes. But also that we will
+
+00:02:18
+explore in further detail tomorrow. For
+
+00:02:20
+now, let's stay with the idea of an
+
+00:02:23
+account has a certain amount of soul.
+
+00:02:25
+And maybe this is also already a good
+
+00:02:27
+time to introduce lampertz. When I say
+
+00:02:30
+an account has a certain amount of
+
+00:02:32
+lampertz, then I'm talking about the
+
+00:02:34
+soul just in higher resolution. One soul
+
+00:02:38
+is 1 billion lamperts because most often
+
+00:02:41
+an account will not even have one entire
+
+00:02:43
+soul. They might have just a few
+
+00:02:45
+thousand lamperts. It's the same concept
+
+00:02:47
+as with Satoshi's on Bitcoin or way for
+
+00:02:50
+ETH. And that is also the smallest
+
+00:02:53
+entity. You cannot send half a lampert
+
+00:02:56
+because we're working with full integers
+
+00:02:58
+here. And that's just integer
+
+00:02:59
+arithmetic. You can send half a soul
+
+00:03:02
+though. That would be 500 million
+
+00:03:04
+lamperts. And one lampert really isn't
+
+00:03:07
+anything really. Thousands of lamperts
+
+00:03:09
+is usually when it becomes interesting.
+
+00:03:11
+Okay. Anyway, so an account has
+
+00:03:14
+lamperts. Great. But now this is very
+
+00:03:17
+static. Okay, we take a snapshot of all
+
+00:03:20
+of Solana. We have the accounts and we
+
+00:03:22
+can see for every account how much soul
+
+00:03:25
+is on there, how many lamperts. Great.
+
+00:03:27
+But that will be quite boring if that
+
+00:03:29
+would always stay the same and you can't
+
+00:03:31
+change it because so we need a way to
+
+00:03:34
+change those accounts. For instance, to
+
+00:03:37
+send lamperts from one account to
+
+00:03:39
+another account. And that's where
+
+00:03:41
+programs come in. A program defines what
+
+00:03:45
+should be done to their accounts. You
+
+00:03:47
+can think of a program like a library, a
+
+00:03:50
+library of functions. And each of those
+
+00:03:52
+functions define some input parameters.
+
+00:03:55
+So the arguments that this function
+
+00:03:57
+takes and then it has an implementation
+
+00:04:00
+of what it does. You know the code that
+
+00:04:03
+is executed when the function is called.
+
+00:04:05
+And one such function could for instance
+
+00:04:08
+lock something to the ledger or it could
+
+00:04:12
+transfer some soul. So there could be a
+
+00:04:14
+program that has a function called
+
+00:04:16
+transfer soul. And this function takes
+
+00:04:18
+as input parameters the account it
+
+00:04:21
+should transfer from the account it
+
+00:04:23
+should transfer to and the amount of
+
+00:04:25
+lamperts that it should transfer. That
+
+00:04:27
+would be the arguments. And then the
+
+00:04:29
+implementation could look something like
+
+00:04:31
+if the sender account has fewer lamperts
+
+00:04:34
+than is the amount specified we return
+
+00:04:37
+an error. And otherwise we decrease the
+
+00:04:40
+sender lamperts by the amount and we
+
+00:04:43
+increase the receivers's lampert by the
+
+00:04:45
+same amount and then we return. That
+
+00:04:48
+could be the implementation of this
+
+00:04:49
+function. Note that we usually call this
+
+00:04:52
+a program instruction then but I don't
+
+00:04:54
+want to confuse you with what an
+
+00:04:56
+instruction is. So let's stay with the
+
+00:04:58
+idea of this is a function of that
+
+00:05:00
+program and a program can have several
+
+00:05:02
+of those functions and now there are
+
+00:05:04
+several programs on Salana and we as
+
+00:05:06
+developers we can write our own ones
+
+00:05:08
+that's what we're going to do tomorrow
+
+00:05:10
+and now in order to actually do
+
+00:05:12
+something on chain we got to somehow
+
+00:05:14
+call those functions of the programs and
+
+00:05:18
+that we do with creating an instruction
+
+00:05:22
+and instruction now basically just says
+
+00:05:24
+that's the program I want to call that's
+
+00:05:26
+the function of the program that I want
+
+00:05:28
+to call and that's the arguments that
+
+00:05:31
+makes up an instruction for instance I
+
+00:05:34
+can create a transfer soul instruction
+
+00:05:38
+by providing the sending account the
+
+00:05:40
+receiving account and the amount of
+
+00:05:42
+lampertz and of course the correct
+
+00:05:44
+program what is the correct program does
+
+00:05:47
+have a few core programs which contain
+
+00:05:50
+functionality that is essential for the
+
+00:05:53
+chain for instance transferring ing
+
+00:05:55
+lamperts. So there are pre-existing
+
+00:05:57
+programs that can do those things. One
+
+00:06:00
+of them is the system program and the
+
+00:06:03
+system program has this function which
+
+00:06:05
+we call an instruction to transfer
+
+00:06:07
+lamperts. So we can create a transfer
+
+00:06:09
+lampard instruction with the system
+
+00:06:12
+program. Now we have an instruction.
+
+00:06:14
+Great. But somehow we need to actually
+
+00:06:17
+get that instruction to be executed
+
+00:06:20
+because for now it's just that the
+
+00:06:21
+instruction is just just saying yeah
+
+00:06:23
+please do that. But by itself that's not
+
+00:06:25
+just happening. So we need a
+
+00:06:28
+transaction. A transaction can hold
+
+00:06:31
+instructions several of them or also
+
+00:06:34
+none but that doesn't really make sense.
+
+00:06:36
+And that transaction is what we will
+
+00:06:39
+then send to the RPC which will then
+
+00:06:42
+send it to a validator. And the
+
+00:06:43
+validator then puts that transaction
+
+00:06:46
+into a block which means at that point
+
+00:06:48
+all of the instructions are getting
+
+00:06:50
+executed and the state is being changed.
+
+00:06:53
+and the state changes is being broadcast
+
+00:06:56
+to all of the other validators to update
+
+00:06:58
+the state. So with the block being
+
+00:07:00
+accepted by consensus, the state is
+
+00:07:03
+actually changed on the blockchain. So
+
+00:07:05
+to recap, to change an account, we need
+
+00:07:07
+to create an instruction that calls a
+
+00:07:10
+program, put that instruction into a
+
+00:07:13
+transaction, sign that transaction, but
+
+00:07:15
+we haven't talked about signing yet. And
+
+00:07:16
+that transaction can then be put into a
+
+00:07:18
+block to actually perform the update and
+
+00:07:21
+execute that program. Now, one last
+
+00:07:23
+thing here, those programs, that's not
+
+00:07:26
+something that's running on Solana.
+
+00:07:29
+Like, don't think of it as a program
+
+00:07:31
+that is constantly running like a
+
+00:07:33
+service or something. That's why I said
+
+00:07:34
+you can think of it as a library.
+
+00:07:37
+Basically, the program really just is
+
+00:07:39
+this list of machine code instructions.
+
+00:07:42
+Add that value, add that value, change
+
+00:07:44
+that value, and so on and so on. And
+
+00:07:46
+that program is being run when an
+
+00:07:48
+instruction of the transaction is
+
+00:07:50
+executed. So basically the validator
+
+00:07:53
+runs that code sees what the changes are
+
+00:07:57
+and persists the changes. That's done by
+
+00:07:59
+the runtime that runs this. And yeah,
+
+00:08:03
+when we write the program and we deploy
+
+00:08:05
+to Solana, it's basically just our code
+
+00:08:08
+being there. It's not that we need to
+
+00:08:11
+have a service running or something.
+
+00:08:13
+Okay, that was a lot of talking in the
+
+00:08:15
+beginning. I hope you're still with me.
+
+00:08:17
+Let's look at that in practice.
+
+00:08:20
+Yesterday, we created this account. Each
+
+00:08:24
+account has an address. So, that's where
+
+00:08:27
+it lives. That's what we need to find
+
+00:08:31
+this account. If we know the address, we
+
+00:08:33
+can look up how much soul is on that
+
+00:08:36
+account. What we also did was a simple
+
+00:08:39
+transfer. Salana transfer to which
+
+00:08:42
+address I can transfer to myself for fun
+
+00:08:46
+0.1. So the CLI here builds an
+
+00:08:50
+instruction puts it into a transaction
+
+00:08:53
+and sends that to the definite cluster.
+
+00:08:56
+That's what it looks like. And here we
+
+00:08:57
+see it. It has one instruction to the
+
+00:09:01
+system program. It's a transfer
+
+00:09:03
+instruction. So that transfer that's the
+
+00:09:06
+function that I was talking about and
+
+00:09:08
+the from and to addresses as well as the
+
+00:09:11
+amount that's the arguments that I was
+
+00:09:14
+talking about. Now what we can also do
+
+00:09:16
+is tell the CLI hey I want another
+
+00:09:18
+instruction in there. I want to write a
+
+00:09:21
+memo. So let's do the same thing with
+
+00:09:25
+memo. Hold on. I'm going to clear this
+
+00:09:28
+so that you see better with memo. I
+
+00:09:31
+don't know. Thanks for all the fish.
+
+00:09:34
+Then if we look at this transaction,
+
+00:09:38
+this transaction suddenly has two
+
+00:09:41
+instructions.
+
+00:09:42
+One to the system program again, the
+
+00:09:45
+same transfer to myself and then one to
+
+00:09:48
+the memo program calling the memo
+
+00:09:51
+instruction. See how this is confusing,
+
+00:09:54
+right? We call this an instruction, the
+
+00:09:56
+instruction of the program. But then we
+
+00:09:58
+call this the instruction as well, the
+
+00:10:01
+thing that contains which program to
+
+00:10:04
+call and what the parameters are. That's
+
+00:10:06
+really what I mean when I say an
+
+00:10:09
+instruction, but this is an instruction
+
+00:10:11
+of the program. We use the same word for
+
+00:10:14
+that. It might be confusing, but yeah.
+
+00:10:16
+So the instruction here, the second
+
+00:10:18
+instruction, what does it contain? The
+
+00:10:21
+program to call. and then what function
+
+00:10:24
+to call and then the actual parameters
+
+00:10:28
+in this case the string that I want to
+
+00:10:30
+log and what does that program do well
+
+00:10:33
+it just writes something to the log so
+
+00:10:35
+this is a so-called ledger of Solana
+
+00:10:38
+this is not persisted in any of the
+
+00:10:41
+accounts so it's not in the state but
+
+00:10:44
+it's just in the ledger it's still
+
+00:10:46
+persisted if you know the transaction
+
+00:10:48
+signature then you can look that up but
+
+00:10:51
+it's not updating any account like the
+
+00:10:53
+system program transfer instruction
+
+00:10:56
+would when we actually transfer you know
+
+00:10:57
+to a different account. So if I send
+
+00:11:00
+somewhere else I could send to Anatoli
+
+00:11:03
+not a real wallet address. Ah I can't
+
+00:11:06
+have an L obviously. There we go. Those
+
+00:11:08
+two work. So with this address it should
+
+00:11:10
+work. Yeah it's not funded. We need
+
+00:11:12
+this. It's not an I mean it's an actual
+
+00:11:15
+address. It's a valid address. If I send
+
+00:11:18
+soul there then it's lost forever. Don't
+
+00:11:20
+do this on mainet because nobody has the
+
+00:11:23
+private key for this public key. Maybe
+
+00:11:25
+there is not even a private key. So
+
+00:11:26
+anything that we sent there is lost. But
+
+00:11:28
+the point is if we look at that
+
+00:11:30
+transaction, it again has those two
+
+00:11:32
+instructions. One transfer instruction
+
+00:11:35
+where I sent from this account to this
+
+00:11:38
+account 0.1 soul and then one memo
+
+00:11:41
+instruction. Thanks for all the fish. So
+
+00:11:43
+this instruction changes the state
+
+00:11:46
+because Andy will now have 0.1 solve
+
+00:11:50
+fewer and anati will have more or this
+
+00:11:54
+account it's not really Anatoli. Okay,
+
+00:11:56
+make sense? So to recap, we put
+
+00:11:59
+instructions into one transaction to
+
+00:12:03
+modify the accounts. Now this thing
+
+00:12:08
+already hints at something essential in
+
+00:12:10
+Solana. We said this is an account and
+
+00:12:13
+this is an account. Okay, good. So far,
+
+00:12:15
+so far I'm I'm sure you can follow
+
+00:12:17
+because that's also what we had here.
+
+00:12:19
+And Anatoli's account that have some sle
+
+00:12:23
+balances which are changing. But then
+
+00:12:26
+check this the system program and the
+
+00:12:29
+memo program they also are in the list
+
+00:12:35
+of accounts. So that means they are also
+
+00:12:41
+accounts. Yes. Because everything on
+
+00:12:44
+Solana is an account. They say really
+
+00:12:47
+everything. Well, no. A transaction is
+
+00:12:50
+obviously not an account. But to make it
+
+00:12:51
+easy, any program is also just an
+
+00:12:56
+account. Yeah. It has an address and it
+
+00:12:59
+has a certain amount of soul. But here
+
+00:13:02
+this account also has actual data in the
+
+00:13:06
+form of bytes and that's basically the
+
+00:13:09
+library that is uploaded here containing
+
+00:13:11
+the functions and the implementation for
+
+00:13:15
+the memo instruction. Same with a system
+
+00:13:17
+program. The system program has a very
+
+00:13:20
+special address all once in base 58
+
+00:13:23
+which is all zeros. This thing just has
+
+00:13:26
+14 bytes and is still owned by the
+
+00:13:29
+native loader. But this will change.
+
+00:13:32
+There's a migration process happening
+
+00:13:35
+from native programs to core programs
+
+00:13:38
+that I'm not going to discuss here
+
+00:13:40
+because we're still talking about the
+
+00:13:42
+basics. So, so that's how we change
+
+00:13:44
+state using the CLI. But now I want to
+
+00:13:47
+do the same thing with TypeScript. So,
+
+00:13:50
+we're going to install the TypeScript
+
+00:13:52
+package called Gil. So, I'm going to use
+
+00:13:55
+PNPM to install Gil. There we go.
+
+00:13:59
+Wonderful. Because in this Gil package,
+
+00:14:04
+there's all sorts of helpful stuff that
+
+00:14:06
+really comes from a package called
+
+00:14:09
+Solana Kit, but Gil reexports all of
+
+00:14:13
+that and contains more helpful
+
+00:14:16
+functions. That's why for now when
+
+00:14:19
+getting started I I like to use skill
+
+00:14:21
+because I want to have a look at those
+
+00:14:23
+accounts instructions and transactions.
+
+00:14:26
+So getting started with accounts. Oh by
+
+00:14:29
+the way one more sentence to that. There
+
+00:14:30
+is an older TypeScript SDK for Salana
+
+00:14:33
+called the web 3JS. However I do highly
+
+00:14:36
+recommend that you work with a kit or
+
+00:14:39
+gill same same because that's what's
+
+00:14:41
+still being maintained. And this is a
+
+00:14:44
+how to get started with Salana
+
+00:14:46
+development in 2026 after all. So we
+
+00:14:50
+want to use the tools that are
+
+00:14:52
+recommended right now and not the
+
+00:14:54
+deprecated stuff that might not be
+
+00:14:57
+maintained for long. Okay. So let's get
+
+00:14:59
+started with accounts. Let's say I just
+
+00:15:02
+want to know what the balance of my
+
+00:15:05
+account is. So what do I need to know
+
+00:15:07
+for that? Well, I need to know the
+
+00:15:09
+account's address. So where does that
+
+00:15:11
+account live in the kit? It's all very
+
+00:15:14
+functional here. So I can create an
+
+00:15:16
+address with this address function and
+
+00:15:20
+I'll put in a string with my address
+
+00:15:23
+that will return my address. Cool. Now
+
+00:15:26
+to get the account for that address, I
+
+00:15:30
+need a way to ask the state of the
+
+00:15:34
+blockchain. So I need to somehow query
+
+00:15:36
+Solana and be like, hey, I want to read
+
+00:15:39
+this. You know, same way we do here with
+
+00:15:41
+the explorer. Hey, this account, give me
+
+00:15:43
+the info for this account. And what's
+
+00:15:45
+happening here is that in the
+
+00:15:47
+background, an RPC function is being
+
+00:15:49
+invoked that gives me that information
+
+00:15:52
+because remember yesterday we talked
+
+00:15:54
+about validators and RPC clients. The
+
+00:15:57
+RPC client is what we're interacting
+
+00:15:59
+with. So in the kit, I can say create
+
+00:16:03
+Solana RPC and give it the cluster URL.
+
+00:16:07
+If you're not sure, you can always say
+
+00:16:09
+Solana config get. This will give you
+
+00:16:12
+the cluster URL right here. The API
+
+00:16:15
+defines.com.
+
+00:16:16
+Just going to paste that in here. So we
+
+00:16:18
+go to defnet. That's the cluster. So
+
+00:16:21
+that will be my RPC. And with that RPC,
+
+00:16:24
+I have those nice functions and one of
+
+00:16:27
+them is the get account info. That's
+
+00:16:30
+what I want to do. I want to get an
+
+00:16:32
+account info for an account at a certain
+
+00:16:35
+address. I give you the address and
+
+00:16:38
+that's already enough. The defaults are
+
+00:16:40
+okay for commitments and stuff. And this
+
+00:16:42
+just creates the RPC request. To
+
+00:16:45
+actually send it to the RPC with the
+
+00:16:48
+kit, I need to say send. That will then
+
+00:16:50
+actually, you know, do the networking
+
+00:16:53
+stuff and communicate with the RPC.
+
+00:16:55
+That's going to take some time. So, I'll
+
+00:16:57
+have to await this because that's async.
+
+00:17:00
+But then I get back the account info.
+
+00:17:02
+No, actually, what do I get back? I'll
+
+00:17:04
+call that RPC response. And this
+
+00:17:06
+response has the context for which slot
+
+00:17:10
+we're currently in. So how far in the
+
+00:17:12
+blockchain we are. It gives me context
+
+00:17:16
+for that state that I queried because
+
+00:17:18
+obviously the chain keeps making
+
+00:17:21
+progress and I'm always just querying
+
+00:17:23
+for a certain point in time. More blocks
+
+00:17:26
+are being produced and here it tells me
+
+00:17:28
+at which block we currently are. The
+
+00:17:30
+context here has the slot. A slot just
+
+00:17:34
+being a possibility for a validator to
+
+00:17:36
+produce a block. So in the ideal world,
+
+00:17:38
+every slot would contain a block. But in
+
+00:17:41
+some slots, no block is being produced.
+
+00:17:43
+That's the distinction here. And it
+
+00:17:45
+gives me as context the slot like how
+
+00:17:47
+far we advanced in slots. But I'm not
+
+00:17:50
+too worried about that. I'm really
+
+00:17:53
+interested in the actual value that I
+
+00:17:56
+get back because that is then my account
+
+00:17:59
+info. and the account info. Here I have
+
+00:18:02
+all the things that make up the account.
+
+00:18:04
+So space tells me how many bytes that
+
+00:18:08
+account has in data. Data are the actual
+
+00:18:12
+bytes that the account holds. We don't
+
+00:18:14
+need to worry about executable. That's
+
+00:18:16
+going to be deprecated I think. And
+
+00:18:18
+we're going to talk more about the owner
+
+00:18:20
+tomorrow. But what I'm really interested
+
+00:18:22
+in today is just the lamperts. So that's
+
+00:18:25
+the amount of soul. And if I really want
+
+00:18:28
+the sole amount, then I need to just
+
+00:18:32
+multiply that with lamperts per soul.
+
+00:18:35
+And the kid is being a bit weird with
+
+00:18:37
+this is not a number, but it's a type
+
+00:18:39
+lamperts. So I need to get the actual
+
+00:18:42
+value of it as a big and then I can only
+
+00:18:44
+multiply it with another big in. So I
+
+00:18:46
+need to make this also a big. Then I can
+
+00:18:49
+get the sole amount and that would look
+
+00:18:51
+like this. I'll just log my account has
+
+00:18:55
+this much. So let's try and run this.
+
+00:18:58
+This is not Solana specific. That's just
+
+00:19:01
+TypeScript being TypeScript. Just going
+
+00:19:03
+to do this. Voila. So I just put this in
+
+00:19:06
+a quick async function that I'm calling
+
+00:19:08
+directly here because I don't have top
+
+00:19:10
+level weight. There we go. Oh, I was
+
+00:19:13
+being stupid. Of course, it's not a
+
+00:19:15
+multiply by Lambert's per soul. I need
+
+00:19:18
+to divide. Whoops. And then I get zero
+
+00:19:20
+because this is not a freaking integer
+
+00:19:23
+because obviously I don't have one soul
+
+00:19:25
+and we're dealing with integers here.
+
+00:19:27
+Going to make this a number first. Then
+
+00:19:30
+I will have floating point. There we go.
+
+00:19:33
+That's what I wanted. I can get the
+
+00:19:34
+information how much soul is on my
+
+00:19:36
+account by requesting that information
+
+00:19:40
+from the RPC. That also lets me get the
+
+00:19:42
+account data. But for now, we're not too
+
+00:19:44
+worried about actual data. We're just
+
+00:19:46
+interested in the soul amount. Okay,
+
+00:19:48
+let's create an instruction. So, we want
+
+00:19:50
+to change that amount now. Now, we want
+
+00:19:52
+to actually transfer some soul. What do
+
+00:19:55
+we need for that? First, we need an
+
+00:19:57
+instruction to do the transfer. That's
+
+00:19:58
+fairly simple. Now, we do want to
+
+00:20:01
+interact with a specific program, namely
+
+00:20:04
+the system program. And most programs
+
+00:20:07
+have some interface available. for the
+
+00:20:10
+system program. It's in Solana
+
+00:20:13
+program/system
+
+00:20:16
+because this thing will now have a get
+
+00:20:18
+transfer soul instruction and here we
+
+00:20:22
+already said which instruction so which
+
+00:20:25
+function we want to call of which
+
+00:20:29
+program the system program and so we
+
+00:20:31
+just need to provide the parameters
+
+00:20:34
+namely the amount the source and the
+
+00:20:37
+destination. So amount, how much do I
+
+00:20:39
+want to send? 0.1 soul, but the amount
+
+00:20:43
+is in lamperts. So I'll multiply with
+
+00:20:47
+lamperts per soul. The source I can say
+
+00:20:51
+is my address, but this will not work.
+
+00:20:53
+We'll see in a second why. And the
+
+00:20:55
+destination I'm going to send to to
+
+00:20:58
+again going to make a receiver address
+
+00:21:01
+tolli. Now this doesn't work. Why not?
+
+00:21:04
+Because in order to send something from
+
+00:21:08
+an address, the system program requires
+
+00:21:11
+proof that we actually own this address
+
+00:21:14
+such that not everybody can send from
+
+00:21:16
+every address because then nobody would
+
+00:21:19
+own anything. Therefore, we need to
+
+00:21:21
+prove that this is our address. And how
+
+00:21:24
+do we prove that? We went through that
+
+00:21:26
+yesterday. Well, with our private key.
+
+00:21:30
+So we need to be able to sign the source
+
+00:21:34
+needs to be a signer. So not just an
+
+00:21:37
+address but a serer and we you know we
+
+00:21:41
+have the private key for that. Remember
+
+00:21:43
+this one this is a key pair that we have
+
+00:21:46
+stored locally. So we just need to
+
+00:21:49
+somehow get access to that in our
+
+00:21:51
+TypeScript. There's a nice little helper
+
+00:21:53
+function in here. Now I need to have
+
+00:21:55
+access to the file system. So regular
+
+00:21:59
+TypeScript doesn't do that. I need
+
+00:22:02
+TypeScript node which I have. But then
+
+00:22:04
+also I need to import from Gil/Node
+
+00:22:10
+in here. It has the corresponding
+
+00:22:13
+functions that have access to the file
+
+00:22:15
+system. And I want to have the load key
+
+00:22:18
+pair signer from file. That's what I
+
+00:22:22
+want. So I can say my key pair is load
+
+00:22:26
+key pair signer from file and then I
+
+00:22:29
+just get the one that we have my key
+
+00:22:33
+pair that we generated yesterday. This
+
+00:22:36
+thing and this key pair. Oh, I need to
+
+00:22:38
+await this. There we go. That's async.
+
+00:22:41
+There we go. This is now a key pair
+
+00:22:43
+signer. And that thing has an address.
+
+00:22:47
+So I can just say my address is the key
+
+00:22:50
+pair address instead of hard coding this
+
+00:22:53
+myself because you know that key pair
+
+00:22:56
+should have that same address or I don't
+
+00:22:58
+use that at all but my point is from the
+
+00:23:01
+key pair. If I want the address again I
+
+00:23:02
+can say dot address here I need to
+
+00:23:05
+provide the entire key pair source my
+
+00:23:08
+key pair then it doesn't complain
+
+00:23:10
+anymore then I still give it the
+
+00:23:12
+receiver the tolli and voila I have an
+
+00:23:16
+instruction. So this is my transfer soul
+
+00:23:19
+instruction. There we go. And now to be
+
+00:23:22
+able to actually, you know, execute
+
+00:23:25
+this, I will need to put it into a
+
+00:23:29
+transaction. Exactly. So conveniently,
+
+00:23:33
+Gil has this create transaction. What
+
+00:23:37
+does that take? It takes instructions.
+
+00:23:40
+So I'm just going to put my transfer
+
+00:23:42
+soul instruction in an array. So I just
+
+00:23:45
+have this one instruction and then every
+
+00:23:48
+transaction needs to have a fee payer
+
+00:23:51
+that is the account paying the
+
+00:23:54
+transaction fees because on Solana if
+
+00:23:57
+you want to send the transaction it
+
+00:23:59
+costs some soul. The base fee is
+
+00:24:03
+currently 5,000 lamperts per signature
+
+00:24:06
+and you can add priority fee but that's
+
+00:24:08
+a whole different topic. I have videos
+
+00:24:10
+on that. For now, we just specify who
+
+00:24:14
+pays for that. And I make it easy for
+
+00:24:16
+myself. I let my key pair pay for it.
+
+00:24:18
+That's also what the CLI did. And like
+
+00:24:20
+that, I have a transaction. Transaction.
+
+00:24:23
+There you go. However, there's one more
+
+00:24:25
+thing that this transaction is missing
+
+00:24:27
+though. We need one more thing. We need
+
+00:24:29
+a lifetime. Every transaction needs to
+
+00:24:32
+have a lifetime that basically says how
+
+00:24:34
+long that transaction is valid. There
+
+00:24:36
+are two ways to provide a lifetime.
+
+00:24:38
+Block hashes and durable nonsense. But
+
+00:24:40
+the second one durances will be removed
+
+00:24:43
+at some point. So let's just go with the
+
+00:24:46
+regular lifetime strategy which is a
+
+00:24:49
+latest block hash. And I don't want you
+
+00:24:51
+to worry too much about that for now. We
+
+00:24:54
+can just get that from the RPC. Get the
+
+00:24:56
+value here. And then we have a latest
+
+00:24:58
+block hash. Easy. We just need to do
+
+00:25:01
+this. Add a lifetime. So you just got to
+
+00:25:04
+remember that a transaction consists of
+
+00:25:06
+the instructions, a fee payer, and a
+
+00:25:09
+lifetime. In our case, a latest
+
+00:25:11
+blockage. Now, we're still not quite
+
+00:25:14
+done. We have all the information, but
+
+00:25:16
+before we can send it, we still need to
+
+00:25:19
+sign this transaction. We did provide
+
+00:25:21
+the signers here and here, but there's
+
+00:25:24
+just one more step that you got to do
+
+00:25:26
+with a kit. Let's get a signed
+
+00:25:28
+transaction. Sign transaction with
+
+00:25:31
+signers. and I give you the transaction
+
+00:25:33
+and then let's log get signature from
+
+00:25:37
+transaction of this sign transaction. So
+
+00:25:40
+like this I can sign and now now we just
+
+00:25:44
+need to send this transaction and there
+
+00:25:46
+is a send and confirm transaction
+
+00:25:49
+factory which might seem a bit
+
+00:25:52
+counterintuitive. You basically have to
+
+00:25:55
+create the function that you want to
+
+00:25:57
+call. If you're not used to functional
+
+00:25:59
+programming then that's a bit weird
+
+00:26:01
+maybe. And what this needs is the RPC
+
+00:26:03
+which we have and RPC subscriptions
+
+00:26:06
+because to confirm the transaction we
+
+00:26:09
+want the websocket we have to have an
+
+00:26:11
+open connection to wait for the result.
+
+00:26:14
+So we're just also going to create an
+
+00:26:16
+RPC subscription create Solana RPC
+
+00:26:22
+subscriptions and same address just that
+
+00:26:25
+I'm now using websockets. And then that
+
+00:26:28
+should work. And this factory gives me a
+
+00:26:31
+function. So my send and confirm
+
+00:26:36
+transaction function is what I get back
+
+00:26:40
+from this factory. And now we can use
+
+00:26:42
+that function. We can just call it. And
+
+00:26:45
+what do we give it? That transaction.
+
+00:26:49
+Actually Gil does that differently. Gil
+
+00:26:52
+has a create Solana client where we can
+
+00:26:57
+say give it to me for defnet and then we
+
+00:27:00
+get the RPC and a send and confirm
+
+00:27:04
+transaction. So we don't need to do this
+
+00:27:06
+weird stuff with the kit. And then we
+
+00:27:07
+can use this send and confirm
+
+00:27:10
+transaction to send our signed
+
+00:27:12
+transaction. It's that easy. And then
+
+00:27:14
+afterwards I can say console log
+
+00:27:16
+confirmed after I awaited this. Cool.
+
+00:27:20
+like this. I'm going to show you the
+
+00:27:22
+entire thing again. This this is my
+
+00:27:24
+entire script. I create this Salana
+
+00:27:26
+client that gives me the send and
+
+00:27:28
+confirm transaction. Let's see if that
+
+00:27:30
+would actually run. Yep, look at this.
+
+00:27:34
+And it got confirmed. I can also look at
+
+00:27:36
+that in the explorer. There are
+
+00:27:37
+different explorers, by the way. I did
+
+00:27:40
+once make a video where I compare them.
+
+00:27:42
+I like the Solana Explorer from Solana
+
+00:27:45
+Foundation. It's just what I got used
+
+00:27:47
+to. So yeah, we see this transaction has
+
+00:27:52
+one instruction to the system program
+
+00:27:55
+where we transfer from this address to
+
+00:27:58
+this address 0.1 soul. And we can look
+
+00:28:01
+at the account overview here and we see
+
+00:28:04
+Anatoli the address got another 0.1 soul
+
+00:28:07
+and we paid for this. So we are the fee
+
+00:28:11
+payer here. You see it as well. The fee
+
+00:28:14
+payer pays the fee. Additionally to what
+
+00:28:18
+I sent, I also pay the fee. Nice. And we
+
+00:28:21
+also saw how we can do this in
+
+00:28:23
+Typescript. So from a local client. So
+
+00:28:27
+this is how you programmatically could
+
+00:28:29
+send the transaction the easiest way.
+
+00:28:31
+And now if we wanted to do more in the
+
+00:28:34
+same transaction, we certainly could. We
+
+00:28:37
+could add a memo instruction here as
+
+00:28:40
+well. I would just need to get the
+
+00:28:42
+Solana program memo. Then I can get a
+
+00:28:48
+add memo instruction. So get add memo
+
+00:28:52
+instruction with the input the memo
+
+00:28:55
+which is a string. So I should say thank
+
+00:28:59
+you. And then I could add this
+
+00:29:00
+instruction in here. And maybe I send a
+
+00:29:03
+little less this time because I'm
+
+00:29:05
+running out of soul. And then I send
+
+00:29:07
+that it's being confirmed. Great. If we
+
+00:29:10
+look at that in the explorer, we see we
+
+00:29:12
+once again paid the transaction fee. We
+
+00:29:15
+sent 0.01 to this account with this
+
+00:29:18
+transfer instruction. And then we also
+
+00:29:21
+added a memo instruction. And the memo
+
+00:29:24
+spells thank you. So now we have two
+
+00:29:26
+instructions in this one transaction.
+
+00:29:29
+Okay. I mean that's nice and simple,
+
+00:29:33
+right? With Gil, this abstracts away
+
+00:29:37
+most of the complexity to make it easy
+
+00:29:41
+for us to send our first transaction
+
+00:29:43
+with Typescript. Now, let's get a little
+
+00:29:45
+bit more technical here. Still, we said
+
+00:29:48
+a transaction contains several
+
+00:29:50
+instructions, but a transaction also has
+
+00:29:54
+a list of accounts. And yes, that
+
+00:29:57
+includes the programs that are being
+
+00:30:00
+called because as we said, everything is
+
+00:30:02
+an account. also their programs. And
+
+00:30:05
+this is how Solana might be different to
+
+00:30:08
+other blockchains that you might be used
+
+00:30:09
+to. A transaction needs to contain all
+
+00:30:13
+the accounts that it reads or writes
+
+00:30:16
+from. You cannot have a transaction that
+
+00:30:19
+modifies or even just reads from an
+
+00:30:21
+account that is not within the list of
+
+00:30:24
+the accounts of that transaction. This
+
+00:30:26
+will just not work. Furthermore, for
+
+00:30:30
+every account that is written to, so
+
+00:30:32
+every account that should be changed by
+
+00:30:35
+the transaction needs to be flagged as
+
+00:30:38
+writable. Why is that important? Through
+
+00:30:41
+doing so, transactions can be processed
+
+00:30:44
+in parallel because we know all the
+
+00:30:47
+accounts that are included in the
+
+00:30:50
+transaction. So we know what part of the
+
+00:30:53
+state of Solana is being accessed and if
+
+00:30:56
+another transaction accesses another
+
+00:30:58
+part of the state that doesn't overlap
+
+00:31:01
+or it overlaps but it's just read access
+
+00:31:05
+then those transactions can run in
+
+00:31:06
+parallel and that's how Solana reaches
+
+00:31:09
+its high throughput but it's somewhat
+
+00:31:12
+inconvenient for us developers because
+
+00:31:15
+we already need to know upfront what are
+
+00:31:18
+the accounts that we're working with. So
+
+00:31:20
+we have a list of accounts. Every
+
+00:31:22
+account is marked as writable or
+
+00:31:24
+readonly. And an account can also be
+
+00:31:27
+marked as a signer. If it is a ser then
+
+00:31:30
+a signature for that account needs to be
+
+00:31:32
+present. So in our case we had to sign
+
+00:31:36
+with a private key of this account. But
+
+00:31:39
+also that we'll go into in more detail
+
+00:31:41
+soon. For now, I just want you to know
+
+00:31:44
+that every transaction has this list of
+
+00:31:46
+accounts and a list of instructions and
+
+00:31:50
+a fee payer and a lifetime. And in most
+
+00:31:54
+cases, this will be a recent blockage.
+
+00:31:57
+Now, if a transaction is successful,
+
+00:32:00
+then the accounts that the instruction
+
+00:32:02
+changed will actually be changed. So,
+
+00:32:05
+the state is updated, but only if the
+
+00:32:09
+transaction is successful. A transaction
+
+00:32:13
+can fail for many reasons. In our case,
+
+00:32:17
+for instance, if we try to send more
+
+00:32:20
+soul than we actually have. If I were to
+
+00:32:22
+attempt to send 10 Saul, then the system
+
+00:32:26
+program instruction would fail and so
+
+00:32:29
+our transaction would error because
+
+00:32:33
+instruction one failed. Instruction one
+
+00:32:35
+being the transfer of 10 Saul and in the
+
+00:32:38
+logs we see insufficient lamperts. And
+
+00:32:42
+what's important to note here if any of
+
+00:32:45
+the instructions fail then the entire
+
+00:32:48
+transaction fails and it is as if the
+
+00:32:52
+transaction wasn't even executed. In
+
+00:32:54
+this case the memo didn't even get
+
+00:32:56
+executed anymore. So let's say I had two
+
+00:33:00
+transfer instructions. The first one
+
+00:33:03
+would transfer 0.1 lampertz and the
+
+00:33:05
+second one 10. Then even though the
+
+00:33:09
+first transfer actually succeeded
+
+00:33:12
+because the second transfer doesn't
+
+00:33:15
+succeed, the entire transaction fails.
+
+00:33:18
+And because a transaction is what we
+
+00:33:20
+call atomic. So it's either the entire
+
+00:33:23
+transaction succeeds or it doesn't. It's
+
+00:33:26
+as if this instruction was never
+
+00:33:28
+executed. So the state change of this
+
+00:33:31
+instruction is not persisted because an
+
+00:33:33
+instruction afterwards failed. That's
+
+00:33:36
+important to know about Solana
+
+00:33:38
+transactions. The only thing that is
+
+00:33:40
+still being changed is we still pay for
+
+00:33:43
+the transaction fee. Yeah, when we talk
+
+00:33:44
+about transactions them being atomic is
+
+00:33:48
+certainly one thing that you should
+
+00:33:49
+know. Only successful transactions are
+
+00:33:52
+actually persistent. This might have
+
+00:33:53
+already been a lot of information, so
+
+00:33:55
+we're going to leave it at that for
+
+00:33:57
+today. As a homework, I want you to
+
+00:34:01
+create yourself a script like this using
+
+00:34:04
+Gil or the Solana kit directly to send a
+
+00:34:09
+transaction. I'm not too worried about
+
+00:34:11
+what instructions you send. You can play
+
+00:34:13
+around with it yourself. If you want
+
+00:34:16
+some inspiration, maybe you create two
+
+00:34:19
+key pairs and send back and forth
+
+00:34:22
+between them. First transaction sends
+
+00:34:24
+there, another transaction sends from
+
+00:34:25
+the other key pair back just to see
+
+00:34:28
+which key pair you need to sign with now
+
+00:34:31
+and so on. But the goal is sending
+
+00:34:33
+transactions from Typescript. Now, I
+
+00:34:37
+can't leave you without the more
+
+00:34:39
+technical explanation for the
+
+00:34:41
+instruction. I wanted to save this for
+
+00:34:43
+the next video, but no, it's so
+
+00:34:45
+essential. I think we got to fit that in
+
+00:34:47
+here. So, let's look at that in a bit
+
+00:34:50
+more detail. what those instructions
+
+00:34:53
+really are from a technical perspective.
+
+00:34:56
+If we look at this transfer soul
+
+00:34:58
+instruction for instance, it has those
+
+00:35:00
+three fields, the program address, the
+
+00:35:03
+data, and the accounts. Those three
+
+00:35:06
+things make up every instruction. So
+
+00:35:10
+far, I said it's a function with
+
+00:35:12
+arguments of a program, but that's a
+
+00:35:15
+simplification. In reality, it's a
+
+00:35:18
+program, accounts, and data. So, the
+
+00:35:22
+program, that's simple enough. That's
+
+00:35:25
+the address to the program. Every
+
+00:35:28
+program has an address because we said
+
+00:35:31
+that everything on Solana has an
+
+00:35:32
+account. So, the program also lives at
+
+00:35:35
+an account. Therefore, it has an
+
+00:35:37
+address. So, we put the program address.
+
+00:35:40
+So far, so good. But then I simplified
+
+00:35:42
+it and I said the function and the
+
+00:35:45
+parameters of the function. But really
+
+00:35:48
+which function it is is part of the data
+
+00:35:51
+and the arguments is both the accounts
+
+00:35:54
+that it takes and further instruction
+
+00:35:57
+data. But I don't want to confuse you
+
+00:36:00
+with this today. There are these neat
+
+00:36:02
+little helper functions where we can
+
+00:36:04
+just you know provide the arguments. So
+
+00:36:06
+we say hey this function of the system
+
+00:36:09
+program with these arguments but we will
+
+00:36:12
+dig deeper the next few days. So looking
+
+00:36:15
+forward to seeing you back. Okay. What
+
+00:36:18
+did we learn today? Today we learned
+
+00:36:20
+that everything that is stored on Solana
+
+00:36:23
+is stored in an account. Every account
+
+00:36:26
+has lamperts. So a soul balance and
+
+00:36:29
+every account can have data to change
+
+00:36:32
+the state. So to change the data or the
+
+00:36:34
+lamperts of any account we need
+
+00:36:37
+instructions. An instruction is made up
+
+00:36:40
+of the program it calls the instruction
+
+00:36:43
+data which includes which function of
+
+00:36:45
+the program is called and which accounts
+
+00:36:48
+are required for that instruction and
+
+00:36:50
+then those instructions are put into a
+
+00:36:53
+transaction. A transaction has a fee
+
+00:36:56
+payer, a lifetime, in most cases a
+
+00:36:59
+recent block hash, a list of accounts
+
+00:37:01
+where each account also can be flagged
+
+00:37:04
+as writable or as a serer and of course
+
+00:37:08
+the transaction contains the
+
+00:37:09
+instructions. A transaction can fail or
+
+00:37:12
+succeed and it's atomic. So only if
+
+00:37:15
+every instruction succeeds, the
+
+00:37:18
+transaction is also successful otherwise
+
+00:37:20
+the state is reverted. I hope you could
+
+00:37:22
+still follow so far. We will get more
+
+00:37:24
+technical with every day in this series.
+
+00:37:27
+Tomorrow we're gonna write our first
+
+00:37:30
+program and really see what it's about
+
+00:37:33
+with that data. So far we've been just
+
+00:37:36
+working with salt. Tomorrow we'll
+
+00:37:38
+actually work with data and we will
+
+00:37:40
+learn about the owners. Since every
+
+00:37:43
+account has an owner, tomorrow we will
+
+00:37:46
+have a look at what that is. So if
+
+00:37:49
+you're ready for tomorrow, I'll see you
+
+00:37:51
+there. Otherwise, here's some other
+
+00:37:54
+videos. Don't forget your homework. Do
+
+00:37:56
+send a transaction with the kit just to
+
+00:37:59
+try it out once. And tomorrow we write
+
+00:38:02
+our first program. Until then, sleep
+
