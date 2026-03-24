@@ -25,7 +25,7 @@
 | 1.2 | Solana CLI & keypairs setup | A-Day1 | ✅ |
 | 1.3 | Accounts model: structure, owner, data | A-Day2, B | 🔄 PARTIAL (3 gaps closed) |
 | 1.4 | Instructions & transactions anatomy | A-Day2, B | ✅ |
-| 1.5 | Sending transactions with Solana Kit (TypeScript) | A-Day2 | ⏳ |
+| 1.5 | Sending transactions with Solana Kit (TypeScript) | A-Day2 | ⏸ deferred — cover in Phase 2.4 (Anchor tests) and Phase 6 (frontend) |
 
 ### Phase 2 — First Program (Anchor)
 | # | Topic | Source | Status |
