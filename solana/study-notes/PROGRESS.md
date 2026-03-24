@@ -3,7 +3,7 @@
 ## Current Position
 - Last lesson: Solana core mental model (accounts, programs, System Program, parallelization)
 - Last session: 2026-03-23
-- Next up: 1.4 Instructions & transactions anatomy → 3.1 PDAs (in progress this session)
+- Next up: Recheck 2 PDA gaps → 1.4 Instructions & Transactions anatomy (A-Day2)
 
 ---
 
@@ -94,3 +94,4 @@
 | # | Date | Topic | Goal | Status | Notes File |
 |---|------|-------|------|--------|------------|
 | 1 | 2026-03-23 | Solana core mental model | Understand accounts, programs, System Program, why explicit accounts | 🔄 PARTIAL | sessions/2026-03-23.md |
+| 2 | 2026-03-24 | Gap closure + PDAs | Close 3 gaps from session 1 + understand PDAs end-to-end | 🔄 PARTIAL | sessions/2026-03-24.md |
