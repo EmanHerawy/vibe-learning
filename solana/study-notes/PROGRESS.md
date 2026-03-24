@@ -3,7 +3,7 @@
 ## Current Position
 - Last lesson: Solana core mental model (accounts, programs, System Program, parallelization)
 - Last session: 2026-03-23
-- Next up: 1.4 Instructions & Transactions anatomy (A-Day2)
+- Next up: 1.5 Sending transactions with Solana Kit (TypeScript) (A-Day2)
 
 ---
 
@@ -24,7 +24,7 @@
 | 1.1 | What is Solana: validators, blocks, SOL, lamports | A-Day1 | ✅ (covered conceptually) |
 | 1.2 | Solana CLI & keypairs setup | A-Day1 | ✅ |
 | 1.3 | Accounts model: structure, owner, data | A-Day2, B | 🔄 PARTIAL (3 gaps closed) |
-| 1.4 | Instructions & transactions anatomy | A-Day2, B | ⏳ next |
+| 1.4 | Instructions & transactions anatomy | A-Day2, B | ✅ |
 | 1.5 | Sending transactions with Solana Kit (TypeScript) | A-Day2 | ⏳ |
 
 ### Phase 2 — First Program (Anchor)
@@ -96,3 +96,4 @@
 | 1 | 2026-03-23 | Solana core mental model | Understand accounts, programs, System Program, why explicit accounts | 🔄 PARTIAL | sessions/2026-03-23.md |
 | 2 | 2026-03-24 | Gap closure + PDAs | Close 3 gaps from session 1 + understand PDAs end-to-end | 🔄 PARTIAL | sessions/2026-03-24.md |
 | 3 | 2026-03-24 | Solana CLI & keypairs (1.2) | Set up CLI, keypair management, devnet tooling | ✅ ACHIEVED | sessions/2026-03-24-b.md |
+| 4 | 2026-03-24 | Instructions & transactions anatomy (1.4) | Understand instruction/transaction structure, atomicity, blockhash, compute budget | ✅ ACHIEVED | sessions/2026-03-24-c.md |
