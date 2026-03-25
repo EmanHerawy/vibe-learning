@@ -71,8 +71,47 @@ const wallet = anchor.AnchorProvider.env().wallet;
     console.log("Count after increment:", account.count.toString());
     if (account.count.toNumber() !== 1) throw new Error("Expected count 1");
   });
+  it("close counter should remove the user account ", async () => {
+    const tx = await program.methods
+      .closeCounter()
+      .accounts({
+       
+        user : wallet.publicKey
+      })
+      // No extra signers — counter already exists; only the payer wallet signs
+      .rpc();
 
+    console.log("Increment tx:", tx);
+      try {
+    await program.account.counter.fetch(counterPda);
+    throw new Error("Expected account to be gone but it still exists");
+  } catch (err: any) {
+    if (err.message.includes("Account does not exist")) return;
+    throw err;
+  }
+
+  });
+  it(" Call initializes to re create the counter to 0", async () => {
+    const tx = await program.methods
+      .initialize()
+       .accounts({
+        user: wallet.publicKey,
+      })
+      // .signers([counter])  // counter must sign because it's being created
+      .rpc();
+
+    console.log("Initialize tx:", tx);
+
+    const account = await program.account.counter.fetch(counterPda);
+    console.log("Count after init:", account.count.toString());
+    // count must be 0 after initialization
+    if (account.count.toNumber() !== 0) throw new Error("Expected count 0");
+  });
   it("increments counter a second time (0→1→2)", async () => {
+    await program.methods
+      .increment()
+      .accounts({ user: wallet.publicKey })
+      .rpc();
     await program.methods
       .increment()
       .accounts({ user: wallet.publicKey })

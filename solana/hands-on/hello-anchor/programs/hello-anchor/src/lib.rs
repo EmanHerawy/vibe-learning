@@ -32,6 +32,11 @@ pub mod hello_anchor {
         msg!("New count is {:?}",  ctx.accounts.counter.count );
         Ok(())
     }
+    pub fn close_counter (_ctx:Context<CloseCounter>)-> Result<()> {
+        msg!("Counter closed");
+
+        Ok(())
+    }
 }
 
 #[derive(Accounts)]
@@ -48,6 +53,18 @@ pub struct Initialize <'info> {
 pub struct Incrementer<'info> {
       #[account(                                                
       mut,                                                                                                                    
+      seeds = [b"counter", user.key().as_ref()],
+      bump = counter.bump,       //← reads the stored bump FROM the account data                                                
+  )]                                                                                                                          
+    pub counter : Account<'info, Counter>,
+    pub user: Signer<'info>
+
+}
+#[derive(Accounts)]
+pub struct CloseCounter<'info> {
+      #[account(                                                
+      mut, 
+      close=user,                                                                                                                   
       seeds = [b"counter", user.key().as_ref()],
       bump = counter.bump,       //← reads the stored bump FROM the account data                                                
   )]                                                                                                                          
