@@ -1,9 +1,9 @@
 # Progress Log
 
 ## Current Position
-- Last lesson: Solana core mental model (accounts, programs, System Program, parallelization)
-- Last session: 2026-03-23
-- Next up: 1.5 Sending transactions with Solana Kit (TypeScript) (A-Day2)
+- Last lesson: Phase 2.1 — Anchor project structure, macros, PDA counter, error codes
+- Last session: 2026-03-25
+- Next up: Phase 2.2 — Account ownership & state storage (A-Day3)
 
 ---
 
@@ -30,7 +30,7 @@
 ### Phase 2 — First Program (Anchor)
 | # | Topic | Source | Status |
 |---|-------|--------|--------|
-| 2.1 | Anchor project structure, macros, build | A-Day3, B | ⏳ |
+| 2.1 | Anchor project structure, macros, build | A-Day3, B | ✅ |
 | 2.2 | Account ownership & state storage | A-Day3 | ⏳ |
 | 2.3 | Writing & deploying first program (mood/favorites) | A-Day3, B | ⏳ |
 | 2.4 | Testing on Devnet with Solana Explorer | A-Day3, B | ⏳ |
@@ -97,3 +97,4 @@
 | 2 | 2026-03-24 | Gap closure + PDAs | Close 3 gaps from session 1 + understand PDAs end-to-end | 🔄 PARTIAL | sessions/2026-03-24.md |
 | 3 | 2026-03-24 | Solana CLI & keypairs (1.2) | Set up CLI, keypair management, devnet tooling | ✅ ACHIEVED | sessions/2026-03-24-b.md |
 | 4 | 2026-03-24 | Instructions & transactions anatomy (1.4) | Understand instruction/transaction structure, atomicity, blockhash, compute budget | ✅ ACHIEVED | sessions/2026-03-24-c.md |
+| 5 | 2026-03-25 | Anchor Phase 2.1 — macros, PDA counter, error codes | Build working Anchor program with PDA-based accounts, custom errors, failure tests | ✅ ACHIEVED | sessions/2026-03-24-d.md |
