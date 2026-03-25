@@ -1,9 +1,9 @@
 # Progress Log
 
 ## Current Position
-- Last lesson: Phase 2.1 — Anchor project structure, macros, PDA counter, error codes
+- Last lesson: Phase 2.2/2.3/2.4 — account ownership, deploy to Devnet, Devnet testing
 - Last session: 2026-03-25
-- Next up: Phase 2.2 — Account ownership & state storage (A-Day3)
+- Next up: Phase 3.1 — PDAs deep dive (A-Day4, B, C)
 
 ---
 
@@ -31,9 +31,9 @@
 | # | Topic | Source | Status |
 |---|-------|--------|--------|
 | 2.1 | Anchor project structure, macros, build | A-Day3, B | ✅ |
-| 2.2 | Account ownership & state storage | A-Day3 | ⏳ |
-| 2.3 | Writing & deploying first program (mood/favorites) | A-Day3, B | ⏳ |
-| 2.4 | Testing on Devnet with Solana Explorer | A-Day3, B | ⏳ |
+| 2.2 | Account ownership & state storage | A-Day3 | ✅ |
+| 2.3 | Writing & deploying first program (mood/favorites) | A-Day3, B | ✅ |
+| 2.4 | Testing on Devnet with Solana Explorer | A-Day3, B | ✅ |
 
 ### Phase 3 — PDAs, CPIs & Access Control ← MOST IMPORTANT
 | # | Topic | Source | Status |

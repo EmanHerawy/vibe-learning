@@ -18,6 +18,17 @@ const wallet = anchor.AnchorProvider.env().wallet;
     ],                                                      
     program.programId                                                                                                         
   ); 
+    before(async () => {                                      
+    try {                                                                                                                     
+      await program.methods                                                                                                   
+        .closeCounter()
+        .accounts({ user: wallet.publicKey })                                                                                 
+        .rpc();                                                                                                               
+      console.log("Cleaned up existing counter");
+    } catch {                                                                                                                 
+      // account didn't exist — that's fine, ignore                                                                           
+    }
+  }); 
   it("initializes counter to 0", async () => {
     const tx = await program.methods
       .initialize()
