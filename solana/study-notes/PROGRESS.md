@@ -49,7 +49,7 @@
 |---|-------|--------|--------|
 | 4.1 | Token model on Solana vs EVM (no deploy needed) | A-Day5 | ✅ |
 | 4.2 | Mint accounts & token accounts | A-Day5, C | ✅ (token-minter-anchor) |
-| 4.3 | SPL Token Program operations | A-Day5, C | 🔄 next |
+| 4.3 | SPL Token Program operations | A-Day5, C | ✅ (token-minter-anchor extended) |
 | 4.4 | NFTs & Token-2022 extensions | A-Day5 | ⏳ |
 
 ### Phase 5 — Under the Hood (Pinocchio & Serialization)
