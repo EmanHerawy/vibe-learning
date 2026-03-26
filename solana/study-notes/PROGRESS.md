@@ -1,19 +1,19 @@
 # Progress Log
 
 ## Current Position
-- Last lesson: Phase 2.2/2.3/2.4 — account ownership, deploy to Devnet, Devnet testing
-- Last session: 2026-03-25
-- Next up: Phase 3.1 — PDAs deep dive (A-Day4, B, C)
+- Last lesson: Phase 3.5 — Manually constructing instructions ✅ Phase 3 complete
+- Last session: 2026-03-26
+- Next up: Phase 4.1 — Token model on Solana vs EVM
 
 ---
 
 ## Learning Roadmap
 
 > Sources:
->   A = "How to Get Started with Solana Dev 2026" (7-day series, transcript/day1–7)
->   B = "Full End-to-End Solana Bootcamp" (~3.5h, 4 projects, transcript/full...)
->   C = rareskills.io/solana-tutorial
->   D = Rektoff Security Roadmap for Solana
+>   - A = "How to Get Started with Solana Dev 2026" (7-day series, transcript/day1–7)
+>  -  B = "Full End-to-End Solana Bootcamp" (~3.5h, 4 projects, transcript/full...)
+>   - C = rareskills.io/solana-tutorial
+>   - D = Rektoff Security Roadmap for Solana
 >
 > Tailored for: EVM/Rust/Polkadot background, targeting Solana developer + security auditor
 > Depth: Beginner → Intermediate → Advanced per topic. Ask before going deeper.
@@ -38,11 +38,11 @@
 ### Phase 3 — PDAs, CPIs & Access Control ← MOST IMPORTANT
 | # | Topic | Source | Status |
 |---|-------|--------|--------|
-| 3.1 | PDAs: derivation, seeds, bump, canonical bump | A-Day4, B, C | 🔄 in progress (today) |
-| 3.2 | CPIs: how programs call other programs | A-Day4, C | ⏳ |
-| 3.3 | PDA signing in CPI | A-Day4, C | ⏳ |
-| 3.4 | Access control: signer checks, ownership checks | A-Day4 | ⏳ |
-| 3.5 | Manually constructing instructions | A-Day4 | ⏳ |
+| 3.1 | PDAs: derivation, seeds, bump, canonical bump | A-Day4, B, C | ✅ (vault-anchor) |
+| 3.2 | CPIs: how programs call other programs | A-Day4, C | ✅ (cpi-demo) |
+| 3.3 | PDA signing in CPI | A-Day4, C | ✅ (cpi-demo — new_with_signer) |
+| 3.4 | Access control: signer checks, ownership checks | A-Day4, D | ✅ |
+| 3.5 | Manually constructing instructions | A-Day4 | ✅ |
 
 ### Phase 4 — Tokens
 | # | Topic | Source | Status |
@@ -76,6 +76,7 @@
 
 ### Phase 8 — Security Auditor Track
 > Source: D = Rektoff Security Roadmap for Solana
+
 | # | Topic | Status |
 |---|-------|--------|
 | 8.1 | Solana-specific attack surface overview | ⏳ |
@@ -98,3 +99,6 @@
 | 3 | 2026-03-24 | Solana CLI & keypairs (1.2) | Set up CLI, keypair management, devnet tooling | ✅ ACHIEVED | sessions/2026-03-24-b.md |
 | 4 | 2026-03-24 | Instructions & transactions anatomy (1.4) | Understand instruction/transaction structure, atomicity, blockhash, compute budget | ✅ ACHIEVED | sessions/2026-03-24-c.md |
 | 5 | 2026-03-25 | Anchor Phase 2.1 — macros, PDA counter, error codes | Build working Anchor program with PDA-based accounts, custom errors, failure tests | ✅ ACHIEVED | sessions/2026-03-24-d.md |
+| 6 | 2026-03-26 | Phase 2.2–2.4 + 3.1 — vault-anchor | SOL vault with deposit (CPI) + withdraw (lamport manipulation), checked arithmetic | ✅ ACHIEVED | sessions/2026-03-25.md |
+| 7 | 2026-03-26 | Phase 3.2/3.3 — cpi-demo | Two-program CPI, PDA signing with new_with_signer | ✅ ACHIEVED | — |
+| 8 | 2026-03-26 | Phase 3.4 — Access control | Signer checks, ownership checks, missing check vulnerabilities | 🔄 IN PROGRESS | — |
