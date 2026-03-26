@@ -47,8 +47,8 @@
 ### Phase 4 — Tokens
 | # | Topic | Source | Status |
 |---|-------|--------|--------|
-| 4.1 | Token model on Solana vs EVM (no deploy needed) | A-Day5 | ⏳ |
-| 4.2 | Mint accounts & token accounts | A-Day5, C | ⏳ |
+| 4.1 | Token model on Solana vs EVM (no deploy needed) | A-Day5 | ✅ |
+| 4.2 | Mint accounts & token accounts | A-Day5, C | ✅ (token-minter-anchor) |
 | 4.3 | SPL Token Program operations | A-Day5, C | ⏳ |
 | 4.4 | NFTs & Token-2022 extensions | A-Day5 | ⏳ |
 
@@ -101,4 +101,5 @@
 | 5 | 2026-03-25 | Anchor Phase 2.1 — macros, PDA counter, error codes | Build working Anchor program with PDA-based accounts, custom errors, failure tests | ✅ ACHIEVED | sessions/2026-03-24-d.md |
 | 6 | 2026-03-26 | Phase 2.2–2.4 + 3.1 — vault-anchor | SOL vault with deposit (CPI) + withdraw (lamport manipulation), checked arithmetic | ✅ ACHIEVED | sessions/2026-03-25.md |
 | 7 | 2026-03-26 | Phase 3.2/3.3 — cpi-demo | Two-program CPI, PDA signing with new_with_signer | ✅ ACHIEVED | — |
-| 8 | 2026-03-26 | Phase 3.4 — Access control | Signer checks, ownership checks, missing check vulnerabilities | 🔄 IN PROGRESS | — |
+| 8 | 2026-03-26 | Phase 3.4/3.5 — Access control + raw invoke | Signer/identity/ownership checks, invoke vs invoke_signed, blind signing attack | ✅ ACHIEVED | sessions/2026-03-26.md |
+| 9 | 2026-03-26 | Phase 4.1/4.2 — SPL Token model + token-minter-anchor | Mint/ATA model, PDA as mint_authority, mint_to CPI, max supply enforcement | ✅ ACHIEVED | sessions/2026-03-26.md |
