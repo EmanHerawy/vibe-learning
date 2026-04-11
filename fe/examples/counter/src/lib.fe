@@ -1,0 +1,103 @@
+use std::abi::sol
+use std::evm::Evm
+use std::evm::effects::assert
+
+msg CounterMsg {
+    #[selector = sol("increment()")]
+    Increment,
+    #[selector = sol("decrement()")]
+    Decrement,
+    #[selector = sol("counter()")]
+    Counter -> u256,
+}
+
+struct CounterStore {
+    counter: u256,
+}
+
+#[event]
+struct CounterIncremented {
+    current: u256,
+}
+
+#[event]
+struct CounterDecremented {
+    current: u256,
+}
+
+pub contract Counter uses (log: mut Log) {
+    mut store: CounterStore
+
+    init() uses (mut store) {
+        store.counter = 0
+    }
+
+    recv CounterMsg {
+        Increment uses (mut store, mut log) {
+            store.counter += 1
+            log.emit(CounterIncremented { current: store.counter })
+        }
+
+        Decrement uses (mut store, mut log) {
+            assert(store.counter > 0)
+            store.counter -= 1
+            log.emit(CounterDecremented { current: store.counter })
+        }
+
+        Counter -> u256 uses (store) {
+            store.counter
+        }
+    }
+}
+
+// Tests can deploy and interact with contracts.
+// Run with: fe test
+#[test]
+fn test_counter() uses (evm: mut Evm) {
+    // Deploy the contract
+    let addr = evm.create2<Counter>(value: 0, args: (), salt: 0)
+    assert(addr.inner != 0)
+
+    // Initially the counter is 0
+    let val: u256 = evm.call(
+        addr: addr,
+        gas: 100000,
+        value: 0,
+        message: CounterMsg::Counter {}
+    )
+    assert(val == 0)
+
+    // Increment the counter
+    evm.call(
+        addr: addr,
+        gas: 100000,
+        value: 0,
+        message: CounterMsg::Increment {}
+    )
+
+    // Now it should be 1
+    let val: u256 = evm.call(
+        addr: addr,
+        gas: 100000,
+        value: 0,
+        message: CounterMsg::Counter {}
+    )
+    assert(val == 1)
+
+    // Decrement the counter
+    evm.call(
+        addr: addr,
+        gas: 100000,
+        value: 0,
+        message: CounterMsg::Decrement {}
+    )
+
+    // Back to 0
+    let val: u256 = evm.call(
+        addr: addr,
+        gas: 100000,
+        value: 0,
+        message: CounterMsg::Counter {}
+    )
+    assert(val == 0)
+}
