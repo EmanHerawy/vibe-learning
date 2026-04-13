@@ -47,15 +47,19 @@
 Always start at Beginner level. Explicitly ask before going deeper. Sequence: Beginner → Intermediate → Advanced.
 
 ## Confirmed Resources
-1. Fe official site — https://fe-lang.org/
-2. Fe standard library docs — https://fe-lang.org/docs/ (covers `std::abi` only — ABI encoding/decoding)
-3. Fe GitHub repository — https://github.com/ethereum/fe
+1. **Fe official guide** — https://fe-lang.org/ (14-part guide, confirmed live and accurate as of 2026-04-13)
+   - Parts 1–7: Getting started through contract composition — fe-lang.org/getting-started/... fe-lang.org/contracts/...
+   - Part 8: Structs + impl blocks — fe-lang.org/structs/definition/ fe-lang.org/structs/impl-blocks/ fe-lang.org/structs/associated-functions/
+   - Part 9: Traits + generics — fe-lang.org/traits/definition/ fe-lang.org/traits/implementing/ fe-lang.org/traits/generics/
+   - Parts 10–14: Events, error handling, testing, patterns, examples
+2. **Fe standard library docs** — https://fe-lang.org/docs/ (covers `std::abi` only — ABI encoding/decoding)
+3. **Fe GitHub repository** — https://github.com/ethereum/fe
 4. `rosetta/` (local) — side-by-side Fe + Solidity examples in this repo
 5. `fe/` (local) — full Fe compiler source, cloned at `/Users/emanherawy/work/open_source/fe/fe/`
    - `fe/ingots/core/src/` — core traits: `EffectRef`, `ContractHost`, `Target`, `intrinsic`
    - `fe/ingots/std/src/evm/effects.fe` — **primary source** for `Ctx`, `Call`, `Log`, `Create`, `Evm`, `RawMem`, `RawStorage`, `RawOps`, `Super`
    - `fe/ingots/std/src/evm/storage_map.fe` — `StorageMap` impl
-   - `fe/crates/uitest/` — compiler integration tests (confirmed behavior)
+   - `fe/crates/fe/tests/fixtures/fe_test/` — compiler integration tests (confirmed behavior)
 
 **Hard rule:** Only cite these resources. Never invent examples or cite unconfirmed sources.
 
