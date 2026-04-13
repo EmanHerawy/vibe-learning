@@ -1,0 +1,95 @@
+// A simple Counter contract to get you started.
+// Run `fe test` to see it in action!
+
+use std::abi::sol
+use std::evm::{Evm, Call}
+use std::evm::effects::assert
+
+msg VaultMsg{
+    
+    #[selector = sol("deposit()")]
+    Deposit,
+     #[selector = sol("release(address)")]
+    Release { to: Address },
+}
+msg ArbiterMsg{
+#[selector = sol("approve(address)")]
+    Approve { vault: Address },
+}
+
+enum Status{
+    Empty,
+    Funded,
+    Released
+}
+struct ValutStorage{
+    balance:u256,
+    status:Status,
+    arbiter:Address,
+}
+struct ArbiterStorage{
+    depositer:Address,
+}
+
+pub contract Vault uses (ctx: Ctx, log: mut Log, call:mut Call)  {
+    store :mut ValutStorage
+
+    init(arbiter:Address) uses (mut log, ctx, mut store) {
+        store.balance=0
+        store.status=Status::Empty
+        store.arbiter=arbiter
+    }
+recv VaultMsg{
+    
+    #[payable]
+    Deposit uses (mut log, ctx, mut store){
+            assert(ctx.value()>0)
+            store.balance+=ctx.value()
+            store.status=Status::Funded
+        }
+    
+    Release { to }uses (mut log, ctx, mut store, mut call){
+        assert (ctx.caller()==store.arbiter)
+        //assert (is_funded(store.status))
+   
+        let balance = store.balance
+        assert (balance>0)
+         call.call(
+         addr: to, gas: 100000, value: balance,
+        message: VaultMsg::Deposit{} // workaround sending with VaultMsg::Deposit{} as the message. Since the recipient (to) is an EOA , calls to EOAs always succeed regardless of calldata. The ETH transfers.
+    
+        )
+        store.balance=0
+        }
+    }
+
+
+    
+}
+ pub fn is_funded(status:Status) ->bool{
+    match status {
+        Status::Funded=>true,
+        Status::Empty=>false,
+        Status::Release=>false,
+    }
+    } 
+pub contract Arbiter uses (ctx: Ctx, log: mut Log, call : mut Call) {
+    store :mut ArbiterStorage
+
+init() uses (mut log, ctx, mut store) {
+      
+        store.depositer=ctx.caller()
+    }
+recv ArbiterMsg{
+    Approve {vault} uses (mut log, ctx, mut store, mut call){
+        assert (ctx.caller()==store.depositer)
+    
+        call.call(
+         addr: vault, gas: 100000, value: 0,
+        message: VaultMsg::Release { to: store.depositer }
+    
+        )
+       
+    }
+}
+}

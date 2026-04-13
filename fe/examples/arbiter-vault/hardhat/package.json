@@ -1,0 +1,16 @@
+{
+  "name": "escrow-hardhat-tests",
+  "version": "1.0.0",
+  "description": "Hardhat tests for Fe Escrow contract",
+  "scripts": {
+    "test": "npx hardhat test"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-ethers": "^3.0.0",
+    "ethers": "^6.0.0",
+    "hardhat": "^2.22.0"
+  },
+  "dependencies": {
+    "chai": "^6.2.2"
+  }
+}
