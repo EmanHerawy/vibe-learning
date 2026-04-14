@@ -1,0 +1,28 @@
+#separator:semicolon
+#html:false
+#notetype:Basic
+#deck:SuiMove::W7-Collections-DynamicFields-Time
+
+What two questions determine which Sui collection type to use (Table / ObjectTable / Bag / ObjectBag)?;Q1: Are ALL keys the same type? Yes = Table or ObjectTable. No = Bag or ObjectBag. Q2: Do values have a UID? Yes = ObjectTable or ObjectBag. No = Table or Bag. "Object" prefix ALWAYS refers to values, never keys. Source: Move Book §8.6;SuiMove::collections::definition
+
+Common mistake: "ObjectTable allows mixed key types." Correct?;NO. "Object" prefix means values have UIDs — nothing about key types. Mixed keys = Bag family. UID values = Object prefix. They are independent axes. Source: Move Book §8.6;SuiMove::collections::gotcha
+
+Can you iterate a Table<K,V> by integer index (0, 1, 2...) in Move?;NO. Table has no ordering — keys must match the declared type. Attempting integer index on Table<address,V> fails. To iterate, devs add Vec<K> — which creates a sync vulnerability if any entry point updates only one. Source: Move Book §8.6;SuiMove::collections::gotcha
+
+Security: A function loops over all entries in a user-controlled Table. What attack does this enable and what is the severity?;Gas grief attack. Attacker spams entries to bloat the table. Loop hits gas limit — transaction permanently fails — funds locked forever. Severity: CRITICAL if permissionless + no recovery path. Fix: pull-over-push (each user claims own share) or pre-paginated snapshots. Source: Move Book §8.6 §8.8;SuiMove::security::gas-grief
+
+Common mistake: "Pull-over-push eliminates all reward distribution vulnerabilities." Correct?;NO. Pull removes gas grief (no loop). But if share = pool_balance / num_stakers at claim time — ordering attack: last claimer scoops rounding remainder. Rounding drain: tokens stuck forever. Fix: reward-per-token accumulator — snapshot once, claim reads pre-computed value. Source: Move Book §8.6;SuiMove::collections::gotcha
+
+What is the reward-per-token staking pattern and why is it used?;O(1) reward distribution — no iteration anywhere. Global: reward_per_token += epoch_rewards / total_staked (once per epoch). Per user: claimable = stake x (reward_per_token - reward_debt). Update reward_debt after claim. No loops. No ordering attack. No rounding drain. Used by Synthetix and Compound. Source: Move Book §8.6 (pattern);SuiMove::collections::definition
+
+Common mistake: "You need ObjectTable to make protocol data visible to off-chain indexers." Correct?;NO. Table + Events = full solution. Table = current state (cheap fast lookup). Events = history (indexer-friendly). ObjectTable is only needed when the VALUE needs independent on-chain identity (own UID) so it can be transferred or queried by ID directly. Source: Move Book §8.6 §8.15;SuiMove::collections::gotcha
+
+What happens to dynamic_object_field children when their parent object is transferred?;Children transfer with the parent silently. Child keeps its UID and remains queryable but ownership moves with parent. To retain a child before transfer: dynamic_object_field::remove() it first. Forgetting this = unintentional asset loss (e.g. selling character with sword still in pocket). Source: Move Book §8.9;SuiMove::dynamic-fields::cause-effect
+
+Security: A lending protocol marks collateral NFTs with a dynamic field lien. What cross-protocol attack bypasses it?;Any marketplace that does not check for dynamic field children allows the NFT to be sold with the lien attached. Buyer inherits debt unknowingly. Lender loses collateral. Fix: lending protocol must own the transfer path OR wrap NFT in a non-transferable object while under lien. Severity: CRITICAL if permissionless bypass exists. Source: Move Book §8.8 §8.9;SuiMove::security::cross-protocol
+
+What is the two-axis test for HIGH vs CRITICAL severity in a smart contract audit?;CRITICAL = permissionless (anyone can execute) + irreversible (no recovery path — funds locked or stolen permanently). HIGH = severe impact BUT requires privilege OR has recovery path (pause / upgrade / drain). Permissionless + reversible = HIGH. Privileged + irreversible = HIGH. Privileged + reversible = MEDIUM. Source: Audit industry standard;SuiMove::security::severity
+
+When do you use tx_context::epoch() vs clock::timestamp_ms() in Sui Move?;epoch() = daily counter (~24hr increments) — free from TxContext. Use for staking periods, voting windows, anything measured in days. clock::timestamp_ms() = Unix ms timestamp — requires passing Clock object (0x6) as parameter. Use for auctions, loan expiry, anything requiring hours or seconds. Clock has ~10s staleness — fine for days, dangerous for sub-second logic. Source: Move Book §8.5;SuiMove::time::definition
+
+Common mistake: Using clock::timestamp_ms() without passing Clock as a function parameter. What happens?;Compilation error or broken logic. Clock is a shared object (address 0x6) that must be explicitly passed. Correct: fun liquidate(loan: &Loan, clock: &Clock, ctx: &mut TxContext). Missing Clock param = no access to current time at all. Source: Move Book §8.5;SuiMove::time::gotcha
