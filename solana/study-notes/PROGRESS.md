@@ -1,9 +1,11 @@
 # Progress Log
 
 ## Current Position
-- Last lesson: Phase 4.4 — NFTs & Token-2022 ✅ Phase 4 complete
-- Last session: 2026-03-27
-- Next up: Phase 5.1 — Serialization/deserialization OR Phase 8.1 — Security auditor track
+- Last lesson: Phase 1-4 full review ✅
+- Last session: 2026-04-13
+- Goal status: ✅ ACHIEVED
+- Next up: Phase 8.1 — Solana attack surface overview (Rektoff Security Roadmap)
+- Open gaps: invoke_signed hands-on (raw CPI from scratch)
 
 ---
 
@@ -104,3 +106,4 @@
 | 8 | 2026-03-26 | Phase 3.4/3.5 — Access control + raw invoke | Signer/identity/ownership checks, invoke vs invoke_signed, blind signing attack | ✅ ACHIEVED | sessions/2026-03-26.md |
 | 9 | 2026-03-26 | Phase 4.1/4.2 — SPL Token model + token-minter-anchor | Mint/ATA model, PDA as mint_authority, mint_to CPI, max supply enforcement | ✅ ACHIEVED | sessions/2026-03-26.md |
 | 10 | 2026-03-27 | Phase 4.3/4.4 — SPL Token ops + NFTs + Token-2022 | freeze/thaw/transfer, NFT lifecycle, collection membership, TransferHook audit surface | ✅ ACHIEVED | sessions/2026-03-26.md |
+| 11 | 2026-04-13 | Phase 1-4 full review + gap closure | Re-teach PDAs/CPIs/access control/SPL Token/NFTs/Token-2022, find and fix all gaps | ✅ ACHIEVED | sessions/2026-04-13.md |
