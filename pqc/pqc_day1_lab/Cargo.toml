@@ -1,0 +1,10 @@
+[package]
+name = "pqc_day1_lab"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+k256 = { version = "0.13", features = ["ecdsa"] }
+tiny-keccak = { version = "2.0", features = ["keccak"] }
+hex = "0.4"
+rand = "0.8"
