@@ -3,14 +3,15 @@
 ## Current Position
 - Phase: 2 — Core Sui Programming Patterns
 - Week: 8 — Coin Standard & Token Economics
-- Status: ⬜ NOT STARTED
-- Last session: 2026-04-12 (W7 completed — all gaps resolved in extended session)
-- Next up: Move Book §8 Sui Framework — Coin, TreasuryCap, regulated currencies
+- Status: 🔄 IN PROGRESS
+- Last session: 2026-04-14 (W8 in progress — theory ✅ CLEARED, practice Exercise 1 in progress)
+- Next up: Complete Exercise 1 (recipient: address finding) → Exercise 2 → examiner → memory-drill → notes
 
 ## Session Log
 | Date | Topic | Goal | Status |
 |------|-------|------|--------|
 | 2026-04-12 | W7: Collections & Dynamic Fields | Choose correct collection type + explain gas-grief risk | ✅ ACHIEVED (extended) |
+| 2026-04-14 | W8: Coin Standard & Token Economics | Trace Coin lifecycle + flag ≥2 TreasuryCap/DenyCap vulnerabilities | 🔄 IN PROGRESS |
 
 ## Completed Weeks
 - Weeks 1–6: Completed via diagnostic (2026-04-12) — skipped, foundations confirmed solid
