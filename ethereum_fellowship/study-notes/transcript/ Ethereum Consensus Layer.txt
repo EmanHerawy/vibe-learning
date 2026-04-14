@@ -1,0 +1,7620 @@
+00:00:07
+[Music]
+
+00:00:16
+[Music]
+
+00:00:29
+[Music]
+
+00:00:41
+[Music]
+
+00:00:57
+[Music]
+
+00:00:59
+than
+
+00:01:08
+[Music]
+
+00:01:34
+[Music]
+
+00:01:46
+[Music]
+
+00:01:46
+[Applause]
+
+00:01:55
+[Music]
+
+00:01:59
+h
+
+00:02:03
+[Music]
+
+00:02:16
+[Music]
+
+00:02:28
+[Music]
+
+00:02:50
+[Music]
+
+00:02:59
+it's
+
+00:03:02
+[Music]
+
+00:03:09
+[Music]
+
+00:03:22
+[Music]
+
+00:03:29
+it's
+
+00:03:58
+[Music]
+
+00:04:21
+[Music]
+
+00:04:37
+all right welcome back everybody to the
+
+00:04:40
+ethereum protocol Fellowship study group
+
+00:04:43
+uh this is week three of the program and
+
+00:04:47
+we are here with Alex Stokes uh to talk
+
+00:04:50
+about the consensus layer um I will give
+
+00:04:54
+Mario a little chance to give Alex a
+
+00:04:57
+quick interview and then we'll Jump
+
+00:04:58
+Right In or sorry int ruction not
+
+00:05:01
+interview yeah thank you so much Josh
+
+00:05:03
+and thanks Alex for being here um yeah
+
+00:05:06
+so last week we had met light client uh
+
+00:05:09
+explaining the execution ER of ethereum
+
+00:05:11
+and this week we have the other half
+
+00:05:14
+ethereum covered by Alex here completing
+
+00:05:17
+the whole big picture of how etherum
+
+00:05:19
+works so yeah um we are very excited to
+
+00:05:22
+have you here Alex because so Alex uh is
+
+00:05:25
+part of etherum foundation he's an
+
+00:05:26
+expert in many important topics that are
+
+00:05:28
+being worked on these days like uh
+
+00:05:32
+mainly me uh all the um all the current
+
+00:05:35
+proposals about PPS burning M you might
+
+00:05:39
+heard of are are um uh uh being worked
+
+00:05:43
+on by Alex to some extent he works on uh
+
+00:05:47
+bunch of rust software there are many R
+
+00:05:49
+people in the study group so uh you
+
+00:05:52
+might be interested to hear that uh Alex
+
+00:05:55
+contributes to many R projects and uh
+
+00:05:57
+most importantly for today he's an
+
+00:05:59
+expert on the consensus layer of
+
+00:06:00
+ethereum so uh I hope to learn a lot
+
+00:06:04
+from you today Alex thank you so much
+
+00:06:05
+for being here again yeah I think yeah I
+
+00:06:09
+think we can check right in and uh the
+
+00:06:11
+stage is
+
+00:06:13
+yours awesome before we get started just
+
+00:06:15
+want to remind everybody that uh if you
+
+00:06:17
+have conversation or comments questions
+
+00:06:20
+please uh post them in the Discord
+
+00:06:23
+thread the week three Discord thread go
+
+00:06:26
+ahead Alex
+
+00:06:28
+thanks great thank you for having me uh
+
+00:06:31
+can you hear me
+
+00:06:35
+okay
+
+00:06:38
+hello yes all good here you are okay
+
+00:06:41
+thanks sometimes I have uh a issues
+
+00:06:45
+anyway um great okay uh yeah I'm Alex
+
+00:06:49
+Stokes I'm a researcher at the ethereum
+
+00:06:51
+foundation uh today we'll be looking at
+
+00:06:54
+ethereum cons Slayer
+
+00:06:56
+so yeah I think let's see see so I'm
+
+00:07:00
+pretty sure I can see oh let me do
+
+00:07:03
+this uh
+
+00:07:06
+what okay well I think I can at least
+
+00:07:09
+see questions in the chat so if you have
+
+00:07:11
+them just drop them here um and we'll
+
+00:07:13
+try to get to them as we
+
+00:07:15
+go um what I'll try to do is go through
+
+00:07:19
+some slides just to like frame you know
+
+00:07:21
+what is consensus even mean like why do
+
+00:07:23
+we care about it and these like
+
+00:07:25
+blockchain contexts and then uh I should
+
+00:07:28
+be able to like take some sort of live
+
+00:07:30
+notes um to you know draw some diagrams
+
+00:07:33
+and give you a little better intuition
+
+00:07:34
+for the different things I'm talking
+
+00:07:37
+about so yeah we will jump in and let's
+
+00:07:42
+see here I believe you can see this so I
+
+00:07:46
+guess somebody speak up if you
+
+00:07:48
+can't but um yeah e theum consensus so
+
+00:07:51
+let's dive in
+
+00:07:53
+so yeah I mean I kind of want to start
+
+00:07:55
+from the very very beginning and like
+
+00:07:57
+you know why do we even care about these
+
+00:07:59
+blockchains in the first place um I
+
+00:08:02
+think like ultimately like the really
+
+00:08:04
+fundamental thing that they do is they
+
+00:08:06
+manufacture digital scarcity right so
+
+00:08:09
+like you have this notion in the real
+
+00:08:10
+world of um you know like if
+
+00:08:14
+there's I have this example later but
+
+00:08:16
+let's say I go to the grocery store
+
+00:08:17
+right and they only have like you know
+
+00:08:19
+10 apples like they can't magically make
+
+00:08:22
+more apples if they like give five
+
+00:08:24
+apples away they still only have five
+
+00:08:26
+and it turns out that like having this
+
+00:08:28
+notion of like scar to be in the
+
+00:08:30
+physical world um there's a lot we can
+
+00:08:32
+do with it to like create a lot of value
+
+00:08:34
+like at at the bottom line right so the
+
+00:08:37
+question then is like how can we do this
+
+00:08:39
+in this digital realm that's like kind
+
+00:08:40
+of taking over all of our lives and is
+
+00:08:42
+only becoming more and more important as
+
+00:08:44
+we go um yeah so like the place to start
+
+00:08:48
+right is that we figured out how to make
+
+00:08:49
+like digital Goods right so like all
+
+00:08:51
+these cat photos on the internet um you
+
+00:08:54
+know digital textbooks that you might
+
+00:08:56
+see and yeah more and more of our world
+
+00:08:58
+today the thing is is that you can
+
+00:09:00
+basically like copy all these things
+
+00:09:02
+right like if I give you you know again
+
+00:09:05
+one of these cadj pegs you can just copy
+
+00:09:06
+it as much as you want there's no way to
+
+00:09:09
+like represent scarcity in this Digital
+
+00:09:11
+World um and yeah there's been like a
+
+00:09:14
+huge history of this being an issue
+
+00:09:16
+right so like if I have a movie that you
+
+00:09:18
+know someone wants to like protect in
+
+00:09:20
+terms of intellectual
+
+00:09:22
+property once the movie's out and sort
+
+00:09:24
+of the internet it can easily be copied
+
+00:09:26
+there's file sharing with bitor and all
+
+00:09:28
+this and yeah it's kind of been a
+
+00:09:32
+mess and you know the reason people care
+
+00:09:35
+about these block chains is because they
+
+00:09:37
+generate this digital scarcity and I'll
+
+00:09:38
+kind of explain why so the reason this
+
+00:09:42
+is important is because again you can
+
+00:09:44
+use this property to like represent all
+
+00:09:47
+these things in the Physical Realm and
+
+00:09:48
+like our intuitions around them being
+
+00:09:50
+scarce uh in this in this digital space
+
+00:09:52
+right and you can use this for like all
+
+00:09:54
+sorts of things like money like tokens
+
+00:09:57
+these are pretty like familiar examples
+
+00:09:59
+if you're in the blockchain context but
+
+00:10:01
+then more generally like you know
+
+00:10:02
+property rights so you know one day
+
+00:10:05
+you'll probably be able to put like the
+
+00:10:07
+DED to a house on the
+
+00:10:08
+blockchain and you know the exciting
+
+00:10:11
+thing Beyond this is that I think
+
+00:10:12
+there's still a lot more that will kind
+
+00:10:14
+of come out of this and we're still
+
+00:10:15
+figuring out what's possible so if
+
+00:10:17
+anything I think this is a very exciting
+
+00:10:19
+space to be in and yeah it's kind of
+
+00:10:21
+this fun adventure and uh we'll see
+
+00:10:23
+where it
+
+00:10:24
+goes the important thing here is that
+
+00:10:27
+without this blockchain technology you
+
+00:10:28
+couldn't have this thing where you could
+
+00:10:31
+make these like unique digital objects
+
+00:10:34
+again because you could trly copy like
+
+00:10:36
+anything before that so and this just
+
+00:10:37
+like wasn't possible without blockchains
+
+00:10:39
+this is why people care about
+
+00:10:43
+them let's see okay it seems like that's
+
+00:10:47
+working
+
+00:10:49
+um yeah so
+
+00:10:52
+okay we have these blockchains they give
+
+00:10:54
+us this like property of digital
+
+00:10:56
+scarcity and like let's now try to like
+
+00:10:59
+think about how we might do this so you
+
+00:11:03
+know let's just zoom into like one use
+
+00:11:04
+case again this kind of generalizes to
+
+00:11:06
+any of these Notions of like scarse
+
+00:11:09
+objects we want to think about but let's
+
+00:11:11
+say we want to talk about a digital
+
+00:11:12
+money right so we have money let's say
+
+00:11:15
+like like there's units of money which
+
+00:11:17
+are coins right so imagine like I can
+
+00:11:18
+have coins I can like spend coins um you
+
+00:11:22
+know it really should far your intuition
+
+00:11:24
+of like having money in in you know the
+
+00:11:26
+the physical space when we say scarcity
+
+00:11:29
+here we mean there are only ever like
+
+00:11:31
+say end coins at one time right so like
+
+00:11:33
+if I have 100 coins I can't like spend
+
+00:11:36
+200 for example there's like a fixed
+
+00:11:38
+number at any point in
+
+00:11:40
+time
+
+00:11:42
+so you know I'm not sure what everyone's
+
+00:11:44
+background is but um either way let's
+
+00:11:48
+just assume that the following things
+
+00:11:49
+make sense uh and again if you have
+
+00:11:51
+questions just drop them in the
+
+00:11:54
+chat
+
+00:11:55
+[Music]
+
+00:11:56
+so right okay so you know we'll we'll
+
+00:12:00
+kind of have this like straw man example
+
+00:12:02
+right so like you might be familiar with
+
+00:12:03
+like a web server running in like you
+
+00:12:06
+know what we call Web 2 so this
+
+00:12:08
+something like Facebook meta or like uh
+
+00:12:11
+you know Instagram all these different
+
+00:12:12
+social media platforms Twitter which I
+
+00:12:15
+guess we not call X either way you just
+
+00:12:17
+imagine that you have some money
+
+00:12:19
+protocol you can like write software to
+
+00:12:21
+implement the rules of this protocol and
+
+00:12:22
+it just runs on someone's web server and
+
+00:12:25
+the big thing here is that whoever's
+
+00:12:27
+operating the server you trust them to
+
+00:12:29
+make sure that there are no double
+
+00:12:30
+spends and this is again kind of the
+
+00:12:32
+core property that we want to we want to
+
+00:12:34
+get out of our blockchains and I have
+
+00:12:37
+these examples here um you know again it
+
+00:12:40
+should really mirror your intuition
+
+00:12:43
+from the physical world right so if I'm
+
+00:12:46
+at the grocery store let's say the
+
+00:12:48
+grocery store has like 100 apples if
+
+00:12:50
+they sell me one apple then they only
+
+00:12:52
+have 99 left they can't go make like 200
+
+00:12:55
+apples 300 apples right they can't um I
+
+00:12:58
+mean yeah they can't just m magically
+
+00:12:59
+make apples they have a certain number
+
+00:13:02
+and if they give some away then that's
+
+00:13:05
+that now in our money protocol you can
+
+00:13:07
+imagine it's a similar thing where you
+
+00:13:09
+know if I only have 100 coins in the
+
+00:13:10
+protocol and I send you five I only have
+
+00:13:13
+95 left uh when we say double spend we
+
+00:13:16
+kind of mean this thing where out of my
+
+00:13:19
+100 if I send you five I should
+
+00:13:21
+definitely have 95 I can't send you five
+
+00:13:24
+you know like I can't send more than two
+
+00:13:26
+people 50 coins each right because I
+
+00:13:28
+would just not have that many
+
+00:13:30
+points and the important word here is
+
+00:13:32
+that you're trusting the operator right
+
+00:13:34
+and historically we've never been able
+
+00:13:37
+to like trust an operator uh to like
+
+00:13:39
+uphold this this sort of protocol and in
+
+00:13:42
+particular this like double spin
+
+00:13:44
+property so there's like a number of
+
+00:13:45
+ways this could happen um one of them is
+
+00:13:47
+is just like a bug in the software
+
+00:13:49
+that's implementing our money protocol
+
+00:13:52
+and you know what this could look like
+
+00:13:53
+is uh the server like accidentally makes
+
+00:13:56
+extra coins right so let's say they
+
+00:13:58
+commit to their only being like a th000
+
+00:14:00
+coins and you know there's some bug and
+
+00:14:03
+suddenly there's like a thousand And1
+
+00:14:04
+coins right um for us using this
+
+00:14:08
+protocol that's like not quite Fair we
+
+00:14:11
+want there to only be the number that
+
+00:14:13
+they claim and it's you know again a bug
+
+00:14:17
+if somehow there's
+
+00:14:19
+more the fact that there's like a single
+
+00:14:21
+operator like Central server that's like
+
+00:14:24
+coordinating all this um you know is
+
+00:14:26
+also an issue on the security front
+
+00:14:28
+because there could simply be like an
+
+00:14:29
+active attack right so maybe there is a
+
+00:14:32
+bug maybe the operator themselves is
+
+00:14:34
+like not in a position to exploit the
+
+00:14:36
+bug um for example because they don't
+
+00:14:38
+want to they want people to believe that
+
+00:14:40
+like their money protocol is good but an
+
+00:14:43
+hacker could compromise the server and
+
+00:14:45
+then you know trigger the bug in their
+
+00:14:46
+own way uh and make these extra coins
+
+00:14:48
+for themselves and if we've all believed
+
+00:14:51
+that these coins are like useful for
+
+00:14:52
+some reason this is like directly
+
+00:14:54
+profitable for the attacker so they're
+
+00:14:55
+incentivized to do
+
+00:14:57
+it um you could even have another
+
+00:14:59
+scenario where the operator themselves
+
+00:15:00
+is just simply not honest right so you
+
+00:15:03
+know if I control this money protocol
+
+00:15:05
+and people like the money protocol you
+
+00:15:07
+know maybe I'm just making a few extra
+
+00:15:08
+coins on this side uh because again it's
+
+00:15:11
+profitable for me to do
+
+00:15:13
+so and in particular like this is the
+
+00:15:15
+key Point here is that if you ever make
+
+00:15:17
+one of these protocols where someone is
+
+00:15:19
+incentivized to um you know if there's a
+
+00:15:22
+way for them to profit from this like
+
+00:15:23
+basically they will just it's a matter
+
+00:15:25
+of time um and yeah the reason we're
+
+00:15:27
+using this in the first place is because
+
+00:15:28
+these coins are valuable for some reason
+
+00:15:30
+and so again it's like there's this
+
+00:15:31
+direct Financial incentive for people to
+
+00:15:34
+actually attack this
+
+00:15:35
+thing so okay because of all this you
+
+00:15:40
+know we kind of get to this problem
+
+00:15:41
+where this trusted operator is not great
+
+00:15:44
+um so what can we do well try to get rid
+
+00:15:47
+of it very simple solution uh as we'll
+
+00:15:51
+see this has led to like Decades of
+
+00:15:53
+research into like how to actually do
+
+00:15:55
+this uh it's actually quite
+
+00:15:57
+tricky so
+
+00:16:00
+let me just check the chat to see okay I
+
+00:16:03
+guess everyone's still
+
+00:16:04
+following so
+
+00:16:07
+okay a key Point here is
+
+00:16:10
+that like the to the extent that you can
+
+00:16:13
+make a you know sort of credible
+
+00:16:15
+protocol that everyone can trust the
+
+00:16:18
+more useful it will be and like I'm I'm
+
+00:16:20
+speaking like very broadly or abstractly
+
+00:16:24
+um because it's like it's kind of a key
+
+00:16:26
+point to get across that
+
+00:16:30
+if we do want to make something that's
+
+00:16:31
+like maximally useful then it needs to
+
+00:16:33
+be you know the point I'll get to is it
+
+00:16:35
+needs to be like minimally trusted right
+
+00:16:38
+um let's say we have two operators and
+
+00:16:41
+like one of them is like pretty good but
+
+00:16:43
+like sometimes has issues you know their
+
+00:16:46
+money is just not as good as another
+
+00:16:47
+operator who like never has any of these
+
+00:16:49
+bugs I listed above right so to the
+
+00:16:53
+extent that we can like drive towards
+
+00:16:55
+this like trust minimized setting the
+
+00:16:57
+more useful are AB raction of this like
+
+00:16:59
+digital scarcity will be and the better
+
+00:17:02
+this will be in terms of uh creating
+
+00:17:04
+value for people and we should care
+
+00:17:06
+about this because you know there's so
+
+00:17:08
+much value we see in the world by like
+
+00:17:10
+having structures to handle physical
+
+00:17:11
+scarcity that you would expect we could
+
+00:17:13
+do a similar thing for digital scarcity
+
+00:17:15
+right and as you've seen with the growth
+
+00:17:18
+of like Bitcoin ethereum and all
+
+00:17:19
+everything else right A lot of people
+
+00:17:22
+care there's a lot of value that
+
+00:17:23
+probably will come out of this and you
+
+00:17:25
+know there could even be applications we
+
+00:17:26
+haven't thought of yet that would do
+
+00:17:28
+even more so it's a very worthy
+
+00:17:32
+goal so let's try to think about how
+
+00:17:36
+would we remove this this like sort of
+
+00:17:38
+straw man protocol with this single
+
+00:17:39
+trusted operator um it turns out it's
+
+00:17:42
+it's pretty hard so again sort of the
+
+00:17:46
+like obvious thing is you're like hey I
+
+00:17:49
+have this thing there's like one single
+
+00:17:50
+party that is like a point of failure
+
+00:17:53
+you're like obviously like a very direct
+
+00:17:55
+thing is just to say well get rid of the
+
+00:17:57
+single the single leader here the single
+
+00:17:59
+operator and the way you would think
+
+00:18:02
+about doing this is rather than having
+
+00:18:03
+one node in the system that controls
+
+00:18:05
+everything you distribute the protocol
+
+00:18:07
+across all the
+
+00:18:09
+nodes um luckily there's like a very
+
+00:18:11
+rich academic literature on distributed
+
+00:18:13
+computation um and maybe from there we
+
+00:18:15
+can like learn some things about how to
+
+00:18:17
+do this um for the context we care about
+
+00:18:21
+and generally how people have thought
+
+00:18:23
+about this is you know rather than just
+
+00:18:25
+have one node in the system you now have
+
+00:18:27
+end nodes which compute the same thing
+
+00:18:30
+so if you think about it you know like
+
+00:18:32
+if we have this money protocol what are
+
+00:18:34
+we actually doing like people can like
+
+00:18:36
+mint money in the protocol um you know
+
+00:18:39
+let's say I want to like buy 100 coins
+
+00:18:41
+then also you can transfer things in the
+
+00:18:43
+protocol let's say I want to like send
+
+00:18:44
+five coins from like me to you okay from
+
+00:18:48
+there you can think about this
+
+00:18:51
+as all of the like the way that we the
+
+00:18:55
+way that we're going to structure this
+
+00:18:56
+now so that we can have everyone sort of
+
+00:18:58
+join the system these like in nodes I'm
+
+00:19:00
+I'm talking about join the system and
+
+00:19:02
+work together you structure them in a
+
+00:19:04
+way that they compute the same thing
+
+00:19:06
+given all these inputs right so we
+
+00:19:08
+assume that everyone has all the same
+
+00:19:09
+inputs to the protocol which you know if
+
+00:19:12
+you think about it it's just a record of
+
+00:19:13
+all the transactions like when we mint
+
+00:19:15
+coins um you could also Imagine like
+
+00:19:17
+burning coins or something to withdraw
+
+00:19:19
+but either way um there's ways to like
+
+00:19:21
+get in and out of the system and there's
+
+00:19:23
+ways to like transfer these coins within
+
+00:19:24
+the system right and if you take the
+
+00:19:26
+entire list of the entire history of
+
+00:19:28
+this whole s of economy we're building
+
+00:19:30
+uh you can imagine if you just like sort
+
+00:19:32
+of sum these inputs in the same way
+
+00:19:35
+you'll get a single output right and in
+
+00:19:36
+this case the single output would just
+
+00:19:38
+be our current Ledger of everyone's
+
+00:19:40
+balance so at any point in time we can
+
+00:19:43
+ask the end nodes like hey you know what
+
+00:19:46
+uh what are everyone's balances in the
+
+00:19:48
+system right if I started with 100 coins
+
+00:19:50
+I I I spent five to you now suddenly it
+
+00:19:53
+says I have 95 and you have five coins
+
+00:19:56
+and if you think about it you could do
+
+00:19:57
+this for you know any sequence of
+
+00:20:00
+transactions we make um and at any point
+
+00:20:02
+in time you can look at the sort of
+
+00:20:04
+summary which is this
+
+00:20:05
+output so going back to this like
+
+00:20:08
+academic literature and all the work
+
+00:20:09
+that's been put in this you know over
+
+00:20:10
+the past couple decades this concept is
+
+00:20:13
+called State machine
+
+00:20:15
+replication the replication here is
+
+00:20:17
+referring to the fact that you know we
+
+00:20:18
+have multiple nodes in the system they
+
+00:20:21
+essentially all duplicate you know the
+
+00:20:23
+same work this like input log to get the
+
+00:20:25
+same output and in particular this is
+
+00:20:28
+what we mean by ensis is that every node
+
+00:20:30
+in the system should eventually agree on
+
+00:20:32
+the outputs so again you write your
+
+00:20:36
+program your protocol as this like
+
+00:20:37
+deterministic function of the inputs you
+
+00:20:39
+imagine then that if you have an honest
+
+00:20:42
+node they're going to run the same
+
+00:20:43
+function on the same inputs they have to
+
+00:20:45
+get the same output right like assuming
+
+00:20:46
+there are no bugs or anything in the
+
+00:20:48
+protocol for the same set of inputs you
+
+00:20:50
+get the same
+
+00:20:52
+output this is useful to get rid of our
+
+00:20:55
+single trusted operator because as the
+
+00:20:56
+number of nodes increases this isn't
+
+00:20:58
+become becomes harder to attack rather
+
+00:21:00
+than exploring a bug say on one node and
+
+00:21:02
+taking down the whole system you now
+
+00:21:04
+have to you know say maybe attack two or
+
+00:21:06
+three or maybe all of them and there's
+
+00:21:09
+this notion of a majority in the system
+
+00:21:11
+um and this is really what we mean when
+
+00:21:13
+we say consensus is that at any point in
+
+00:21:15
+time there should be some majority of
+
+00:21:17
+nodes that all have the same view or the
+
+00:21:20
+same you know output the same state when
+
+00:21:23
+they do this then um even if some of the
+
+00:21:26
+nodes are
+
+00:21:27
+faulty you still a majority of them
+
+00:21:29
+saying like this is the state of the
+
+00:21:30
+world right and so this is the idea is
+
+00:21:32
+that it becomes much harder now to
+
+00:21:34
+attack our system as we have more nodes
+
+00:21:36
+who are doing the same
+
+00:21:42
+thing okay very little chat I'll assume
+
+00:21:46
+everyone's following
+
+00:21:48
+along um let's see here one
+
+00:21:52
+second yeah just to be clear Alex that a
+
+00:21:55
+lot of the chat is happening in Discord
+
+00:21:57
+so there's not um
+
+00:21:59
+a much YouTube chatter or or chat in
+
+00:22:02
+this particular platform so Mario and I
+
+00:22:04
+will chime in if there are any important
+
+00:22:06
+questions or comments to be to be said
+
+00:22:08
+since you're not looking okay great
+
+00:22:09
+thank you yeah um I can also try to find
+
+00:22:12
+the Discord but that might be a side
+
+00:22:14
+quest for me so anyway yeah just uh let
+
+00:22:16
+me know if there's something I should
+
+00:22:19
+address and okay let's jump back end
+
+00:22:24
+so the point here is that we want to
+
+00:22:26
+increase the number of nodes in the
+
+00:22:28
+system and you know if all of our soft
+
+00:22:30
+for is correct and our variance hold
+
+00:22:32
+then we should end up with the same
+
+00:22:33
+output and becomes much harder to attack
+
+00:22:36
+so this notion that I'm circling around
+
+00:22:39
+um in the literature around consensus
+
+00:22:42
+this is referred to as Byzantine fa
+
+00:22:44
+tolerance so you know the logic goes
+
+00:22:47
+okay you know if more nodes in the
+
+00:22:49
+system means that it's more secure then
+
+00:22:51
+we want like a very high number of nodes
+
+00:22:53
+right I'm calling it in here it's like a
+
+00:22:54
+very high number and you know you can
+
+00:22:57
+imagine the limit this is like every
+
+00:22:59
+note on the internet right like your
+
+00:23:02
+refrigerator could participate your
+
+00:23:04
+computers at home all the computers and
+
+00:23:06
+like these data centers um I don't know
+
+00:23:08
+your car driving down the highway like
+
+00:23:10
+you could imagine everything connected
+
+00:23:11
+to the internet can like participate in
+
+00:23:12
+this protocol and then you have an
+
+00:23:14
+incredibly High number of noes uh it
+
+00:23:16
+becomes incredibly hard to attack the
+
+00:23:18
+system so the thing is though as you
+
+00:23:21
+move to this setting on the public
+
+00:23:23
+internet um the Internet is just like
+
+00:23:25
+again permissionless open system people
+
+00:23:27
+can join in leave and in doing so things
+
+00:23:31
+can start going Ary so to give some
+
+00:23:34
+examples you know let's say we have like
+
+00:23:37
+20 noes on the internet um you know the
+
+00:23:39
+internet is a faulty system and so for
+
+00:23:41
+example you know some nodes could simply
+
+00:23:43
+Miss messages from other nodes if I go
+
+00:23:45
+to like my um you know local node at
+
+00:23:49
+home and I send it you know hey transfer
+
+00:23:51
+some coins from me to you it could just
+
+00:23:54
+be the case that you know for no reason
+
+00:23:56
+other than like you know cha on the
+
+00:23:58
+internet my transaction doesn't end up
+
+00:24:01
+getting to enough nodes to be part of
+
+00:24:03
+the
+
+00:24:04
+consensus um there could be bugs
+
+00:24:06
+implementation so you can imagine that
+
+00:24:08
+you know we have all these nodes out
+
+00:24:09
+there and they have like different
+
+00:24:10
+implementations of the same software and
+
+00:24:12
+again as long as there's a correct
+
+00:24:14
+implementation right they'll compute the
+
+00:24:16
+same output everything's good but there
+
+00:24:18
+could be a bug and so maybe some nodes
+
+00:24:21
+kind of fall off the network or see a
+
+00:24:23
+different view there can also be
+
+00:24:25
+Hardware failures so this is kind of
+
+00:24:27
+similar to like a you're just in like
+
+00:24:28
+the transport of the internet but you
+
+00:24:30
+could imagine you know um I'm running
+
+00:24:33
+the money protocol on my toaster and my
+
+00:24:35
+toaster goes down because I'm like
+
+00:24:37
+making toast and it doesn't have enough
+
+00:24:38
+resources to also process the
+
+00:24:40
+transactions right and so for maybe some
+
+00:24:42
+short period of time this node would go
+
+00:24:45
+off
+
+00:24:46
+offline or there could be an active
+
+00:24:48
+attack again going back to the previous
+
+00:24:50
+thing where you know if this is a useful
+
+00:24:52
+or valuable protocol people then are
+
+00:24:54
+directly incentivized to like try and
+
+00:24:55
+break it so someone could be actually
+
+00:24:57
+actively attacking some subset of nodes
+
+00:25:00
+on the
+
+00:25:01
+network and all of these types of things
+
+00:25:04
+we want to call this like Byzantine
+
+00:25:05
+fault and again this is coming out of
+
+00:25:07
+the academic literature but the idea is
+
+00:25:09
+that if we have one of these consist
+
+00:25:11
+protocols running we want to make sure
+
+00:25:13
+that it's tolerant to any arbitrary
+
+00:25:15
+failure that could happen right so again
+
+00:25:16
+there could be a bug uh a node could be
+
+00:25:18
+acting incorrectly or dishonestly
+
+00:25:21
+whatever happens we want to be sure that
+
+00:25:23
+you know at least on some time scale
+
+00:25:25
+eventually you get to the place where a
+
+00:25:29
+majority of nodes have the same view if
+
+00:25:32
+not then there's a consist failure and
+
+00:25:34
+yeah our protocol is
+
+00:25:35
+broken so yeah if you want to really dig
+
+00:25:38
+into this um go look up Byzantine fault
+
+00:25:41
+tolerance again there's like a lot of
+
+00:25:43
+literature out there about this even you
+
+00:25:45
+know pre- crypto but the idea is that
+
+00:25:47
+basically okay we assume some nodes are
+
+00:25:49
+actually just faulty in this way some
+
+00:25:51
+fraction F or faulty we still want to
+
+00:25:53
+make a consus protocol such that we can
+
+00:25:57
+agree on the outputs uh even in the
+
+00:25:59
+presence of this faulty
+
+00:26:02
+fraction and again there's there's a lot
+
+00:26:04
+we can go into here um we'll kind of
+
+00:26:07
+focus on ethereum so I'll just briefly
+
+00:26:10
+touch on these but at a high level um
+
+00:26:13
+the general way to think about this is
+
+00:26:14
+what they call two-phase commit so what
+
+00:26:17
+this means is that um assum we have our
+
+00:26:21
+in nodes in the network and then
+
+00:26:23
+basically uh you know one or some number
+
+00:26:26
+of the nodes says hey I think the state
+
+00:26:28
+of our protocol is you know X I don't
+
+00:26:31
+know a random State say incorporating
+
+00:26:33
+our you know the most recent transfers
+
+00:26:35
+in the system this most transfers would
+
+00:26:38
+then take the balance at time t uh to a
+
+00:26:41
+different set of balances at time t plus
+
+00:26:43
+one and the way this two-phase commit
+
+00:26:45
+works there's again two phases the first
+
+00:26:48
+phase is you know let's say there's some
+
+00:26:50
+node in the system that says hey I think
+
+00:26:51
+the next state is this they kind of send
+
+00:26:54
+this state to everyone meaning all the
+
+00:26:56
+other nodes in the network all the other
+
+00:26:58
+nodes then have to acknowledge that and
+
+00:27:00
+then once you've seen a Byzantine fall
+
+00:27:03
+tolerant fraction say 2/3 um you end up
+
+00:27:06
+in this place where I know that I'm
+
+00:27:09
+going to have a majority agree with me
+
+00:27:11
+because they've already done so so let
+
+00:27:14
+phase one and then phase two then is
+
+00:27:15
+saying uh basically I just accept that
+
+00:27:18
+this is the new state of the protocol
+
+00:27:20
+and the way this works is that again
+
+00:27:22
+assuming that I've reached my fault
+
+00:27:24
+tolerant threshold say you know 2third
+
+00:27:28
+then there's no way that like there
+
+00:27:30
+could be another majority view anywhere
+
+00:27:32
+else in the
+
+00:27:34
+system and um again there are many
+
+00:27:37
+examples of this that people have
+
+00:27:38
+actually built out this is a problem
+
+00:27:40
+people had long even before crypto just
+
+00:27:42
+as we tried to scale the internet doing
+
+00:27:43
+this exact same thing you'd have many
+
+00:27:45
+nodes out there and you wanted them to
+
+00:27:47
+be tolerant these types of failures in
+
+00:27:50
+particular culminating in pbft this
+
+00:27:52
+stands for practical bantine fault
+
+00:27:54
+tolerance and um yeah it's a protocol
+
+00:27:57
+that basically let you do this the issue
+
+00:28:00
+though is that with pbft um and you know
+
+00:28:03
+many of these more classical bft
+
+00:28:05
+protocols they kind of were limited in
+
+00:28:08
+node count um in particular you get like
+
+00:28:10
+this quadratic message passing to pbft
+
+00:28:12
+in part because this two- fa commit and
+
+00:28:14
+what we mean here is that you
+
+00:28:16
+know if there's say like you know 10
+
+00:28:19
+nodes in the network they have to
+
+00:28:20
+exchange say a 100 messages to actually
+
+00:28:22
+like agree that this is the state and
+
+00:28:25
+that also everyone else sees this is the
+
+00:28:26
+same state what this means is that these
+
+00:28:30
+systems are kind of limited in how many
+
+00:28:31
+nodes you could have and you know the
+
+00:28:34
+point I was trying to get across a
+
+00:28:35
+second ago is especially for these
+
+00:28:37
+things like you know making uh these
+
+00:28:39
+systems that represent digital scarcity
+
+00:28:41
+in like a very secure way you actually
+
+00:28:44
+want the node count to go much higher
+
+00:28:45
+than what we could practically get with
+
+00:28:47
+these types of
+
+00:28:48
+protocols and again if you want to dig
+
+00:28:51
+more into this uh this General problem
+
+00:28:54
+is the Byzantine generals problem where
+
+00:28:56
+they're trying to get they're trying to
+
+00:28:57
+like solve this right we want to be able
+
+00:28:59
+to come to consensus with like a very
+
+00:29:00
+high number of nodes even in the
+
+00:29:02
+presence of like some malicious or some
+
+00:29:04
+Byzantine fraction and for a while you
+
+00:29:07
+know this is kind of the state of the
+
+00:29:08
+research and that was the best we could
+
+00:29:11
+do people were researching this but
+
+00:29:13
+ultimately um yeah we kind of just
+
+00:29:16
+moving along until the Advent of
+
+00:29:20
+Bitcoin so I'll talk a bit now about you
+
+00:29:23
+know we're moving into the crypto
+
+00:29:25
+context before we go on Alex um we got a
+
+00:29:29
+question here uh uh Nana is asking does
+
+00:29:34
+the uh does the pbft protocols have like
+
+00:29:37
+an upper bound and if yes what is that
+
+00:29:39
+practically
+
+00:29:40
+speaking yeah good question so it's not
+
+00:29:44
+that there's like a hard upper bound
+
+00:29:45
+it's more that the more nodes you would
+
+00:29:47
+add the more overhead and so uh for
+
+00:29:50
+example the system would be slower right
+
+00:29:52
+like if you have 10 nodes running the
+
+00:29:54
+protocol then you can say you know
+
+00:29:57
+process messages with like I don't know
+
+00:30:00
+for example let's say like you know
+
+00:30:02
+couple hundred milliseconds of latency
+
+00:30:04
+as you went to like 100 nodes then you
+
+00:30:06
+could imagine you know there's this like
+
+00:30:07
+much bigger scaling of the overheads and
+
+00:30:09
+then at a certain point you know if it's
+
+00:30:11
+going to take us like minutes to agree
+
+00:30:12
+on the next state of our like all of our
+
+00:30:14
+transactions
+
+00:30:16
+then uh the system starts to become less
+
+00:30:19
+useful and you know this is a problem
+
+00:30:21
+for example if we want to do something
+
+00:30:23
+like okay let's do like Visa which is
+
+00:30:25
+this like credit you know credit card
+
+00:30:27
+Network
+
+00:30:28
+they process like you know I don't
+
+00:30:30
+know thousands if not more of
+
+00:30:32
+transactions per second um and you get
+
+00:30:35
+to a place where if you want that same
+
+00:30:36
+level of throughput that your
+
+00:30:37
+consistance protocol for like a high
+
+00:30:39
+number of nodes Beyond just like the few
+
+00:30:41
+you know trusted Visa servers uh it
+
+00:30:44
+takes too long um and in general there's
+
+00:30:46
+just like trade-off basically between
+
+00:30:48
+like throughput and latency and you know
+
+00:30:51
+um these consist Protocols are not magic
+
+00:30:54
+they're Bound by the laws of physics and
+
+00:30:56
+so they you know have to follow follow
+
+00:30:57
+the same same constraints
+
+00:31:00
+right um yeah hopefully that was
+
+00:31:04
+helpful yeah thank you so okay
+
+00:31:08
+great so
+
+00:31:11
+um right there was a bit of a like
+
+00:31:14
+Innovation um with Bitcoin this is what
+
+00:31:16
+everyone got very excited about
+
+00:31:18
+originally with crypto is like in some
+
+00:31:20
+sense you know Satoshi the creator of
+
+00:31:23
+Bitcoin proposes the system that you
+
+00:31:26
+know in some sense solves butine
+
+00:31:28
+General's problem so uh the cool thing
+
+00:31:31
+here is that it scales to an arbitrary
+
+00:31:32
+node count so like you can kind of get
+
+00:31:34
+past this B neck of having you know some
+
+00:31:36
+set number of noes agree and in
+
+00:31:39
+particular right the way the system
+
+00:31:41
+designed is anyone can like join or
+
+00:31:42
+leave and again the system you know
+
+00:31:46
+together is like very tolerant to this
+
+00:31:48
+type of behavior um there's a consensus
+
+00:31:50
+that we'll look at in a second that gets
+
+00:31:52
+you to the same state and yeah no can
+
+00:31:54
+freely come and go and you kind of get
+
+00:31:56
+through you know you get around the
+
+00:31:57
+scalability BT
+
+00:31:59
+neck so in particular um Bitcoin has
+
+00:32:02
+this notion of proof of work you take
+
+00:32:05
+this proof of work um and it also in the
+
+00:32:07
+same at the same time gives you this
+
+00:32:08
+notion of like weight to a chain or
+
+00:32:10
+difficulty and the cons algorithm is
+
+00:32:12
+like pretty straightforward you just
+
+00:32:14
+look at the chain out there um that you
+
+00:32:16
+can observe just from the public
+
+00:32:18
+internet and you pick like the heaviest
+
+00:32:20
+chain or the one with the most work done
+
+00:32:22
+and if you do this as long as you have
+
+00:32:25
+the same view of the chain as everyone
+
+00:32:26
+else you'll eventually get to the same
+
+00:32:28
+state of the chain because you know
+
+00:32:30
+assuming there's an honest majority of
+
+00:32:32
+nodes in the network they're going to
+
+00:32:33
+all be following the same protocol
+
+00:32:35
+they're going to all follow the heaviest
+
+00:32:37
+chain and if you do this you end up in
+
+00:32:40
+the same
+
+00:32:41
+place so let
+
+00:32:45
+me see what's next okay yeah so let me
+
+00:32:51
+actually move now to um I'm going to
+
+00:32:54
+draw some diagrams to kind of unpack
+
+00:32:56
+what I just said and I'm going to need a
+
+00:32:58
+second
+
+00:33:00
+to get this set
+
+00:33:04
+up okay let's
+
+00:33:10
+see we'll do that and then I think I'm
+
+00:33:13
+gonna have to stop this but I'll come
+
+00:33:16
+back
+
+00:33:18
+here
+
+00:33:21
+and
+
+00:33:22
+okay so I believe you can see this
+
+00:33:26
+so okay what do we mean here so the way
+
+00:33:29
+to think about this is that we start
+
+00:33:31
+from some initial State this is like the
+
+00:33:33
+Genesis Block in Bitcoin it doesn't
+
+00:33:35
+really matter what it is but you know we
+
+00:33:38
+have our little block here um I'll put a
+
+00:33:41
+g on it for Genesis and the idea now is
+
+00:33:44
+that anyone who wants to join the system
+
+00:33:47
+they come and they can add a block right
+
+00:33:49
+so let's say then we have like a bunch
+
+00:33:50
+of transactions out here um I'll just do
+
+00:33:53
+some like little dots and these are the
+
+00:33:54
+transactions that are saying you know
+
+00:33:56
+I'm going to send one Bitcoin from me to
+
+00:33:58
+you we'll send like half a Bitcoin over
+
+00:33:59
+here whatever they do right these like
+
+00:34:02
+um just transfers in the
+
+00:34:04
+system the way that this works is that
+
+00:34:07
+um if I want to propose a block and
+
+00:34:09
+again anyone can do this uh we'll see
+
+00:34:12
+kind of how this works in a second but
+
+00:34:13
+basically I like bundle all of these up
+
+00:34:16
+and then I make a block so there's a
+
+00:34:18
+block here I'll go ahead and delete
+
+00:34:21
+these because we move them somewhere
+
+00:34:23
+else and yeah there's like a couple
+
+00:34:26
+things going on here so
+
+00:34:27
+the key thing to to realize here in
+
+00:34:30
+Bitcoin is that there's this like proof
+
+00:34:31
+of work notion proof of work is that
+
+00:34:36
+it's like again yeah this notion that
+
+00:34:38
+basically um when I see this message
+
+00:34:40
+there's some cryptography involved such
+
+00:34:42
+that I know a certain amount of work or
+
+00:34:44
+like computational power was dedicated
+
+00:34:46
+to this block um one way to kind of
+
+00:34:48
+think about it is that you're like
+
+00:34:49
+sealing the block you're like adding
+
+00:34:51
+this like special thing that can prove
+
+00:34:53
+to anyone no matter what it took a
+
+00:34:55
+certain amount of work to produce
+
+00:34:58
+um and the way this works is that
+
+00:34:59
+basically there's this notion of cryptog
+
+00:35:00
+cryptographic hash where you know I give
+
+00:35:03
+it some data I get back this like unique
+
+00:35:05
+sort of like digest um and yeah
+
+00:35:09
+basically the only way to get this
+
+00:35:10
+digest because these hashes are like
+
+00:35:12
+sowhat random the only way to get this
+
+00:35:14
+is like I must have just computed the
+
+00:35:15
+hash there's like no way around
+
+00:35:17
+that so the first thing you do well I
+
+00:35:20
+mean there's a couple things you do but
+
+00:35:22
+um you know imagine now we have our
+
+00:35:24
+block and then we have like all our
+
+00:35:25
+transactions in here okay
+
+00:35:28
+um you know so one cool thing is that
+
+00:35:30
+this block is going to reference the
+
+00:35:33
+hash of the previous block and this is
+
+00:35:35
+like this Arrow here it's like this
+
+00:35:37
+pointer um you do this just so you can
+
+00:35:40
+actually establish a history because you
+
+00:35:42
+know if I just had some block over here
+
+00:35:44
+that's just like floating off in space
+
+00:35:46
+you know I need to know like the context
+
+00:35:49
+of how these transactions should be
+
+00:35:51
+sequenced because ultimately you know um
+
+00:35:54
+maybe we'll think about it this way you
+
+00:35:56
+want their be like unique sequence so
+
+00:35:58
+imagine this you know I'm drawing
+
+00:35:59
+transactions here and you know this is
+
+00:36:01
+like you know plus five Bitcoin to like
+
+00:36:05
+some other account a you know plus 0.5
+
+00:36:08
+to some account B whatever they are um
+
+00:36:12
+there should be a unique sequence and
+
+00:36:14
+this is why we need consensus to get
+
+00:36:15
+this unique sequence and then anyone can
+
+00:36:17
+just basically replay them all and you
+
+00:36:19
+end up at the end with the same state
+
+00:36:21
+you know account a has whatever account
+
+00:36:23
+B has whatever account C has whatever
+
+00:36:26
+you know I don't know uh three Bitcoin
+
+00:36:28
+two Bitcoin you know 24 Bitcoin whatever
+
+00:36:32
+it ends up being so the way we do this
+
+00:36:35
+is again we need this like unique
+
+00:36:36
+sequence that we're going to kind of
+
+00:36:38
+represent or like serialize with these
+
+00:36:40
+blocks and so you need this notion of
+
+00:36:42
+like parent block so the way you do this
+
+00:36:45
+is basically you have like a hash of
+
+00:36:47
+this thing I'll just say like H ofg you
+
+00:36:49
+actually just write H ofg in this block
+
+00:36:52
+and this basically says okay I know that
+
+00:36:54
+this is here maybe I'll well let's try
+
+00:37:04
+this hash of
+
+00:37:06
+G either way hopefully this is clear
+
+00:37:09
+sorry it's a little cramped but
+
+00:37:10
+basically you have the hash of this
+
+00:37:12
+previous block and this one and again
+
+00:37:14
+the way these cryptographic hash work
+
+00:37:15
+functions work is that there's no way
+
+00:37:17
+for me to know this hash of the previous
+
+00:37:19
+block unless I have the previous block
+
+00:37:21
+so you have that um it has all all the
+
+00:37:24
+transactions in here and then also now
+
+00:37:26
+there's this proof of work which you
+
+00:37:28
+know the way we can think about it is
+
+00:37:29
+it's just like this like seal of
+
+00:37:31
+approval put a little check mark that
+
+00:37:33
+says I did some amount of computation to
+
+00:37:35
+actually make this
+
+00:37:37
+walk okay there's a couple things going
+
+00:37:40
+on here so the first thing we get is
+
+00:37:43
+that um this proof of work is like this
+
+00:37:46
+rate limiter thing or this notion of
+
+00:37:48
+civil protection so this is like a big
+
+00:37:50
+thing in again these like open permiss
+
+00:37:53
+systems if anyone can join you need to
+
+00:37:55
+like have some way to like limit how
+
+00:37:57
+many blocks are can be made at a given
+
+00:37:59
+time otherwise you get like you know
+
+00:38:01
+there's now like 10 trillion blocks
+
+00:38:02
+wooding out here and it's a mess you
+
+00:38:04
+know my note my toaster is like going
+
+00:38:06
+offline because it just can't even
+
+00:38:07
+handle this many blocks and we have a
+
+00:38:08
+big problem so the first thing that all
+
+00:38:12
+these different Pro of work or proof of
+
+00:38:14
+stake which we'll get to in a second the
+
+00:38:15
+way these protocols work is they have
+
+00:38:17
+some notion of like the Civil resistance
+
+00:38:19
+meaning that you know on a reasonable
+
+00:38:22
+amount of time only sort of one person
+
+00:38:24
+let's say or like a few people can can
+
+00:38:26
+make one of the these updates or new
+
+00:38:28
+blocks at a given
+
+00:38:30
+time so let's clean this up a little bit
+
+00:38:34
+um the other thing now is that and this
+
+00:38:36
+is like you know one of the insights of
+
+00:38:38
+Bitcoin is that not only do we get this
+
+00:38:40
+simple protection with this proof of
+
+00:38:42
+work which is this like costly function
+
+00:38:43
+to compute it can actually be used for
+
+00:38:46
+consensus and so the way this would work
+
+00:38:48
+now let me zoom out a little bit if I
+
+00:38:51
+can figure this out
+
+00:38:54
+um so yeah let me actually just clean
+
+00:38:57
+this up a little bit so the way this
+
+00:38:59
+would work is that you know now let's
+
+00:39:02
+say there's like a few blocks in the
+
+00:39:04
+chain okay
+
+00:39:06
+cool and okay I'll just draw a few more
+
+00:39:10
+for fun so we have these blocks in the
+
+00:39:12
+chain and again the way this would work
+
+00:39:14
+is that you you know maybe start from
+
+00:39:16
+your Genesis state which could be like
+
+00:39:17
+no one has any coins and you can now
+
+00:39:20
+just replay all the transactions just
+
+00:39:22
+going block by Block in sequence and
+
+00:39:24
+again it's the state the state machine
+
+00:39:26
+replication idea where if I have the
+
+00:39:29
+same inputs we all have a you know
+
+00:39:32
+correct implementation of our money
+
+00:39:33
+protocol we all end up with the same
+
+00:39:35
+outputs which in this case for example
+
+00:39:37
+would be you know our Ledger at some
+
+00:39:38
+point in
+
+00:39:39
+time so we do this and right the other
+
+00:39:44
+thing here now is that with this proof
+
+00:39:46
+of work this is this notion of
+
+00:39:47
+difficulty which you know we don't
+
+00:39:49
+really need to get super into the into
+
+00:39:51
+the weeds of how this works but
+
+00:39:52
+ultimately there's a notion of
+
+00:39:55
+difficulty which is how much work
+
+00:39:56
+particular Pro workk represents um a way
+
+00:39:59
+to think about it is it's just a number
+
+00:40:00
+so we could say okay this this like
+
+00:40:02
+first block in the chain here maybe had
+
+00:40:05
+difficulty like 15 and these are like
+
+00:40:07
+arbitrary numbers uh all you really need
+
+00:40:09
+is that they are you know numbers that
+
+00:40:13
+increase so you know let's say there's
+
+00:40:15
+difficulty 15 here the next block has
+
+00:40:18
+even like difficulty one so that's will
+
+00:40:20
+be interesting in a second because it's
+
+00:40:21
+not strictly increasing but it's just
+
+00:40:23
+more and then you know I don't know
+
+00:40:25
+let's say there's like 2,000 work on
+
+00:40:27
+this on this last block so now because
+
+00:40:30
+this algorithm is like pretty simple um
+
+00:40:32
+and again this was like part of well
+
+00:40:36
+it's a whole conversation about Bitcoin
+
+00:40:38
+and simplicity But ultimately um the way
+
+00:40:41
+to think about this is that this is very
+
+00:40:43
+simple uh to do and this is like a you
+
+00:40:46
+know something that's very attractive
+
+00:40:47
+about about Bitcoin at least is that the
+
+00:40:51
+way I find the head of the chain meaning
+
+00:40:54
+like the the most recent block is I just
+
+00:40:56
+just sum these up and I take the one
+
+00:40:58
+with the most work and this is what I
+
+00:41:00
+meant by heaviest a second ago so here
+
+00:41:02
+we would say that we have I don't know I
+
+00:41:04
+guess it should pick better numbers but
+
+00:41:05
+that would be what 16 and 2000 so you
+
+00:41:08
+know total work here total difficulty uh
+
+00:41:11
+would be you know
+
+00:41:14
+2016 okay uh there's no fork in this
+
+00:41:17
+chain so cons this is actually is
+
+00:41:19
+Trivial you wouldn't need to actually
+
+00:41:20
+even look at this you would just go to
+
+00:41:22
+the most recent block and say that's the
+
+00:41:23
+head of the chain okay let's look at
+
+00:41:26
+another example now where it's a little
+
+00:41:28
+more
+
+00:41:30
+complicated and let's say we have this
+
+00:41:33
+and then okay so again the way to think
+
+00:41:35
+about this is like anyone can come and
+
+00:41:37
+propos a block really at any time so
+
+00:41:40
+let's say that we are you know over here
+
+00:41:42
+somewhere at this state of the chain
+
+00:41:44
+maybe back at the first block and then
+
+00:41:46
+now someone else is going to come along
+
+00:41:48
+and they're going to make another
+
+00:41:50
+block um let's say yeah we'll do it this
+
+00:41:53
+way so let's say someone makes a
+
+00:41:54
+competing block uh kind of around the
+
+00:41:57
+same time as you know our our second
+
+00:41:59
+block here but their block has uh you
+
+00:42:02
+know
+
+00:42:04
+difficulty I don't know we'll say
+
+00:42:06
+10 um the details actually get a little
+
+00:42:09
+more complicated but this should give
+
+00:42:11
+you some intuition for how this works uh
+
+00:42:13
+let's say this has difficulty 10 and
+
+00:42:16
+then someone else comes along and makes
+
+00:42:18
+another block that has difficulty like
+
+00:42:20
+um yeah I don't know
+
+00:42:22
+3,000
+
+00:42:25
+so I missed the block
+
+00:42:33
+sorry so we have this like very heavy
+
+00:42:36
+block over here so now um the way to
+
+00:42:39
+think about this
+
+00:42:41
+is we now have all these blocks floating
+
+00:42:43
+around like let's say again we have our
+
+00:42:45
+toaster running on this network and it's
+
+00:42:48
+seen this set of blocks we need to pick
+
+00:42:50
+one unique head of the chain now because
+
+00:42:53
+you know a block can only commit to one
+
+00:42:55
+parent uh you you know you have the
+
+00:42:57
+sequence where you could basically have
+
+00:42:59
+let's see if I can do this there's a
+
+00:43:01
+chain here right um there's also a
+
+00:43:05
+chain
+
+00:43:08
+here and this is just following these
+
+00:43:10
+parent linkages so you start I maybe say
+
+00:43:13
+you know this Leaf which would
+
+00:43:15
+[Music]
+
+00:43:16
+be how do I get back to the other color
+
+00:43:20
+okay this is
+
+00:43:22
+fun
+
+00:43:24
+um I guess I'll do this so you know we
+
+00:43:27
+start say from like this block uh and
+
+00:43:30
+this block and then the way this would
+
+00:43:31
+work is there's Now sort of these
+
+00:43:33
+competing heads of the chain and we
+
+00:43:35
+still want to get back to this like
+
+00:43:36
+single you know single sequence so we
+
+00:43:39
+need to apply our cons algorithm now to
+
+00:43:41
+get to one head of the chain right which
+
+00:43:43
+is picking basically this block or this
+
+00:43:46
+block and in Bitcoin uh we follow this
+
+00:43:49
+difficulty number we sum them up and
+
+00:43:51
+basically we say Okay um you know
+
+00:43:54
+looking at the top chain it has
+
+00:43:55
+difficulty 2 16 looking at the bottom
+
+00:43:58
+chain we get you know what is that uh
+
+00:44:01
+3,25 right so yeah so the intuition here
+
+00:44:06
+is that basically we saw this bottom
+
+00:44:08
+chain well we saw both chains and we
+
+00:44:10
+need to pick one and we just simply pick
+
+00:44:11
+the one with more work done so in that
+
+00:44:14
+case what we would say is that let me
+
+00:44:18
+maybe make this green that this is the
+
+00:44:21
+current head of the chain right and in
+
+00:44:24
+particular that means that all of this
+
+00:44:26
+other like this competing Fork of the
+
+00:44:28
+chain this one um let me
+
+00:44:31
+use this color so this chain here the
+
+00:44:34
+red chain uh basically we just ignore it
+
+00:44:37
+right and this is cool now because um
+
+00:44:42
+yeah anyone can come and join the system
+
+00:44:44
+as they please if I maybe missed this
+
+00:44:46
+history but I'm coming online now I just
+
+00:44:48
+download the same set of blocks and you
+
+00:44:51
+know independent of anyone else I can
+
+00:44:53
+just follow this this difficulty which
+
+00:44:55
+is again just a consequence of of this
+
+00:44:56
+this hash function
+
+00:44:58
+and um yeah it's clear to me what what
+
+00:45:01
+the head of the chain is if I want to go
+
+00:45:03
+make another block then you know I know
+
+00:45:06
+that the way I do that is I just make
+
+00:45:08
+one here that has parent here and the
+
+00:45:10
+system keeps going
+
+00:45:13
+right
+
+00:45:14
+okay um let's see I'm going to switch
+
+00:45:18
+back to the slides now hopefully that
+
+00:45:21
+made
+
+00:45:22
+sense I know that uh yeah there's
+
+00:45:25
+there's well I'll just hopefully I'll
+
+00:45:28
+hope that it makes sense
+
+00:45:32
+um let me go back here so
+
+00:45:38
+great and
+
+00:45:41
+okay so yeah I was trying to get across
+
+00:45:44
+this notion that there's this proof of
+
+00:45:45
+work thing uh hopefully my diagram made
+
+00:45:48
+it a bit clear that uh anyone can
+
+00:45:50
+download these like messages from the
+
+00:45:52
+internet and there's a way to find a
+
+00:45:54
+unique chain even in the presence of
+
+00:45:56
+competing
+
+00:45:59
+chains um you know now just to like use
+
+00:46:02
+some of these words uh that we're using
+
+00:46:04
+a minute ago right so this is like
+
+00:46:05
+structured as a state machine State
+
+00:46:07
+machine replication uh the inputs to the
+
+00:46:10
+system are these transactions so they're
+
+00:46:12
+just Bitcoin transactions organizing the
+
+00:46:13
+blocks that you know spend Bitcoin here
+
+00:46:15
+and there um and the output again is
+
+00:46:18
+just like replaying all these
+
+00:46:19
+transactions in a in a unique chain you
+
+00:46:21
+get back a unique state of
+
+00:46:24
+Ledger um there's some things you can do
+
+00:46:26
+here around using cryptography to like
+
+00:46:28
+reduce the possible you know I'm calling
+
+00:46:31
+the state space but um like in
+
+00:46:33
+particular if I just make a transaction
+
+00:46:36
+I probably want to like have it be
+
+00:46:37
+signed so you know it's uniquely for me
+
+00:46:39
+it's like authorized for me to actually
+
+00:46:40
+move the coins and not just have them
+
+00:46:42
+out there um I mentioned this thing
+
+00:46:45
+about the parent hash right because
+
+00:46:46
+otherwise you could imagine kind of like
+
+00:46:48
+when I was drawing the like C of blocks
+
+00:46:50
+off to the side
+
+00:46:52
+um it greatly reduces like how complex
+
+00:46:55
+this like because this protocol can be
+
+00:46:57
+this like algorithm you have to compute
+
+00:46:59
+if you can if you can like restrict how
+
+00:47:02
+many options you can have right and
+
+00:47:04
+again cryptography here is very useful
+
+00:47:05
+for this uh in particular you don't have
+
+00:47:07
+to like trust some other third party to
+
+00:47:09
+tell you these things because you can
+
+00:47:11
+just run the cryptography locally uh and
+
+00:47:13
+like get to the same facts yourself so
+
+00:47:15
+again we're reducing trust in the
+
+00:47:17
+system then you use Pro of work to
+
+00:47:20
+implement the consensus here um and
+
+00:47:22
+again there's this notion of civil
+
+00:47:23
+protection where you just have to do
+
+00:47:25
+some amount of work before the blocks
+
+00:47:27
+even considered valid and then in the
+
+00:47:29
+same breath you know this is kind of a
+
+00:47:31
+cool thing about Bitcoin is that it
+
+00:47:33
+leverages this in multiple ways but not
+
+00:47:35
+only do you get simple production but
+
+00:47:36
+you also can use this uh this notion of
+
+00:47:39
+difficulty to to implement your
+
+00:47:42
+consensus right and to to give you one
+
+00:47:44
+unique
+
+00:47:45
+chain um there's another cool bit with
+
+00:47:48
+like these cryptocurrencies that uh they
+
+00:47:51
+also you know have this like native
+
+00:47:53
+currency they can issue right so you
+
+00:47:55
+just make up this money prot call you
+
+00:47:57
+can actually then also hand out money as
+
+00:47:59
+rewards to incentivize people to
+
+00:48:01
+actually you know extend the state of
+
+00:48:02
+the chain because again remember we're
+
+00:48:04
+now in the setting where it's a
+
+00:48:05
+permissionless open system anyone can
+
+00:48:07
+come and join uh without some incentive
+
+00:48:10
+to actually like add another block to
+
+00:48:12
+the chain you might imagine that no one
+
+00:48:14
+cares right and so then it's just like
+
+00:48:17
+the protocol stops um right so then you
+
+00:48:21
+have these rewards and you know it it
+
+00:48:24
+seems to work like Bitcoin running uh
+
+00:48:27
+people care about it and yeah that's
+
+00:48:29
+pretty
+
+00:48:31
+cool okay
+
+00:48:34
+so hopefully this gives you some notion
+
+00:48:36
+of what we mean when we talk about
+
+00:48:37
+consensus in these distributed
+
+00:48:40
+protocols um that was Bitcoin just
+
+00:48:43
+because it's usually like a pretty
+
+00:48:44
+straightforward simple way to think
+
+00:48:46
+about this stuff and now we'll turn to
+
+00:48:49
+ethereum so in general so yeah um
+
+00:48:57
+it yeah there's a lot to say here but
+
+00:48:59
+basically um ethereum today is in this
+
+00:49:02
+proof of State consensus that'll explain
+
+00:49:04
+a bit more in a second um previously we
+
+00:49:06
+had a proof work consensus mechanism
+
+00:49:09
+there is this event called the merge
+
+00:49:10
+that basically swapped us from Pro work
+
+00:49:12
+to prove a mistake and I'll talk about
+
+00:49:13
+that more in a second um but ultimately
+
+00:49:16
+uh yeah we now have this consensus layer
+
+00:49:18
+of ethereum that uses this stake
+
+00:49:21
+protocol and yeah so let's look at that
+
+00:49:27
+um generally moving from proof work to
+
+00:49:28
+proof of stake the idea is rather than
+
+00:49:30
+use this what I'm calling an exogenous
+
+00:49:32
+signal uh for the simple protection and
+
+00:49:34
+consensus namely this work you put in to
+
+00:49:36
+like compute this right block hash to
+
+00:49:38
+like you know signal this is a valid
+
+00:49:40
+block and it can go into the chain we're
+
+00:49:42
+going to use an endogenous signal uh and
+
+00:49:45
+here I mean with respect to the protocol
+
+00:49:47
+right so the protocol itself can can see
+
+00:49:50
+now because we have this notion of stake
+
+00:49:52
+so the idea is you have some coins in
+
+00:49:55
+this case e ether you lock up ether as
+
+00:49:57
+sort of like you know this like Risk
+
+00:49:59
+capital or this stake in the system and
+
+00:50:03
+this is compared to say like work and
+
+00:50:05
+Bitcoin where the work is like this
+
+00:50:07
+thing that's just happening like the
+
+00:50:09
+Bitcoin protocol itself has no way to
+
+00:50:11
+understand uh what work was done like
+
+00:50:14
+you
+
+00:50:15
+can't yeah it's like it's not it's this
+
+00:50:18
+thing that comes from outside the system
+
+00:50:19
+so hopefully this Point's
+
+00:50:21
+clear um it turns out that doing this is
+
+00:50:24
+really useful because now that you have
+
+00:50:26
+an N protocol representation of this of
+
+00:50:29
+this thing we're going to use for
+
+00:50:30
+consensus the stake uh you can do a lot
+
+00:50:33
+more with it so uh that's kind of the
+
+00:50:36
+second Point around incentive concerns
+
+00:50:38
+but I'll just briefly touch on the first
+
+00:50:39
+point which is energy usage so you know
+
+00:50:42
+people were and still are very concerned
+
+00:50:44
+that the way this proof of work works is
+
+00:50:46
+there's now almost this race to like
+
+00:50:48
+toss as much work as you can to the
+
+00:50:49
+system this is good for the security
+
+00:50:51
+system because the more work the harder
+
+00:50:53
+it is to make a competing block and sort
+
+00:50:55
+of reorg the system to like some other
+
+00:50:56
+history but then at the same time you
+
+00:50:59
+have people just like dumping energy
+
+00:51:00
+into the system um and you know
+
+00:51:02
+especially if you don't think Bitcoin is
+
+00:51:04
+useful or valuable then it seems like
+
+00:51:05
+it's wasted in some sense so there was
+
+00:51:08
+this push and still is this push to
+
+00:51:09
+think about you know more energy
+
+00:51:11
+efficient ways we can design these
+
+00:51:13
+systems and that is a lot of the
+
+00:51:14
+motivation for moving to proof of
+
+00:51:16
+state so um at the same time there's
+
+00:51:20
+also incentive concerns uh around proof
+
+00:51:22
+work itself and again this kind of gets
+
+00:51:24
+to the fact that
+
+00:51:26
+there's no way like you can you can hand
+
+00:51:28
+out rewards for work you can like invite
+
+00:51:30
+people to do this work to like add
+
+00:51:32
+blocks to bitcoin but there's no way to
+
+00:51:34
+like then turn around and punish them or
+
+00:51:35
+like take away these rewards if they
+
+00:51:37
+don't do what you want so you kind of
+
+00:51:39
+almost have like half of uh you know the
+
+00:51:42
+way to think about it is like carrot and
+
+00:51:43
+stick there's like a stick or rather
+
+00:51:46
+sorry there's a carrot right so you can
+
+00:51:47
+hand out these carrots with Bitcoin
+
+00:51:49
+which are more
+
+00:51:50
+Bitcoin but there's no stick to say okay
+
+00:51:54
+if you do something bad if you try to
+
+00:51:55
+actively reorg the chain or just
+
+00:51:57
+something like this uh you know I'm
+
+00:51:58
+going to like SWAT you with the stick
+
+00:52:01
+and uh prove a stake because you then
+
+00:52:03
+have the actual consensus like resource
+
+00:52:05
+within the protocol itself it actually
+
+00:52:07
+gives you a lot more flexibility around
+
+00:52:09
+implementing this like stick right in
+
+00:52:11
+particular what we mean is you can
+
+00:52:12
+actually hand out penalties for bad
+
+00:52:14
+behavior not just
+
+00:52:15
+rewards this reduces attack surface and
+
+00:52:18
+generally makes system more
+
+00:52:21
+secure and yeah okay so we'll we'll dig
+
+00:52:24
+into proof of stake ethereum
+
+00:52:27
+so you know at a very high level it
+
+00:52:29
+looks a lot more like these traditional
+
+00:52:31
+bft protocols um and again I'll try to
+
+00:52:33
+like throw up some diagrams to make that
+
+00:52:35
+more clear um there's a notion of
+
+00:52:38
+validator so you know the system is
+
+00:52:41
+still permissionless to the extent that
+
+00:52:42
+anyone can join but they do have to put
+
+00:52:44
+up this stake which today is like 32 e
+
+00:52:47
+and the way this is going to work is
+
+00:52:49
+that you essentially run something like
+
+00:52:51
+two-phase commit like I was talking
+
+00:52:52
+about a second ago and once you have a
+
+00:52:54
+bft majority so once say two-thirds of
+
+00:52:57
+the chain has signed off on some you
+
+00:52:58
+know unique state of the chain there's
+
+00:53:01
+no way to like sign off have the
+
+00:53:04
+majority sign off on another chain
+
+00:53:05
+without there being what we call
+
+00:53:07
+equivocation or again like some some
+
+00:53:09
+conflict and because there's this
+
+00:53:11
+resource within the protocol of the
+
+00:53:13
+stake uh if we do observe one of these
+
+00:53:15
+equivocations or one of these you know
+
+00:53:17
+faults or conflicts we can actually uh
+
+00:53:19
+Delete stake of the actors who who
+
+00:53:22
+messed up so to speak right so you know
+
+00:53:26
+every action is essentially signed and
+
+00:53:28
+so you can actually have the protocol
+
+00:53:29
+itself inest these messages and you can
+
+00:53:31
+say Hey you know um you know a majority
+
+00:53:34
+of the valuators said this was the chain
+
+00:53:36
+sometime later they wanted to reor to a
+
+00:53:38
+different state of the chain but this is
+
+00:53:40
+actually in conflict and so when they do
+
+00:53:42
+this you can then say hey this is bad
+
+00:53:44
+I'm going to ignore this other state and
+
+00:53:46
+moreover I'm going to punish you somehow
+
+00:53:49
+um this will we mean when we talk about
+
+00:53:50
+slashing is that basically we can start
+
+00:53:52
+to then even just delete this stake when
+
+00:53:54
+we observe one of these faults
+
+00:53:57
+so ultimately you know especially
+
+00:53:58
+compared to these proof work chains it's
+
+00:54:00
+less resource intensive more secure
+
+00:54:03
+sounds pretty
+
+00:54:06
+cool so yeah I'm going to switch back to
+
+00:54:10
+uh my little whiteboard over here and
+
+00:54:13
+try to go through some of the details of
+
+00:54:15
+the proof stake protocol um this is
+
+00:54:17
+probably a good time for questions if
+
+00:54:19
+anyone has
+
+00:54:22
+them there are a couple questions here
+
+00:54:26
+okay
+
+00:54:27
+um one question about is if there's a
+
+00:54:30
+significance in the uh 32e denomination
+
+00:54:35
+for
+
+00:54:37
+staking sure yeah so there is um and it
+
+00:54:40
+gets back again to the same bottleneck
+
+00:54:43
+we were talking about a second ago where
+
+00:54:45
+there's this trade-off between how much
+
+00:54:48
+throughput or like how how much your
+
+00:54:49
+system can process over a given time and
+
+00:54:51
+how long it takes and the idea of the 32
+
+00:54:54
+eth is that it's like striking some spot
+
+00:54:56
+in this trade-off between there being
+
+00:54:58
+too many validators meaning too much
+
+00:55:00
+overhead meaning it takes too long to
+
+00:55:02
+actually like come to consensus um
+
+00:55:04
+versus they're being too few and the
+
+00:55:06
+system not being as
+
+00:55:07
+secure and yeah I might touch on this a
+
+00:55:11
+little bit later but ultimately
+
+00:55:13
+um you know even originally we were
+
+00:55:15
+thinking something more like a thousand
+
+00:55:17
+eth lockup and you know that would mean
+
+00:55:19
+probably a much smaller number of
+
+00:55:20
+validators but the protocol would also
+
+00:55:22
+be more secure um I believe Justin Drake
+
+00:55:24
+actually suggested this use of BLS
+
+00:55:26
+signatures which is this cryptographic
+
+00:55:28
+construct that lets you actually
+
+00:55:29
+aggregate messages um so rather than
+
+00:55:32
+have to process say like 100 messages
+
+00:55:34
+you can aggregate them into one and you
+
+00:55:36
+know for the same amount of work you can
+
+00:55:38
+basically do one processing that would
+
+00:55:39
+stand in for 100 right and because of
+
+00:55:42
+this we could actually scale the system
+
+00:55:44
+um and you know what this meant then
+
+00:55:46
+concretely is that uh rather than have
+
+00:55:49
+you know fewer validators or something
+
+00:55:50
+for the same dat account uh we could
+
+00:55:52
+actually lower the stake required and so
+
+00:55:54
+that's why we have the
+
+00:55:57
+32 cool thank you um one other question
+
+00:56:02
+uh is there an upper limit to the number
+
+00:56:04
+of validators in proof of
+
+00:56:09
+stake um thetically no but again you'll
+
+00:56:12
+hit practicalities of like these being
+
+00:56:15
+systems out in the real world so uh we
+
+00:56:18
+have just under a million validators on
+
+00:56:19
+mainnet right now uh the cord devs very
+
+00:56:22
+much are concerned about getting you
+
+00:56:24
+know even like 2 million right like
+
+00:56:26
+there's been a sort of there's been like
+
+00:56:28
+many many optimizations we've had to put
+
+00:56:30
+into the protocol especially like the
+
+00:56:32
+implementation to even get to this
+
+00:56:33
+amount um we have our heski test net
+
+00:56:36
+that's just over 1.5 million and it
+
+00:56:39
+works but you know we definitely do like
+
+00:56:42
+sort of these like more ephemeral test
+
+00:56:43
+Nets uh these like Dev Nets to actually
+
+00:56:45
+see how high we can go and basically
+
+00:56:47
+yeah the number um you know I don't
+
+00:56:50
+think we can comfortably go much past
+
+00:56:52
+that and so you know at the very end if
+
+00:56:54
+we have time I'll touch on some like
+
+00:56:56
+future directions of things we're
+
+00:56:57
+thinking about today and one of them is
+
+00:56:59
+very much figuring out actually how to
+
+00:57:00
+like reduce the validator count um for
+
+00:57:03
+this
+
+00:57:06
+reason great uh Mario any other
+
+00:57:09
+questions you want to
+
+00:57:11
+surface I think it's good for
+
+00:57:14
+now go
+
+00:57:18
+ahead okay great um let's see and it has
+
+00:57:24
+the little
+
+00:57:25
+reacts let's see let me just double
+
+00:57:29
+check I think time
+
+00:57:31
+wise we're okay like 30 minutes
+
+00:57:34
+okay let's see here okay let me switch
+
+00:57:39
+back to my
+
+00:57:51
+whiteboard
+
+00:57:54
+and
+
+00:58:01
+okay uh we should be good with this so
+
+00:58:05
+okay this was uh my previous scribbling
+
+00:58:07
+around Bitcoin consensus so we're now
+
+00:58:09
+going to look at yeah let me just get a
+
+00:58:12
+new
+
+00:58:14
+page I thought I could just do this
+
+00:58:18
+apparently I
+
+00:58:19
+can't yeah this is
+
+00:58:21
+great okay yeah we'll do it like this so
+
+00:58:29
+okay so yeah let's look at ethereum
+
+00:58:32
+proofer
+
+00:58:42
+stake
+
+00:58:43
+[Music]
+
+00:58:45
+so yeah let me think about where I want
+
+00:58:47
+to begin I guess just like to set the
+
+00:58:49
+stage um within ethereum we have these
+
+00:58:52
+like in protocol consensus actors the
+
+00:58:57
+validators
+
+00:58:58
+and yeah the validators do quite a bit
+
+00:59:02
+um and this is maybe a little confusing
+
+00:59:04
+because you don't this is actually
+
+00:59:06
+something I think people have a
+
+00:59:07
+misconception about around ethereum
+
+00:59:09
+generally is that um you're still like
+
+00:59:13
+you don't need to like lock up 32 eth to
+
+00:59:15
+be a validator to like validate the
+
+00:59:16
+protocol like anyone can join the
+
+00:59:18
+protocol you know I can go run a full
+
+00:59:20
+node right now that doesn't I'm not a
+
+00:59:23
+cons actor in The protocol but I'm still
+
+00:59:25
+running I'm still validating all the
+
+00:59:27
+blocks I see running the consensus that
+
+00:59:29
+the vors provide um and I I get to the
+
+00:59:32
+same state right and this is actually
+
+00:59:34
+important
+
+00:59:35
+because the validators are not
+
+00:59:37
+necessarily trusted right they have this
+
+00:59:38
+penalty like they have this we have this
+
+00:59:40
+way to penalize them in the protocol um
+
+00:59:43
+but as I'll probably get to later you
+
+00:59:45
+can get to a place where even if the you
+
+00:59:48
+know consensus is like correct the
+
+00:59:51
+consensus could be on like a chain that
+
+00:59:53
+doesn't Implement something we agree
+
+00:59:55
+agreed to like if there is a malicious
+
+00:59:57
+uh majority even of the validator set
+
+00:59:59
+they could decide to say hey the actual
+
+01:00:02
+consensus was over this like block where
+
+01:00:04
+you know we printed a million e do
+
+01:00:06
+validators this would be like a strong
+
+01:00:08
+violation of like the protocol right
+
+01:00:10
+because again we have a notion of what
+
+01:00:11
+ethereum should do there's like this
+
+01:00:13
+ether asset and you know everything on
+
+01:00:15
+top in the EPM and you know it should
+
+01:00:18
+still follow the rules like the
+
+01:00:19
+validators should have no special role
+
+01:00:21
+in here um other than provide this like
+
+01:00:23
+consensus function and and uh we still
+
+01:00:26
+want to hold them accountable and keep
+
+01:00:27
+them in check and the way that we do
+
+01:00:29
+this is like we run the nodes ourselves
+
+01:00:31
+right so going back to bitcoin for a
+
+01:00:33
+second you know everyone running Bitcoin
+
+01:00:36
+even if you're not adding blocks to the
+
+01:00:38
+chain you know acting as this minor
+
+01:00:40
+you're still checking the protocol again
+
+01:00:42
+to keep the miners accountable same
+
+01:00:44
+thing here where you know you still want
+
+01:00:46
+to validate the protocol even if you're
+
+01:00:48
+not one of these condous
+
+01:00:51
+validators so hopefully that's clear um
+
+01:00:55
+so the way this works is you have
+
+01:00:56
+validators uh today if you want to like
+
+01:00:59
+join the system you know you like find
+
+01:01:01
+your 32 eth um which these days is a lot
+
+01:01:04
+of money but you have the 32 e uh you
+
+01:01:08
+send it to this special place in the evm
+
+01:01:11
+uh and you know I'll kind of assume you
+
+01:01:13
+guys generally understand how this works
+
+01:01:15
+um at least in at Broad Strokes because
+
+01:01:17
+of yesterday or sorry the last talk
+
+01:01:20
+looking at execution layer but um you
+
+01:01:23
+send your 32 e to this IT
+
+01:01:25
+contract and uh there's a way then okay
+
+01:01:31
+actually I I'll draw that out but let me
+
+01:01:32
+just finish this
+
+01:01:35
+contract okay so this is now um a really
+
+01:01:38
+important thing to understand is that
+
+01:01:41
+there's a consensus layer CL and an
+
+01:01:44
+execution layer and basically now
+
+01:01:47
+there's like two almost different parts
+
+01:01:49
+of the protocol that work together um
+
+01:01:51
+before the merge in like Pro work
+
+01:01:52
+ethereum these things were kind of like
+
+01:01:55
+uh you know they kind of were like one
+
+01:01:57
+one unit and in part of this was because
+
+01:02:00
+the the consensus protocol was from work
+
+01:02:03
+it was like relatively simple compared
+
+01:02:05
+to like proof of stake as you'll see
+
+01:02:06
+there's a lot going on um and for you
+
+01:02:11
+know complexity reasons security reasons
+
+01:02:13
+and also historical reasons uh this new
+
+01:02:15
+purpose cons layer was developed kind of
+
+01:02:17
+in parallel and so that's like why we
+
+01:02:19
+had the merge uh was to basically um
+
+01:02:22
+bring in this new cons Slayer to to add
+
+01:02:25
+consensus to the chain and replace the
+
+01:02:27
+proof of work
+
+01:02:29
+setting so let's see yep there we go so
+
+01:02:32
+there's a consensus layer
+
+01:02:35
+and one way to think about this is that
+
+01:02:38
+there's almost like two different chains
+
+01:02:39
+here right so there's like the consus
+
+01:02:41
+layer that's making consus
+
+01:02:43
+blocks and there's also like this
+
+01:02:45
+execution layer that you know in some
+
+01:02:49
+sense is also producing blocks uh the
+
+01:02:52
+way this actually works is like you know
+
+01:02:54
+this execution payload is inside each
+
+01:02:56
+consist block so it's still just like
+
+01:02:58
+one block but you can kind of think of
+
+01:03:00
+it as having these two layers
+
+01:03:02
+right and within the execution layer
+
+01:03:04
+this is where all of our you know
+
+01:03:05
+execution stay lives the evm is running
+
+01:03:08
+this is where for example like the
+
+01:03:09
+deposit contract lives so you know say
+
+01:03:12
+in this block you like put in your 32
+
+01:03:14
+eth into the deposit contract and
+
+01:03:16
+there's a way now that the consus layer
+
+01:03:18
+can basically read this execution layer
+
+01:03:21
+and it's just watching this deposit
+
+01:03:22
+contract so what this means is that you
+
+01:03:25
+know when a new validator has put in 32
+
+01:03:27
+e uh the CL can see this it then
+
+01:03:30
+basically makes an entry say in the next
+
+01:03:31
+block to add a new
+
+01:03:34
+validator okay so there's a way for that
+
+01:03:36
+to enter the system there's also a way
+
+01:03:39
+for them to exit there's a consist layer
+
+01:03:41
+message that they would add so let's say
+
+01:03:43
+I don't know let's go mini in the future
+
+01:03:46
+there's now I'll start drawing Big
+
+01:03:47
+Blocks for like the unified thing but
+
+01:03:50
+ultimately you know um you know this
+
+01:03:54
+validator puts in an exit let's say
+
+01:03:55
+because they want to stop validating uh
+
+01:03:58
+the exit's processed and then ultimately
+
+01:04:00
+you know some many blocks later you end
+
+01:04:02
+up with a withdrawal off to some other
+
+01:04:05
+you know I don't know some whatever so
+
+01:04:07
+they get to pick you know their
+
+01:04:08
+execution address to withdrawal too um
+
+01:04:11
+but let's say you know we picked uh I'll
+
+01:04:13
+just write some random hex here dead
+
+01:04:16
+beef Cafe is always fun and then how
+
+01:04:19
+this will work is once the validator is
+
+01:04:21
+done validating um there's many
+
+01:04:23
+conditions that they to satisfy to
+
+01:04:25
+actually exit the system but once they
+
+01:04:27
+have then the way to think about it is
+
+01:04:29
+you know if they have 32 e and maybe
+
+01:04:30
+some rewards so let's say they're up to
+
+01:04:32
+like 304th that's withdrawn to this
+
+01:04:34
+execution layer address they could turn
+
+01:04:37
+around and then like redeposit into the
+
+01:04:38
+system and you know however they want to
+
+01:04:40
+do this but basically there's now this
+
+01:04:42
+way to go from the execution layer into
+
+01:04:44
+the cons layer and back um and you know
+
+01:04:46
+importantly it's permissionless like the
+
+01:04:48
+only thing you really need to join the
+
+01:04:50
+system uh is is the stake which right
+
+01:04:52
+now is 32 e
+
+01:04:56
+so okay let
+
+01:04:57
+[Music]
+
+01:04:59
+me how do I want to do this I'll just
+
+01:05:02
+keep
+
+01:05:04
+going okay
+
+01:05:07
+so I'm now about in the system like what
+
+01:05:10
+am I going to do like the main thing I'm
+
+01:05:12
+doing with respect to consensus is
+
+01:05:15
+forming consensus and so how do I do
+
+01:05:18
+this um the way it's going to work is
+
+01:05:20
+that as a validator I'm going to make an
+
+01:05:22
+attestation and if you dig into this
+
+01:05:24
+stuff you'll see this word like
+
+01:05:28
+everywhere mainly because this is the
+
+01:05:30
+core thing that aor is doing and what an
+
+01:05:32
+association means is it's basically
+
+01:05:34
+saying you know um just based on my
+
+01:05:36
+local view this is the state of the
+
+01:05:38
+chain right at some time state of
+
+01:05:43
+chain at um there's a notion of slot
+
+01:05:46
+which I'll explain in a second but let's
+
+01:05:48
+just say you know it's
+
+01:05:50
+slot uh slot
+
+01:05:53
+s the way this works is that every
+
+01:05:56
+validator you know say there's like a
+
+01:05:58
+million validators on mainnet that means
+
+01:06:00
+that over some period of time in these
+
+01:06:02
+like rounds of the protocol uh every
+
+01:06:04
+validator will make one attestation that
+
+01:06:07
+is basically signing over they make a
+
+01:06:09
+cryptographic signature over their state
+
+01:06:10
+of the chain and if there is only one
+
+01:06:12
+chain or like you know the idea is that
+
+01:06:14
+ultimately they should all attest to the
+
+01:06:16
+same chain and uh you can take all the
+
+01:06:19
+attestations over some period of time
+
+01:06:21
+you can basically sum them all up and
+
+01:06:23
+you end up with some notion of State
+
+01:06:24
+weight on some Fork of the chain so yeah
+
+01:06:27
+I'll I'll draw this out a bit more in a
+
+01:06:29
+second but ultimately the idea is that
+
+01:06:32
+you know if I have my blockchain here so
+
+01:06:35
+this is now ethereum of course
+
+01:06:38
+everything has a parent chain or parent
+
+01:06:40
+block that's nice the idea is that when
+
+01:06:42
+I go to make a new Block in the chain
+
+01:06:44
+every other validator is going to
+
+01:06:46
+essentially attest you know to this
+
+01:06:48
+chain so I'll draw like many check marks
+
+01:06:49
+because there are many attestations and
+
+01:06:53
+um like in particular if there was like
+
+01:06:55
+some other block over here that claimed
+
+01:06:57
+the same parent this would not be a fork
+
+01:06:59
+in the chain right because these
+
+01:07:01
+basically are saying relative to you
+
+01:07:04
+know this slot or this period in time
+
+01:07:07
+then uh you know the next block is
+
+01:07:09
+either this one or this one and we need
+
+01:07:11
+to know which one right this is the
+
+01:07:13
+whole point of consensus is that if our
+
+01:07:14
+consensus protocol is working we're
+
+01:07:15
+going to pick just one right because
+
+01:07:18
+again there needs to be this unique
+
+01:07:19
+sequence so um the ad stations help us
+
+01:07:23
+here because we can basically use the
+
+01:07:24
+attestations as a way to like weight
+
+01:07:26
+these relative chains so let's say
+
+01:07:27
+there's like you know four attestations
+
+01:07:29
+these like four check marks here um and
+
+01:07:31
+let's say this block only gets like two
+
+01:07:33
+attestations uh very similar to like
+
+01:07:35
+proof of work we're going to use the
+
+01:07:37
+attestation like the stake for each
+
+01:07:39
+attestation right which is my again my
+
+01:07:40
+validator St in the system as this like
+
+01:07:43
+score to score the block and so in this
+
+01:07:45
+case we'd have like four votes versus
+
+01:07:47
+two and we would say this is the head of
+
+01:07:50
+the chain then so as we go to put the
+
+01:07:51
+next block in the chain we would build
+
+01:07:53
+on top of this one
+
+01:07:55
+and I'll go into this a little bit more
+
+01:07:56
+in depth in a little bit but ultimately
+
+01:07:58
+um this is kind of the idea of what
+
+01:08:00
+these ass stations are
+
+01:08:02
+doing so I use these words slot so let's
+
+01:08:09
+actually get into some of the details
+
+01:08:10
+here so the way this will work is that
+
+01:08:15
+um the protocol actually has some notion
+
+01:08:18
+of like you know what we call wall clock
+
+01:08:20
+time and what this means is that it's
+
+01:08:22
+like actually the time you would see
+
+01:08:24
+like on a clock right so like you know
+
+01:08:26
+if it's like what is it like 604 UTC or
+
+01:08:31
+something right now then uh you know
+
+01:08:33
+that's like the
+
+01:08:34
+time and what we're going to do is uh
+
+01:08:38
+we're going to pick some Genesis time uh
+
+01:08:41
+so I'll just say like you know t0 for
+
+01:08:43
+the Genesis time and the idea is that
+
+01:08:45
+this was like when the cons protocol
+
+01:08:47
+started and now to like actually
+
+01:08:49
+structure things we're going to divide
+
+01:08:51
+our like walk clock time you know just
+
+01:08:54
+again like our normal sense of time
+
+01:08:55
+we're going to divide it into
+
+01:08:57
+slots um I'll write this down it's a
+
+01:09:00
+important concept so we have slots um
+
+01:09:04
+the slots could be generally like
+
+01:09:06
+whatever time we want um today they're
+
+01:09:08
+12 seconds and maybe we'll talk a bit
+
+01:09:11
+about you know what that means but the
+
+01:09:13
+idea is that every 12 seconds there's a
+
+01:09:15
+new slot you know
+
+01:09:17
+T1 well I could actually even just
+
+01:09:20
+number these you know slot zero slot one
+
+01:09:25
+every 12 seconds
+
+01:09:26
+right no matter what actually happens uh
+
+01:09:31
+this is just following the time out in
+
+01:09:33
+the world and so you're always going to
+
+01:09:34
+have a new slot every 12
+
+01:09:37
+seconds okay so we have these slots from
+
+01:09:41
+here now
+
+01:09:43
+um and there's things that happen in
+
+01:09:45
+each slot and I'll I'll illustrate that
+
+01:09:47
+more in a second but basically the idea
+
+01:09:49
+would be that for example every slot can
+
+01:09:51
+have a block right so I can have blocks
+
+01:09:55
+here um there is like you know very
+
+01:09:59
+importantly there's the possibility that
+
+01:10:01
+you know whatever validator was supposed
+
+01:10:02
+to propose in slot two they like missed
+
+01:10:05
+their proposal for some reason and so
+
+01:10:06
+this is actually just missed um so I'll
+
+01:10:09
+just do like a dotted sort of empty
+
+01:10:12
+block here uh the next validator would
+
+01:10:14
+propose in slot three and again uh you
+
+01:10:17
+know so this block would have this next
+
+01:10:19
+parent and we' keep going so generally
+
+01:10:23
+we have slots uh the way you should
+
+01:10:26
+think about it is that each slot has one
+
+01:10:28
+block this is like the block time of
+
+01:10:30
+ethereum uh we kind of inherited this
+
+01:10:32
+from proof work where it was like
+
+01:10:33
+targeting maybe say like 14 seconds uh
+
+01:10:36
+so 12 seconds is just the number we
+
+01:10:38
+settled on and the idea is like this is
+
+01:10:41
+our smallest unit of time in the
+
+01:10:43
+protocol where uh you should basically
+
+01:10:46
+put a block into the chain every 12
+
+01:10:48
+seconds each slot
+
+01:10:52
+okay now um
+
+01:10:55
+what this means is that you know as a
+
+01:10:56
+user let's like you know go to the other
+
+01:10:58
+end of the spectrum back in the
+
+01:10:59
+execution layer when I'm a user you know
+
+01:11:01
+if I make my like Unis swap trade uh
+
+01:11:04
+here right um or let's I don't know
+
+01:11:06
+let's say I like broadcast it here and
+
+01:11:09
+then what I
+
+01:11:11
+hope if I can preserve enough of my
+
+01:11:14
+drawing what I hope is that basically a
+
+01:11:17
+validator can pick up my
+
+01:11:19
+transaction you know and put it into
+
+01:11:22
+here I'll use a different color here's
+
+01:11:24
+Unis swap trade in blue hopefully they
+
+01:11:25
+can pick up my transaction along with
+
+01:11:27
+like many others and they can actually
+
+01:11:28
+put it into the block you know to go
+
+01:11:30
+into slot four and you know if you're
+
+01:11:33
+like using I don't know metamask to make
+
+01:11:35
+this Unis swap trade you know there's
+
+01:11:36
+some time before say it shows up on
+
+01:11:38
+ether scan or if you even look your
+
+01:11:40
+local node even better but ultimately um
+
+01:11:43
+there's some time before you actually
+
+01:11:44
+get the transaction on chain and that's
+
+01:11:46
+because of the slot time you don't have
+
+01:11:48
+a new block until you know somewhere
+
+01:11:50
+between 0 and 12 seconds depending on
+
+01:11:52
+when you actually broadcast this
+
+01:11:54
+original
+
+01:11:55
+transaction
+
+01:11:57
+okay so that's kind of a feel for sort
+
+01:12:01
+of this like heartbeat of the protocol
+
+01:12:02
+and how like things might line up with
+
+01:12:04
+you making transactions that's said the
+
+01:12:06
+execution layer separately there's like
+
+01:12:08
+a lot of Machinery that cons this layer
+
+01:12:10
+and in particular um you know so like
+
+01:12:13
+here's here's one thing these
+
+01:12:14
+attestations the idea again is that like
+
+01:12:17
+for every slot uh let me go
+
+01:12:20
+back to my other color so for every slot
+
+01:12:23
+right you're going to have like some
+
+01:12:24
+attestations right so like I don't know
+
+01:12:26
+let's say attestation like you know from
+
+01:12:28
+validator 12 three we go into this block
+
+01:12:31
+but also ATT station like four five six
+
+01:12:34
+um and in general you're going to have
+
+01:12:36
+like many attest stations per block and
+
+01:12:38
+then separately um you're going to have
+
+01:12:40
+more for the next block right so I don't
+
+01:12:43
+know pick your favorite validator
+
+01:12:45
+indices But ultimately validators make
+
+01:12:48
+attestations the idea is that they
+
+01:12:49
+should go to the next block and in
+
+01:12:50
+particular the way this works is that
+
+01:12:52
+for each of these blocks there's going
+
+01:12:54
+to be like a unique state of the chain
+
+01:12:56
+they attest to or that they commit to
+
+01:12:58
+rather and validators then when they
+
+01:13:00
+make these attestations they basically
+
+01:13:02
+just look at this block they look at you
+
+01:13:05
+know so this sat station say from valid
+
+01:13:07
+123 they're going to look at the state
+
+01:13:08
+of the chain they're going to say well
+
+01:13:12
+okay
+
+01:13:13
+so how it really works is that in this
+
+01:13:16
+slot they would actually look at say the
+
+01:13:18
+prior slot um which in this case would
+
+01:13:20
+even take you back to this walk but
+
+01:13:22
+ultimately you're going look at the
+
+01:13:24
+latest dat of the chain and they would
+
+01:13:27
+uh sign over hey I think the current
+
+01:13:29
+block is you know this one um that then
+
+01:13:33
+would get included
+
+01:13:35
+um okay I run a little out of sinare
+
+01:13:38
+sorry about that let me simplify this a
+
+01:13:42
+bit um let me actually just do this so
+
+01:13:45
+now we're going to zoom in actually into
+
+01:13:46
+one
+
+01:13:48
+slot so let's say we'll take slot three
+
+01:13:51
+as our example the way this works is
+
+01:13:53
+that that uh so this is at like you know
+
+01:13:56
+tal 0 t = 12 and again this is like slot
+
+01:14:01
+three um over here is like slot four so
+
+01:14:04
+we're just looking at one slot now the
+
+01:14:06
+way this would work is that uh the
+
+01:14:09
+validator for slot three they're going
+
+01:14:10
+to make uh this block here you know and
+
+01:14:14
+they should really s the start of the
+
+01:14:16
+slot this is going to have attestations
+
+01:14:18
+from the previous slot let's say all my
+
+01:14:20
+transactions like my un swap trades and
+
+01:14:21
+whatever um all the stuff that needs to
+
+01:14:24
+go into the next block is going to be
+
+01:14:25
+here uh the way this works is then at
+
+01:14:28
+like tals 4 um just to like divide this
+
+01:14:33
+slot up into
+
+01:14:34
+thirds or yeah thirds rather uh this the
+
+01:14:39
+any any validator who's assigned to test
+
+01:14:42
+in slot three they're going to say Hey
+
+01:14:44
+you know I'm going to make an
+
+01:14:45
+attestation let's say the block the
+
+01:14:48
+block rout as we call them here is like
+
+01:14:51
+um
+
+01:14:52
+ABD they're going to say my attestation
+
+01:14:55
+so let's we're looking at validator 123
+
+01:14:57
+again their attestation is going to say
+
+01:14:59
+yeah my state of the chain is AB D
+
+01:15:04
+whatever the rest of the hash is um
+
+01:15:06
+they're going to broadcast their at to
+
+01:15:08
+station there are different actors who
+
+01:15:10
+then basically have the next four
+
+01:15:11
+seconds to aggregate them into like uh
+
+01:15:14
+just a smaller package to get on chain
+
+01:15:16
+and the idea is that
+
+01:15:18
+ultimately this
+
+01:15:22
+attestation ends up in the next slot
+
+01:15:25
+right so now we have the next block
+
+01:15:27
+which has you know again like our Unis
+
+01:15:29
+swof transactions or whatever new
+
+01:15:30
+execution State there is but then it
+
+01:15:32
+also should include this
+
+01:15:35
+attestation then you just get the blocks
+
+01:15:37
+from the network you can then count
+
+01:15:38
+these attestations as they come in and
+
+01:15:41
+they can tell you things like yes you
+
+01:15:42
+know a majority of the vouter set
+
+01:15:44
+thought that this was actually the block
+
+01:15:45
+and slot
+
+01:15:47
+three
+
+01:15:49
+okay um so this is at the slot level
+
+01:15:52
+there's another notion
+
+01:15:57
+that
+
+01:15:59
+okay um a little short on time but
+
+01:16:02
+that's my problem so there's another
+
+01:16:04
+notion which is uh an
+
+01:16:08
+Epoch so the way to think about Epoch is
+
+01:16:10
+that there just some number of slots um
+
+01:16:13
+and on mayet for example there's 32
+
+01:16:17
+slots per
+
+01:16:18
+Epoch and the reason we do this is that
+
+01:16:21
+we basically want to like um there's
+
+01:16:23
+like a bunch of because this is
+
+01:16:24
+processing that is relatively heavy and
+
+01:16:26
+so we want to batch it so it only
+
+01:16:28
+happens every so often rather than every
+
+01:16:30
+slot so the way I think about this is
+
+01:16:32
+that you know here's our 32
+
+01:16:37
+slots I didn't draw 32 but you get the
+
+01:16:40
+picture um you know this is like you
+
+01:16:42
+know we'll just start at Genesis so 0
+
+01:16:45
+one two three dot dot dot dot dot and
+
+01:16:47
+this is you know this would be slot uh
+
+01:16:50
+30 and 31 so these are zero index you
+
+01:16:53
+get to like 32 slots for Epoch and this
+
+01:16:57
+then would be Epoch since we started at
+
+01:17:00
+Genesis Epoch zero the way you should
+
+01:17:03
+think about this is again it keeps going
+
+01:17:05
+just based on time uh you're now in like
+
+01:17:07
+Epoch one here and there's more slots so
+
+01:17:10
+this is now slot 32 all the way up to
+
+01:17:13
+the next multiple so you'd end up at
+
+01:17:15
+like you know slot 63 you then go to
+
+01:17:18
+Epoch 2 sastic D4 hopefully that's clear
+
+01:17:22
+and the idea is um one thing you're
+
+01:17:24
+going to do for example is like if
+
+01:17:26
+anyone's trying to enter or exit the B
+
+01:17:28
+Set uh you're going to do that at the
+
+01:17:30
+epoch boundary where you do all this
+
+01:17:32
+this heavier
+
+01:17:33
+processing
+
+01:17:35
+um I don't know what that
+
+01:17:37
+was oh I just deleted something okay um
+
+01:17:42
+right so you are going to do the C
+
+01:17:44
+processing and the idea is like you know
+
+01:17:46
+there's sorry there's blocks here right
+
+01:17:49
+so let's say ideally you have like 32
+
+01:17:52
+blocks great
+
+01:17:54
+and as you go here not only are you
+
+01:17:57
+going to do like the normal processing
+
+01:17:58
+but you're also going to say things like
+
+01:18:00
+okay um if someone got slashed or if
+
+01:18:03
+there are any penalties or rewards we're
+
+01:18:04
+going to basically like hand these out
+
+01:18:06
+um and update the cons State at this
+
+01:18:13
+boundary okay so we have slots we have
+
+01:18:17
+Epoch
+
+01:18:19
+and yeah okay so like uh I like
+
+01:18:24
+an important thing to realize is that uh
+
+01:18:27
+so we have like the whole vouter set
+
+01:18:30
+here so I don't know validator zero
+
+01:18:33
+validor one you know for example on
+
+01:18:36
+mainnet up to like you
+
+01:18:38
+know something like that almost you know
+
+01:18:41
+the millionth
+
+01:18:42
+validator and um the idea is that they
+
+01:18:46
+are randomly shuffled every Epoch into
+
+01:18:48
+these committees and what that would
+
+01:18:50
+look like is that for a given epoch
+
+01:18:54
+so here's our slots in the epoch you
+
+01:18:57
+know let's say for example there's like
+
+01:18:59
+100
+
+01:19:01
+validators well yeah maybe I'll try to
+
+01:19:04
+make this a little bit easier so there's
+
+01:19:05
+32 slots let's just say there's 320
+
+01:19:09
+validators so if there's 32 slots uh
+
+01:19:12
+that's something like 10 validators per
+
+01:19:14
+slot right and the idea is like the 10
+
+01:19:17
+validators per the out of the entire set
+
+01:19:20
+which is now 320 you're going to
+
+01:19:21
+randomly shuffle them and put
+
+01:19:23
+uh 10
+
+01:19:25
+validators um those look like blocks let
+
+01:19:28
+me do something
+
+01:19:29
+differently uh you know so one two three
+
+01:19:33
+validator four five six um again the
+
+01:19:37
+idea is that there are like 10
+
+01:19:38
+validators here and this is like a
+
+01:19:41
+pretty important variant is that uh you
+
+01:19:45
+know a
+
+01:19:46
+validator makes one ass
+
+01:19:49
+station per
+
+01:19:52
+Epoch the exact slot that they do that
+
+01:19:54
+in is determined by the protocol uh
+
+01:19:56
+there's this notion of like the Randal
+
+01:19:58
+which is um the way this works is that
+
+01:20:01
+when I go to like put a block in the
+
+01:20:03
+chain maybe I'll go back here yeah so as
+
+01:20:06
+I go to put the Block in the chain I
+
+01:20:08
+basically put some like local Randomness
+
+01:20:11
+into every block so we'll say like you
+
+01:20:13
+know r0o R1 R2 you basically just like
+
+01:20:17
+mix them all together in a particular
+
+01:20:19
+way and the idea then is that uh there's
+
+01:20:22
+this notion of of Randomness that you
+
+01:20:24
+can then use to do the shuffling uh to
+
+01:20:28
+decide then say for the next Epoch what
+
+01:20:31
+this Valor uh shuffling should be valers
+
+01:20:35
+then make one ad station PR cheok um
+
+01:20:38
+again assigned to like some particular
+
+01:20:39
+slot so you know now there's like uh
+
+01:20:43
+222
+
+01:20:45
+one96 and yeah so similarly you end up
+
+01:20:48
+with all of them in a unique slot and
+
+01:20:50
+this then tells you that um
+
+01:20:55
+did
+
+01:20:59
+I yeah maybe I'll just do this again so
+
+01:21:02
+basically it tells you
+
+01:21:07
+that uh we're looking at slots
+
+01:21:11
+now um well here this will be clear if
+
+01:21:15
+there's just one so basically now you
+
+01:21:17
+know we're at like uh this is like slot
+
+01:21:21
+23 you know this is at t equal 0 in the
+
+01:21:25
+slot T = 12 based on my view of the
+
+01:21:28
+chain I'm going to have some assignment
+
+01:21:30
+and let's say again our lucky validator
+
+01:21:32
+123 is assigned in slot 23 to ATT test
+
+01:21:35
+uh when they see this block they then
+
+01:21:37
+make their
+
+01:21:39
+attestation and this would then
+
+01:21:41
+ultimately get into the next
+
+01:21:43
+block
+
+01:21:45
+okay
+
+01:21:48
+so okay let me then touch now on
+
+01:21:50
+consensus um and that we'll actually
+
+01:21:52
+probably put us at time all right I got
+
+01:21:55
+a couple questions for you before we
+
+01:21:56
+move on okay um yeah great got one
+
+01:22:00
+question is can you uh elaborate on the
+
+01:22:02
+time Concept in proof of stake like why
+
+01:22:06
+12 seconds how do they get split uh why
+
+01:22:10
+are the 32 slots per Epoch
+
+01:22:13
+Etc right so the 12 seconds is like kind
+
+01:22:17
+of arbitrary it was inspired by uh the
+
+01:22:20
+proof of work block time which was like
+
+01:22:22
+on average about 14 seconds so we just
+
+01:22:24
+went for something a similar
+
+01:22:26
+time the the number is kind of arbitrary
+
+01:22:29
+like it could be smaller or longer if
+
+01:22:31
+it's smaller then basically it becomes
+
+01:22:34
+harder to like follow the chain like the
+
+01:22:36
+the maybe a simpler way to think about
+
+01:22:37
+it first is the longer the slot it gives
+
+01:22:40
+you more time to like pass the blocks
+
+01:22:42
+pass the attestations figure out which
+
+01:22:43
+attestation should go into the right
+
+01:22:45
+next block and do all this so again now
+
+01:22:47
+there's this trade-off between like how
+
+01:22:49
+quickly the protocol can progress and
+
+01:22:51
+this slot time um 12 seconds is what we
+
+01:22:54
+have today um some people argue for
+
+01:22:57
+shortening the the slot time because it
+
+01:23:00
+means for example like this execution
+
+01:23:01
+state would would evolve more frequently
+
+01:23:04
+um people also talk about LinkedIn and
+
+01:23:06
+Slot time because there's like other
+
+01:23:08
+consist upgrades we're thinking about
+
+01:23:10
+where it actually makes more sense to
+
+01:23:12
+have a longer slot time to do more stuff
+
+01:23:14
+every period of
+
+01:23:17
+time um what was the other
+
+01:23:20
+question um can you talk a bit about
+
+01:23:23
+Randomness about the brand Dow and uh
+
+01:23:25
+how the validators are shuffled randomly
+
+01:23:28
+or
+
+01:23:31
+uh yeah
+
+01:23:33
+so uh okay yeah we can still see this so
+
+01:23:37
+the idea here is that um right so
+
+01:23:41
+there's one I mean I guess this is
+
+01:23:43
+another important variant there's one
+
+01:23:45
+proposer per
+
+01:23:47
+slot and kind of like I was alluding to
+
+01:23:50
+um you know the proposer could like miss
+
+01:23:52
+their slot in which case there just
+
+01:23:53
+isn't a block for that slot um but
+
+01:23:56
+generally especially on mainnet uh
+
+01:23:59
+people are incentivized to to
+
+01:24:01
+participate and so they do their job
+
+01:24:02
+well and so you can imagine then that
+
+01:24:04
+like every slot ends up with a
+
+01:24:08
+block
+
+01:24:10
+okay and the way to think about this is
+
+01:24:13
+that I when I go to propose so let's say
+
+01:24:16
+I'm validator I don't know
+
+01:24:19
+27 as I go to propose then I'm going to
+
+01:24:22
+also
+
+01:24:23
+um includes some Randomness which uh you
+
+01:24:26
+know there's some details we can go look
+
+01:24:28
+at spec uh essentially the way to think
+
+01:24:30
+about it is I'm going to take like uh my
+
+01:24:32
+slot number so say this is like I don't
+
+01:24:35
+know slot
+
+01:24:39
+45,000 um I'm going to basically like
+
+01:24:41
+take this number uh maybe hashing some
+
+01:24:43
+other things and ultimately I'm going to
+
+01:24:45
+get like a seed value that I'm going to
+
+01:24:47
+sign over uh just with like my validator
+
+01:24:50
+private key and the way this works is is
+
+01:24:52
+that the signature ends up being like a
+
+01:24:55
+you know pseudo random value um so I'm
+
+01:24:57
+going to get like some Randomness um we
+
+01:25:00
+just call it R um then basically I mean
+
+01:25:03
+again these are like very low level
+
+01:25:05
+details but you take this Randomness
+
+01:25:07
+which is the signature um you're going
+
+01:25:10
+to Hash that to get like down to 32
+
+01:25:12
+bytes again which should be sudit random
+
+01:25:16
+um within the consistent State itself so
+
+01:25:18
+for each of these blocks right we're
+
+01:25:20
+going to mix in each new Randal into the
+
+01:25:23
+State and what that means is that
+
+01:25:25
+there's going to be some like current
+
+01:25:27
+value from this having happened in the
+
+01:25:29
+past and then for each block I'm just
+
+01:25:31
+going to take whatever my Rand out
+
+01:25:33
+contribution was and I'm going to mix it
+
+01:25:34
+in to what's already there so the way to
+
+01:25:37
+think about this is that basically
+
+01:25:39
+there's like um so for every block right
+
+01:25:42
+there Block's gonna have some effect
+
+01:25:43
+there's now like a consensus State we
+
+01:25:46
+say as well yeah s uh
+
+01:25:49
+45k
+
+01:25:51
+s451 hopefully you get the idea that
+
+01:25:54
+basically each block is going to make a
+
+01:25:56
+new state and then the idea is that
+
+01:25:58
+within this Beacon State yeah it's I'm
+
+01:26:00
+not sure how awful this will be but just
+
+01:26:02
+imagine there's some State over here as
+
+01:26:03
+this triangle uh there's going to be
+
+01:26:05
+like some Rand down value um again we'll
+
+01:26:09
+just call it R not when I go to apply
+
+01:26:13
+say now uh my block um let's say I'm
+
+01:26:16
+gonna
+
+01:26:17
+apply you
+
+01:26:19
+know uh block
+
+01:26:24
+45,000 in1 there's going to be like some
+
+01:26:26
+unique Rand out from the proposer which
+
+01:26:29
+I'm calling R Prime we're going to
+
+01:26:31
+combine these two and get back some like
+
+01:26:34
+new value R1 and this happens for each
+
+01:26:37
+block and the idea then is that you
+
+01:26:39
+should have some like random value that
+
+01:26:41
+each proposer is updating as they go and
+
+01:26:45
+then separately you get to this notion
+
+01:26:47
+of
+
+01:26:48
+shuffling so the way this works now is
+
+01:26:51
+like um there's a notion of look ahead
+
+01:26:54
+just so people know and they have some
+
+01:26:55
+time to like get ready to say make their
+
+01:26:57
+adastation or propose their block but
+
+01:26:59
+the way to think about this is like
+
+01:27:01
+let's say this is like Epoch 123 Epoch
+
+01:27:05
+124 Epoch 125 so
+
+01:27:09
+basically the way this works is that at
+
+01:27:11
+the end of this Epoch so like whatever
+
+01:27:13
+this final block is you know so there's
+
+01:27:15
+many blocks here in this EPO great
+
+01:27:17
+you're going to end up with some you
+
+01:27:19
+know unique random value we'll call it
+
+01:27:22
+like R when two three what that then is
+
+01:27:24
+going to do is basically tell you
+
+01:27:29
+um okay so it's a little backwards here
+
+01:27:32
+because of where the the look Ahad Works
+
+01:27:35
+let's instead say we're going into like
+
+01:27:37
+this Epoch the way this works is that
+
+01:27:39
+we're going to basically uh look back at
+
+01:27:43
+the the randomness we made here and
+
+01:27:45
+that's going to then basically tell us
+
+01:27:47
+the the shufflings for say like the next
+
+01:27:50
+two
+
+01:27:51
+epochs hopefully that's clear this look
+
+01:27:53
+ahead things a little confusing but
+
+01:27:55
+basically the idea is that um at some
+
+01:27:59
+you know at some point in time say like
+
+01:28:01
+here we're going to look at the Beacon
+
+01:28:03
+state which I guess I started drawing
+
+01:28:05
+those triangles we're going to look at
+
+01:28:07
+the Beacon
+
+01:28:08
+State there's going to be some random
+
+01:28:10
+value again we'll just call it R and the
+
+01:28:13
+idea then is like this r as an input to
+
+01:28:15
+like say some code we run some Shuffle
+
+01:28:17
+function which takes like the entire
+
+01:28:19
+validator set it's going to take r
+
+01:28:23
+and you know for example with
+
+01:28:25
+attestations uh like the committee size
+
+01:28:27
+or
+
+01:28:29
+something it's then going to take all of
+
+01:28:31
+the
+
+01:28:32
+validators so you know again on Main net
+
+01:28:35
+this is like almost a million it's going
+
+01:28:37
+to say okay we actually want to break
+
+01:28:39
+them up into like this number of
+
+01:28:41
+committees per Epoch so you know let's
+
+01:28:43
+say it's like whatever number this is um
+
+01:28:47
+were they going to shuffle them so okay
+
+01:28:49
+the way we started was the whole list
+
+01:28:50
+right so just counting the validators
+
+01:28:53
+that are zero one two three you know all
+
+01:28:55
+the way up to say like you know 9 96
+
+01:28:58
+whatever just under a
+
+01:29:01
+million uh we're going to use this
+
+01:29:03
+Randomness here to shuffle these and so
+
+01:29:06
+then what that means is that we're gon
+
+01:29:07
+to end up with like a shuffled
+
+01:29:10
+set say you know validator zero goes
+
+01:29:13
+over to like um I don't know say here
+
+01:29:16
+right so you end up with like Val zero
+
+01:29:18
+here and now this is like 45
+
+01:29:24
+956 validator 12 validator zero
+
+01:29:27
+validator 3 and the idea is they get
+
+01:29:29
+shuffled right and some random way then
+
+01:29:32
+you know if we want to break these up in
+
+01:29:34
+dstation committees you just then
+
+01:29:35
+basically like batch them right and then
+
+01:29:38
+this tells you you know in the next de
+
+01:29:42
+talk you end up with like okay I'm in
+
+01:29:44
+this first committee which is in say the
+
+01:29:46
+first slot and then I end up in the next
+
+01:29:48
+committee which is in the next slot
+
+01:29:50
+something like this
+
+01:29:55
+um hopefully that was helpful I do W to
+
+01:29:58
+we just have a few minutes so I do want
+
+01:29:59
+to like explain a bit more about
+
+01:30:02
+consensus and how this works um and yeah
+
+01:30:05
+unfortunately there's actually a lot to
+
+01:30:07
+say so uh yeah we want this get to
+
+01:30:11
+everything today um but hopefully I've
+
+01:30:13
+piqued your interest and uh yeah you can
+
+01:30:16
+uh dig in more
+
+01:30:19
+so let's zoom out again to our notion of
+
+01:30:25
+of the ethereum chain
+
+01:30:27
+so to close the picture on consensus
+
+01:30:31
+um right so we
+
+01:30:35
+have uh again let's think about
+
+01:30:39
+Epoch so like Epoch I don't know one
+
+01:30:43
+two3 124
+
+01:30:45
+125 12 six maybe something like this and
+
+01:30:48
+we're going to start with some block you
+
+01:30:50
+know this could even be like the new
+
+01:30:51
+block or whatever whatever um okay this
+
+01:30:54
+is where it starts to get confusing so
+
+01:30:57
+there's blocks here now because this was
+
+01:30:59
+an
+
+01:31:00
+Epoch these are now the slots
+
+01:31:03
+right and
+
+01:31:05
+again sorry if this was confusing but
+
+01:31:07
+basically it's just like there's a new
+
+01:31:10
+slot every 12 seconds just like that
+
+01:31:12
+that's just how it
+
+01:31:13
+works um maybe you could like not have a
+
+01:31:16
+block either way um you have these
+
+01:31:19
+blocks and uh these blocks now have
+
+01:31:24
+attestations so yeah that's maybe a
+
+01:31:28
+little cramped but basically the idea is
+
+01:31:31
+that you know if we have more blocks
+
+01:31:34
+here then they're going to basically
+
+01:31:36
+have attestations to you know the state
+
+01:31:39
+of the chain and I guess I'll just
+
+01:31:40
+switch to like check marks
+
+01:31:42
+now and you know you might have like
+
+01:31:44
+quite a bit but ultimately um the way to
+
+01:31:48
+think about this now is with respect to
+
+01:31:52
+consensus and this notion of like
+
+01:31:53
+finality that we care about this is like
+
+01:31:55
+the whole thing that we're trying to do
+
+01:31:56
+with proof of stake consensus is to get
+
+01:31:58
+to this notion of finality and when
+
+01:32:00
+something's final it means it basically
+
+01:32:02
+will never change and I'll kind of
+
+01:32:04
+explain a bit more what that means um
+
+01:32:07
+the way to think about it is that uh
+
+01:32:10
+we're now going to work kind of in terms
+
+01:32:12
+of uh we call them like Epoch foundary
+
+01:32:14
+blocks but the way to think about it is
+
+01:32:16
+just like the first block in an Epoch is
+
+01:32:19
+just going to stand in as like a
+
+01:32:21
+representative for ich
+
+01:32:23
+pu and if you think about it because
+
+01:32:25
+everything is cryptographically linked
+
+01:32:26
+via the parent you know like if I
+
+01:32:29
+somehow like have the validators all
+
+01:32:32
+vote um or maybe this is a better
+
+01:32:35
+example here if I have them like you
+
+01:32:37
+know if even though these like these
+
+01:32:40
+attestations here right they are
+
+01:32:42
+implicitly attesting to like this being
+
+01:32:44
+the block of the beginning of the CAC
+
+01:32:47
+again because these all have parent
+
+01:32:49
+hashes and yeah sorry there's so many
+
+01:32:51
+arrows
+
+01:32:53
+but the point I'm trying to make is that
+
+01:32:55
+you can now kind of zoom out and you can
+
+01:32:57
+now say Okay um for this Epoch there's
+
+01:33:00
+like this block this block and this
+
+01:33:03
+block this block okay and you know the
+
+01:33:07
+direct parent hash is from block to
+
+01:33:09
+block but the way to think about it is
+
+01:33:11
+there's kind of these like linkages you
+
+01:33:12
+can make uh between each EPO
+
+01:33:17
+right and the way this is going to work
+
+01:33:20
+is that based on the atst ations we get
+
+01:33:22
+in a given Epoch uh they're going to
+
+01:33:25
+have this notion of
+
+01:33:26
+justification let me actually just write
+
+01:33:28
+that down this is a key
+
+01:33:34
+concept what justification means is
+
+01:33:36
+again this bft concept that you know at
+
+01:33:39
+least
+
+01:33:40
+2third uh of the validators have
+
+01:33:44
+attested to a given block um so you know
+
+01:33:49
+you could like count all the
+
+01:33:50
+attestations here and they would ultim
+
+01:33:52
+timately
+
+01:33:55
+um if you reach this this threshold then
+
+01:33:57
+they would be justifying uh you know
+
+01:34:00
+this block right so you have
+
+01:34:03
+justification and what this kind of
+
+01:34:05
+looks like then is that you end up with
+
+01:34:07
+you know a block tree that kind of looks
+
+01:34:09
+like you know this picture where you
+
+01:34:11
+then have like yeah maybe I should use I
+
+01:34:15
+guess I'll use blue or something that
+
+01:34:17
+would be nice um you can end up like
+
+01:34:20
+justifying uh with like one Epoch the
+
+01:34:23
+previous Epoch so then you get these
+
+01:34:25
+things and now when these are blue
+
+01:34:26
+arrows what I'm trying to communicate is
+
+01:34:28
+like you know you have like at least
+
+01:34:30
+two3 of attestations all referencing
+
+01:34:34
+directly or indirectly uh you know these
+
+01:34:36
+blocks
+
+01:34:39
+here
+
+01:34:40
+okay so that's
+
+01:34:43
+justification and um in
+
+01:34:46
+particular well yeah I think I'll talk
+
+01:34:49
+about the splits in a second um
+
+01:34:52
+but in particular what we want to get to
+
+01:34:54
+is this notion of
+
+01:34:56
+finality and finality here means that um
+
+01:35:01
+again it looks like we're kind of at
+
+01:35:02
+time so I'll just kind of be brief here
+
+01:35:04
+but ultimately the idea is that um if I
+
+01:35:07
+let's see like let's see if um sorry if
+
+01:35:13
+I
+
+01:35:15
+justify a Justified
+
+01:35:20
+block
+
+01:35:23
+then and I'll call it B if I justify I
+
+01:35:26
+justify Block B then B is
+
+01:35:33
+finalized and in this case uh we'll call
+
+01:35:36
+this B because what happened is um ah
+
+01:35:41
+you can't see my hands that's too bad
+
+01:35:43
+but basically before we had these votes
+
+01:35:47
+come in uh we had Justified B basically
+
+01:35:50
+in in this epoch we had Justified B and
+
+01:35:53
+then we came along and we Justified this
+
+01:35:55
+block I don't know call it C we
+
+01:35:57
+Justified C because we
+
+01:36:02
+Justified uh a block that had been
+
+01:36:04
+Justified namely b b is not final and
+
+01:36:08
+this is like the whole point of what
+
+01:36:09
+we're trying to do is get to this notion
+
+01:36:11
+of
+
+01:36:12
+finality um
+
+01:36:14
+and let's see what to say here I guess
+
+01:36:18
+I'll just kind of explain what we mean
+
+01:36:19
+here what we mean here is that it's
+
+01:36:21
+final because if we had then tried to
+
+01:36:24
+attest like if we had tried to justify a
+
+01:36:26
+different
+
+01:36:27
+block um let me do
+
+01:36:33
+this so sure let's do something like
+
+01:36:39
+this
+
+01:36:43
+okay let me just draw these arrows so
+
+01:36:47
+right uh there's this again this notion
+
+01:36:51
+of slashing and for example attesting to
+
+01:36:53
+like two conflicting blocks here this
+
+01:36:56
+would be
+
+01:36:58
+slash and then what this means is that
+
+01:37:00
+you can't get in a situation where
+
+01:37:02
+you've
+
+01:37:03
+finalized uh two different histories
+
+01:37:07
+right say the top in the bottom because
+
+01:37:09
+if you do then what would happen is say
+
+01:37:12
+all the attestations that just that
+
+01:37:14
+tried to finalize you know this block
+
+01:37:16
+let's say on this chain uh they would be
+
+01:37:19
+in conflict with the top chain and you
+
+01:37:21
+could basically put these attestations
+
+01:37:23
+as proof of misbehavior into the top
+
+01:37:25
+chain uh you would slash these
+
+01:37:27
+validators and you can't get to this
+
+01:37:30
+situation where you finalize two
+
+01:37:32
+conflicting histories without um it
+
+01:37:36
+being slash people and so this is what
+
+01:37:37
+we mean by final you have this notion of
+
+01:37:39
+like economic
+
+01:37:41
+finality
+
+01:37:43
+that does what we
+
+01:37:45
+want um okay yeah sorry I think we're at
+
+01:37:49
+time but I can stay for some question
+
+01:37:51
+questions um and yeah sorry we ran
+
+01:37:54
+over thanks Alex no problem on going
+
+01:37:57
+over um one question uh can you talk a
+
+01:38:02
+little bit about uh Gasper in the
+
+01:38:04
+context of of finalization and and
+
+01:38:06
+finding the can canonical
+
+01:38:09
+chain right so so Gasper is like our
+
+01:38:12
+particular like instantiation of this
+
+01:38:15
+protocol that I've been trying to lay
+
+01:38:16
+out um and again this is where it starts
+
+01:38:20
+to get a little complex but basically
+
+01:38:23
+there's almost two views there's like
+
+01:38:25
+the epoch level view which is kind of
+
+01:38:27
+what I was just talking about where it's
+
+01:38:28
+like you have
+
+01:38:29
+blocks um that are kind of representing
+
+01:38:33
+like
+
+01:38:34
+um you know this like Epoch level thing
+
+01:38:38
+but then with with within each Epoch
+
+01:38:40
+right you're still going to have let's
+
+01:38:42
+see if I can draw this I don't know I'll
+
+01:38:44
+just do this for example you're still
+
+01:38:45
+going to have all the other blocks and
+
+01:38:47
+so uh like a really cool thing about
+
+01:38:49
+ethereum is we have this notion of
+
+01:38:51
+dynamic
+
+01:38:53
+availability and the idea here is that
+
+01:38:56
+basically um you can keep adding to the
+
+01:38:59
+chain so let's say this is the head of
+
+01:39:01
+the chain you can keep adding to the
+
+01:39:02
+head of the chain uh kind of separately
+
+01:39:05
+from this finality process so like even
+
+01:39:07
+if finality for some reason like let's
+
+01:39:08
+say there's like a bunch of vors go
+
+01:39:11
+offline and they can't get their ad
+
+01:39:12
+stations on chain then um you know
+
+01:39:15
+finality we might you know we might say
+
+01:39:18
+that we've only finalized you know this
+
+01:39:20
+block b or this C
+
+01:39:22
+B um the chain can still go on you can
+
+01:39:25
+keep adding to you know the head of the
+
+01:39:27
+chain and so then what that means is
+
+01:39:30
+that you know this this finality process
+
+01:39:32
+is kind of trailing the actual
+
+01:39:33
+blockchain and so then if you go to like
+
+01:39:35
+the head of the chain say here and I
+
+01:39:38
+will zoom in now so you know let's say
+
+01:39:42
+this is like Epoch I don't know e minus
+
+01:39:44
+one and so now we're here and this is
+
+01:39:47
+now these are
+
+01:39:50
+slots so you still now have uh blocks in
+
+01:39:56
+the block tree meaning you know a
+
+01:39:58
+proposer can go let's say this was a
+
+01:40:00
+Miss slot this proposer proposes here
+
+01:40:04
+the next proposer you know let's say
+
+01:40:07
+they propose to say you know even back
+
+01:40:10
+here and now what you have in general is
+
+01:40:13
+you now have the same block tree um
+
+01:40:15
+where you still need to make this
+
+01:40:16
+consist inference uh meaning like is
+
+01:40:19
+this the head of the chain or is this
+
+01:40:20
+the head of the chain
+
+01:40:22
+and again we use the attestations for
+
+01:40:23
+this as these attestations in each block
+
+01:40:25
+are coming in you know they're going to
+
+01:40:27
+attest to one block or the other and
+
+01:40:29
+that's going to say give you know some
+
+01:40:31
+weight of like you know 100 eth ATT
+
+01:40:33
+testing here versus like you know a th
+
+01:40:36
+eth ATT testing here and uh in general
+
+01:40:39
+then we have this other algorithm lmd
+
+01:40:41
+ghost you might have heard of it I'll
+
+01:40:43
+write it down um but it works very much
+
+01:40:46
+like even where we solve proof of work
+
+01:40:48
+where you're going to say start from
+
+01:40:50
+like some head we know and then just
+
+01:40:52
+basically like you know this G here is
+
+01:40:54
+like greedy so basically um use like
+
+01:40:57
+find the one with the most stake weight
+
+01:40:59
+going off the
+
+01:41:00
+attestations and so when we say Gasper
+
+01:41:03
+this is really what we mean is there's
+
+01:41:05
+this like
+
+01:41:06
+FFG um friendly finality Gadget it's not
+
+01:41:11
+super important what the acronym stands
+
+01:41:13
+for But ultimately uh this this like
+
+01:41:17
+Epoch level process that hopefully is
+
+01:41:19
+clear to some of you if not all of you
+
+01:41:21
+uh we're doing finality on these like
+
+01:41:23
+longer time scales and this is like um
+
+01:41:26
+again this finality Gadget is providing
+
+01:41:27
+finality but then even
+
+01:41:30
+within you know one Epoch e e+ one
+
+01:41:35
+within one Epoch itself we're also uh
+
+01:41:37
+using this lmd Ghost Protocol to like
+
+01:41:39
+figure out the actual tip of the chain
+
+01:41:41
+so like when I go to like produce the
+
+01:41:43
+next block you know I need to pick this
+
+01:41:45
+block or this
+
+01:41:46
+block and yeah Gasper is just basically
+
+01:41:49
+our particular instantiation of this
+
+01:41:51
+this protocol that's like FFG plus lmd
+
+01:42:01
+ghost thank
+
+01:42:06
+you um yeah I think that's probably all
+
+01:42:10
+we have time for today unless Mario you
+
+01:42:12
+have another question yeah I wanted to
+
+01:42:15
+if we can just touch on the PBS for a
+
+01:42:17
+second there was a question we are going
+
+01:42:18
+to dive into it more but uh you know
+
+01:42:21
+you're the man and uh it's it's uh I
+
+01:42:25
+think it's a good good chance to just
+
+01:42:27
+briefly we are out of time so if you can
+
+01:42:29
+touch on that
+
+01:42:31
+um um yeah what's the what's the
+
+01:42:33
+motivation what's the what's the
+
+01:42:34
+workings of purposal Builder
+
+01:42:38
+separation right
+
+01:42:40
+so yeah I wanted to start from like
+
+01:42:44
+Basics basically um and like go from
+
+01:42:46
+zero to like how does the cons protocol
+
+01:42:48
+work and it turns out that
+
+01:42:51
+um you know this this protocol lives in
+
+01:42:54
+the real world and there's like so many
+
+01:42:56
+other things that I don't have time to
+
+01:42:58
+go into today but basically have been
+
+01:43:00
+consequences of the system
+
+01:43:03
+um
+
+01:43:05
+so yeah um I actually maybe will'll just
+
+01:43:09
+write I did have a few more things in my
+
+01:43:10
+notes around like a few things here um
+
+01:43:13
+so you know just kind of looking at like
+
+01:43:14
+the
+
+01:43:15
+future of the this proof of stake
+
+01:43:18
+protocol and ethereum generally right
+
+01:43:20
+there's a bunch of things that we to
+
+01:43:21
+kind of do um one of them is like single
+
+01:43:24
+slot finality ssf and this is basically
+
+01:43:28
+saying like for many reasons again I
+
+01:43:31
+don't really have time to get into but
+
+01:43:33
+um because of the fact that you have
+
+01:43:36
+this like Dynamic availability then
+
+01:43:38
+there's both games sort of happening
+
+01:43:40
+here that also impact this like Epoch
+
+01:43:43
+level thing and uh turns out there are
+
+01:43:46
+like many different um attacks that
+
+01:43:48
+others can pull off uh with this
+
+01:43:50
+flexibility and so rather than have this
+
+01:43:52
+like finality process like Trail say
+
+01:43:54
+like two epochs behind the head of the
+
+01:43:55
+chain you would actually want to look at
+

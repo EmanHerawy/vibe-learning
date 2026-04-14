@@ -1,0 +1,2472 @@
+00:00:04
+okay cool
+
+00:00:05
+um i'm danny ryan i work at the ethereum
+
+00:00:07
+foundation on uh research and
+
+00:00:10
+specification writing and a lot of
+
+00:00:12
+coordination around uh major consensus
+
+00:00:14
+upgrades for ethereum to make it more
+
+00:00:17
+sustainable scalable and
+
+00:00:19
+secure
+
+00:00:20
+so today i want to talk about the
+
+00:00:22
+transition of ethereum to proof of stake
+
+00:00:25
+this is this uh the subtext is a nod to
+
+00:00:28
+kevin great conference yesterday really
+
+00:00:30
+appreciate it our solar punk future um
+
+00:00:33
+eat denver 2022. thank you for having me
+
+00:00:36
+um this is how a lot of people conceive
+
+00:00:39
+of ethereum today uh this isn't like
+
+00:00:41
+totally 100 accurate but it's not that
+
+00:00:44
+great the consensus mechanism of
+
+00:00:46
+ethereum proof of work is archaic at
+
+00:00:49
+this time at this point in time and
+
+00:00:51
+needs to go
+
+00:00:52
+[Music]
+
+00:00:54
+so
+
+00:00:55
+after the merge which is the transition
+
+00:00:58
+from proof of work to proof of mistake
+
+00:01:00
+we're going to be in an environment much
+
+00:01:01
+more like this
+
+00:01:06
+a blockchain but in a cooler more
+
+00:01:08
+sustainable
+
+00:01:10
+more secure
+
+00:01:11
+home is ubuntu telling okay it's done
+
+00:01:14
+there was an error up top but i think
+
+00:01:16
+we're good uh so
+
+00:01:18
+the first thing i want to talk to you
+
+00:01:19
+about is to give you an intuition for
+
+00:01:21
+like what does it actually mean what is
+
+00:01:22
+this what is the merge what is this
+
+00:01:24
+transition to proof proof-of-stake
+
+00:01:26
+how can i think about it as an ethereum
+
+00:01:29
+user as an ethereum community member and
+
+00:01:32
+my what i want you to get from this is
+
+00:01:35
+really uh
+
+00:01:37
+from your perspective other than like
+
+00:01:39
+having a more secure more sustainable
+
+00:01:41
+home
+
+00:01:42
+nothing changes that's excellent so
+
+00:01:45
+this is what ethereum looks like after
+
+00:01:46
+the merge we have the consensus layer we
+
+00:01:48
+have this thing giving uh giving
+
+00:01:51
+ethereum a home and giving it security
+
+00:01:53
+and we have the execution layer that's
+
+00:01:54
+what we call the environment that most
+
+00:01:56
+users and most community members
+
+00:01:57
+interact with and the execution layer is
+
+00:01:59
+where state is where the transactions
+
+00:02:02
+are and where all the all the fun stuff
+
+00:02:04
+happens um so the theorem after the
+
+00:02:06
+merge this is this is the model we're
+
+00:02:08
+working on today
+
+00:02:10
+so we can drill into this uh after the
+
+00:02:12
+merge it's going to look like the
+
+00:02:14
+execution layer the things that you know
+
+00:02:16
+and love i got the state route got the
+
+00:02:17
+base fee for 1559 got transactions and
+
+00:02:21
+uh and nfts and like all the mad stuff
+
+00:02:24
+you all do in that layer um and then in
+
+00:02:26
+this outer shell which most of the time
+
+00:02:28
+you don't even have to think about how
+
+00:02:29
+often are you thinking about the proof
+
+00:02:30
+of work difficulty probably very
+
+00:02:32
+minimally but we have this outer shell
+
+00:02:34
+that's not proof of work anymore but is
+
+00:02:36
+the proof-of-stake consensus layer what
+
+00:02:38
+we call the beacon chain and this has
+
+00:02:40
+all sorts of fun stuff like uh
+
+00:02:42
+attestations and deposits and exits
+
+00:02:44
+sometimes some slashings when people do
+
+00:02:46
+bad stuff
+
+00:02:47
+and really this is what kind of is the
+
+00:02:49
+outer shell of the execution layer that
+
+00:02:51
+people know and love and people interact
+
+00:02:52
+with
+
+00:02:54
+so
+
+00:02:55
+after the merge this execution layer
+
+00:02:57
+really you know from the from the
+
+00:02:58
+perspective of a user it's very
+
+00:03:00
+unchanged it looks exactly like we know
+
+00:03:02
+and love
+
+00:03:03
+this is this is what the train the chain
+
+00:03:05
+looks like today
+
+00:03:06
+it looks very similar to what the chain
+
+00:03:08
+is going to look like after proof of
+
+00:03:09
+work shell uh this this kind of outer
+
+00:03:12
+security element and then the the
+
+00:03:13
+execution layer embedded and this is
+
+00:03:16
+what the consensus layer looks like
+
+00:03:17
+today which the proof of stake in census
+
+00:03:19
+layer is live today it's been live for
+
+00:03:22
+14 months uh in in in
+
+00:03:26
+2020 december how many years has it been
+
+00:03:28
+the pandemics really screwed up time in
+
+00:03:29
+my head but the beacon chain launched
+
+00:03:31
+and it exists and this is what it is
+
+00:03:33
+it's essentially this consensus
+
+00:03:34
+mechanism it's coming to consensus on
+
+00:03:36
+itself and is primed you notice that
+
+00:03:38
+there's some extra space in here that's
+
+00:03:39
+what we're going to be leveraging in the
+
+00:03:40
+merge we're going to be leveraging that
+
+00:03:42
+extra space inside the consensus
+
+00:03:43
+mechanism
+
+00:03:44
+and so
+
+00:03:45
+really what ethereum is today is is the
+
+00:03:48
+unification of these two systems running
+
+00:03:50
+in parallel so when you're hanging out
+
+00:03:52
+with uh with uniswap or when you're uh
+
+00:03:55
+trading some crazy nft like you're in
+
+00:03:57
+this proof of work chain today and
+
+00:03:59
+you're you're being secured by uh by the
+
+00:04:02
+traditional mining proof work mechanism
+
+00:04:04
+and in parallel all these validators are
+
+00:04:06
+hanging out they're hanging on the
+
+00:04:07
+beacon chain they're building the beacon
+
+00:04:09
+chain they're securing the beacon chain
+
+00:04:10
+and they're priming it they've been
+
+00:04:11
+working their asses off to get it ready
+
+00:04:13
+for you
+
+00:04:15
+so i want to give you an intuition for
+
+00:04:17
+the merge the merge isn't that scary the
+
+00:04:20
+merge isn't that crazy the merge is
+
+00:04:23
+continuous the merge is
+
+00:04:25
+for and by users and and and gives them
+
+00:04:28
+continuous landscape to ethereum the
+
+00:04:30
+beautiful thing that we have so
+
+00:04:33
+we have we have these two chains right
+
+00:04:35
+before you know we have the perforate
+
+00:04:36
+chain we have this this beacon chain and
+
+00:04:38
+they're running in parallel but it's
+
+00:04:39
+some terminal condition at some uh
+
+00:04:43
+difficulty that the validators
+
+00:04:45
+coordinate upon they they're watching
+
+00:04:47
+the beacon chain the validators are
+
+00:04:48
+watching the beacon sorry the validators
+
+00:04:50
+are watching the proof of work chain and
+
+00:04:52
+at this terminal condition they all
+
+00:04:54
+point to the execution layer inside of
+
+00:04:56
+that proof of work chain and the next
+
+00:04:58
+time something's built instead of being
+
+00:05:00
+built by the miners it's built by the
+
+00:05:02
+proof of stake validators and so this
+
+00:05:04
+this dotted line this sub chain inside
+
+00:05:07
+of the chain continues forward and so
+
+00:05:09
+all of the all of the user apis except
+
+00:05:12
+like get difficulty because that it
+
+00:05:13
+becomes meaningless at that point um
+
+00:05:16
+all of the user apis continue to exist
+
+00:05:18
+all the state continues to exist at
+
+00:05:20
+point a when you're in the proof of work
+
+00:05:21
+chain and at point b when you're in the
+
+00:05:22
+proof of stake chain that just looks
+
+00:05:24
+like the building of another block that
+
+00:05:25
+just looks like you know the
+
+00:05:27
+continuation of your nfts that just
+
+00:05:28
+feels like uh you know did my
+
+00:05:30
+transaction get in and over here or
+
+00:05:32
+transaction get over here you know um so
+
+00:05:34
+that that is what the merge is i mean
+
+00:05:37
+it's on some level and over
+
+00:05:39
+simplification but another level like
+
+00:05:40
+it's literally exactly what's happening
+
+00:05:42
+and this continuous heart of ethereum
+
+00:05:44
+the execution layer continues forward
+
+00:05:46
+just in this new secure and sustainable
+
+00:05:49
+environment
+
+00:05:51
+so this is actually what ethereum looks
+
+00:05:53
+after the merge it actually is what it
+
+00:05:55
+looks like before the merge and it
+
+00:05:56
+actually half of those blocks could be
+
+00:05:58
+performed blocks and then the further
+
+00:05:59
+half could be proof of stake blocks
+
+00:06:01
+because it feels it looks continuous
+
+00:06:04
+and then sharding well we can talk about
+
+00:06:07
+that later
+
+00:06:08
+so that's a mental model for the merge
+
+00:06:11
+that is what's happening that is the the
+
+00:06:14
+final you know we've been talking about
+
+00:06:15
+proof of stake it's so close it's so
+
+00:06:16
+close it's so close it literally is so
+
+00:06:19
+close and that's what we're going to
+
+00:06:19
+talk about now
+
+00:06:21
+so over the summer we had this really
+
+00:06:23
+fun event a development workshop called
+
+00:06:25
+amphora where we got uh
+
+00:06:28
+10 client teams and bunch of developers
+
+00:06:30
+in a room to take the merge from
+
+00:06:33
+specifications and prototypes to
+
+00:06:35
+something that begins to look like
+
+00:06:36
+production um this was like a very
+
+00:06:38
+exciting moment we were all in the room
+
+00:06:39
+together at
+
+00:06:41
+we we had like t-minus
+
+00:06:43
+15 minutes to this final dinner and we
+
+00:06:46
+and the the merge the transition
+
+00:06:48
+happened um and and on this test net and
+
+00:06:51
+everyone was very excited you know even
+
+00:06:54
+uh vitalik's clapping there in the
+
+00:06:55
+middle very good time
+
+00:06:58
+um
+
+00:06:58
+that we called amphora
+
+00:07:01
+that
+
+00:07:02
+although vetted and began to put all the
+
+00:07:03
+machinery in place for all these clients
+
+00:07:05
+uh it did not
+
+00:07:07
+uh you know there there were things we
+
+00:07:08
+learned there so we had we had a next
+
+00:07:11
+iteration of specifications and the next
+
+00:07:13
+iteration of productionizing this um and
+
+00:07:15
+that's what we call kinsugi kinsugi is
+
+00:07:18
+the art of uh taking well maybe smashing
+
+00:07:21
+pottery wear and then making it more
+
+00:07:23
+beautiful with gold um i don't know if
+
+00:07:25
+you're actually supposed to break it
+
+00:07:26
+you're probably supposed to find broken
+
+00:07:27
+pottery and then
+
+00:07:28
+glue it together with gold but it's
+
+00:07:29
+pretty nice so the idea is uh it's all
+
+00:07:32
+the pieces coming together for this
+
+00:07:33
+thing um so at the end of
+
+00:07:36
+mid-december the kinsugi testnet
+
+00:07:38
+launched um this has been like a major
+
+00:07:40
+excellent effort uh lots of lots of
+
+00:07:44
+community members engaged with testing
+
+00:07:45
+and began to really put their hands on
+
+00:07:47
+this new this new iteration of the
+
+00:07:48
+software um to see
+
+00:07:51
+look see and feel how this thing works
+
+00:07:56
+interjection
+
+00:07:57
+this is what an ethereum client looks
+
+00:07:59
+like uh post merge so
+
+00:08:01
+what i call an execution engine
+
+00:08:03
+you might think of as an eth1 client or
+
+00:08:05
+you might think of as a proof of work
+
+00:08:07
+client
+
+00:08:08
+and
+
+00:08:09
+so it's called call it geth called
+
+00:08:11
+another nethermine called aragon call it
+
+00:08:12
+besu um
+
+00:08:14
+it's probably another one there's many
+
+00:08:16
+of them um that becomes an execution
+
+00:08:18
+engine that becomes like its purview
+
+00:08:21
+becomes state it becomes transactions it
+
+00:08:23
+becomes that layer drives the thing um
+
+00:08:26
+whereas the things you think about as an
+
+00:08:28
+e2 client or a beacon node or
+
+00:08:30
+or
+
+00:08:31
+you know a proof of state client
+
+00:08:34
+that becomes this like the brain of the
+
+00:08:35
+operation so instead of proof of work
+
+00:08:37
+driving the beacon node drives the
+
+00:08:39
+execution engine
+
+00:08:41
+via this engine api i won't get into too
+
+00:08:43
+many details around it but
+
+00:08:46
+in the future it's really the
+
+00:08:47
+unification of these two pieces of
+
+00:08:48
+software that do very complex things
+
+00:08:51
+in isolation but together they come in
+
+00:08:53
+together to be a proof-of-stake ethereum
+
+00:08:56
+um i mentioned earlier like the user
+
+00:08:57
+apis they don't change just because
+
+00:09:00
+you know if you're running guest you're
+
+00:09:01
+still running death and you're still
+
+00:09:02
+having access to those apis you're still
+
+00:09:04
+you know the interfaces are still able
+
+00:09:06
+to use these things exactly as the as
+
+00:09:08
+they did before
+
+00:09:09
+i bring this up because uh this engine
+
+00:09:12
+api uh there's something with pretty
+
+00:09:14
+this this is one of the
+
+00:09:15
+although it is simple
+
+00:09:18
+it's one of the most important and
+
+00:09:20
+critical parts of this whole thing so i
+
+00:09:22
+just wanted to give you a little problem
+
+00:09:23
+we ran into in kinsuki
+
+00:09:25
+that birthed the current sprint called
+
+00:09:27
+kilm
+
+00:09:29
+so
+
+00:09:30
+in kinsugi we had this a bit of a
+
+00:09:32
+semantic mismatch between what we
+
+00:09:34
+thought was correct and reality so
+
+00:09:37
+there's two key methods in the engine
+
+00:09:39
+api um one is execute payload so i take
+
+00:09:43
+uh i i'm the beacon chain and i have
+
+00:09:46
+this like bundle of execution goods so
+
+00:09:48
+like transactions and other things
+
+00:09:50
+related to the execution layer and i
+
+00:09:52
+pass it to the to the execution layer
+
+00:09:54
+client to the to the execution engine um
+
+00:09:56
+and it will execute it like it does
+
+00:09:58
+today when it gets a block from the
+
+00:09:59
+network um and it will get the post
+
+00:10:02
+state and it will pretty much say is
+
+00:10:03
+this valid and am i willing to
+
+00:10:05
+incorporate it locally and then there's
+
+00:10:07
+this other method that's very important
+
+00:10:09
+called fork choice updated and that's
+
+00:10:11
+you know we think of a block chain but
+
+00:10:13
+what is a block chain a block chain is
+
+00:10:14
+the canonical route through a block tree
+
+00:10:17
+a black tree is can be any number of
+
+00:10:19
+blocks in this in this hash chain
+
+00:10:22
+structure
+
+00:10:23
+but one thing that we have to do is we
+
+00:10:25
+have to use the fork choice to find the
+
+00:10:27
+tip and the tip then defines what is
+
+00:10:30
+canonical defines the canonical history
+
+00:10:32
+um
+
+00:10:33
+and with
+
+00:10:35
+in in proof of work this this fork
+
+00:10:37
+choice is very native to the difficulty
+
+00:10:39
+into mining whereas in proof of stake
+
+00:10:41
+the in the uh consensus layer dictates
+
+00:10:44
+via its own algorithm to the the
+
+00:10:46
+execution engine uh what its fork
+
+00:10:48
+choices so the interplay between these
+
+00:10:50
+two methods was subtly off in kinsuki
+
+00:10:53
+and led to some some interesting
+
+00:10:54
+scenarios
+
+00:10:55
+so
+
+00:10:57
+this is uh this is a normal blockchain
+
+00:10:59
+there's no forking we have a head it's
+
+00:11:01
+very easy
+
+00:11:02
+sometimes we get alternative branches um
+
+00:11:05
+and
+
+00:11:06
+this
+
+00:11:07
+this will build up into the issue with
+
+00:11:09
+the semantics here but you know
+
+00:11:11
+sometimes we have an alternative branch
+
+00:11:12
+it hasn't overtaken the head clients
+
+00:11:15
+will incorporate it in the block tree
+
+00:11:16
+and do certain things
+
+00:11:18
+that alternative branch could continue
+
+00:11:19
+to be grown uh maybe it doesn't overtake
+
+00:11:22
+the head yet but then finally all of a
+
+00:11:24
+sudden that alternative branch for some
+
+00:11:26
+reason uh took over the head the
+
+00:11:28
+interesting thing about the semantics of
+
+00:11:31
+execute payload before fork choice
+
+00:11:34
+updated is sometimes you know i have
+
+00:11:36
+this forking and i have this alternative
+
+00:11:38
+branch and it looks like a block that
+
+00:11:39
+probably could be good
+
+00:11:41
+but execute payload was saying to the
+
+00:11:43
+execution engine execute now and so that
+
+00:11:46
+was actually causing sometimes in weird
+
+00:11:48
+scenarios like
+
+00:11:50
+undue burden and undue load on the
+
+00:11:52
+execution engine because the execution
+
+00:11:53
+engine often are designed today with
+
+00:11:56
+proof of work to not actually execute
+
+00:11:58
+this alternative branch
+
+00:12:00
+until it actually overtakes it with
+
+00:12:02
+difficulty then it finally executes all
+
+00:12:04
+those blocks sees if the thing is in
+
+00:12:07
+fact valid and then sets that as the new
+
+00:12:09
+head
+
+00:12:10
+point being is
+
+00:12:13
+only when we had chaos in a test net did
+
+00:12:15
+we realize we had these semantics
+
+00:12:16
+slightly off and we're inducing in
+
+00:12:18
+certain forking scenarios undue burden
+
+00:12:20
+on the execution engines
+
+00:12:21
+thus
+
+00:12:23
+not quite back to the drawing board but
+
+00:12:25
+modified here so the semantics more
+
+00:12:27
+purely on the execution engine are or
+
+00:12:29
+not execute payload every time there's a
+
+00:12:31
+new payload but instead
+
+00:12:33
+insert it into the block tree it's new
+
+00:12:36
+if it overtakes
+
+00:12:37
+the previous head by a fork choice
+
+00:12:39
+updated or if it builds on the canonical
+
+00:12:41
+chain almost certainly execute so
+
+00:12:44
+kiln was born out of these slight we're
+
+00:12:47
+like so near production but slight
+
+00:12:49
+modification of the semantics
+
+00:12:51
+to handle these things more optimally
+
+00:12:54
+and by the same more optimally i mean
+
+00:12:56
+very importantly more optimally um thus
+
+00:12:59
+kiln we're in kiln right now this is the
+
+00:13:01
+final hardening this this is where we're
+
+00:13:03
+taking these specs we've run through
+
+00:13:05
+multiple sprints we've been battle
+
+00:13:06
+testing them and our in this final
+
+00:13:09
+sprint we're building up devnets and in
+
+00:13:11
+a few weeks we'll be inviting the
+
+00:13:13
+community to a long-standing test net to
+
+00:13:16
+really test their [ __ ] before we fork
+
+00:13:18
+gourley before we fork sepolia and
+
+00:13:21
+whatever test that still exists before
+
+00:13:24
+we finally finally finally kill proof of
+
+00:13:27
+work
+
+00:13:29
+[Applause]
+
+00:13:31
+so when
+
+00:13:32
+this is a fun screen grab from amphora
+
+00:13:35
+entered proof of stake stage remember
+
+00:13:37
+that picture where we're all like half
+
+00:13:38
+happy and clapping that's because of
+
+00:13:40
+this tiny little piece of the screen um
+
+00:13:43
+so when
+
+00:13:45
+when when when i've been working on this
+
+00:13:48
+for quite a while i honestly when i
+
+00:13:50
+jumped into this thing
+
+00:13:52
+towards the end of 2017
+
+00:13:54
+i thought it was right around the corner
+
+00:13:56
+i thought it was right around the corner
+
+00:13:57
+i believed it and i really believed it
+
+00:13:58
+for a long time but it's really
+
+00:14:00
+actually very close the difficulty bomb
+
+00:14:04
+which has been our our our tried and
+
+00:14:06
+true friend for um many many years we've
+
+00:14:09
+defused him we've added him back we've
+
+00:14:10
+defused him we've added him back i think
+
+00:14:12
+he's going to be impeccably timed uh
+
+00:14:15
+the the difficulty bomb is set to go off
+
+00:14:18
+to be begun to be felt sometime in june
+
+00:14:21
+sometime in july somewhere around there
+
+00:14:23
+um and then to ramp up from there uh
+
+00:14:25
+that is the target that is what all of
+
+00:14:27
+these client engineers are working on um
+
+00:14:29
+and i do believe that that is very
+
+00:14:31
+realistic um and someone asked me to say
+
+00:14:34
+this i think i will say it
+
+00:14:36
+if it does not happen this year
+
+00:14:37
+something insanely catastrophic that i
+
+00:14:40
+did not unexpect did not expect you know
+
+00:14:43
+showed up you know something fundamental
+
+00:14:44
+something crazy broken which like that's
+
+00:14:47
+not where we're at in this cycle i do
+
+00:14:48
+not expect that
+
+00:14:50
+so you can quote me on that
+
+00:14:52
+um
+
+00:14:53
+i'm gonna get a bit into the why i think
+
+00:14:55
+i made way too many slides for the
+
+00:14:56
+amount of time i have uh proof of stakes
+
+00:14:59
+more secure more sustainable more
+
+00:15:00
+scalable proof-of-stake actually isn't
+
+00:15:03
+more scalable that's why we're kind of
+
+00:15:04
+like moving in this direction because
+
+00:15:05
+proof-of-stake allows us to design more
+
+00:15:07
+scalable mechanisms a bit easier so you
+
+00:15:10
+don't get it for
+
+00:15:11
+free but you get the other two
+
+00:15:13
+immediately
+
+00:15:14
+um
+
+00:15:15
+lack of economies of scale highly liquid
+
+00:15:17
+and available pure function return on
+
+00:15:19
+capital essentially
+
+00:15:20
+the ability to take eth and stake it
+
+00:15:24
+is much more pure and easy or the
+
+00:15:26
+ability to even acquire that capital to
+
+00:15:28
+participate in the crypto economic
+
+00:15:30
+mechanism compared to proof of work is
+
+00:15:32
+very much simpler function whereas
+
+00:15:36
+to really participate in proof of work i
+
+00:15:37
+need economies of scale i need to be
+
+00:15:39
+entrenched in hardware cycles i need to
+
+00:15:41
+i need to get the hardware before
+
+00:15:42
+everyone else you know i need to have
+
+00:15:44
+special energy
+
+00:15:45
+there's all sorts of like things that
+
+00:15:47
+the more capital i have likely the more
+
+00:15:49
+return i can get in proof of work where
+
+00:15:50
+that that is very much a diminishing
+
+00:15:52
+thing in proof of stake
+
+00:15:55
+uh security higher security margin so we
+
+00:15:57
+have all this crypto economic capital in
+
+00:15:59
+proof of stake and proof of work um that
+
+00:16:02
+secures essentially people show up with
+
+00:16:03
+their capital put it in the
+
+00:16:06
+converted into the crypto economic asset
+
+00:16:08
+of that consensus mechanism call it
+
+00:16:10
+mining harbor call it uh the native
+
+00:16:12
+asset itself eth um and you and you post
+
+00:16:14
+it essentially collateral to participate
+
+00:16:16
+in this game uh and and potentially be
+
+00:16:18
+rewarded or potentially be uh
+
+00:16:21
+have some losses so on top of that
+
+00:16:23
+there's some sort of issue and some sort
+
+00:16:24
+of return and also transaction fees
+
+00:16:27
+and in proof of work
+
+00:16:29
+you know the security margin and what
+
+00:16:30
+you can kind of dictate uh
+
+00:16:33
+is essentially just this return so you
+
+00:16:34
+have a carrot which is great people show
+
+00:16:36
+up for the carrot i think it's tried and
+
+00:16:37
+true been doing this for quite a while
+
+00:16:39
+now
+
+00:16:40
+whereas in proof-of-stake it's not just
+
+00:16:42
+the return we actually the crypto
+
+00:16:45
+economic capital itself is at risk i
+
+00:16:48
+cannot well
+
+00:16:49
+the protocol cannot go burn your mining
+
+00:16:52
+farm down somebody probably could but
+
+00:16:54
+the protocol cannot and thus on the left
+
+00:16:56
+side with proof of work you know the
+
+00:16:57
+only thing you really have is the carrot
+
+00:16:59
+whereas in proof of stake
+
+00:17:01
+there are attributable faults where you
+
+00:17:03
+if you try to construct alternate
+
+00:17:05
+realities or you try to um
+
+00:17:08
+contradict yourself your capital can't
+
+00:17:10
+actually be at loss it's actually at
+
+00:17:11
+stake and such you have the carrot and
+
+00:17:13
+you have the stick that's an intuition
+
+00:17:15
+for why uh why these things are more
+
+00:17:17
+secure why proof of stake is more secure
+
+00:17:19
+um better emergency recovery in proof of
+
+00:17:21
+work once you're at 51
+
+00:17:23
+it's all over like they literally own
+
+00:17:26
+the chain they own you and whereas in
+
+00:17:28
+proof of stake because of the the the
+
+00:17:31
+stick we have here uh you can conduct an
+
+00:17:33
+attack but then your capital is
+
+00:17:34
+literally burned it's literally lost uh
+
+00:17:36
+you have a one-time one-time uh attempt
+
+00:17:39
+at that
+
+00:17:40
+and then you know everyone loves burned
+
+00:17:42
+ether so like
+
+00:17:43
+people might celebrate after
+
+00:17:45
+um stop spawn killing us please stop
+
+00:17:48
+spawning um
+
+00:17:49
+[Music]
+
+00:17:54
+better emergency recovery this is kind
+
+00:17:56
+of uh the same thing the crypto economic
+
+00:17:58
+capital is either burned or in the event
+
+00:17:59
+that you have like some
+
+00:18:01
+seventy percent uh
+
+00:18:03
+censuring majority this socially you can
+
+00:18:05
+intervene whereas again in proof of work
+
+00:18:07
+like the only thing you can do is really
+
+00:18:08
+change the fundamental algorithm which
+
+00:18:10
+bricks the good guys and the bad guys
+
+00:18:12
+there's not not as much emergency
+
+00:18:14
+recovery there
+
+00:18:15
+uh sustainability that's a big one
+
+00:18:17
+these are smoke stacks
+
+00:18:19
+we don't want the future to look like
+
+00:18:21
+that there's a much better and
+
+00:18:22
+interesting and fun future
+
+00:18:24
+so proof of work i honestly believe will
+
+00:18:27
+become after the merge
+
+00:18:28
+seen as kind of an archaic technology
+
+00:18:30
+and i i don't think it's going to be
+
+00:18:32
+socially tenable for for much longer um
+
+00:18:34
+this is what we're going for uh
+
+00:18:37
+and i have some napping math to show you
+
+00:18:39
+so this is
+
+00:18:42
+from kyle mcdonald
+
+00:18:43
+there's a number of these like
+
+00:18:44
+estimations on how much energy proof of
+
+00:18:46
+work in ethereum uses this one i've been
+
+00:18:49
+told good sources is uh pretty good so
+
+00:18:52
+call it 25 26 terawatt hours per year
+
+00:18:56
+that's a lot um that ranks up in at
+
+00:18:58
+least definitely like top 100 countries
+
+00:19:00
+it might be like top 30 i need to look
+
+00:19:02
+uh but then we have computers computers
+
+00:19:04
+use like 400 kilowatt hours per year
+
+00:19:06
+i don't
+
+00:19:07
+it varies that's an estimate that old
+
+00:19:09
+computer might use a little less but i
+
+00:19:11
+don't i might use more actually
+
+00:19:14
+um
+
+00:19:15
+but then you know what is ethereum
+
+00:19:17
+ethereum is a network of nodes and
+
+00:19:19
+network of computers essentially you
+
+00:19:20
+know how many are there i don't know ten
+
+00:19:22
+thousand five thousand twenty thousand
+
+00:19:24
+uh lots of different estimates there but
+
+00:19:26
+call it four gigawatt hours for this
+
+00:19:27
+whole network
+
+00:19:30
+uh and really what we go from is twenty
+
+00:19:32
+five thousand gigawatt hours to just a
+
+00:19:34
+network of computers just a network of
+
+00:19:36
+laptops a network of servers uh call it
+
+00:19:38
+four gigawatt hours so really like
+
+00:19:40
+that's actually a 99.98 energy reduction
+
+00:19:43
+which is [ __ ] insane but
+
+00:19:46
+very importantly very importantly is
+
+00:19:49
+there's no
+
+00:19:50
+like sure add a node double the amount
+
+00:19:52
+of nodes like that's great we want more
+
+00:19:54
+people to run those but those are just
+
+00:19:55
+computers they're just this like you
+
+00:19:57
+plug it into the wall and there's
+
+00:19:58
+nothing that like with the value of the
+
+00:20:01
+asset
+
+00:20:02
+like
+
+00:20:04
+you know maybe we're not there today
+
+00:20:05
+with ethereum proof of work but like if
+
+00:20:07
+it if the asset 10x in value or 100x in
+
+00:20:10
+value then like you you actually get
+
+00:20:11
+there because the amount of
+
+00:20:13
+energy you want to burn scales with the
+
+00:20:14
+value of the asset we no longer have
+
+00:20:16
+that feedback loop with the real-world
+
+00:20:17
+energy consumption so
+
+00:20:19
+definitely some good stuff here there uh
+
+00:20:21
+and then you know we end up there i
+
+00:20:23
+kevin o'key told me that's where we're
+
+00:20:25
+gonna go
+
+00:20:26
+um scalability there are 10 percent
+
+00:20:30
+faster block times in proof of stake
+
+00:20:31
+compared to proof of work today so
+
+00:20:35
+a little bit of scalability again but
+
+00:20:36
+that's not actually what i mean um what
+
+00:20:39
+scale what proof-of-stake actually opens
+
+00:20:41
+up is the ability to architect more
+
+00:20:43
+sophisticated consensus mechanisms uh
+
+00:20:45
+usually called sharding sometimes called
+
+00:20:47
+scalable data data availability sampling
+
+00:20:50
+essentially like very advanced
+
+00:20:52
+cryptographic techniques uh that allow
+
+00:20:54
+us to to bring in more scale without
+
+00:20:56
+compromising on decentralization and
+
+00:20:58
+security but those are very hard
+
+00:21:00
+techniques to construct in a proof of
+
+00:21:02
+work environment so really
+
+00:21:03
+proof-of-stake becomes requisite to move
+
+00:21:06
+into this more scalable zone
+
+00:21:08
+um get more out of your consensus
+
+00:21:09
+mechanism
+
+00:21:11
+dank sharding
+
+00:21:12
+that's actually uh
+
+00:21:14
+paying homage to uh donkrud i don't know
+
+00:21:17
+if he's in the audience hello don crowd
+
+00:21:18
+you're probably upstairs hacking uh but
+
+00:21:21
+the the current sharding construction uh
+
+00:21:23
+which brings in a lot of simplifications
+
+00:21:25
+we call dank sharding which
+
+00:21:27
+i mean we're in colorado so good place
+
+00:21:30
+to be
+
+00:21:31
+um there was if you're interested in
+
+00:21:32
+this stuff i'm not gonna have time to
+
+00:21:34
+talk about sharding today uh there was a
+
+00:21:36
+really good dank sharding workshop
+
+00:21:39
+the video is online you can check it out
+
+00:21:42
+if you want to know what the situation
+
+00:21:44
+is
+
+00:21:46
+i don't know if i have any okay this is
+
+00:21:47
+my last slide huge shout out to all
+
+00:21:49
+engineers and researchers i'm just like
+
+00:21:51
+one guy there's literally hundreds of
+
+00:21:53
+people working on this thing i can see
+
+00:21:54
+some of y'all in the audience um like
+
+00:21:57
+i i'm honored to be able to sit here and
+
+00:22:00
+talk about like
+
+00:22:01
+the the the iceberg of of work going on
+
+00:22:04
+here um and if you want to contribute
+
+00:22:06
+come find me we're definitely looking
+
+00:22:08
+for p2p experts uh we've got some fun
+
+00:22:10
+fun problems to solve with the uh the
+
+00:22:12
+sharding stuff coming up uh but really
+
+00:22:14
+like if you're into layer one uh and you
+
+00:22:16
+wanna talk come talk to me
+
+00:22:18
+thank you
+
+00:22:23
+sure yeah
+
+00:22:25
+so we have time for a few questions if
+
+00:22:26
+you guys have questions for danny line
+
+00:22:28
+up at the mic right here
+
+00:22:29
+i'll give you like a two minute warning
+
+00:22:32
+and i can ask myself questions if you
+
+00:22:34
+want
+
+00:22:37
+i've never seen that man before
+
+00:22:48
+client incentives there's probably two
+
+00:22:49
+big categories one would be like a pay
+
+00:22:52
+for
+
+00:22:53
+data model which like
+
+00:22:56
+people are bearish on but i i would say
+
+00:22:58
+that it hasn't fully been built out and
+
+00:23:00
+so i i would say that it's definitely
+
+00:23:03
+worthwhile to see if we can get the
+
+00:23:04
+light client server payment model done
+
+00:23:06
+there's a little bit of a bootstrapping
+
+00:23:07
+problem there and then the other model
+
+00:23:09
+is
+
+00:23:10
+no one's ever the other model has the
+
+00:23:12
+assumption no one's ever going to pay
+
+00:23:14
+for light client data
+
+00:23:16
+and so you need to build a more like
+
+00:23:17
+distributed web uh to architect it and
+
+00:23:19
+that so piper's exploring the uh the
+
+00:23:22
+portal network which essentially takes
+
+00:23:24
+you know if you assume that there's
+
+00:23:27
+tons of tons of light clients that want
+
+00:23:28
+to participate and have a little bit of
+
+00:23:30
+resources then you can construct like a
+
+00:23:32
+a dht to serve and kind of hang out with
+
+00:23:35
+each other i think that both
+
+00:23:37
+both are very promising like clients are
+
+00:23:40
+always a little bit disappointing
+
+00:23:41
+because we wish they existed
+
+00:23:43
+five years ago and they barely exist
+
+00:23:44
+today but i'm glad your company's
+
+00:23:46
+working on them
+
+00:23:56
+talk about vdfs
+
+00:23:58
+oh yeah can you talk about bdfs
+
+00:24:02
+um so randomness is uh pretty important
+
+00:24:05
+in proof-of-stake protocols you kind of
+
+00:24:07
+get that in proof-of-work for free for
+
+00:24:09
+free well not for free it costs a lot of
+
+00:24:11
+energy uh but the like random process of
+
+00:24:14
+competing with hashing gives you kind of
+
+00:24:16
+the randomness decide who the leader is
+
+00:24:17
+who gets to make a block whereas in
+
+00:24:19
+proof-of-stake you need
+
+00:24:21
+you need some in protocol randomness to
+
+00:24:23
+dictate uh shufflings dictate who's the
+
+00:24:25
+proposer dictate these committees and
+
+00:24:27
+different things so there's this
+
+00:24:28
+construction called randall where each
+
+00:24:30
+time a block proposer makes a block they
+
+00:24:32
+reveal some private uh information that
+
+00:24:34
+they cannot
+
+00:24:36
+bias other than the fact that they're
+
+00:24:38
+revealing it or not so like they can
+
+00:24:39
+either mix in into the randomness and
+
+00:24:41
+help dictate the protocol or if they
+
+00:24:43
+really wanted to bias it they could they
+
+00:24:45
+could not um and so
+
+00:24:48
+i say that because randall exists uh
+
+00:24:50
+randall is what the protocol uses we
+
+00:24:52
+have a lot of models showing that
+
+00:24:53
+randall is not that biasable and it's
+
+00:24:55
+very difficult in practice to bias
+
+00:24:58
+but it is biasable to some capacity so
+
+00:25:01
+what a vdf does is it takes that uh with
+
+00:25:04
+a crazy hardware project uh assumes that
+
+00:25:08
+an attacker cannot build a
+
+00:25:11
+piece of hardware faster than some
+
+00:25:13
+maximum speed up than commodity hardware
+
+00:25:15
+and uses that to harden the randomness
+
+00:25:18
+there's all sorts of things you can do
+
+00:25:19
+with vdfs theoretically this is the one
+
+00:25:21
+that we're kind of interested in
+
+00:25:22
+pursuing um
+
+00:25:25
+that problem is hard because it's a
+
+00:25:26
+hardware problem so
+
+00:25:29
+the vdf has like a an honesty assumption
+
+00:25:31
+of one so there only needs to be one
+
+00:25:33
+person in the world honest actor
+
+00:25:34
+actually running like you know a piece
+
+00:25:36
+of hardware like this so it's not like
+
+00:25:38
+some crazy proof-of-work thing that you
+
+00:25:39
+like attached to it but there is like a
+
+00:25:42
+whole r d project to investigate these
+
+00:25:45
+hardware is to investigate which actual
+
+00:25:47
+uh mathematical and cryptographic
+
+00:25:48
+construction you embed in the hardware
+
+00:25:50
+and then to like prove very rigorously
+
+00:25:53
+how
+
+00:25:54
+even in a note a no expense spared
+
+00:25:56
+attacker you know take all the money and
+
+00:25:57
+resources in the world what the
+
+00:25:59
+theoretical speed up is
+
+00:26:01
+and if you can bound that
+
+00:26:03
+this is a very exciting project i think
+
+00:26:04
+bdfs open up lots of really interesting
+
+00:26:06
+crypto economic constructions uh in
+
+00:26:09
+protocols like ethereum and protocols
+
+00:26:11
+like filecoin and others uh but
+
+00:26:14
+you know i think we're at a minimum a
+
+00:26:16
+few years out from having anything
+
+00:26:17
+worthwhile um
+
+00:26:20
+truly secure and ready there and maybe
+
+00:26:21
+many more years out than that but some
+
+00:26:23
+people are much more deep into the vdf
+
+00:26:26
+project than i am
+
+00:26:33
+uh is the marriage going to affect gas
+
+00:26:36
+prices
+
+00:26:40
+uh is the marriage going to affect gas
+
+00:26:43
+prices
+
+00:26:45
+great question so i talked about that a
+
+00:26:46
+little bit um does the merge affects gas
+
+00:26:48
+prices so
+
+00:26:50
+scalability affects gas prices
+
+00:26:52
+the merge does not inherently bring more
+
+00:26:55
+scale you're still bottlenecked in
+
+00:26:56
+proof-of-stake by the same things in
+
+00:26:58
+proof-of-work the merge does open up
+
+00:27:01
+sharding
+
+00:27:02
+and versions of sharding i believe
+
+00:27:05
+which could give us some more scale
+
+00:27:07
+could be released really within the next
+
+00:27:08
+year but
+
+00:27:10
+one thing that does help with scale is
+
+00:27:12
+starting combined with these layer two
+
+00:27:15
+constructions so teams like optimism
+
+00:27:17
+teams like arbor trampolines like uh zk
+
+00:27:19
+sync they are are they are deploying
+
+00:27:21
+moist scalable environments into
+
+00:27:24
+ethereum today and what we plan to do
+
+00:27:26
+with uh upgrades after
+
+00:27:28
+the merge is supercharge those scalable
+
+00:27:31
+environments with more data
+
+00:27:34
+but yeah
+
+00:27:35
+we're working on it
+
+00:27:42
+cool
+
+00:27:47
+uh yeah dank sharding
+
+00:27:49
+um this is the thing
+
+00:27:51
+oh no it's not up there
+
+00:27:53
+my
+
+00:27:54
+don't put it up there uh
+
+00:27:56
+we're actually there's a number of
+
+00:27:58
+people working on a quote
+
+00:27:59
+mini dank sharding this weekend uh so
+
+00:28:02
+hopefully we'll have a fun prototype and
+
+00:28:04
+and be able to share more with you at
+
+00:28:06
+the end of the weekend uh look out for
+
+00:28:08
+it on the internet
+
+00:28:11
+all right cool i'm gonna call it unless
+
+00:28:13
+anybody else wants to talk to me
+
+00:28:16
+i'm happy to chat
+
+00:28:18
+alright thank you appreciate it
+
