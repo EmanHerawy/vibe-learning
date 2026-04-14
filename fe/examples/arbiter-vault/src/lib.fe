@@ -16,6 +16,20 @@ msg ArbiterMsg{
 #[selector = sol("approve(address)")]
     Approve { vault: Address },
 }
+#[event]
+struct FundedEvent {
+    from: Address,
+    amount: u256,
+}
+
+#[event]
+struct ReleasedEvent {
+    beneficiary: Address,
+    amount: u256,
+}
+#[event]
+struct ApproveEvent {
+}
 
 enum Status{
     Empty,
@@ -46,6 +60,9 @@ recv VaultMsg{
             assert(ctx.value()>0)
             store.balance+=ctx.value()
             store.status=Status::Funded
+            log.emit(FundedEvent{
+                            from: ctx.caller(),
+                            amount:ctx.value()})
         }
     
     Release { to }uses (mut log, ctx, mut store, mut call){
@@ -59,7 +76,12 @@ recv VaultMsg{
         message: VaultMsg::Deposit{} // workaround sending with VaultMsg::Deposit{} as the message. Since the recipient (to) is an EOA , calls to EOAs always succeed regardless of calldata. The ETH transfers.
     
         )
+
         store.balance=0
+        log.emit(ReleasedEvent{
+                            beneficiary: to,
+                            amount:balance})
+
         }
     }
 
@@ -89,7 +111,7 @@ recv ArbiterMsg{
         message: VaultMsg::Release { to: store.depositer }
     
         )
-       
+       log.emit(ApproveEvent{})
     }
 }
 }

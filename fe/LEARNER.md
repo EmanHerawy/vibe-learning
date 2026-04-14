@@ -54,7 +54,7 @@ Always start at Beginner level. Explicitly ask before going deeper. Sequence: Be
    - Parts 10–14: Events, error handling, testing, patterns, examples
 2. **Fe standard library docs** — https://fe-lang.org/docs/ (covers `std::abi` only — ABI encoding/decoding)
 3. **Fe GitHub repository** — https://github.com/ethereum/fe
-4. `rosetta/` (local) — side-by-side Fe + Solidity examples in this repo
+4. `rosetta/` (local) — side-by-side Fe + Solidity examples — `/Users/emanherawy/work/open_source/fe/rosetta/`
 5. `fe/` (local) — full Fe compiler source, cloned at `/Users/emanherawy/work/open_source/fe/fe/`
    - `fe/ingots/core/src/` — core traits: `EffectRef`, `ContractHost`, `Target`, `intrinsic`
    - `fe/ingots/std/src/evm/effects.fe` — **primary source** for `Ctx`, `Call`, `Log`, `Create`, `Evm`, `RawMem`, `RawStorage`, `RawOps`, `Super`
