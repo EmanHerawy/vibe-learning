@@ -1,0 +1,8 @@
+.claude
+.gstack
+.DS_Store
+
+# compiled artifacts
+**/out/
+**/node_modules/
+**/hardhat/cache/
