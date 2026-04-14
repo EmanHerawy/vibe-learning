@@ -1,0 +1,6 @@
+.claude
+.gstack
+.DS_Store
+
+# Sui Move build artifacts
+**/build/
