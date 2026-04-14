@@ -1,0 +1,24 @@
+#separator:semicolon
+#html:false
+#notetype:Basic
+#deck:Solana::CPI-Token-Security
+
+invoke_signed account_infos — what must you include?;Every account referenced in the instruction + the program being invoked itself. If a pubkey appears in the instruction, its AccountInfo must be in this list. Missing an account = runtime error. Mnemonic: The witness list — every name on the form must physically show up in court. Including the judge (the program). Source: rareskills.io/solana-tutorial — CPI section;solana::cpi::gotcha
+
+Raw invoke_signed to SPL Token transfer — which 3 accounts go in account_infos?;1. Source Token Account (ATA being debited) 2. Destination Token Account (ATA being credited) 3. Authority (wallet that OWNS the source ATA — the signer). NOT the Mint. Mnemonic: SDA — Source, Destination, Authority. Like a bank wire: sending account, receiving account, account holder's signature. Source: rareskills.io/solana-tutorial — SPL Token section;solana::spl-token::syntax
+
+Which SPL Token operations require the Mint account in account_infos?;Need Mint: mint_to (supply increases), burn (supply decreases). Don't need Mint: transfer, close_account — tokens just move, supply doesn't change. Rule: does the total supply number change? Yes → Mint needed. No → Mint stays home. Source: rareskills.io/solana-tutorial — SPL Token section;solana::spl-token::cause-effect
+
+Common mistake: "Alice's Token Account is owned by Alice." Correct?;❌ No. account.owner = SPL Token Program (the program that controls the account). Alice's pubkey is stored INSIDE the data as data.owner — checked by SPL Token on operations like transfer and burn. Two different "owner" concepts: program-level ownership vs data-level authority. Mnemonic: The apartment is owned by building management (SPL Token). Alice's name is on the lease (data). Management holds the master key. Source: rareskills.io/solana-tutorial — SPL Token section;solana::spl-token::gotcha
+
+When sending tokens to a wallet for the first time — which program creates their Token Account?;The Associated Token Account (ATA) Program — NOT the SPL Token Program. SPL Token handles transfers. ATA Program creates Token Accounts at deterministic addresses derived from [owner, token_program_id, mint]. Mnemonic: Two workers: ATA Program is the electrician who installs the socket. SPL Token Program is the one who plugs things in. Source: rareskills.io/solana-tutorial — ATA section;solana::spl-token::definition
+
+Alice sends USDC to Bob who has never held USDC. Who pays for Bob's Token Account creation?;Alice (the sender) pays ~0.002 SOL in rent. Bob's ATA must be created before tokens can land. The sender pays the rent cost at time of transfer. This is why sending to a new wallet costs extra SOL. Mnemonic: Moving into a new apartment — the person sending the furniture (tokens) pays the security deposit (rent). Source: rareskills.io/solana-tutorial — ATA section;solana::spl-token::cause-effect
+
+Common mistake: vault.balance -= amount is safe as long as the CPI succeeds. Correct?;❌ No. In Rust release mode, u64 subtraction wraps on underflow. If amount > vault.balance, result = u64::MAX - (amount - balance - 1). State is corrupted. Fix: vault.balance = vault.balance.checked_sub(amount).ok_or(ErrorCode::InsufficientFunds)?; Always use checked_sub for any user-controlled arithmetic. Mnemonic: Unsigned integers are like a car odometer — go below zero and it wraps to 999999. Source: Rektoff Security Roadmap §8.6;solana::security::gotcha
+
+Common mistake: invoke_signed failures are silent — the transaction continues. Correct?;❌ No. invoke_signed returns Result<(), ProgramError>. The ? operator propagates the error immediately. CPI failure = instruction failure = full transaction revert. No partial state changes survive. Mnemonic: The ? is a tripwire — any failure detonates immediately and unwinds everything. Source: rareskills.io/solana-tutorial — CPI section;solana::cpi::gotcha
+
+A Token-2022 Mint has PermanentDelegate = ProtocolPDA. The protocol is hacked. Which token accounts can the attacker drain?;ALL holders' token accounts — not just accounts that interacted with the protocol. PermanentDelegate is global: the delegate can transfer or burn from any wallet holding that token. No opt-out for holders. Mnemonic: Master key to every room in the hotel — not just rooms that checked in through the front desk. Source: rareskills.io/solana-tutorial — Token-2022 section;solana::token2022::security
+
+Can you add a TransferHook to an existing Token-2022 Mint after creation?;❌ No. Extensions are chosen at Mint creation and baked into the account layout permanently. Cannot be added, removed, or changed after init. Same rule as freeze_authority — plan before you deploy. Mnemonic: Extensions are tattoos, not stickers — you choose them before leaving the shop. Source: rareskills.io/solana-tutorial — Token-2022 section;solana::token2022::gotcha

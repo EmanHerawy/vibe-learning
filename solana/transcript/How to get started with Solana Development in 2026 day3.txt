@@ -1,0 +1,3705 @@
+00:00:00
+Hello and welcome to day three of the
+
+00:00:04
+how to get started with Salana
+
+00:00:05
+development in 2026 series. Today we're
+
+00:00:09
+going to write our first Solana program
+
+00:00:12
+and in the process we're going to better
+
+00:00:14
+understand how transactions really work.
+
+00:00:16
+We're going to discuss the concept of
+
+00:00:18
+account ownership and we'll understand
+
+00:00:20
+that all state on Solana is stored in
+
+00:00:23
+accounts or everything is an account. We
+
+00:00:27
+will be working with Anker which is a
+
+00:00:30
+framework for writing Solana programs.
+
+00:00:32
+Anker will be released in version one
+
+00:00:34
+soon but I will have separate videos on
+
+00:00:37
+that for what we're doing today. Not a
+
+00:00:40
+lot is going to change with the new
+
+00:00:43
+major version. So I think it's fine if I
+
+00:00:45
+still do it with the old anchor. Yeah,
+
+00:00:48
+we will repeat a few things that we
+
+00:00:49
+learned yesterday. But in case you
+
+00:00:52
+haven't been around yesterday, obviously
+
+00:00:54
+you want to make sure that you
+
+00:00:55
+understand the concepts of yesterday's
+
+00:00:57
+video before continuing here. Otherwise,
+
+00:01:00
+it might get confusing or not. Feel free
+
+00:01:03
+to just watch this again. I'm not your
+
+00:01:06
+mom. I'm not telling you what to do. But
+
+00:01:08
+in case you feel lost and you don't know
+
+00:01:10
+what an account or an instruction or a
+
+00:01:11
+transaction is, maybe go watch
+
+00:01:13
+yesterday's video. Okay, let's go get
+
+00:01:16
+started with our first little program.
+
+00:01:18
+As mentioned, I'm going to use Anchor in
+
+00:01:21
+version 032.
+
+00:01:23
+And to create an anchor project, you
+
+00:01:26
+just type anchor in it and give it a
+
+00:01:29
+name. This is the most difficult part
+
+00:01:31
+because I'm always not creative. Anchor
+
+00:01:34
+program, not creative. And then it will
+
+00:01:36
+download and install all of the
+
+00:01:38
+dependencies that it needs. And voila,
+
+00:01:40
+we'll have the anchor program [snorts]
+
+00:01:43
+folder here. The interesting parts are
+
+00:01:46
+the anchor toml and the actual program
+
+00:01:50
+that lives in programs source lip RS.
+
+00:01:55
+That is the actual program code. And you
+
+00:01:59
+see it comes prefilled in with a
+
+00:02:02
+template of a simple anchor program that
+
+00:02:05
+has one function initialize. We also
+
+00:02:10
+call that an instruction. But as
+
+00:02:12
+mentioned yesterday, this naming can be
+
+00:02:14
+confusing because the instruction for me
+
+00:02:16
+still is the thing that contains the
+
+00:02:19
+information for which program, which
+
+00:02:21
+instruction, and what the parameters
+
+00:02:23
+are. However, that's what this thing
+
+00:02:25
+defines. It defines the program. It
+
+00:02:28
+defines the name of the instruction and
+
+00:02:31
+the parameters that we could put here.
+
+00:02:35
+input parameter. I don't know, make it a
+
+00:02:38
+U8, just some one bite as input. If my
+
+00:02:42
+function would take an input parameter,
+
+00:02:45
+a simple number, I could just write it
+
+00:02:47
+here. And all that does is it logs a
+
+00:02:51
+message saying greetings from the
+
+00:02:54
+program and then it says okay. And we
+
+00:02:57
+could add a second message. The input
+
+00:03:00
+parameter is this. But that's not
+
+00:03:03
+actually how this works. There we go.
+
+00:03:05
+Then it will print that number as well.
+
+00:03:07
+That template is already a finished
+
+00:03:11
+program that should already work. So I'd
+
+00:03:14
+say before we implement more, let's
+
+00:03:16
+already go through the process of
+
+00:03:18
+deploying a program, which means getting
+
+00:03:21
+that program on chain. And to do so, we
+
+00:03:24
+need to go through two steps. Number
+
+00:03:26
+one, we need to build this program. So
+
+00:03:29
+compile it from the source code to
+
+00:03:32
+actual executable machine code and then
+
+00:03:35
+we're going to send that executable to
+
+00:03:38
+Solana such that it's stored there and
+
+00:03:40
+that's what we call deploy. We deploy
+
+00:03:43
+the program to the chain. We basically
+
+00:03:45
+upload the executable and anchor that
+
+00:03:48
+would be anchor build. Oh, now it's got
+
+00:03:51
+to download anchor stuff first. Okay,
+
+00:03:53
+fine. Sure. Why not? Since it's the
+
+00:03:55
+first time I'm doing this here, we got
+
+00:03:57
+to download the new anchor version. All
+
+00:03:59
+right, there we go. Now we compile all
+
+00:04:02
+of the dependencies here. And does have
+
+00:04:05
+a lot of dependencies. And then in the
+
+00:04:07
+end, it will compile our program, which
+
+00:04:10
+it did. That was quick. And now it still
+
+00:04:12
+creates an IDL for us. Not so important
+
+00:04:15
+here. There we go. That target was
+
+00:04:18
+built. And now we should have our
+
+00:04:22
+program file. That's the executable.
+
+00:04:25
+It's an ELF file, but the details for
+
+00:04:27
+now are not too important. I do have
+
+00:04:29
+deep dives on that as well. For us, it's
+
+00:04:31
+just important that the program was now
+
+00:04:33
+compiled to this file. And this is what
+
+00:04:36
+we now need to upload to Solana for the
+
+00:04:40
+program to exist on chain. And that
+
+00:04:43
+process of uploading we call deploying.
+
+00:04:47
+So we anchor deploy. But before we do
+
+00:04:51
+that, we got to tell it where to deploy
+
+00:04:54
+to because the default uses this key
+
+00:04:56
+pair and deploys to local net. I do want
+
+00:05:00
+to use defnet though. So we're going to
+
+00:05:02
+change this to defnet. And that was the
+
+00:05:06
+key pair that we created in the first
+
+00:05:08
+video, but I don't think that it has any
+
+00:05:10
+balance. Nope. So for that to work, I
+
+00:05:14
+could either change the key pair or I
+
+00:05:16
+make sure that this address actually has
+
+00:05:19
+some balance. So there we go. Now we
+
+00:05:21
+have five soul and I can use this.
+
+00:05:24
+That's perfect. Cool. So back to our
+
+00:05:27
+anchor deploy. If we're doing this, the
+
+00:05:30
+program is being sent to the chain that
+
+00:05:32
+takes a few transactions, but then we
+
+00:05:34
+get deploy success. So the program was
+
+00:05:37
+now uploaded to Solana DevNet. And now I
+
+00:05:41
+want to test this. I want to run this
+
+00:05:43
+program. But remember, we don't run the
+
+00:05:46
+program by saying program.run. In order
+
+00:05:49
+to run a Solana program, what do we have
+
+00:05:52
+to do? Well, yeah, we have to send a
+
+00:05:54
+transaction that contains an instruction
+
+00:05:57
+that calls the program. And Ankor has
+
+00:06:00
+tests prepared. Add your test here. This
+
+00:06:04
+one doesn't work out of the box anymore
+
+00:06:07
+because we're missing something. We have
+
+00:06:09
+added this input parameter here. So this
+
+00:06:12
+thing expects the input parameter. I'm
+
+00:06:15
+just going to say one is the input that
+
+00:06:18
+we give to this function or method. We
+
+00:06:22
+can say it's a method. Sure, why not?
+
+00:06:24
+Let's do object-oriented functions.
+
+00:06:26
+Anchor calls it methods here. And that's
+
+00:06:28
+basically Ankor's way to build an
+
+00:06:32
+instruction and then directly make a
+
+00:06:34
+transaction and send it to the RPC. We
+
+00:06:36
+don't need to be too worried about that.
+
+00:06:38
+That's just the code that exists here.
+
+00:06:40
+So let's just try and run this. Since
+
+00:06:42
+it's the anchor tests, we run it with
+
+00:06:45
+anchor test. Oh, and when we do test, it
+
+00:06:48
+also deploys the program one more time.
+
+00:06:50
+We could ignore that, but that's fine.
+
+00:06:53
+So our anchor program was tested and
+
+00:06:56
+this is initialized. Test was run. We
+
+00:06:59
+get this your transaction signature text
+
+00:07:03
+here. And it gives me the signature. I
+
+00:07:06
+don't know why it calls it TX. I
+
+00:07:08
+wouldn't call it TX. I would call it
+
+00:07:09
+signature, but you know, whatever. I'll
+
+00:07:11
+call it signature. And we can even look
+
+00:07:12
+at that in the explorer on DevNet since
+
+00:07:15
+we deployed to DefNet. This is public on
+
+00:07:18
+DevNet now. And we see what happens. We
+
+00:07:21
+have those two accounts. One that was my
+
+00:07:25
+account, my wallet account, the CW and
+
+00:07:29
+the CT that is then the program that was
+
+00:07:32
+deployed. So here we see this is a
+
+00:07:34
+program that is being called. Yesterday
+
+00:07:36
+we had the manmo program and the system
+
+00:07:38
+program. Today we have our own program
+
+00:07:40
+and we see that from this anchor program
+
+00:07:43
+the initialize function was called and
+
+00:07:46
+the input parameter was a u8 and had
+
+00:07:49
+value one and then if we go down to the
+
+00:07:51
+logs we see the greeting from our
+
+00:07:54
+program and the input parameter is one.
+
+00:07:58
+So here we have a transaction that had
+
+00:08:00
+an instruction that was calling our
+
+00:08:03
+program and that's how the program was
+
+00:08:06
+run on Solana. Voila. Done. We wrote the
+
+00:08:09
+program. Easy. See you tomorrow. Right.
+
+00:08:13
+Are is that is that is it that easy? It
+
+00:08:15
+is that easy. Yeah, I mean it is that
+
+00:08:17
+easy. But there's a bit more to
+
+00:08:19
+understand here. Let's dig a bit deeper.
+
+00:08:21
+But actually before just because I
+
+00:08:23
+personally don't enjoy this because that
+
+00:08:26
+always confuses me. I mean I can give it
+
+00:08:28
+a nickname but that makes it big. I like
+
+00:08:31
+that the explorer can do that. So now we
+
+00:08:34
+don't need to remember that. We can just
+
+00:08:36
+give it a nickname. Does that stay if I
+
+00:08:38
+refresh? Yeah. Cool. Okay. Let's leave
+
+00:08:41
+it like that. Might make it a bit
+
+00:08:42
+easier. I could of course also here use
+
+00:08:45
+another wallet where it's more obvious.
+
+00:08:48
+I know. I guess it's fine. So far, we're
+
+00:08:50
+not doing anything. We're logging some
+
+00:08:52
+stuff, but we're not yet working with
+
+00:08:54
+accounts. And now we will see that we
+
+00:08:57
+need to treat accounts differently than
+
+00:09:00
+other input parameters. Those accounts
+
+00:09:04
+come through this context and that
+
+00:09:07
+context has a type and that's defined
+
+00:09:11
+with this strct down here. So if we want
+
+00:09:14
+this instruction to take accounts as
+
+00:09:17
+arguments, we can put them in here. And
+
+00:09:20
+the convention is that you call this
+
+00:09:22
+struck the same as the function name or
+
+00:09:25
+the instruction name. Personally, I like
+
+00:09:28
+to call them the function name plus
+
+00:09:32
+accounts. Then for me, it's clear that
+
+00:09:34
+those are the accounts because that was
+
+00:09:36
+confusing me in the beginning. what is
+
+00:09:38
+this part or those here are the accounts
+
+00:09:42
+for this [snorts] instruction. So I'm
+
+00:09:44
+going to call them that. The convention
+
+00:09:45
+is not to do this but to make it easier
+
+00:09:48
+for you to understand we derive
+
+00:09:50
+accounts. So this strct becomes the
+
+00:09:53
+accounts for this instruction. So let's
+
+00:09:56
+put in one account for instance we want
+
+00:10:00
+in our instruction to be able to know
+
+00:10:03
+who sent that transaction. So in our
+
+00:10:06
+example, the Andy's wallet for now, we
+
+00:10:09
+have no access to that because that
+
+00:10:12
+account even though it was put into that
+
+00:10:14
+transaction, it's not put into the
+
+00:10:17
+instruction because really it goes the
+
+00:10:19
+other way around. We have all of the
+
+00:10:21
+instructions that have accounts and all
+
+00:10:24
+of the accounts that the instruction
+
+00:10:25
+needs will be put in the list of
+
+00:10:27
+accounts of that transaction plus the
+
+00:10:30
+fee payer if that's extra. But yeah, so
+
+00:10:32
+to get access to that account, I will
+
+00:10:34
+say what's the name of it? I give it a
+
+00:10:37
+name. I call it user whatever. And to
+
+00:10:40
+make sure that this is actually not just
+
+00:10:43
+any account, but one that is a ser. So
+
+00:10:46
+there's a signature present, meaning
+
+00:10:48
+that they have the private key for that
+
+00:10:50
+address. So we use a ser. This can also
+
+00:10:53
+mean something else, but we're going to
+
+00:10:54
+discuss that either tomorrow or the day
+
+00:10:56
+after when we discuss PDAs. But for now
+
+00:11:00
+we just assume that this user they have
+
+00:11:03
+a private key for that given address. So
+
+00:11:07
+you need an info. Okay. So then I will
+
+00:11:10
+also need to put this here. This is just
+
+00:11:12
+something that you need to know
+
+00:11:14
+lifetimes. If you're not used to rust
+
+00:11:16
+just ignore it for now. But basically
+
+00:11:18
+we're putting an account call it user
+
+00:11:21
+say it should be a ser. So let's quickly
+
+00:11:24
+check why this is complaining. Anchor
+
+00:11:26
+build client accounts initialize. Oh,
+
+00:11:29
+because I changed the name. So, I also
+
+00:11:32
+need to change the name here. Ah, yeah,
+
+00:11:33
+that that makes sense. And now, yes, now
+
+00:11:36
+it builds. Perfect. So, I have put this
+
+00:11:39
+user here and that's in here. So, that
+
+00:11:42
+context is now aware of this account.
+
+00:11:45
+So, this context in dot accounts will
+
+00:11:49
+have this user. Anchor just does that
+
+00:11:52
+magic for us. And we can access that
+
+00:11:55
+account. So we could for instance read
+
+00:11:57
+the public key. So let's also just this
+
+00:12:01
+program was called by and then I let you
+
+00:12:05
+expand print this key. Let's build that
+
+00:12:09
+and test that test will automatically
+
+00:12:12
+also deploy it before and then our test
+
+00:12:15
+looks like this is initialized was
+
+00:12:18
+successful. That's the transaction. And
+
+00:12:21
+we can look at it here and scroll down
+
+00:12:24
+and see that this program was called by
+
+00:12:27
+and there we have the public key of
+
+00:12:30
+Andy's wallet. Isn't that fun? So that's
+
+00:12:33
+the program and that's the user calling
+
+00:12:35
+it. Freaking magic, right? How did that
+
+00:12:37
+get in there? Magic. Anchor does a lot
+
+00:12:40
+of magic that makes it easy to work with
+
+00:12:42
+in the beginning, but could also lead to
+
+00:12:45
+issues of you not understanding why
+
+00:12:47
+something doesn't work. So basically
+
+00:12:49
+here this method automatically added
+
+00:12:53
+accounts this user which is optional. If
+
+00:12:57
+I don't provide this user with a
+
+00:13:00
+different account then it will just take
+
+00:13:03
+my wallet that I defined here in the
+
+00:13:06
+workspace but I can define a different
+
+00:13:09
+one. I could be like user account could
+
+00:13:12
+make that a different one to the fee
+
+00:13:14
+payer. So if I try to put in a different
+
+00:13:17
+account here for this user account,
+
+00:13:19
+anchor will complain because we require
+
+00:13:22
+this to be a ser. So it needs to sign. I
+
+00:13:25
+need the private key for that. I could
+
+00:13:27
+call it a system account. And we'll get
+
+00:13:29
+to what that means in a second. Then it
+
+00:13:32
+wouldn't complain here. I just need to
+
+00:13:34
+build it again and then test. Then this
+
+00:13:36
+should work. There we go. Now it passed.
+
+00:13:39
+And here it now says Andy because that's
+
+00:13:42
+the address that I put in because that
+
+00:13:45
+account was put in here into this
+
+00:13:48
+instruction. So we also see that account
+
+00:13:51
+being added to the accounts of that
+
+00:13:54
+transaction. But it's now not correct
+
+00:13:56
+anymore. This program was not called by
+
+00:13:58
+this account. This was just put as an
+
+00:14:00
+argument. So you either need to change
+
+00:14:02
+that or put it back to ser. All of that
+
+00:14:05
+was just to show where that really comes
+
+00:14:08
+from. It comes from here except if I
+
+00:14:12
+don't provide the user then we'll take
+
+00:14:14
+my wallet per default and that's fine
+
+00:14:17
+for now. So we can use an account in our
+
+00:14:22
+instruction. That's how we put an
+
+00:14:24
+account as an argument to our
+
+00:14:27
+instruction. And anything else I can put
+
+00:14:30
+in here. I could even put here another
+
+00:14:33
+user key or a input address and make
+
+00:14:38
+that a popup key. If I would just be
+
+00:14:41
+interested in the key, I could put that
+
+00:14:44
+here as a pup key, but then I really
+
+00:14:46
+just get the address. So those 32 bytes
+
+00:14:50
+of the address and not the entire
+
+00:14:53
+information of the account. So I won't
+
+00:14:55
+get access to the data or the lamperts
+
+00:14:58
+field of that account. I would just have
+
+00:15:00
+the address. Maybe that's enough if I
+
+00:15:03
+just need the address. For us, it would
+
+00:15:05
+be if I just print it. But as we learned
+
+00:15:07
+yesterday, we need to put in the
+
+00:15:10
+accounts up front in the transaction
+
+00:15:13
+such that the runtime knows what state
+
+00:15:15
+we touch and therefore how it can
+
+00:15:18
+execute stuff in parallel. In the
+
+00:15:21
+processing in the blocks, it's still
+
+00:15:22
+sequential every transaction, but in the
+
+00:15:24
+processing steps, they can be run in
+
+00:15:27
+parallel. So yeah, then it wouldn't be
+
+00:15:28
+put here. If you really just need to
+
+00:15:31
+write the address somewhere, you can do
+
+00:15:32
+it like that. But in most cases, if you
+
+00:15:35
+want to deal with an account, you really
+
+00:15:37
+want it as an account and get access to
+
+00:15:39
+the entire account. So you would put it
+
+00:15:41
+here. This was just a little excursion,
+
+00:15:44
+but in case you didn't understand what I
+
+00:15:46
+meant by that, it doesn't really matter.
+
+00:15:48
+Okay. Now, let's actually do something
+
+00:15:51
+with accounts. Here comes a very
+
+00:15:53
+important thing that you need to know
+
+00:15:54
+about Salana programs. Every Salana
+
+00:15:57
+program is stateless. There is no state
+
+00:16:01
+stored in the program and other chains
+
+00:16:04
+might do that differently. What do I
+
+00:16:06
+mean by that? That means that my program
+
+00:16:08
+cannot remember stuff. The program
+
+00:16:11
+itself cannot remember oh last time I
+
+00:16:14
+was called I was called with this input
+
+00:16:17
+parameter. The program as it is deployed
+
+00:16:20
+on chain stays the same. It stays
+
+00:16:24
+constant. nothing in there changes and
+
+00:16:27
+it doesn't have any variables in there
+
+00:16:30
+that it has like it doesn't have local
+
+00:16:32
+variables. There's also no global state.
+
+00:16:35
+In order for a program to have state, it
+
+00:16:38
+needs to work with accounts. So if you
+
+00:16:42
+want to write something, remember some
+
+00:16:45
+variable or whatever, you need to have a
+
+00:16:48
+separate account for that. By the way,
+
+00:16:51
+the same is true for Solana globally.
+
+00:16:54
+Solana doesn't have global state. All
+
+00:16:57
+the Solana state is in accounts. That's
+
+00:17:01
+why we say everything is an account
+
+00:17:03
+because even the programs themselves are
+
+00:17:06
+written to accounts. So technically they
+
+00:17:11
+are state of Solana but the programs
+
+00:17:14
+themselves don't have state. But the
+
+00:17:17
+deployed programs they are part of the
+
+00:17:20
+state of Solana because they are living
+
+00:17:24
+inside accounts. Specifically for this
+
+00:17:27
+program it's living in that account that
+
+00:17:29
+we have here our program an account a
+
+00:17:32
+program account with another account
+
+00:17:34
+that actually contains the executable.
+
+00:17:36
+So what we're doing when we're deploying
+
+00:17:38
+the program is basically we're writing
+
+00:17:41
+to this account the new version of the
+
+00:17:43
+program and this program account points
+
+00:17:46
+there and with a new loader it will just
+
+00:17:48
+be one account because things are
+
+00:17:49
+changing on Solana. Anyway, where were
+
+00:17:51
+we? Oh yeah, we were talking about if we
+
+00:17:54
+want state which means remember
+
+00:17:56
+something then we need to use account.
+
+00:17:58
+So let's say as an example we want to
+
+00:18:01
+remember what mood my program is in or
+
+00:18:04
+something like that. So I do an enum for
+
+00:18:08
+mood. So maybe my program can be sad,
+
+00:18:13
+maybe it's happy, maybe it's annoyed,
+
+00:18:16
+maybe it's excited, maybe it's bored.
+
+00:18:19
+All right, that's enough. But the
+
+00:18:21
+program itself, it can't remember that.
+
+00:18:23
+I mean, I could hardcode one mood in
+
+00:18:26
+there, but then if I needed to change
+
+00:18:29
+that mood, I need to redeploy the
+
+00:18:32
+program with the new mood. Oh, that's by
+
+00:18:35
+the way another interesting thing to
+
+00:18:37
+note. Programs on Solana per default are
+
+00:18:40
+upgradable. So you can redeploy them
+
+00:18:44
+with a new version until you say I want
+
+00:18:47
+to make it immutable and you throw away
+
+00:18:49
+the upgrade authority. We'll get to talk
+
+00:18:51
+about the authorities in a few days. But
+
+00:18:54
+for now, let's stay with this example
+
+00:18:56
+with the moods. And I just want to
+
+00:18:58
+deploy my program once and then I should
+
+00:19:01
+be able to change the mood. So I want to
+
+00:19:04
+have a function to set mood or actually
+
+00:19:08
+we're in rust. That's how we spell it.
+
+00:19:10
+So that again will take a context and a
+
+00:19:13
+new mood which going to be a mood and
+
+00:19:18
+the rest similar to this. We just say
+
+00:19:22
+new mood and we print that mood. Except
+
+00:19:27
+that won't work because I need to tell
+
+00:19:30
+you that you have a derive debug or
+
+00:19:33
+perfect. It already suggests that then I
+
+00:19:36
+can print it like that. Multiple
+
+00:19:38
+definitions of the okay you can't
+
+00:19:41
+serialize that. Okay, maybe then I need
+
+00:19:43
+to tell you to make this a U8. So this
+
+00:19:47
+enome should be represented as a U8.
+
+00:19:49
+Represent this as U8. Does that fix it?
+
+00:19:53
+Nope. That's annoying. But as a U8 it
+
+00:19:55
+would work. Yeah, fine. I'll just keep
+
+00:19:57
+it a U8 and then I just implement a
+
+00:20:00
+function like this where I can get it
+
+00:20:01
+from a U8. I implement for the mood a
+
+00:20:04
+from U8 and then I just say here mood
+
+00:20:08
+from U8 new mood. There we go. Okay,
+
+00:20:11
+that still just prints it. though in
+
+00:20:14
+order to actually save it I need an
+
+00:20:17
+account that I can save it into because
+
+00:20:19
+as we said the program we can't have a
+
+00:20:22
+global variable here that we can change
+
+00:20:25
+throughout program executions that
+
+00:20:27
+doesn't work something like programs
+
+00:20:30
+mood is it's sad because it can only
+
+00:20:34
+have that mood I can do that but then
+
+00:20:36
+it's a const and I can I yeah I can do a
+
+00:20:39
+con but that never changes I cannot have
+
+00:20:42
+this be a variable able cannot assign to
+
+00:20:44
+immutable static item. Immutable. We
+
+00:20:47
+cannot change this. If I make it
+
+00:20:49
+mutable, use of mutable static is unsafe
+
+00:20:51
+and requires unsafe function. Point is,
+
+00:20:54
+you shouldn't even do this. Don't even
+
+00:20:56
+try because that's not how you can do
+
+00:20:58
+it. Anyway, I was just giving that as a
+
+00:21:01
+mental thing. We need an actual account
+
+00:21:04
+to store stuff. So, let's make a
+
+00:21:07
+separate one of these for the set mood
+
+00:21:10
+accounts. And this will just take the
+
+00:21:14
+state. I'll call it state. And in anchor
+
+00:21:18
+I can define what type of account this
+
+00:21:22
+should be. This is done with this
+
+00:21:25
+account macro. And then I give this a
+
+00:21:28
+strct. Let's call it mood account. So
+
+00:21:31
+this is how one of those account should
+
+00:21:34
+look like what it should store.
+
+00:21:36
+Basically here I put in the variables
+
+00:21:38
+that I want to have in state and
+
+00:21:40
+basically what I want to store is the
+
+00:21:42
+mood. So mood do I store that as a U8?
+
+00:21:46
+Can I store the mood or will you
+
+00:21:47
+complain here? Ah you will complain
+
+00:21:49
+here. It's just a problem with the
+
+00:21:51
+serialization. What if I just tell you
+
+00:21:54
+that borch serialize and borch d
+
+00:21:57
+serialize you can do and then we don't
+
+00:21:59
+even need this. Could I then do that?
+
+00:22:02
+And now you still need clone. Okay fine.
+
+00:22:05
+Then I can also derive clone. It's
+
+00:22:07
+literally a U8. You can clone that.
+
+00:22:09
+There we go. Then that works. Then I can
+
+00:22:11
+also put that here as a mood. And then I
+
+00:22:13
+don't need to go through that weird
+
+00:22:15
+option here with that implementation.
+
+00:22:17
+Perfect. Now we work with mood directly.
+
+00:22:19
+We just need to tell it how it can
+
+00:22:21
+serialize and deserialize that. Again,
+
+00:22:23
+details not that important. We will talk
+
+00:22:26
+more about serialization and
+
+00:22:27
+deserialization on day six. Okay. So now
+
+00:22:31
+that we have the account defined what
+
+00:22:34
+should be stored in there the mood then
+
+00:22:36
+we need to tell oh this state account is
+
+00:22:39
+of type mood and also lifetime the mood
+
+00:22:43
+account of course not the enum the
+
+00:22:45
+account that we defined down here we
+
+00:22:46
+need to say yeah that works so my state
+
+00:22:50
+account is of type mood account and a
+
+00:22:53
+mood account has stored a mood that's
+
+00:22:55
+what we want so this state account I
+
+00:22:59
+should now have access to in here
+
+00:23:02
+through this context accounts. Oops, no
+
+00:23:05
+I don't because here I also still have
+
+00:23:07
+the wrong one. Yep, now I have this
+
+00:23:09
+state. And here I can access this mood.
+
+00:23:12
+So now I can just say, hey, the mood is
+
+00:23:15
+now this new mood. And that's all I need
+
+00:23:18
+to do to update the state of that
+
+00:23:20
+account or the mood field is state might
+
+00:23:23
+be a bad word for this. So this is the
+
+00:23:25
+account. state account, mood account,
+
+00:23:29
+data account, whatever you might call
+
+00:23:32
+that, that account has data and as part
+
+00:23:34
+of the data, it has the mood and the
+
+00:23:37
+mood is what we change. Okay, so far so
+
+00:23:40
+good. Mood is more private. Well, make
+
+00:23:43
+it public then. Not like I care. Okay,
+
+00:23:45
+now with this, we should be able to
+
+00:23:49
+change the mood. Except we didn't really
+
+00:23:51
+discuss what this account really is,
+
+00:23:54
+right? Like what do we put in there? Cuz
+
+00:23:57
+let's do a test. Let's do another one of
+
+00:24:00
+these like set mood and we call the
+
+00:24:04
+method with wait hold on for this to
+
+00:24:06
+work. I got to first once build it. Oh
+
+00:24:08
+no, it doesn't build. Why does it not
+
+00:24:10
+build? Oh, I think that's just the IDL.
+
+00:24:12
+But I need the IDL as well. Maybe I
+
+00:24:15
+should do it with a U8 then to not annoy
+
+00:24:17
+the IDL. Okay, it doesn't like that I
+
+00:24:19
+use this mood. Ah, okay. Then I just use
+
+00:24:22
+this internally and externally I use
+
+00:24:25
+U8s. So the mood account will store a U8
+
+00:24:29
+and the input will take a U8. Then
+
+00:24:32
+hopefully my build will work. Yeah, then
+
+00:24:35
+it can also do the IDL. Okay, perfect.
+
+00:24:37
+What I'm fixing now is this IDL. So
+
+00:24:41
+that's a representation of my program in
+
+00:24:44
+JSON format and it has all of my
+
+00:24:47
+instructions where it also contains the
+
+00:24:50
+parameters and what type they are. And
+
+00:24:51
+here it complained that it didn't know
+
+00:24:53
+the mood. So yeah, I had to change that
+
+00:24:55
+and it also contains the accounts and
+
+00:24:58
+what they contain and there I also had
+
+00:25:00
+to change that. So yeah, in order to be
+
+00:25:02
+able to use that which that IDL is then
+
+00:25:05
+used to create those things. So I needed
+
+00:25:09
+to fix that. So anyway, we just use this
+
+00:25:12
+internally now. So scrup this is now an
+
+00:25:15
+internal thing and I just store it as a
+
+00:25:18
+U8 and when I print it. So I want my
+
+00:25:20
+option back. So once again I'm going to
+
+00:25:23
+implement four [snorts]
+
+00:25:24
+and if it's anything else then I will
+
+00:25:27
+return none. So that's an option. It's
+
+00:25:31
+none. If it if it's anything else then
+
+00:25:33
+one to five. If it is one to five then I
+
+00:25:36
+return the mood. So I can do stuff like
+
+00:25:40
+maybe mood is mood from this new mood
+
+00:25:45
+you ate and if my maybe mood is none or
+
+00:25:51
+let's do it the other way around. If it
+
+00:25:53
+is some then I can do that otherwise I
+
+00:25:57
+will say not a valid mood and here I
+
+00:26:01
+unwrap. If you don't know rust here we
+
+00:26:04
+basically just get the mood out of this
+
+00:26:06
+maybe mood. This is just for my internal
+
+00:26:08
+thing here. I have the actual mood then
+
+00:26:11
+that it prints that I could also print
+
+00:26:13
+the U8 and storing. I will just use the
+
+00:26:15
+U8 but that's fine. The outside world
+
+00:26:18
+will just need to know this mapping
+
+00:26:20
+somehow. But it's fine. It's an
+
+00:26:22
+acceptable example I think. Okay. Now we
+
+00:26:24
+have this function that will set the
+
+00:26:26
+mood. But we didn't discuss yet where
+
+00:26:28
+that account comes from and what account
+
+00:26:30
+we need to provide here for this to
+
+00:26:32
+work. So we were here in the set mood
+
+00:26:35
+here. The methods should now have a dot
+
+00:26:39
+set mood and I can set the mood to one.
+
+00:26:42
+Well, actually I want to set it to two
+
+00:26:45
+for it to be happy because one is sad.
+
+00:26:48
+Maybe zero is sad. I'm not even sure.
+
+00:26:50
+Sad is actually zero. So to actually
+
+00:26:53
+match the actual numbers. Let's do this.
+
+00:26:56
+That's better. Then it matches the
+
+00:26:58
+actual ones. So if I set it to one here,
+
+00:27:01
+then it will be happy. And I want it to
+
+00:27:02
+be happy. So yeah. Now accounts the
+
+00:27:06
+state what does it put there if I don't
+
+00:27:09
+do anything I don't know let's test
+
+00:27:11
+state is not provided oh yeah okay so it
+
+00:27:14
+doesn't put anything there okay so we
+
+00:27:17
+need to provide the state account but
+
+00:27:18
+what if I say hey just a user address
+
+00:27:22
+here use that as my state account guess
+
+00:27:24
+what that's not going to work for many
+
+00:27:27
+reasons for one it doesn't even have
+
+00:27:29
+data and secondly it is owned by a
+
+00:27:32
+different program than expected And now
+
+00:27:34
+we can finally talk about account
+
+00:27:37
+ownership. A very important thing to
+
+00:27:40
+understand when it comes to Salana
+
+00:27:41
+development since everything is an
+
+00:27:43
+account and every account has an owner.
+
+00:27:46
+It would be good if you understood what
+
+00:27:48
+the owner really is. So this comes down
+
+00:27:51
+to security. Yesterday we already saw
+
+00:27:53
+that here in the account info owner
+
+00:27:57
+every account has an owner the address
+
+00:28:01
+of the program this account has been
+
+00:28:03
+assigned to and in the explorer it also
+
+00:28:05
+says assigned program ID. So every
+
+00:28:09
+account is assigned to a program and
+
+00:28:14
+that's what we call the owner. The owner
+
+00:28:17
+is always a program and that program has
+
+00:28:22
+sole authority over that account. And
+
+00:28:25
+what does that mean? It means that the
+
+00:28:28
+owning program is the only one that can
+
+00:28:32
+write to this account. The only one that
+
+00:28:34
+can modify the state of that account. So
+
+00:28:37
+in this case if the account is assigned
+
+00:28:40
+to the system program then only the
+
+00:28:43
+system program can change the state of
+
+00:28:45
+the account which is why we had to call
+
+00:28:47
+the system program to do a transfer
+
+00:28:50
+because we wanted to change the
+
+00:28:51
+lampards. Now there is one exception to
+
+00:28:54
+this and that is crediting lamperts.
+
+00:28:57
+Anyone can add lamperts to any account.
+
+00:29:00
+Well, almost any account if they're not
+
+00:29:02
+read only, but most accounts if they're
+
+00:29:05
+flagged as writable, you can add
+
+00:29:06
+lamperts there, but only the program who
+
+00:29:10
+owns the account can reduce the
+
+00:29:12
+lamperts, debit lamperts. Okay, so
+
+00:29:15
+that's why ownership is so important.
+
+00:29:18
+They call it a signed program ID because
+
+00:29:20
+owner the word is a bit confusing maybe
+
+00:29:22
+cuz who really owns that account? Well,
+
+00:29:25
+usually you think it's the person who
+
+00:29:27
+owns those funds. In this case, it would
+
+00:29:30
+be me. But no, the owner of the account
+
+00:29:32
+really in the technical sense, the
+
+00:29:35
+assigned program ID would be the system
+
+00:29:37
+program. Okay? So if we would query the
+
+00:29:39
+owner here, then this would spit out the
+
+00:29:42
+system program. This is the address of
+
+00:29:45
+the system program. There you go. Okay.
+
+00:29:47
+Good. With that in mind, let's come back
+
+00:29:49
+to here. So we need an account that my
+
+00:29:52
+program owns. How do we get there? Well,
+
+00:29:56
+per default, all of the accounts are
+
+00:29:59
+owned by the system program. For
+
+00:30:01
+instance, the one where we sent some
+
+00:30:03
+salt to yesterday, per default, it's
+
+00:30:05
+just owned by the system program. All of
+
+00:30:08
+the accounts are owned by the system
+
+00:30:10
+program until the system program changes
+
+00:30:13
+the ownership because the ownership is
+
+00:30:16
+also just part of the account that the
+
+00:30:20
+owning program can change. So if the
+
+00:30:23
+program owns the account, it can change
+
+00:30:26
+the owner and therefore the system
+
+00:30:28
+program also has instructions
+
+00:30:30
+specifically assign instruction would
+
+00:30:34
+assign it to a different program or the
+
+00:30:37
+create account. That's what we usually
+
+00:30:39
+use for a brand new account that will
+
+00:30:42
+put lamperts on that account and then
+
+00:30:45
+allocate some data and then assign it to
+
+00:30:48
+a program. So, we could either create a
+
+00:30:50
+script that creates us an account or we
+
+00:30:54
+let the program do this. I'm going to
+
+00:30:57
+show you both variants. And the first
+
+00:31:00
+one with a kit with a get create account
+
+00:31:04
+instruction. This thing takes the new
+
+00:31:06
+account address. So now we need to know
+
+00:31:10
+what is the account that we create.
+
+00:31:12
+either I I would create a new key pair
+
+00:31:15
+for the account or I create a temporary
+
+00:31:18
+key pair with a wait a generate key pair
+
+00:31:22
+signer. So I'll get the ephemeral key
+
+00:31:25
+pairs address here for the new account.
+
+00:31:27
+Oh wait, I need to sign so I don't put
+
+00:31:29
+the address. The payer this is the
+
+00:31:32
+account that is funding that new
+
+00:31:34
+account. I'm going to say it's my key
+
+00:31:36
+pair because we need to pay for state on
+
+00:31:41
+Solana. The space is how much data we
+
+00:31:44
+want in bytes. I'm just going to put the
+
+00:31:46
+magic number of nine here. Don't ask me
+
+00:31:48
+why. I'm going to maybe explain later.
+
+00:31:51
+And Lamperts, that's now what we
+
+00:31:53
+actually pay from the payer. And on
+
+00:31:56
+Solana, you pay upfront and if you
+
+00:32:00
+delete the account, you can get that
+
+00:32:02
+back again. And in order to find out
+
+00:32:05
+what's the minimum I need to put on that
+
+00:32:07
+account, there is this get minimum
+
+00:32:09
+balance for rent exemption. And I just
+
+00:32:11
+put the same size and wait this then
+
+00:32:14
+that should be fine. And the program
+
+00:32:16
+address now that is the owner. Here I
+
+00:32:19
+define who is owning this. So this will
+
+00:32:23
+be my program or I'm just going to
+
+00:32:25
+hardcode the address of our program. And
+
+00:32:29
+then I will also log the address for
+
+00:32:35
+this account. And then I'll quickly run
+
+00:32:37
+this create account. So here I'm
+
+00:32:40
+creating this account. I can now check
+
+00:32:42
+this on chain. It's an account that has
+
+00:32:45
+nine bytes in data. So much soul because
+
+00:32:49
+that's the minimum balance for being
+
+00:32:52
+rent exempt. So that's basically what we
+
+00:32:54
+pay for to keep that state. and it's
+
+00:32:56
+owned by our program. Great. And now I
+
+00:33:00
+can just put that account in here for
+
+00:33:03
+our test. I'm going to call it the state
+
+00:33:06
+account. This would be the state account
+
+00:33:07
+address really. Oh, yeah. You get it.
+
+00:33:09
+And I set the mood. And that should
+
+00:33:12
+work. I think it does not. Yes, yes,
+
+00:33:15
+yes, yes, yes, yes.
+
+00:33:17
+>> That is true. It's not the right type of
+
+00:33:19
+account cuz it's not written by a Okay,
+
+00:33:22
+never mind. because we're using anchor,
+
+00:33:25
+it's already doing some checks on that
+
+00:33:26
+account that now fail. So second way, we
+
+00:33:29
+do it with our program. So in order for
+
+00:33:32
+the account to then have the right type
+
+00:33:35
+as well, Anker is already doing some
+
+00:33:38
+magic in the background. But that also
+
+00:33:40
+means that we need to let Ankor create
+
+00:33:42
+that account. We already have this
+
+00:33:44
+initialize function that is not really
+
+00:33:46
+initializing anything yet. So let's
+
+00:33:49
+change that to also initialize the state
+
+00:33:53
+account. So I'm going to put the state
+
+00:33:55
+account here as well. I will need to say
+
+00:33:58
+that this account is actually mutable
+
+00:34:02
+such that we can change the state. The
+
+00:34:06
+user will now also be mutable because I
+
+00:34:09
+will want that user to pay for that. And
+
+00:34:12
+there's a quick way to do this. I can
+
+00:34:15
+say in it for that account that anchor
+
+00:34:18
+creates this account basically and I
+
+00:34:20
+don't need in it and mute at the same
+
+00:34:22
+time. So just this. So it's a init and
+
+00:34:24
+then I need to tell it how big this
+
+00:34:27
+account is and the space we need and
+
+00:34:30
+also that you just need to know once we
+
+00:34:32
+need eight bytes plus the size of what
+
+00:34:36
+we want to store eight bytes because
+
+00:34:38
+anchor does some magic which you will
+
+00:34:40
+learn in future videos. And I can also
+
+00:34:42
+say derive some in it space. Then I can
+
+00:34:47
+tell this thing the mood account. I know
+
+00:34:51
+it's one bite. I can also say plus one
+
+00:34:53
+but it would be nicer to use that. And
+
+00:34:55
+then in it also needs a payer. So the
+
+00:35:00
+payer that will be my user because on
+
+00:35:03
+Solana we need to pay for an account to
+
+00:35:07
+exist. We basically pay for the state
+
+00:35:09
+and that's essentially just a deposit.
+
+00:35:12
+We just need to put some lamperts on
+
+00:35:14
+there as long as we want that state and
+
+00:35:17
+then we can remove them again when we
+
+00:35:19
+don't need that state anymore. So we
+
+00:35:21
+basically just say hey this account
+
+00:35:23
+should pay for the init initialization
+
+00:35:25
+of this. And now we just also need to
+
+00:35:28
+add the system program because we
+
+00:35:32
+learned all accounts are owned by the
+
+00:35:34
+system program. So to change the
+
+00:35:36
+ownership of a default account of a new
+
+00:35:38
+account we need the system program. So
+
+00:35:40
+that's just a program with the same
+
+00:35:43
+lifetime and it's the system program.
+
+00:35:45
+There we go. Then this works. And now
+
+00:35:48
+here can I say mood account in it space.
+
+00:35:51
+There we go. Then it calculates the
+
+00:35:53
+space of this struck down here. But we
+
+00:35:56
+still need to add eight bytes because of
+
+00:35:58
+a account discriminator. But don't worry
+
+00:36:00
+too much about what that means. I don't
+
+00:36:02
+want to dig too deep. Not yet. We'll get
+
+00:36:05
+there. Okay. But like this I just need
+
+00:36:08
+to put that here. I don't need to do
+
+00:36:10
+anything in my initialize instruction
+
+00:36:12
+with that account. Just with those
+
+00:36:15
+things that I wrote here. Anchor knows
+
+00:36:17
+that it should create that account.
+
+00:36:19
+Okay, I can say account created and
+
+00:36:22
+write the key of this here. That's a
+
+00:36:25
+function. Okay, sure. Good. Should we
+
+00:36:27
+test that? Let's build this and then we
+
+00:36:30
+see what we need to change in our script
+
+00:36:33
+here because now we will need to provide
+
+00:36:37
+the state account otherwise also this
+
+00:36:40
+test will fail. Let's do anchor test
+
+00:36:43
+just for fun. Yeah, now both of them
+
+00:36:45
+will fail because trying to init payer
+
+00:36:48
+as program account. You should not
+
+00:36:50
+initialize the payer as a program
+
+00:36:51
+account. Why is that happening? Because
+
+00:36:54
+again it just randomly puts in my wallet
+
+00:36:58
+address for the state which is not what
+
+00:37:00
+we want here. We just want a new
+
+00:37:03
+account. And the problem is now I will
+
+00:37:06
+also need to add this as a serer. So,
+
+00:37:10
+I'm afraid I will have to go with old
+
+00:37:14
+school stuff. See, this is going to get
+
+00:37:15
+better in the new version of Anchor
+
+00:37:18
+where it's actually going to use the
+
+00:37:19
+kit. I think we still need to use the
+
+00:37:21
+web 3JS to be compatible here. When we
+
+00:37:25
+add signers, anchor web 3 signers. Yeah,
+
+00:37:29
+it's in web 3. This is still using the
+
+00:37:31
+old library. [snorts] Anchor web 3
+
+00:37:34
+keeper. I create a new one. That's
+
+00:37:36
+that's the old school way of doing
+
+00:37:38
+things with a web 3JS. And then for the
+
+00:37:41
+state here I can say public key. So this
+
+00:37:45
+gets me the address of this account. And
+
+00:37:47
+then here I provide the state account as
+
+00:37:50
+a signer. Actually I'm not too worried
+
+00:37:53
+about this. Like if you don't understand
+
+00:37:55
+what's happening here that's fine. We'll
+
+00:37:57
+go through it. Oh, actually maybe I
+
+00:37:59
+should do this outside here because then
+
+00:38:01
+down here I will also use the state
+
+00:38:04
+account pop key for this test. Okay,
+
+00:38:08
+this should hopefully work now. I don't
+
+00:38:10
+need to redeploy, but I do. There we go.
+
+00:38:12
+Two tests are passing. And again, I'm
+
+00:38:14
+not too worried that you understand this
+
+00:38:16
+because that's the old way of doing
+
+00:38:18
+things. This will get better with Ankor
+
+00:38:21
+1.0. What I'm interested in is showing
+
+00:38:24
+you what those transactions did. We just
+
+00:38:26
+had to find a way to call them. But now
+
+00:38:29
+that's what happened. So we sent the
+
+00:38:31
+first transaction to the initialize
+
+00:38:34
+instruction of our anchor program and it
+
+00:38:36
+got those three accounts. The first one
+
+00:38:39
+was my serer. So that's the user. The
+
+00:38:41
+second one that's the state account. So
+
+00:38:44
+that's the one that it created. And here
+
+00:38:46
+it internally did a create account with
+
+00:38:49
+the system program. That's a so-called
+
+00:38:51
+CPI a cross program invocation. We will
+
+00:38:54
+look more at that in two days or
+
+00:38:57
+tomorrow. Let me check my curriculum. Oh
+
+00:38:59
+yeah, actually tomorrow already. Yeah,
+
+00:39:00
+tomorrow already. We're going to look at
+
+00:39:02
+CPIs and PDAs and stuff. If that's words
+
+00:39:05
+that you don't know yet, that's fine
+
+00:39:07
+because we'll look at it tomorrow.
+
+00:39:08
+Anyway, so we created that account with
+
+00:39:11
+nine bytes. We put enough lamperts on
+
+00:39:14
+there for it to be rent exempt. So we
+
+00:39:16
+paid for the state and that's it. It
+
+00:39:19
+locked that it created this account. And
+
+00:39:22
+then the second transaction that now
+
+00:39:25
+called the set mood instruction. This
+
+00:39:28
+one used the same account. So that's we
+
+00:39:32
+can say that's our state account. And it
+
+00:39:36
+said new mood is now happy. Isn't that
+
+00:39:39
+great? So in this account we now stored
+
+00:39:43
+that our mood is happy. That's
+
+00:39:45
+wonderful. Our program is stateless. But
+
+00:39:48
+by giving it an account as a parameter,
+
+00:39:52
+it can use that the state there. It can
+
+00:39:55
+load and store variables there. So we
+
+00:39:59
+could do a get mood where we don't put a
+
+00:40:01
+new mood, but we just say from the
+
+00:40:05
+account. So here I'm going to get mood.
+
+00:40:08
+So it's going to be the same thing
+
+00:40:10
+except I don't need it as writable
+
+00:40:12
+because I don't want to modify that. I'm
+
+00:40:14
+not going to put the mutable thing here.
+
+00:40:17
+So this can be just a readonly account
+
+00:40:20
+but otherwise it's the same and then
+
+00:40:23
+here I just print our mood is and then
+
+00:40:28
+the mood of the account. So the context
+
+00:40:32
+accounts state has a mood which is a U8
+
+00:40:35
+but we still want the enum mood. So we
+
+00:40:38
+will once again from U8 do this then we
+
+00:40:42
+get an option and we will just unwrap
+
+00:40:44
+because we made sure here that we just
+
+00:40:48
+store valid moods. So there can't be
+
+00:40:51
+anything invalid in here anyway. So this
+
+00:40:53
+should never fail. I'm confident that I
+
+00:40:55
+can just do that. And then it should
+
+00:40:57
+print me my mood. Let's also add that as
+
+00:41:00
+a test. Get mood. And now I will ignore
+
+00:41:04
+the first two things and I'll just
+
+00:41:08
+hardcode the state account address in
+
+00:41:11
+here. And I will use this account that
+
+00:41:14
+we created. Now I don't need to create
+
+00:41:17
+it anymore. So I don't need a key here
+
+00:41:19
+anymore. I don't need the private key
+
+00:41:20
+anymore. I just needed this to create
+
+00:41:23
+that account with a system program.
+
+00:41:24
+Whatever doesn't matter. We have that
+
+00:41:26
+account now. So we can get mood that
+
+00:41:30
+doesn't take any parameters. it does
+
+00:41:32
+take the account. And here I just put in
+
+00:41:34
+the account address. And if we deploy
+
+00:41:36
+that program and then test it. There we
+
+00:41:40
+go. We have a passing test. That's the
+
+00:41:42
+signature. And if we look at that here,
+
+00:41:45
+we see our mood is still happy. Woohoo.
+
+00:41:49
+Happy. So we do have state with our
+
+00:41:52
+program through that state account. We
+
+00:41:56
+need the account to persist stuff.
+
+00:41:59
+That's what I want you to take away from
+
+00:42:01
+this. In order to store anything on
+
+00:42:03
+Solana, it needs to be in an account.
+
+00:42:06
+Also, programs, even the program, what
+
+00:42:10
+that is is basically also just an
+
+00:42:12
+account that holds some data like the
+
+00:42:14
+upgrade authority. And then there's
+
+00:42:17
+another account with the actual
+
+00:42:18
+executable data. But those programs,
+
+00:42:20
+they don't have they don't have state
+
+00:42:23
+themselves. Like just the program
+
+00:42:25
+doesn't have state. it requires
+
+00:42:27
+additional accounts that are assigned to
+
+00:42:31
+the program that the program can
+
+00:42:33
+actually persist stuff and have state.
+
+00:42:36
+And all of the accounts make up the
+
+00:42:37
+state of Solana. So when we talk about
+
+00:42:40
+the state, we're talking about all of
+
+00:42:42
+the accounts of Solana. That's the
+
+00:42:44
+state, the current state. And the state
+
+00:42:47
+changes and state changes are part of
+
+00:42:49
+the ledger. Is that confusing? But yeah,
+
+00:42:52
+so we again see nine bytes. That's our
+
+00:42:55
+count. Great. Good. We can now set the
+
+00:42:58
+mood to something else. I just use the
+
+00:43:00
+same address again. And I set the mood
+
+00:43:03
+to I don't know. We're already bored.
+
+00:43:05
+I'm getting bored here. I set the mood
+
+00:43:07
+to bored. So transaction number one does
+
+00:43:11
+the set mood instruction and the new
+
+00:43:14
+mood is bored. And the second
+
+00:43:16
+transaction does the get mood
+
+00:43:19
+instruction and our mood is bored.
+
+00:43:22
+Great. So we can change that account and
+
+00:43:25
+we can also look at the account itself.
+
+00:43:28
+The explorer here doesn't or does it
+
+00:43:31
+anchor data? In order for that to work,
+
+00:43:34
+we need to first deploy here manually
+
+00:43:38
+because then it will hopefully also
+
+00:43:41
+upload the IDL on chain. Yep. Then it it
+
+00:43:45
+writes the IDL. So that's what we said
+
+00:43:48
+is this interface here for describing
+
+00:43:51
+the accounts and stuff of the program
+
+00:43:53
+accounts and instructions. And if that's
+
+00:43:56
+there then hopefully yes look at that
+
+00:43:59
+the explorer knows the account data of
+
+00:44:02
+this thing. Oh it's a mood account and
+
+00:44:06
+the mood is four. It doesn't know board
+
+00:44:09
+because it doesn't have the that thing
+
+00:44:11
+but it does have the right number here.
+
+00:44:13
+And also now that we updated the IDL, if
+
+00:44:16
+we go back to the transaction with a get
+
+00:44:19
+mood, now it also says get mood here.
+
+00:44:22
+That's why it's cool to upload the IDL
+
+00:44:24
+onchain. And anchor does that
+
+00:44:26
+automatically if we say anchor deploy.
+
+00:44:28
+So here we see that we use the get mood
+
+00:44:31
+and then the transaction before that we
+
+00:44:34
+use the set mood with the new mood of
+
+00:44:38
+four. So that decodes it neatly for us.
+
+00:44:41
+But really, and now we can already get a
+
+00:44:43
+little bit more technical again. Really,
+
+00:44:47
+this is our instruction. This is just a
+
+00:44:50
+nice representation, but really that's
+
+00:44:53
+what's happening behind the scenes.
+
+00:44:55
+Every instruction, as we mentioned
+
+00:44:57
+yesterday, contains the program, the
+
+00:45:01
+accounts, and the instruction data. And
+
+00:45:03
+I did mention something about the
+
+00:45:05
+function name and the parameters that is
+
+00:45:09
+all the accounts and the real data. But
+
+00:45:13
+let's look at that here in raw and let's
+
+00:45:16
+go through that a little bit. So let's
+
+00:45:18
+have a bit more of a low-level look at
+
+00:45:20
+this. The program that's obvious that's
+
+00:45:22
+our program that's the program we call
+
+00:45:24
+then the accounts we just provided one
+
+00:45:26
+account we provided it as writable
+
+00:45:29
+because remember we said if we want to
+
+00:45:31
+write to the account then it needs to be
+
+00:45:33
+flagged as writable in the transaction.
+
+00:45:36
+So that's why this is here. So there's
+
+00:45:38
+one account and then there is the
+
+00:45:40
+instruction data and the instruction
+
+00:45:42
+data secretly without us really having
+
+00:45:45
+to do anything about that contains those
+
+00:45:48
+eight bytes and they basically tell the
+
+00:45:52
+anchor program what function to call. So
+
+00:45:55
+which instruction that is that's the
+
+00:45:57
+so-called instruction discriminator in
+
+00:45:59
+this case eight bytes to know which
+
+00:46:02
+instruction to call and after that
+
+00:46:04
+there's the actual instruction
+
+00:46:06
+parameters that we put in which is just
+
+00:46:09
+this U8 of four. The same thing also
+
+00:46:13
+happens to the actual account. Again
+
+00:46:16
+anchor neatly decodes that for us. But
+
+00:46:19
+if we were to look at that account in
+
+00:46:21
+RAW, which I love to do sometimes, if
+
+00:46:24
+you're watching my videos, I do that all
+
+00:46:26
+the time. We see that's the account
+
+00:46:28
+address. That's the owner. So, it's
+
+00:46:30
+assigned to this program. We ignore
+
+00:46:33
+those things because they're not
+
+00:46:34
+relevant anymore. And also here we have
+
+00:46:36
+eight bytes. Those are those secret
+
+00:46:39
+eight bytes that we had to add here. You
+
+00:46:42
+just need to know that because that is
+
+00:46:45
+the so-called account discriminator just
+
+00:46:48
+so Anchor knows which type of account
+
+00:46:50
+this is. And then comes the actual data
+
+00:46:54
+that we defined in this account which in
+
+00:46:56
+this case is just a U8 for the mood. So
+
+00:46:59
+that's just this one bite here.
+
+00:47:02
+Currently we're bored. But now we
+
+00:47:04
+learned something. So we can be excited.
+
+00:47:07
+Test this with skipping deploy. We don't
+
+00:47:10
+need to always do that. And now if I
+
+00:47:13
+check that account again, now it's
+
+00:47:15
+suddenly three. Isn't that exciting? Cuz
+
+00:47:18
+we we change the state to three. Our
+
+00:47:21
+mood is now excited. Nice. Nice. Okay,
+
+00:47:25
+we can do all of this and we can change
+
+00:47:27
+the state of that account because the
+
+00:47:31
+program that was called in this
+
+00:47:33
+instruction is the owner of that
+
+00:47:36
+account. That's why it can modify this
+
+00:47:40
+account. So that's the concept of the
+
+00:47:42
+account ownership. We also understand
+
+00:47:45
+that even our program itself is an
+
+00:47:47
+account that is itself stateless but it
+
+00:47:50
+is part of the Solana state because the
+
+00:47:53
+program was written with a few
+
+00:47:55
+transactions to this account. And what
+
+00:47:57
+else did we want to learn today? We also
+
+00:47:59
+learned that we need to pay for state.
+
+00:48:02
+So, we need to have Solana balance on an
+
+00:48:06
+account for that account to exist. You
+
+00:48:10
+can't just store indefinitely on chain.
+
+00:48:13
+Also, that's quite expensive. They're
+
+00:48:15
+going to lower the price of rent. But
+
+00:48:18
+yeah, what I need you to understand is
+
+00:48:20
+that it needs some soul in order to
+
+00:48:24
+store data. And how much soul depends on
+
+00:48:27
+how much data you want to store. But our
+
+00:48:29
+anchor did that automatically for us.
+
+00:48:32
+When we set in it here, it knows the
+
+00:48:34
+space. So it knows how much rent it
+
+00:48:36
+needs to put there. That's all done by
+
+00:48:38
+anchor automatically. And like a lot of
+
+00:48:41
+things are done by anchor automatically.
+
+00:48:43
+All of the deserialization and
+
+00:48:46
+serialization and persisting that stuff.
+
+00:48:48
+That's why anchor is so helpful. We
+
+00:48:51
+don't need to worry much. We just say
+
+00:48:53
+hey the state is this and it will write
+
+00:48:55
+that there. So to get started writing
+
+00:48:58
+your first program, Ankor is really
+
+00:49:01
+nice. So as a homework, I encourage you
+
+00:49:04
+to write your own first anchor program.
+
+00:49:08
+You can mainly copy what we did here,
+
+00:49:10
+but come up with your own ideas. Maybe
+
+00:49:13
+you want to build a counter. That's the
+
+00:49:15
+classic example that just counts up not
+
+00:49:18
+a mood, but a counter. Or you want to
+
+00:49:20
+store something else. Whatever comes to
+
+00:49:23
+mind. But try it out. Try if you can
+
+00:49:25
+build and deploy an anchor program and
+
+00:49:28
+then actually call the program as well
+
+00:49:30
+through an instruction in the
+
+00:49:32
+transaction. So send the transactions
+
+00:49:34
+that contain the instructions to call
+
+00:49:36
+the program. And there's still many
+
+00:49:38
+things that we could improve in this
+
+00:49:40
+program. For instance, this state
+
+00:49:42
+account currently is just one random
+
+00:49:45
+account. Tomorrow we will learn how we
+
+00:49:47
+could do that better with a PDA. This
+
+00:49:51
+would then make sure that there's just
+
+00:49:54
+one state account because currently we
+
+00:49:58
+just created one. But we could do
+
+00:50:00
+another one. We could just initialize
+
+00:50:04
+another state account. So instead of
+
+00:50:07
+this account, I would now use this one
+
+00:50:10
+again that was just newly created. And
+
+00:50:13
+then I send those three transactions.
+
+00:50:16
+There you go. We created a new one. And
+
+00:50:19
+now we have a new state account where we
+
+00:50:23
+get the mood and we're once again
+
+00:50:25
+excited. But really, let me change that
+
+00:50:28
+to two. Do it one more time. Really
+
+00:50:31
+slowly, we're getting annoyed that we
+
+00:50:34
+have so many different state accounts
+
+00:50:37
+because now I already have three state
+
+00:50:40
+accounts. Each of them has a different
+
+00:50:42
+mood. If I wanted to make sure that
+
+00:50:45
+there is just one single account for the
+
+00:50:48
+program, I could use a PDA. But how we
+
+00:50:52
+would do that, I'm going to tell you
+
+00:50:54
+tomorrow. But one thing that I still
+
+00:50:56
+want to do with you today is explain
+
+00:50:59
+what this is. This is what we're
+
+00:51:01
+returning in each of our functions
+
+00:51:03
+[snorts] here. And it's a result. A
+
+00:51:06
+result can either be okay for that was
+
+00:51:10
+successful or it can be an error. So in
+
+00:51:13
+the case where we don't provide a valid
+
+00:51:17
+mood for instance, we could say error
+
+00:51:20
+and then provide invalid instruction
+
+00:51:24
+data because the instruction data that
+
+00:51:26
+we provided were was not valid and we
+
+00:51:28
+could return that here. I could also
+
+00:51:30
+drag that in here and then I could do it
+
+00:51:34
+like this. then it returns that's just
+
+00:51:36
+rust by the way I do have a rust basics
+
+00:51:39
+tutorial as well if you don't understand
+
+00:51:41
+what that is so in the if we have the
+
+00:51:44
+right mood then we return okay otherwise
+
+00:51:47
+we return an error now what would that
+
+00:51:50
+look like if we test this let's try and
+
+00:51:54
+put in 10 here then the set mood would
+
+00:51:58
+be failing with invalid instruction data
+
+00:52:01
+and the log would also say not a valid
+
+00:52:03
+mood because that's what we're writing
+
+00:52:05
+here. So here that would make that
+
+00:52:08
+transaction fail and if I still force it
+
+00:52:12
+to send that transaction then we would
+
+00:52:14
+see that the result is an error. It's
+
+00:52:18
+not success anymore. So this is how we
+
+00:52:21
+programmatically make an instruction
+
+00:52:24
+fail and it's always the program that
+
+00:52:27
+makes the instruction fail or the
+
+00:52:29
+runtime. The runtime can also for
+
+00:52:32
+reasons make that transaction fail.
+
+00:52:34
+Anyway, so to make an instruction fail,
+
+00:52:37
+this is how you would do it. Okay, so
+
+00:52:39
+far so good. But then also, what's that
+
+00:52:42
+in there? That might look a bit weird to
+
+00:52:46
+you. So why is there an okay with those
+
+00:52:48
+brackets? But then more brackets in
+
+00:52:50
+there or braces, whatever you call them.
+
+00:52:53
+This here is the unit in Rust. That's
+
+00:52:57
+like void in C. It's like the nothing.
+
+00:53:01
+So we return a result for a unit
+
+00:53:04
+nothing. We could return a result for a
+
+00:53:07
+U8 and then we need to put a U8 here.
+
+00:53:09
+For instance, our mood actually get it
+
+00:53:11
+from a state here. Now we have return
+
+00:53:14
+data of our transaction as well. Let's
+
+00:53:17
+try that. So the one the other one will
+
+00:53:19
+still fail but the get mood this doesn't
+
+00:53:22
+fail. And this is the transaction. If we
+
+00:53:25
+look at this, nothing really changed in
+
+00:53:27
+the get mood except we now have a return
+
+00:53:32
+value here. So the program returns this
+
+00:53:37
+and this if you can read base 64, which
+
+00:53:41
+obviously you can. I'll just quickly get
+
+00:53:43
+myself a base 64 codec and from this
+
+00:53:48
+codec uh end code. Yes, it's encode not
+
+00:53:51
+decode. Don't think about it too much
+
+00:53:53
+otherwise your brain will hurt. And if
+
+00:53:55
+we decode that we get three [snorts]
+
+00:53:58
+because we are still excited that this
+
+00:54:01
+works. We can return stuff as well in
+
+00:54:05
+our transaction. So that's what this is.
+
+00:54:08
+Great. So we heard about return values
+
+00:54:11
+as well. We saw how we can fail a
+
+00:54:13
+transaction. Good. This is still not the
+
+00:54:15
+perfect program. Obviously we can still
+
+00:54:18
+improve stuff but it's good enough for
+
+00:54:20
+now. I think we wrote a nice little
+
+00:54:22
+program here. I'm happy with that. That
+
+00:54:24
+showcases most of the basic things that
+
+00:54:27
+you need for writing your Salana
+
+00:54:28
+program. And obviously that's not all,
+
+00:54:31
+but it's all for today. Yeah. So I hope
+
+00:54:36
+that I see you again back here tomorrow.
+
+00:54:39
+Today we deployed our first program. We
+
+00:54:41
+learned about account ownership, which
+
+00:54:43
+is a really important concept. And we
+
+00:54:45
+did a little bit of program development
+
+00:54:47
+with Ankor. And if that all seemed a bit
+
+00:54:50
+like magic to you, then that's perfectly
+
+00:54:54
+fine. Anchor is a bit like magic because
+
+00:54:57
+it just does so many things for you that
+
+00:55:00
+you don't have to bother with them. But
+
+00:55:01
+it also means that you don't need to
+
+00:55:03
+fully understand it to work with it.
+
+00:55:05
+That's why I used it to start out. We
+
+00:55:08
+did a quick anchor program just to
+
+00:55:10
+quickly get a program on chain. Don't
+
+00:55:13
+you worry, we will get more into depth
+
+00:55:16
+to really understand how programs work.
+
+00:55:19
+We already teased it a little bit with
+
+00:55:21
+instruction discriminators and the
+
+00:55:23
+account discriminators. That's all
+
+00:55:26
+handled by Ankor. On day six, we will
+
+00:55:29
+write our own program with Pinocchio
+
+00:55:31
+where we don't have all those
+
+00:55:33
+conveniences that Ankor provides us. So
+
+00:55:36
+don't worry, you will understand more
+
+00:55:38
+with every day. So do make sure that you
+
+00:55:41
+come back tomorrow to keep learning the
+
+00:55:44
+basics of Solana development. Tomorrow
+
+00:55:46
+day four where we'll discuss more of the
+
+00:55:49
+core concepts PDAs, CPIs and signers.
+
+00:55:54
+That's going to be good. I see you
+
+00:55:56
+tomorrow.
+

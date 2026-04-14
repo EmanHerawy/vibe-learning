@@ -1,0 +1,1506 @@
+00:00:00
+So, you want to be a Solana developer?
+
+00:00:03
+That's great. You've come to the right
+
+00:00:05
+spot. In this 7day series, I'm going to
+
+00:00:10
+walk you through the fundamentals of
+
+00:00:12
+things you just really need to
+
+00:00:14
+understand in order to be able to write
+
+00:00:16
+programs for Solana. This is for people
+
+00:00:19
+who do have experience in software
+
+00:00:21
+development, but not necessarily
+
+00:00:23
+developing on Solana. You might come
+
+00:00:25
+from solidity. You might come from web
+
+00:00:28
+development. You might come from
+
+00:00:30
+anywhere really. However, this is not a
+
+00:00:33
+introduction to programming kind of a
+
+00:00:36
+series. I do expect that you have some
+
+00:00:38
+background in that. And who knows, maybe
+
+00:00:40
+you can get through this with some vibe
+
+00:00:41
+coding. That's fine with me. Also, you
+
+00:00:44
+don't need to do this series in seven
+
+00:00:46
+days. You can go through it in one
+
+00:00:47
+single day. I'm not your mom. I'm not
+
+00:00:49
+telling you what to do, but my intention
+
+00:00:51
+is that you do it in seven days. I will
+
+00:00:53
+also give you homework. And if you do it
+
+00:00:55
+faster, chances are that you skip that.
+
+00:00:57
+And if you go slower than the seven
+
+00:00:59
+days, then chances are that you're not
+
+00:01:01
+really following up on it. So my
+
+00:01:03
+recommendation is that you do it for the
+
+00:01:06
+next 7 days, starting today, day one,
+
+00:01:10
+where we get ourselves an overview of
+
+00:01:12
+what Solana really is and set up some
+
+00:01:14
+tools how we can work with it. So let's
+
+00:01:17
+get started with Solana development in
+
+00:01:20
+2026. Yes, I did make a similar series
+
+00:01:23
+before, but things get out of date so
+
+00:01:25
+quickly in this space that I decided we
+
+00:01:27
+need a new series and here it is. Yes,
+
+00:01:30
+yes, yes, yes. Let's go and jump right
+
+00:01:32
+in. So, Sana, what is this? Solana is a
+
+00:01:35
+public blockchain. And what is that?
+
+00:01:37
+Well, we're talking about distributed
+
+00:01:40
+ledger technologies here. But what is a
+
+00:01:42
+ledger? You can think of a ledger as
+
+00:01:44
+something like a collection of some
+
+00:01:46
+data. for instance, who owns how much
+
+00:01:49
+money. You know, something like this
+
+00:01:51
+where Andy has $2 and Anatoli has 10K or
+
+00:01:54
+whatever. Just that it's not analog, but
+
+00:01:57
+it's digital. It's a digital technology.
+
+00:02:00
+Plus, it's not on one server, but it's
+
+00:02:02
+distributed amongst many machines. And
+
+00:02:05
+in Solana, those are the validators.
+
+00:02:08
+Each of those validators knows how much
+
+00:02:11
+funds is in which wallet. And the funds
+
+00:02:14
+we are talking about here are Saul. Soul
+
+00:02:18
+being the native coin of Solana. That's
+
+00:02:22
+the symbol for it. Currently, there is
+
+00:02:25
+619
+
+00:02:27
+million soul in existence. But it's not
+
+00:02:29
+like we need to worry about that as
+
+00:02:31
+defs. However, we do need to worry about
+
+00:02:32
+soul as defs since it's being the native
+
+00:02:35
+currency. That's how you pay for stuff
+
+00:02:38
+on Solana. So, okay. Solana is a DT, a
+
+00:02:41
+distributed ledger technology. More
+
+00:02:43
+specifically, it is a blockchain. So the
+
+00:02:46
+technical implementation of how it
+
+00:02:48
+persists changes to the ledger is
+
+00:02:51
+through blocks that are built on top of
+
+00:02:53
+each other. So whenever something
+
+00:02:55
+changes, a new block is built on top of
+
+00:02:57
+the old ones and it has the information
+
+00:02:59
+of what has changed and then another
+
+00:03:01
+block is built on top of that and that's
+
+00:03:03
+how the blockchain updates the ledger.
+
+00:03:05
+Sana has already built 376 million
+
+00:03:09
+blocks because the chain focuses on high
+
+00:03:12
+throughput and low latency. We're
+
+00:03:14
+building blocks every 400 milliseconds
+
+00:03:17
+and we can fit quite a few updates into
+
+00:03:19
+one of those blocks. I have already
+
+00:03:21
+mentioned that Solana is a public
+
+00:03:23
+blockchain which means that anybody can
+
+00:03:27
+read from it. For instance, if you're
+
+00:03:29
+interested how much Soul Solandi.soul
+
+00:03:32
+Soul has this is their wallet and this
+
+00:03:35
+is their wallet's balance. Anybody can
+
+00:03:38
+look at that. That's public information.
+
+00:03:40
+So for you as a developer, that's
+
+00:03:42
+already one thing to keep in mind that
+
+00:03:44
+whatever you store in the blockchain is
+
+00:03:46
+public information. And also it can't be
+
+00:03:50
+deleted anymore. Even if you revert the
+
+00:03:52
+change, it's still always being
+
+00:03:54
+incremental. So for instance, if I would
+
+00:03:56
+spend all of my money, you could still
+
+00:03:58
+see that at one point in the past I had
+
+00:04:01
+that money. So that's relevant for
+
+00:04:03
+privacy reasons. And certain things you
+
+00:04:05
+should just not put on the blockchain
+
+00:04:07
+unencrypted. Okay? So it's public,
+
+00:04:09
+anybody can read, anybody can write. But
+
+00:04:12
+in order to write something to the
+
+00:04:13
+blockchain, you need to go through
+
+00:04:15
+consensus. So obviously I can't just say
+
+00:04:17
+hey I have a thousand soul now because I
+
+00:04:21
+would need to convince all of those
+
+00:04:23
+validators that that's actually the case
+
+00:04:26
+because those validators they are the
+
+00:04:28
+ones building the blocks. Yeah. Here we
+
+00:04:31
+can see who is building the blocks. So
+
+00:04:33
+if I want something to change then I
+
+00:04:36
+need to tell the validators hey can you
+
+00:04:38
+change that? And because the validators
+
+00:04:41
+are usually busy with producing blocks
+
+00:04:43
+and participating in consensus, there
+
+00:04:45
+are the RPC nodes that we as developers
+
+00:04:49
+really talk to. And those RPC nodes are
+
+00:04:52
+basically validators except they don't
+
+00:04:54
+participate in consensus, but they let
+
+00:04:56
+applications or developers like us talk
+
+00:04:59
+to them and then they forward the
+
+00:05:01
+information to the validators. That's
+
+00:05:03
+what the RPC nodes are for. They have a
+
+00:05:05
+simple API. We just talk to them with
+
+00:05:07
+HTTP requests and we will see that in
+
+00:05:09
+more detail in future videos. For now,
+
+00:05:12
+what I want you to understand is that
+
+00:05:14
+it's the validators who decide what
+
+00:05:16
+changes are being persisted to the
+
+00:05:18
+blockchain and they have a consensus
+
+00:05:21
+algorithm that contains stuff like
+
+00:05:23
+nobody can just come up with Saul. It
+
+00:05:26
+needs to come from somewhere else. And
+
+00:05:28
+obviously there are more rules, but
+
+00:05:29
+yeah, the validators are essentially
+
+00:05:31
+what make up Solana. And since it is a
+
+00:05:33
+public blockchain, anybody can run a
+
+00:05:35
+validator. However, there are economics
+
+00:05:37
+to this that I don't want to get into
+
+00:05:39
+because we as developers, we don't
+
+00:05:41
+really need to bother about that much.
+
+00:05:44
+It's good to have an understanding that
+
+00:05:46
+okay, the validators is really what
+
+00:05:48
+makes up Solana, but we really just need
+
+00:05:50
+to talk to the RPCs and we can treat
+
+00:05:52
+that as a black box. We could treat it
+
+00:05:54
+as one single server that has the
+
+00:05:57
+ledger, but really it's [snorts] several
+
+00:06:00
+machines currently. How many do we have?
+
+00:06:02
+800. Okay, currently about 800
+
+00:06:05
+validators. The numbers differ a bit,
+
+00:06:06
+but roughly 800 validators currently has
+
+00:06:09
+been more. And we could go into staking
+
+00:06:12
+and all that stuff, but really for us
+
+00:06:14
+devs, it's not that important how it all
+
+00:06:17
+works. What's interesting is what
+
+00:06:19
+properties it gives to us. For instance,
+
+00:06:22
+censorship resistance, meaning everyone
+
+00:06:24
+has equal access to all information
+
+00:06:26
+written on the blockchain because that
+
+00:06:27
+network of validators can't just simply
+
+00:06:30
+be shut down. It's a decentralized
+
+00:06:33
+system and even if one of those
+
+00:06:35
+validators behaves in a way that we
+
+00:06:37
+don't like there's still others that
+
+00:06:40
+behave well and that let us still work
+
+00:06:42
+with the chain. Now so far we've just
+
+00:06:44
+been talking about soul which you might
+
+00:06:47
+be thinking yeah okay programmable money
+
+00:06:49
+fine whatever but it can be more than
+
+00:06:51
+that. In our ledger, we will not only
+
+00:06:54
+have the sole balance, but we can put
+
+00:06:57
+arbitrary data and that allows us to
+
+00:07:00
+build any kind of application on Solana.
+
+00:07:03
+Of course, not all applications make
+
+00:07:04
+sense to be on the blockchain. For
+
+00:07:06
+others, you might prefer to have your
+
+00:07:08
+own server, your own backend or private
+
+00:07:10
+blockchain, but if you do want to have
+
+00:07:12
+access to this one big fast state
+
+00:07:15
+machine, then you can utilize it and
+
+00:07:18
+develop on Solana. And that's what we
+
+00:07:20
+want to do. So, how do we get started
+
+00:07:23
+with Solana development? Well,
+
+00:07:25
+solana.com/developers
+
+00:07:27
+has some nice resources and there's also
+
+00:07:29
+the installation guide here. And a lot
+
+00:07:31
+of the stuff for Solana is written in
+
+00:07:33
+Rust. And if you want to build programs
+
+00:07:35
+yourself, I also recommend that you work
+
+00:07:38
+in Rust. I do have some Rust tutorials
+
+00:07:40
+as well in case you're new to that. So,
+
+00:07:43
+yeah, we'll need to install Rust and
+
+00:07:45
+then we'll get the Solana CLI, so the
+
+00:07:47
+command line interface. We'll also
+
+00:07:49
+install Ankor. That's a framework for
+
+00:07:52
+developing Solana programs. Not the only
+
+00:07:54
+one, but the most popular one. So,
+
+00:07:56
+that's what we're getting started with
+
+00:07:58
+on day three. And then we'll also get
+
+00:08:00
+Surf Pool CLI since that's just the best
+
+00:08:03
+tool for local testing in 2026. And to
+
+00:08:06
+install all of that, there's this neat
+
+00:08:08
+little script here that we can totally
+
+00:08:11
+trust, right? That will install all of
+
+00:08:13
+this for us. So, we'll just paste that
+
+00:08:15
+in our terminal and then we'll let it
+
+00:08:18
+install. I do recommend working on some
+
+00:08:20
+Linux or Mac. Windows doesn't really
+
+00:08:22
+like Rust. If you're on Windows, I use
+
+00:08:24
+WSL. And I have worked with Rust before.
+
+00:08:27
+That's why it's updating mine. And just
+
+00:08:29
+like that, all of my Rust is now
+
+00:08:31
+updated. Now it's downloading the Solana
+
+00:08:34
+CLI. And then it's installing that. Then
+
+00:08:37
+it's installing Ankor. Voila. We're on
+
+00:08:40
+the newest versions with Rust 1.93,
+
+00:08:44
+Solana CLI 3.015, 015. Anchor CLI 032.
+
+00:08:49
+Anker will soon be in version one and
+
+00:08:52
+Surfool CLI just came to version one.
+
+00:08:54
+Cool. Installation complete. We can
+
+00:08:57
+restart our terminal or start a new one.
+
+00:08:58
+And then we should be able to say Solana
+
+00:09:01
+and it should give us the version we
+
+00:09:03
+just installed. Cool. That's the Solana
+
+00:09:05
+CLI. If you just type Solana, you will
+
+00:09:08
+get all the commands that you can do
+
+00:09:11
+with this command line interface. It
+
+00:09:13
+also comes with the Solana key genen.
+
+00:09:17
+That's a tool that lets you create a key
+
+00:09:19
+pair. But Andy, you haven't told us yet
+
+00:09:22
+what a key pair even is. That's true.
+
+00:09:24
+Thanks for pointing that out. So, we
+
+00:09:27
+have been saying that anybody can read
+
+00:09:30
+what's on the chain, right? You can see
+
+00:09:33
+how much balance I have, but you cannot
+
+00:09:36
+spend my balance because you would need
+
+00:09:39
+to convince the validators that you own
+
+00:09:43
+this balance. And you would prove that
+
+00:09:46
+by providing a digital signature for
+
+00:09:50
+this address. So, Salana uses
+
+00:09:53
+cryptography, specifically elliptic
+
+00:09:55
+curve cryptography to enable that. And
+
+00:09:57
+how does that work? We're using public
+
+00:09:59
+and private keys. You might be familiar
+
+00:10:01
+with that concept. Just in case you're
+
+00:10:03
+not, let me give you a real quick
+
+00:10:05
+introduction. When I create a new wallet
+
+00:10:07
+like the one for Andy, I basically get
+
+00:10:10
+two keys, one private key and one public
+
+00:10:13
+key. The public key I can show to
+
+00:10:16
+others. That's what they need to be able
+
+00:10:18
+to send me something. Maybe you know
+
+00:10:20
+that from PGP emails or maybe you know
+
+00:10:22
+that from SSH keys. Same idea. You have
+
+00:10:26
+the public key and then my private key.
+
+00:10:28
+That's what I hold on to and I don't
+
+00:10:30
+show anybody because that's what will
+
+00:10:32
+then allow me to read those emails or
+
+00:10:36
+spend that money that I received. And
+
+00:10:38
+those public private keys can come in
+
+00:10:40
+different forms. You might have them
+
+00:10:42
+exist on hardware wallets like these or
+
+00:10:45
+for development purposes. We often have
+
+00:10:48
+them as software wallets directly on our
+
+00:10:50
+computer like the one we would create
+
+00:10:52
+with a Solana keychain. So let's do
+
+00:10:54
+that. Basically, when I'm doing this
+
+00:10:57
+using the Solana key genen to create
+
+00:11:00
+myself a new key pair, I can add a
+
+00:11:03
+passphrase for security, but let's
+
+00:11:05
+ignore that. Then it generates for me a
+
+00:11:08
+key pair file and that contains my
+
+00:11:12
+public and private keys. The public key
+
+00:11:15
+it also prints here that will then
+
+00:11:18
+correspond to the Solana address like
+
+00:11:22
+here. But then it also has the private
+
+00:11:24
+key which only I should have that I need
+
+00:11:28
+to keep secret because that's what I
+
+00:11:31
+need to then produce the signature for
+
+00:11:34
+this address to convince the validators
+
+00:11:37
+that it's actually my address and that
+
+00:11:39
+I'm allowed to do that. And what it's
+
+00:11:41
+printing here is a so-called seed phrase
+
+00:11:44
+that will let me recover my private key
+
+00:11:48
+that's stored in there so that I must
+
+00:11:50
+also not share. And since I just did
+
+00:11:53
+that on YouTube, I will obviously not
+
+00:11:56
+use that address for anything productive
+
+00:11:58
+because everybody has access to it
+
+00:12:00
+because they saw this seat phrase. But I
+
+00:12:02
+think you get that part. That's
+
+00:12:04
+blockchain basics. That is better to
+
+00:12:07
+repeat even though you're probably aware
+
+00:12:09
+of that. But in case you're not, maybe a
+
+00:12:12
+general side note, the space of crypto
+
+00:12:14
+is very, how would I say mean,
+
+00:12:17
+dangerous, I don't know. We are kicking
+
+00:12:19
+out the central authorities here. We're
+
+00:12:22
+not doing cloud computing where there's
+
+00:12:24
+a central authority that we pay to do
+
+00:12:27
+the compute for us. No, we're getting
+
+00:12:29
+rid of those intermediaries. Therefore,
+
+00:12:31
+there's more responsibility on us as
+
+00:12:34
+developers and also as users. But that
+
+00:12:36
+also makes us easier targets and
+
+00:12:39
+therefore there's more scams in that
+
+00:12:41
+space. So just be aware of that as well.
+
+00:12:43
+Okay. So now that we have our key pair
+
+00:12:46
+stored here, we can use that. Actually,
+
+00:12:48
+no. Before I want to show you something
+
+00:12:50
+else while we're creating key pairs
+
+00:12:51
+because that's just something that I
+
+00:12:53
+like to do so much. I got to show you
+
+00:12:56
+the grind of the Solana keychain because
+
+00:12:59
+that allows you to create a key pair
+
+00:13:02
+where the public key starts with or ends
+
+00:13:05
+with a certain letter combination. So,
+
+00:13:07
+for instance, I want it to start with
+
+00:13:10
+Andy and I tell it to search for one.
+
+00:13:13
+That's enough. four letters is still
+
+00:13:15
+something that it should manage.
+
+00:13:17
+Obviously, you can't grind a public key
+
+00:13:20
+with 30 matching letters. That would be
+
+00:13:23
+a security concern because essentially
+
+00:13:25
+what it's doing here, it's creating a
+
+00:13:26
+lot of keys and then when the public key
+
+00:13:28
+actually matches what I'm searching for,
+
+00:13:30
+then it returns that. So now it wrote
+
+00:13:32
+that to this file. This is now also a
+
+00:13:36
+key pair file, same as the one we had in
+
+00:13:39
+our key pair path here. That's the
+
+00:13:41
+default key pair path. If I want my
+
+00:13:44
+Solana CLI to take this key pair, now I
+
+00:13:47
+can just tell it to Solana config take
+
+00:13:51
+that key. So dash K and then I say take
+
+00:13:55
+this and then it will use that as my key
+
+00:13:58
+pair path. I do that a lot in my videos
+
+00:14:00
+as well. And to make sure that that
+
+00:14:02
+worked, I can say Sana address and then
+
+00:14:05
+it will tell me my public key of my key
+
+00:14:08
+pair. Okay, so far so good. We have
+
+00:14:11
+created a key pair. That's what we need
+
+00:14:13
+to interact with the chain. However, you
+
+00:14:16
+might not want to do everything on the
+
+00:14:19
+actual Solana blockchain. Why not? Well,
+
+00:14:22
+because that's expensive because we will
+
+00:14:25
+need actual salt and it's not necessary
+
+00:14:28
+that we do everything on the mainet
+
+00:14:30
+because at first we want to just develop
+
+00:14:32
+stuff and then test it. We don't need to
+
+00:14:34
+have it in production for other people
+
+00:14:37
+yet. So there are different clusters.
+
+00:14:40
+Mainet that's the real thing where the
+
+00:14:43
+actual soul lives that you pay good
+
+00:14:45
+money for. Testn net this one is for
+
+00:14:48
+testing the network not the programs.
+
+00:14:52
+This is for the validators to try out
+
+00:14:54
+some stuff test new Solana features or
+
+00:14:57
+do stress tests that kind of stuff.
+
+00:15:00
+That's the test net. And we as
+
+00:15:02
+developers, we want to use the deaf net
+
+00:15:06
+because the deaf net is basically a copy
+
+00:15:09
+of the mainet just that it's not so
+
+00:15:12
+serious and we can basically get some
+
+00:15:14
+soul for free. We can also do local
+
+00:15:17
+testing, run our own validator and
+
+00:15:20
+create our own little network and we
+
+00:15:22
+will do that with surf pool. But for
+
+00:15:24
+now, let's stay with defet cuz there you
+
+00:15:27
+don't need to do anything. And we
+
+00:15:28
+already see if we change to defnet then
+
+00:15:32
+there's no balance on this account
+
+00:15:34
+because that just exists on the mainet.
+
+00:15:37
+So it's basically a different instance
+
+00:15:39
+of Solana. It's not really Solana, it's
+
+00:15:41
+the Solana devet. So if we want to
+
+00:15:44
+operate on the Solana devnet, we can say
+
+00:15:47
+Solana config-
+
+00:15:49
+u. So change cluster to defnet. That's
+
+00:15:53
+the short way of writing it. The long
+
+00:15:55
+way of writing it, I already forgot, but
+
+00:15:57
+you can see in the help or URL URL or
+
+00:16:01
+the moniker, that's what we want to set.
+
+00:16:04
+So definite. So we could set URL to
+
+00:16:07
+defnet. And the short way of doing this
+
+00:16:09
+is just dash UD. There we go. Then we
+
+00:16:13
+are on the Solana devnet. And here I can
+
+00:16:17
+say Solana balance and it will tell me
+
+00:16:20
+well I don't have any soul. That's fine
+
+00:16:22
+because on the Solana defet I can say
+
+00:16:25
+Sana airdrop please give me one soul.
+
+00:16:29
+And sometimes that works sometimes it
+
+00:16:32
+doesn't work. But that's good that it
+
+00:16:33
+doesn't work because I wanted to show
+
+00:16:35
+you the alternative anyway. The
+
+00:16:37
+alternative to this is to go to
+
+00:16:40
+faucet.solana.com.
+
+00:16:41
+Here we got to connect our GitHub and
+
+00:16:44
+then paste the wallet address. So just
+
+00:16:47
+Salana address this thing we paste in
+
+00:16:50
+here. Tell it how much we want. I'm okay
+
+00:16:53
+with just one soul for now. I airdrop
+
+00:16:55
+this and then just like that. Hopefully
+
+00:16:59
+there we go. It tells me it was
+
+00:17:01
+successful. And then I can check balance
+
+00:17:03
+again. And all of a sudden I have one
+
+00:17:06
+soul. Amazing. And that by the way is
+
+00:17:09
+again public information. If I go to
+
+00:17:12
+that address in the explorer, oh by the
+
+00:17:14
+way, I didn't explain what this is. The
+
+00:17:17
+Solana Explorer at explorer.solana.com
+
+00:17:20
+lets me explore the state of the
+
+00:17:22
+blockchain in this case of the definite
+
+00:17:24
+cluster. Here I can see this address
+
+00:17:26
+compare wallet account has this much
+
+00:17:29
+soul. This is my money. Now because I
+
+00:17:34
+have the private key for this public
+
+00:17:36
+key, I can now say, hey, I want to
+
+00:17:38
+change this. I want to send. So I do
+
+00:17:42
+Solana transfer. And then I need to say
+
+00:17:45
+where I send to. I'm just going to send
+
+00:17:47
+to this address here. And then I need to
+
+00:17:49
+say how much. Maybe half a soul. I'll
+
+00:17:52
+send half a soul to this address. And
+
+00:17:54
+because that address doesn't exist, I
+
+00:17:56
+also need to tell it, hey, allow
+
+00:17:58
+unfunded recipient. And then if I do
+
+00:18:01
+that, I use my private key to sign a
+
+00:18:04
+message that says that I allow this
+
+00:18:07
+transfer which I will send to an RPC
+
+00:18:10
+which will forward it to a validator
+
+00:18:13
+which will put it in a block which will
+
+00:18:15
+then actually change the state. So let's
+
+00:18:18
+do this. I'm sending this transaction.
+
+00:18:20
+It comes back with a signature. So this
+
+00:18:22
+is me proving that I actually allow this
+
+00:18:25
+and I can do that because the Solana CLI
+
+00:18:29
+has access to this file because that's
+
+00:18:31
+where my private key lives. And then if
+
+00:18:34
+I come here and I refresh that then we
+
+00:18:37
+see now this address has 0.5 sold
+
+00:18:40
+because I sent it there. And we can see
+
+00:18:43
+the details of this transfer in the
+
+00:18:46
+transaction history here where we see
+
+00:18:48
+this is the same signature that we had
+
+00:18:50
+here. So that's the transaction
+
+00:18:53
+signature. We were transacting on the
+
+00:18:55
+blockchain. We did a transfer which is a
+
+00:18:58
+transaction from one to the other. It
+
+00:19:01
+transacts. Hey, I give you this and you
+
+00:19:04
+give me nothing. That's the transaction
+
+00:19:05
+that I did with that other account.
+
+00:19:07
+Yeah, we see the time stamp. We see a
+
+00:19:10
+bunch of technical stuff. We see
+
+00:19:11
+basically the block. We see reason
+
+00:19:13
+blockage. And here we also see the fee,
+
+00:19:16
+how much we had to pay in Saul for this
+
+00:19:19
+transaction to actually happen. A bunch
+
+00:19:21
+more technical stuff that I don't want
+
+00:19:23
+to go into. And here we see the overview
+
+00:19:25
+this account. So from this wallet
+
+00:19:27
+address from Andy, he sent it to this
+
+00:19:30
+wallet address. So this guy is paying,
+
+00:19:32
+this guy is receiving. And the details,
+
+00:19:35
+what the system program is, what
+
+00:19:36
+instructions are, what an account really
+
+00:19:38
+is. That is the topic for tomorrow's
+
+00:19:42
+video cuz tomorrow I really want to have
+
+00:19:44
+a look at the fundamentals the
+
+00:19:47
+fundamental concepts that you really
+
+00:19:50
+need to understand in order to do Solana
+
+00:19:52
+development accounts instructions and
+
+00:19:55
+transactions. So join me tomorrow. Until
+
+00:19:58
+then, here's a little challenge for you.
+
+00:20:00
+What I want you to do until tomorrow is
+
+00:20:03
+go through the installation process.
+
+00:20:05
+Make sure that you have the Solana CLI
+
+00:20:07
+and Anchor CLI installed. And then I
+
+00:20:10
+want you to create yourself a file
+
+00:20:12
+system wallet like this one. You don't
+
+00:20:14
+need to grind it. It's fine if it's a
+
+00:20:16
+random address, but make sure that you
+
+00:20:18
+have a key pair file and make sure that
+
+00:20:20
+you have some balance on that account.
+
+00:20:23
+Shouldn't be too difficult, but that's
+
+00:20:25
+the minimum we will need. Oh, and also
+
+00:20:27
+if you want to follow along tomorrow,
+
+00:20:28
+make sure that you have npm or pnpm
+
+00:20:31
+installed because we will be working
+
+00:20:34
+with Node tomorrow doing a little bit of
+
+00:20:36
+TypeScript. All right, and that's day
+
+00:20:38
+one done. Don't forget the homework.
+
+00:20:40
+Today was just a bit of an introduction.
+
+00:20:42
+Not so technical yet, but we will get
+
+00:20:45
+increasingly more technical with every
+
+00:20:47
+video. So, I'll see you back here
+
+00:20:49
+tomorrow for day two of the how to
+
+00:20:52
+become a Sulana dev in 2026 series.
+
+00:20:56
+Don't forget your homework.
+

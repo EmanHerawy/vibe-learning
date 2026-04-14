@@ -1,0 +1,3678 @@
+00:00:00
+Hello and welcome to day four of the how
+
+00:00:04
+to get started with Salana development
+
+00:00:05
+in 2026 series. Today we're going to
+
+00:00:09
+talk about PDAs and CPIs and signatures
+
+00:00:15
+and we're going to learn how to manually
+
+00:00:17
+call an instruction. Understanding those
+
+00:00:19
+concepts is essential for becoming a
+
+00:00:23
+Solana developer and they are very
+
+00:00:26
+specific to Solana. So, it's probably
+
+00:00:28
+not something that you've come across so
+
+00:00:30
+far and that's why this is probably the
+
+00:00:33
+most important video in this series. So,
+
+00:00:36
+do watch it carefully or don't. I mean,
+
+00:00:40
+who am I? That's right, not your mom.
+
+00:00:43
+So, let's get started. Okay, we are
+
+00:00:46
+going to build on top of what we
+
+00:00:48
+developed yesterday. So, once again, do
+
+00:00:51
+make sure that you watched yesterday's
+
+00:00:52
+video first. Essentially, we build a
+
+00:00:55
+first quick little anchor program that
+
+00:00:58
+can store some state in a in an account.
+
+00:01:01
+We are storing the mood of the program
+
+00:01:04
+or whatever. And we have three
+
+00:01:06
+instructions. One to initialize the
+
+00:01:08
+account, one to set the mood, one to get
+
+00:01:11
+the mood. Okay. Now, one very important
+
+00:01:14
+thing to understand about Solana
+
+00:01:15
+programs is that they are public. I've
+
+00:01:18
+already mentioned Solana is a public
+
+00:01:20
+blockchain. Everybody can read the state
+
+00:01:22
+and also everybody can call the
+
+00:01:25
+programs. Just because you deployed the
+
+00:01:28
+program does not mean that you're the
+
+00:01:30
+only one who's able to call the program.
+
+00:01:32
+You probably also want others to be able
+
+00:01:34
+to call the program such that everybody
+
+00:01:36
+can interact with it. But then maybe you
+
+00:01:38
+don't want everybody to be able to do
+
+00:01:40
+everything with the program. So for
+
+00:01:42
+instance in our example setting the mood
+
+00:01:45
+maybe you don't want everybody to be
+
+00:01:47
+able to do this and right now everybody
+
+00:01:50
+is able to do this. So for instance me
+
+00:01:52
+as a hacker or whatever I could write
+
+00:01:55
+myself a script to call this program.
+
+00:01:58
+This is what we did in the video two
+
+00:02:00
+days ago where we created the memo and
+
+00:02:02
+the transfer soul instruction. This time
+
+00:02:05
+I'm going to manually create an
+
+00:02:07
+instruction because we've already
+
+00:02:09
+learned what an instruction needs.
+
+00:02:12
+remember it's just the program we want
+
+00:02:14
+to call the accounts and the data as we
+
+00:02:17
+see here the program address well I know
+
+00:02:20
+that I just need to know where that
+
+00:02:23
+program got deployed and also that is
+
+00:02:26
+public information if we find one of
+
+00:02:28
+those transactions that we want to
+
+00:02:30
+emulate so for instance this was our
+
+00:02:32
+program this was the program that we
+
+00:02:35
+wanted to call so I'm just going to say
+
+00:02:37
+hey take this and then all of the
+
+00:02:40
+transactions That stuff is also public.
+
+00:02:43
+And then we just need to find a
+
+00:02:45
+transaction that does the thing that we
+
+00:02:46
+want to do like set mood. And I can
+
+00:02:50
+basically copy this instruction again
+
+00:02:54
+the program I already know. And then I
+
+00:02:57
+see it just takes one account. I'll just
+
+00:02:59
+copy that and provide that as an account
+
+00:03:02
+with this address here. And then we need
+
+00:03:05
+to provide a role. And the role is
+
+00:03:07
+writable. So I'll just copy that as
+
+00:03:09
+well. And then I can also copy the data.
+
+00:03:12
+I don't need to understand what that is.
+
+00:03:14
+I can just copy it and put it in an
+
+00:03:16
+instruction myself. So the data will be
+
+00:03:19
+a get base 16 codec encode this. Voila.
+
+00:03:24
+So like this it will do the same thing
+
+00:03:27
+as this instruction. And either through
+
+00:03:30
+trial and error or through educated
+
+00:03:32
+guessing, I'm going to change that three
+
+00:03:34
+to a zero to mess with the mood a bit
+
+00:03:37
+because we did learn the first eight
+
+00:03:39
+bytes are for the discriminator. So this
+
+00:03:41
+will be the only parameter for the
+
+00:03:43
+function. And like this anybody for
+
+00:03:46
+instance this Andy guy can call that
+
+00:03:48
+program. Voila, we got a transaction.
+
+00:03:51
+And look at this we are able to send the
+
+00:03:53
+transaction. It is successful. This guy
+
+00:03:56
+called it with a state account and our
+
+00:03:59
+program and he was able to set the mood
+
+00:04:02
+to sad. That's quite sad for our program
+
+00:04:05
+now because the program doesn't want
+
+00:04:07
+everyone to be able to change the mood.
+
+00:04:10
+That's really sad. So, we got to change
+
+00:04:13
+something in our program and what we
+
+00:04:15
+will need is an authority. An authority
+
+00:04:19
+is basically an account that is
+
+00:04:22
+authorized to do something. So for
+
+00:04:24
+instance in this case authorized to
+
+00:04:26
+change the state in this case the mood
+
+00:04:30
+of our account. So back to our program
+
+00:04:33
+we will somehow need to remember who
+
+00:04:36
+that authority is and an authority will
+
+00:04:39
+be an account cuz we said everything is
+
+00:04:41
+an account because otherwise we would
+
+00:04:43
+need to do I don't know username and
+
+00:04:45
+password but that's not how we do things
+
+00:04:47
+around here. We let the account have the
+
+00:04:50
+authority so that we can say this
+
+00:04:53
+account that is creating this
+
+00:04:55
+transaction are they authorized or not.
+
+00:04:58
+And how do we distinguish accounts like
+
+00:05:01
+what's the unique identifier of an
+
+00:05:03
+account? That's right, the account
+
+00:05:06
+address. So all we need to save is the
+
+00:05:09
+account address. So we can say pop
+
+00:05:12
+authority and here I would put the
+
+00:05:15
+address except we're still working in an
+
+00:05:18
+old version of anchor. So it's called a
+
+00:05:20
+pup key. Why am I still working with the
+
+00:05:21
+old version of anchor? Sorry. In the
+
+00:05:23
+future this will be called address. But
+
+00:05:25
+in our case it is a pup key as well
+
+00:05:27
+because we want to store the pup key or
+
+00:05:29
+the address of the account that is
+
+00:05:31
+authorized to change the mood. Now
+
+00:05:34
+obviously that account here doesn't have
+
+00:05:37
+an authority. I would save the authority
+
+00:05:40
+when we initialize the account. So I
+
+00:05:43
+would put that user here. We called it
+
+00:05:46
+the user who's calling this. I will make
+
+00:05:49
+the user the authority. Authority for
+
+00:05:52
+the account will be this guy. Okay. So
+
+00:05:56
+into my state account in the authority
+
+00:06:01
+field I will just write the key of the
+
+00:06:04
+user. That's all I'm going to do. And
+
+00:06:06
+then every new account that we create
+
+00:06:08
+will also have an authority. And what we
+
+00:06:11
+then will need to do is to also check
+
+00:06:14
+the authority. So we need to make sure
+
+00:06:17
+that when we're setting the mood that we
+
+00:06:20
+first of all also provide the account
+
+00:06:24
+that is authorized to do so. So we would
+
+00:06:27
+do an authority here and like the user
+
+00:06:31
+we would make it a signer so that this
+
+00:06:34
+account is required to sign as well.
+
+00:06:36
+We'll get there in a second. Now I can
+
+00:06:38
+either do it up here and make sure that
+
+00:06:41
+my context authority key is the same one
+
+00:06:46
+as what is in the state account written
+
+00:06:51
+under authority. And if that's not the
+
+00:06:53
+case, I error incorrect authority. For
+
+00:06:57
+instance, Anchor has a shortcut way of
+
+00:07:00
+writing this since it's used a lot. I
+
+00:07:03
+can say here this account has one and
+
+00:07:06
+say authority. So then it checks that
+
+00:07:10
+the stateauor
+
+00:07:13
+is also the authority in here. This one
+
+00:07:17
+line does the same thing as this up here
+
+00:07:21
+essentially. So I don't need this but
+
+00:07:23
+this might be easier to understand for
+
+00:07:24
+you. And like that we protected our set
+
+00:07:27
+mood that only the correct authority can
+
+00:07:31
+do that. Let me prove that to you really
+
+00:07:33
+quick. Let's anchor build and anchor
+
+00:07:37
+deploy. Meanwhile, we update our test
+
+00:07:40
+cuz we will need a new state account
+
+00:07:42
+again. We don't need this number
+
+00:07:44
+anymore. And we will initialize it with
+
+00:07:47
+those accounts. Remember here
+
+00:07:50
+automatically the user is put in as our
+
+00:07:53
+address. Oh, we still have invalid
+
+00:07:54
+instruction data. Let's make it happy.
+
+00:07:56
+Oh, and we can also skip deploy. There
+
+00:07:59
+we go. All of those three things
+
+00:08:01
+succeeded. The first one initialized
+
+00:08:04
+this account. That's the state account.
+
+00:08:06
+The new one now the 9x it was
+
+00:08:08
+initialized with this authority. And so
+
+00:08:11
+if we now provide this authority, then
+
+00:08:15
+we can set the new mood. But what we
+
+00:08:17
+cannot do anymore is try and set the
+
+00:08:21
+mood for this account with a different
+
+00:08:24
+authority or with an incorrect
+
+00:08:26
+authority. This will fail us with caused
+
+00:08:29
+by account authority. First of all, we
+
+00:08:32
+didn't even provide enough account keys
+
+00:08:34
+because this now requires a second
+
+00:08:36
+account which we can we can put that in.
+
+00:08:39
+I'm just going to say, hey, yeah, I mean
+
+00:08:41
+that that's me here. I am take take that
+
+00:08:45
+account. But even then it will fail with
+
+00:08:48
+the state account constraint has one.
+
+00:08:51
+That's the thing that we wrote here. The
+
+00:08:53
+has one. It requires the correct
+
+00:08:56
+authority because the thing we provided
+
+00:08:59
+is not what it expected. That's the
+
+00:09:01
+wrong authority. So that's why the
+
+00:09:03
+program will not let this instruction
+
+00:09:05
+pass. So the transaction is failing
+
+00:09:07
+here. And we've learned that that
+
+00:09:09
+reverts the state as if nothing had
+
+00:09:12
+happened because that account isn't
+
+00:09:14
+authorized. Okay, now you might think,
+
+00:09:17
+hey, I can get around that. I'm just
+
+00:09:19
+going to provide the correct account
+
+00:09:20
+here. But no, what's going to happen
+
+00:09:23
+then is we're going to fail with account
+
+00:09:26
+not assigner. The given account did not
+
+00:09:29
+sign because this account even though we
+
+00:09:32
+can provide it in the list of accounts,
+
+00:09:34
+we cannot produce a signature for this
+
+00:09:37
+account if we don't have the private
+
+00:09:39
+key. And here in this scenario, we don't
+
+00:09:42
+have the private key for this one. We
+
+00:09:44
+just have the private key for this
+
+00:09:46
+address, not for this one. And that
+
+00:09:48
+check happens because we said this needs
+
+00:09:52
+to be a serer. If we were like, oh, this
+
+00:09:55
+can be any account or even specifically
+
+00:09:58
+a system account. A system account is an
+
+00:10:00
+account that is owned by the system
+
+00:10:02
+program. We learned yesterday that every
+
+00:10:04
+account has an owner and the default
+
+00:10:06
+owner is the system program. Every
+
+00:10:08
+regular wallet account, also this one,
+
+00:10:11
+is owned by the system program. I could
+
+00:10:13
+say it's okay if that's just a system
+
+00:10:16
+account. If I build and deploy this,
+
+00:10:20
+then all of a sudden this here should
+
+00:10:23
+work. All of a sudden, this account is
+
+00:10:26
+very sad because that shouldn't happen.
+
+00:10:29
+And what was the problem here? The
+
+00:10:31
+program didn't check for the serer. So a
+
+00:10:35
+ser and this is important to understand
+
+00:10:38
+really doesn't mean much until the
+
+00:10:42
+program checks for it. Remember every
+
+00:10:45
+transaction has this list of accounts
+
+00:10:47
+and in this list every account is
+
+00:10:49
+flagged either as writable or not
+
+00:10:52
+writable and assigner or not assigner.
+
+00:10:55
+The writable is important mainly for
+
+00:10:58
+execution so that we can paralyze that
+
+00:11:01
+thing. Programs don't usually need to
+
+00:11:03
+check whether or not that account is
+
+00:11:05
+writable. They need to say, "Hey, I want
+
+00:11:07
+this to be writable, but then if it's
+
+00:11:09
+not provided writable, then the runtime
+
+00:11:11
+will fail it." So that's fine. However,
+
+00:11:14
+the runtime doesn't really do anything
+
+00:11:16
+with signers with the exception of the
+
+00:11:19
+fee payer because there needs to be one
+
+00:11:22
+account that is paying that transaction
+
+00:11:24
+fee. that needs to be a serer as well.
+
+00:11:27
+But that's the only serer that Solana is
+
+00:11:31
+checking. Everything else, every other
+
+00:11:34
+ser the programs need to check. The
+
+00:11:37
+programs do something with it.
+
+00:11:39
+Otherwise, it's not particularly
+
+00:11:40
+relevant to the transaction whether or
+
+00:11:42
+not that account is a signer or not.
+
+00:11:44
+Solana or the runtime also checks that
+
+00:11:47
+the signature is then actually present.
+
+00:11:50
+It does do the sik verify. So if the
+
+00:11:53
+program is told hey this account is a
+
+00:11:55
+signer then we know that a signature was
+
+00:11:58
+presented for this account and that's
+
+00:12:00
+why also for every signature we pay a
+
+00:12:02
+little more in transaction fee but it's
+
+00:12:04
+all useless until the programs check for
+
+00:12:07
+it. So that's one of the classic
+
+00:12:09
+mistakes that you can do is forgetting a
+
+00:12:12
+signer check. This authority shouldn't
+
+00:12:14
+just be an account. It needs to be a
+
+00:12:18
+signer. Only then can we guarantee that
+
+00:12:21
+whoever is providing this account also
+
+00:12:24
+has the private key for this specific
+
+00:12:27
+account. And therefore we know oh it's
+
+00:12:29
+them. They are authorized to actually
+
+00:12:31
+change the state because having the
+
+00:12:33
+private key remember is how we prove
+
+00:12:36
+that it is our account. That's why it's
+
+00:12:39
+also dangerous if that key gets leaked
+
+00:12:41
+because then whoever has the key has the
+
+00:12:44
+authority. So yeah, that's the concept
+
+00:12:46
+of an authority and that's why we need
+
+00:12:49
+signers. A transaction can have several
+
+00:12:52
+signers. It doesn't need to be just this
+
+00:12:55
+first address. So if I had access to the
+
+00:13:00
+private key of Andy's wallet, which
+
+00:13:02
+let's say I'm a hacker and I somehow got
+
+00:13:06
+access to Andy's keeper, which just so
+
+00:13:09
+happens to live at my config ID chosen.
+
+00:13:13
+And that by the way is the same one here
+
+00:13:17
+again that that should still be the same
+
+00:13:19
+as we had before. Let me just quickly
+
+00:13:21
+make sure that our anchor program is
+
+00:13:24
+deployed in this version now again with
+
+00:13:26
+actually checking for the serer and yes
+
+00:13:29
+like this we again get the account not
+
+00:13:31
+assigner error here. So what we need to
+
+00:13:34
+do is actually make this ser. I don't
+
+00:13:38
+actually need to write to it. I can do a
+
+00:13:40
+readonly serer. Then I need to provide
+
+00:13:43
+the key pair. So I need to add signers
+
+00:13:47
+to instruction. I'm going to add the and
+
+00:13:50
+this key pair to my instruction. And
+
+00:13:53
+then I put this in here. Then that
+
+00:13:56
+should work. Look at that. Now we have a
+
+00:13:59
+transaction with two signers. Once this
+
+00:14:04
+Andy guy signed as the fee payer and
+
+00:14:08
+once this wallet account signed as well
+
+00:14:12
+because the program instruction required
+
+00:14:16
+this account to be a serer. And now we
+
+00:14:18
+once again have the authority to set the
+
+00:14:21
+mood. And I can also set the mood to
+
+00:14:23
+something else like bored. There we go.
+
+00:14:26
+And now we're bored. Easy because it's
+
+00:14:28
+too easy, right? It's too easy. Yeah.
+
+00:14:30
+Point is, we can have several signers in
+
+00:14:32
+a transaction. We just need to have the
+
+00:14:34
+private key for that public key to
+
+00:14:37
+actually be able to provide that
+
+00:14:38
+signature for this transaction. Okay,
+
+00:14:41
+that's the one way to sign the regular
+
+00:14:44
+way to sign with the private key.
+
+00:14:46
+Remember this cuz we are going to
+
+00:14:48
+explore an alternative. But first, I
+
+00:14:51
+want to talk about crossrogram
+
+00:14:54
+invocations. Another essential topic for
+
+00:14:57
+Solanda development and we have already
+
+00:14:59
+seen that before. Here for instance a
+
+00:15:02
+cross program invocation is when one
+
+00:15:05
+program calls another program and we
+
+00:15:09
+have already seen this before in our
+
+00:15:12
+initialize our program was calling the
+
+00:15:16
+system program. So this is a CPI we have
+
+00:15:20
+inner instructions. The system program
+
+00:15:22
+is being invoked by our anchor program
+
+00:15:26
+to do the create account instruction and
+
+00:15:30
+stuff like that is what makes Solana
+
+00:15:32
+programs so composable because every
+
+00:15:35
+program can interact with every other
+
+00:15:38
+program. So once a program provided some
+
+00:15:40
+functionality other programs can build
+
+00:15:43
+on top of that and that's actually used
+
+00:15:45
+a lot. So much so that we are increasing
+
+00:15:48
+the limits for how many CPIs we can do
+
+00:15:50
+anyway. So this CPI here to the create
+
+00:15:53
+account is hidden by anchor with this
+
+00:15:56
+init constraint here. Anchor just hides
+
+00:15:59
+that functionality. But let's build our
+
+00:16:02
+own program that does a CPI. So let's do
+
+00:16:07
+anchor in it again with anchor CPI.
+
+00:16:11
+Again, I'm not being creative here. I'm
+
+00:16:13
+going to call it anchor CPI. And then
+
+00:16:15
+I'm going to open this. And while we're
+
+00:16:17
+here, I'm going to show you a trick
+
+00:16:19
+because that program ID is not godgiven.
+
+00:16:23
+If you're not happy with the address
+
+00:16:26
+that your program will get deployed to,
+
+00:16:28
+that just lives in here in this key pair
+
+00:16:32
+JSON. And that's the same thing that we
+
+00:16:34
+created with our Solana key genen. So I
+
+00:16:37
+could once again just say Sana keychain
+
+00:16:41
+grind and get myself an address that
+
+00:16:44
+starts with CPI program for instance
+
+00:16:47
+CPIP. There we go. My CPI program. And
+
+00:16:51
+now I just copy this to my target deploy
+
+00:16:56
+key pair and then it will be deployed to
+
+00:16:59
+this address. So I can put that here as
+
+00:17:02
+well as in the anchor toml and I'll be
+
+00:17:04
+fine. Change that to definite. Quick
+
+00:17:06
+little trick. Now you know. Okay. What
+
+00:17:09
+does this program do? Let's just let it
+
+00:17:12
+call the other program. Literally a do
+
+00:17:17
+CPI or I don't know that's better change
+
+00:17:21
+mood or even better make us happy
+
+00:17:24
+whatever. So this basically just should
+
+00:17:27
+set the mood to happy. Happy happy
+
+00:17:29
+accounts. I might recycle this and call
+
+00:17:32
+it change mood accounts. So what do we
+
+00:17:36
+need here? Well, first of all, we're
+
+00:17:38
+going to need the program to call which
+
+00:17:41
+is going to be a program is a given
+
+00:17:43
+program. Let me see if I can import
+
+00:17:45
+that. Okay, let's see. In the cargo
+
+00:17:48
+tumble, how about I add dependencies
+
+00:17:52
+to the anchor program here. It's spelled
+
+00:17:56
+like this. And I'm going to get that
+
+00:17:58
+from what we did yesterday in day three.
+
+00:18:02
+And and I want CPI as features. Let's
+
+00:18:06
+see if that does. No, that doesn't work.
+
+00:18:08
+Oh, oops. Wrong cargo tomo. Ah, in the
+
+00:18:11
+program there. Yeah, yeah, yeah, that
+
+00:18:13
+makes more sense. Here we go. No such
+
+00:18:15
+file or directory. It is with a dash.
+
+00:18:17
+Maybe you need the program slashprograms
+
+00:18:21
+slash ank program. Maybe that's what you
+
+00:18:24
+need. There we go. So that looks better
+
+00:18:26
+now. Okay, with that set up, we can now
+
+00:18:28
+use our anchor program. See, that's our
+
+00:18:32
+program because I imported it from here.
+
+00:18:35
+And that has the three instructions and
+
+00:18:39
+also somewhere have its ID. I don't see
+
+00:18:42
+that. Why don't I get the ID from this?
+
+00:18:45
+Okay, I don't really know how I get that
+
+00:18:47
+in there correctly. So I'm just going to
+
+00:18:49
+use a regular account info here and be
+
+00:18:53
+like I will check this manually or I
+
+00:18:56
+don't check this at all. Then what else
+
+00:18:58
+do we need the authority also that I
+
+00:19:02
+just take as an account info and be like
+
+00:19:04
+whatever the user provides we just put
+
+00:19:06
+that through and that should actually be
+
+00:19:09
+enough for us to then invoke that
+
+00:19:13
+program. So we just need an instruction
+
+00:19:16
+within our program now. So inside our
+
+00:19:19
+program, we built the instruction that
+
+00:19:21
+is then executed through CPI. And if you
+
+00:19:24
+manage to import your other program, I'm
+
+00:19:28
+going to make it easy for myself. I can
+
+00:19:30
+import this set mood and I can just say
+
+00:19:34
+set mood which takes the context and the
+
+00:19:37
+new mood. And we will look at how we can
+
+00:19:39
+do that the manual way with invoking or
+
+00:19:43
+invoked signed in two days when we write
+
+00:19:46
+the regular rust program and not with
+
+00:19:48
+anchor. But with anchor I can just
+
+00:19:51
+import my other program and then call it
+
+00:19:54
+like this. So the new mood I say one for
+
+00:19:57
+happy and the context the context let's
+
+00:20:01
+see would need to be set mood accounts.
+
+00:20:05
+Set mood accounts. This guy needs the
+
+00:20:09
+authority and the state. Oh yeah, I
+
+00:20:11
+forgot we need the state account here
+
+00:20:15
+from the context accounts state and then
+
+00:20:19
+the authority. Same thing from context
+
+00:20:21
+accounts authority to account info that
+
+00:20:24
+we then put in a context. So we need a
+
+00:20:27
+CPI context. And here we say what
+
+00:20:30
+program we call that would be my context
+
+00:20:34
+accounts program the accounts those are
+
+00:20:38
+my CPI accounts okay and then this CPI
+
+00:20:41
+context is what I call the set moods
+
+00:20:43
+with let's see if that actually does
+
+00:20:46
+what I want it to do and for that we
+
+00:20:48
+need to call this program and I'm just
+
+00:20:50
+again going to do that through tests
+
+00:20:52
+make me happy anchor build does it build
+
+00:20:57
+oh no it does not build Oh, hold
+
+00:21:00
+on. Oh, yeah. We have mismatch types.
+
+00:21:04
+Anchor does already want me to check
+
+00:21:07
+that here. Okay, let's see if I can get
+
+00:21:09
+that to work. So, you want the state and
+
+00:21:13
+the authority. The authority to be
+
+00:21:15
+assigner. Well, that makes sense. and
+
+00:21:18
+the state to be an account of type mood
+
+00:21:24
+account which I can also import from the
+
+00:21:27
+other program. Would that help? Maybe I
+
+00:21:29
+don't want the account info. Oh, you
+
+00:21:31
+don't want the account info here then.
+
+00:21:33
+Oh, wait. That's not even the CPI. Oh,
+
+00:21:35
+we're not doing the CPI stuff. I'm
+
+00:21:37
+missing the packet. Hold on. So, I'm
+
+00:21:39
+missing the feature for CPI. But why do
+
+00:21:42
+I not get this? Yeah, you have the
+
+00:21:44
+regular context, but I want to have the
+
+00:21:46
+CPI context. Features CPI. Did I misspel
+
+00:21:50
+that? Nope, I did not misspell that. Oh,
+
+00:21:52
+now I have more. Where does that come
+
+00:21:54
+from? How? What? What? Now I also have
+
+00:21:56
+my ID and stuff. Well, that's great.
+
+00:21:59
+Yeah, and I have the CPI. What did I
+
+00:22:01
+change? I have no idea. Anyway, so I
+
+00:22:03
+need the CPI set mood. That's better.
+
+00:22:06
+Forget that. And that should also mean
+
+00:22:09
+that I could have my program anchor
+
+00:22:13
+program. Perfect. So like this I can say
+
+00:22:17
+down here make it an actual program of
+
+00:22:20
+type anchor program. Now I've I found
+
+00:22:23
+the way to do the exports correctly.
+
+00:22:25
+That's great. And here the accounts set
+
+00:22:28
+mood accounts. There we go. And you now
+
+00:22:32
+need account infos. There we go. I'll
+
+00:22:33
+just make that an account info again.
+
+00:22:36
+Okay. Okay. So I was hacking around here
+
+00:22:38
+a bit and it's not super important that
+
+00:22:40
+you understand all of this right now.
+
+00:22:42
+This is anchor pecularities. What I want
+
+00:22:45
+you to get from this is that we can call
+
+00:22:48
+the different program from our program.
+
+00:22:50
+In our case we call the one program that
+
+00:22:53
+we developed from this other program
+
+00:22:55
+that we developed now. So from our CPI
+
+00:22:58
+program we call the other program.
+
+00:23:00
+That's the idea. Okay. Does that build
+
+00:23:02
+now? Yes, that finally builds. Okay. Or
+
+00:23:05
+not. Safety check fails. Where the
+
+00:23:08
+authority? Wait, what do I need to
+
+00:23:09
+check? Okay. You don't like a custom
+
+00:23:12
+attribute? Well, I can can use a mood
+
+00:23:14
+account. Does that help? Yeah. Okay. So,
+
+00:23:17
+it wanted a specific account here. Then
+
+00:23:19
+I give you the specific account again.
+
+00:23:21
+Anchor anchor being anchor. So, now for
+
+00:23:24
+the test, we have this make us happy.
+
+00:23:27
+That will just not take any input. But
+
+00:23:31
+we will provide the right accounts here
+
+00:23:33
+otherwise this will not work. And we
+
+00:23:35
+need the authority and the state. The
+
+00:23:37
+program, it knows which program to call,
+
+00:23:40
+but the authority, well, that's also
+
+00:23:43
+going to be my user. That's fine. But
+
+00:23:46
+then the state at least I need to put
+
+00:23:48
+the account for the state, which was
+
+00:23:50
+that the 9x here. Take this. Take take
+
+00:23:54
+this. Okay. And then we just anchor
+
+00:23:58
+deploy this a program to make us happy.
+
+00:24:02
+Then let's test and oh no make us happy.
+
+00:24:07
+Writable privilege escalated. Oh yep yep
+
+00:24:10
+that's my bad because also as a
+
+00:24:13
+developer I am responsible that I
+
+00:24:16
+request well am I though? Well in anchor
+
+00:24:19
+I'm responsible for when we're running
+
+00:24:21
+this we're not providing the accounts as
+
+00:24:24
+writable. That's the problem. But we're
+
+00:24:26
+not providing them as writable because
+
+00:24:28
+our anchor program doesn't request them
+
+00:24:30
+as writable. So the program we don't
+
+00:24:32
+write to, the authority we don't write
+
+00:24:34
+to, but the state we do write to. And
+
+00:24:37
+that's anchor specific. Anchor wants it
+
+00:24:39
+to to indicate that this is writable.
+
+00:24:41
+Then we automatically run this as
+
+00:24:43
+writable as well. And now, oh that's a
+
+00:24:46
+nice signature in 777 milliseconds. Now
+
+00:24:50
+we can look at this
+
+00:24:52
+one. We send a transaction with those
+
+00:24:57
+accounts. See both of the programs are
+
+00:24:59
+in the list of accounts. Our anchor CPI
+
+00:25:02
+program tries to make us happy by doing
+
+00:25:05
+a CPI. So by calling another program,
+
+00:25:09
+calling the anchor program with a set
+
+00:25:11
+mood with those accounts and this data
+
+00:25:15
+and voila, we see it here. The program
+
+00:25:17
+got invoked and then the set mood
+
+00:25:20
+instruction is called and we're now
+
+00:25:22
+happy. We're now happy finally. Yeah,
+
+00:25:26
+anchor is sometimes a bit weird, but you
+
+00:25:28
+don't need to worry about that. Again,
+
+00:25:29
+the main thing I want you to take away
+
+00:25:31
+from this is that we can call another
+
+00:25:34
+program from within our program. That's
+
+00:25:37
+the important thing. That's really
+
+00:25:39
+enough for today. If you get this
+
+00:25:41
+because the real topic of today are
+
+00:25:43
+still authorities and so far we had the
+
+00:25:48
+authority being a user wallet where if
+
+00:25:51
+you have the private key you can sign
+
+00:25:54
+for it and therefore you prove that you
+
+00:25:56
+have authority. Now there is a different
+
+00:25:59
+way how Solana can do authorities for
+
+00:26:02
+when a program should be an authority.
+
+00:26:06
+So for instance, if we in this program
+
+00:26:09
+wanted to prove that the mood is set
+
+00:26:13
+from our program and the other program,
+
+00:26:17
+this one could then check that this
+
+00:26:20
+authority is that other program and that
+
+00:26:24
+is done through PDAs. Another core
+
+00:26:29
+element of Solana development that you
+
+00:26:31
+need to understand program derived
+
+00:26:34
+addresses. So I'm going to leave this
+
+00:26:38
+program the very same that we have it.
+
+00:26:41
+The authority needs to be assigner to be
+
+00:26:44
+able to set the mood then. But what
+
+00:26:47
+we're going to do now in this program is
+
+00:26:50
+that we're going to set it up in a way
+
+00:26:52
+that the program itself will be the
+
+00:26:55
+authority or rather a PDA of the program
+
+00:26:59
+and therefore the program will be able
+
+00:27:02
+to sign without even having a private
+
+00:27:05
+key itself because obviously a program
+
+00:27:08
+can't have a private key because
+
+00:27:09
+programs are public and everybody would
+
+00:27:12
+just be able to read that. So there's
+
+00:27:14
+this concept of PDAs and I'm going to
+
+00:27:17
+make my attempt of explaining that to
+
+00:27:19
+you such that we can get ourselves
+
+00:27:21
+excited. So for that we use exciting
+
+00:27:25
+accounts. So we're going to almost do
+
+00:27:27
+the same thing as before. But first we
+
+00:27:30
+got to set us up for excitement or
+
+00:27:34
+whatever. I'm just going to call it set
+
+00:27:35
+us up. I could also call this
+
+00:27:37
+initialize. What this is going to do is
+
+00:27:39
+it's going to initialize a mood account
+
+00:27:42
+here. So, we're going to CPI into the
+
+00:27:45
+initialize from the program. And once
+
+00:27:48
+again, we will use the program. This
+
+00:27:50
+time, I'm not going to let the user give
+
+00:27:53
+me the account to be the authority, but
+
+00:27:56
+I'm going to create myself a PDA. So,
+
+00:28:00
+it's going to be an account of form, I
+
+00:28:02
+don't know, my PDA. I'll call it a PDA
+
+00:28:05
+account, which doesn't even need to
+
+00:28:08
+store anything. I could put data into
+
+00:28:10
+here or fun fact I could also not even
+
+00:28:14
+create the account but in order not to
+
+00:28:16
+have to work with an unchecked account
+
+00:28:18
+here and anchor annoy me I'm just going
+
+00:28:20
+to say no we actually create that
+
+00:28:22
+account as well we init this so
+
+00:28:25
+therefore we need a payer again oh and
+
+00:28:27
+for that I need to have the payer and
+
+00:28:30
+this will again need to be a signer who
+
+00:28:32
+is writable as well and then I will
+
+00:28:35
+again also need the system program
+
+00:28:38
+because we will need to also do a CPI to
+
+00:28:40
+the system program to create that
+
+00:28:42
+account. So system program payers payer
+
+00:28:46
+and space literally I'm just creating an
+
+00:28:49
+empty account. I'm not using the state
+
+00:28:52
+of this account. I'm using the property
+
+00:28:54
+of being able to sign with this account.
+
+00:28:57
+So as I said I wouldn't even need to
+
+00:28:58
+create it but I'm going to. So this is
+
+00:29:00
+going to be my authority PDA. Actually
+
+00:29:03
+I'm going to call it authority PDA such
+
+00:29:05
+that you understand that this is going
+
+00:29:08
+to be a PDA. So the state account is
+
+00:29:11
+going to be a mutable account for mood
+
+00:29:15
+account but this is just going to get
+
+00:29:17
+initialized in the next program. So I'm
+
+00:29:22
+afraid I can't check it for mood account
+
+00:29:25
+here. I'm just going to say account info
+
+00:29:28
+and say check created in CPI such that
+
+00:29:32
+it doesn't complain here that I don't
+
+00:29:34
+provide the type. Okay. So I have the
+
+00:29:36
+program we have this PDA. Now what's
+
+00:29:40
+special about a PDA? What is a PDA
+
+00:29:43
+really? Program derived address. It's
+
+00:29:46
+not one of those accounts where there's
+
+00:29:48
+a private key for it and the account
+
+00:29:50
+address is the public key. That's one
+
+00:29:53
+type of account. The other type of
+
+00:29:54
+account is PDAs where there is no
+
+00:29:58
+private key. PDAs specifically are
+
+00:30:01
+designed that there is no private key
+
+00:30:03
+and half of the addresses roughly have
+
+00:30:06
+no private key. This is just how it is.
+
+00:30:08
+We don't need to discuss why elliptic
+
+00:30:10
+curve cryptography. Some are on curve,
+
+00:30:12
+some are not. Not so important. But what
+
+00:30:15
+is important is to understand how the
+
+00:30:18
+PDA is created. And the PDA is created
+
+00:30:21
+through seeds. basically just a list of
+
+00:30:25
+bytes where we say those are the seeds
+
+00:30:28
+for the PDA and a PDA is created for a
+
+00:30:32
+program. So with those seeds and the
+
+00:30:34
+program we can get the PDA and if you
+
+00:30:37
+provide the same seeds and the same
+
+00:30:39
+program we get the same PDA that's
+
+00:30:42
+deterministic. So in order to create a
+
+00:30:46
+PDA with anchor we just say seeds and
+
+00:30:49
+then we provide a list of seeds. For
+
+00:30:52
+instance, we can just use the string
+
+00:30:54
+authority. Then I have this one PDA for
+
+00:30:58
+this program. So in every setup, I use
+
+00:31:00
+the same authority. I will also say bump
+
+00:31:03
+here. A bump is just used that we reach
+
+00:31:06
+this property of there not being a
+
+00:31:09
+private key. So we need to push the
+
+00:31:11
+address off the curve and that's done
+
+00:31:14
+with a bump. I do have a more technical
+
+00:31:16
+deep dive on PDAs. You can watch that up
+
+00:31:19
+there. For now, it's not so important. I
+
+00:31:21
+do want you to understand that we need
+
+00:31:24
+seeds like here we have this bunch of
+
+00:31:27
+bytes here and we derive it for our
+
+00:31:30
+program. So for this program then we get
+
+00:31:35
+this PDA and anchor does that
+
+00:31:37
+automatically for us and it will know
+
+00:31:39
+what the address is here and then in the
+
+00:31:41
+actual setup I can do the functionality.
+
+00:31:44
+So I'm going to do the same thing as
+
+00:31:46
+here pretty much except now I'm do going
+
+00:31:49
+to do initialize accounts which need the
+
+00:31:52
+state the user and the system program
+
+00:31:55
+they still called it the user but that's
+
+00:31:57
+the authority for us and here I will put
+
+00:32:01
+my authority PDA and then what else does
+
+00:32:04
+it need the system program I also have
+
+00:32:07
+that in my context accounts system
+
+00:32:10
+program I'll just give you that as
+
+00:32:12
+account info and Then I'm going to call
+
+00:32:15
+that other program and do the initialize
+
+00:32:18
+with that context. There we go. That
+
+00:32:21
+should set us up. Let's see if that
+
+00:32:23
+builds. It does. Amazing. So to our
+
+00:32:27
+tests set us up. What do we need here
+
+00:32:30
+now? The payer. Well, that's just going
+
+00:32:32
+to be my wallet. That's fine. And the
+
+00:32:35
+state. Hold on. The state is the state
+
+00:32:39
+account. Oh, yeah. We're creating a new
+
+00:32:42
+state account. Just going to do that.
+
+00:32:45
+But I will need to add it as a serer as
+
+00:32:47
+well. We're creating a new account
+
+00:32:49
+essentially. Let's see if that works.
+
+00:32:51
+Nope. Unsigner. Oh, did I not make the
+
+00:32:55
+state assigner?
+
+00:32:58
+Ha. Okay. Right. Then I just make this a
+
+00:33:01
+ser here. H better. I need to make it a
+
+00:33:03
+signer. Yeah, sure. Why not? Then I
+
+00:33:05
+don't need the check either. Perfect.
+
+00:33:07
+Ha. Okay. Good. No, that's good. That's
+
+00:33:09
+good. cross program invocation with
+
+00:33:12
+unauthorized signer or writable account.
+
+00:33:14
+Now what's happening here? We are trying
+
+00:33:17
+to initialize and have our authority PDA
+
+00:33:22
+as the user. Remember last time the user
+
+00:33:25
+when we were doing this the user was a
+
+00:33:28
+regular signer. So this account here is
+
+00:33:32
+expected to be a ser. But here this PDA
+
+00:33:37
+this address there is no private key for
+
+00:33:40
+that. So I cannot sign for this. This is
+
+00:33:44
+just a random address. Not really random
+
+00:33:47
+very deterministic and and specific. But
+
+00:33:50
+here this is not a ser. And now comes
+
+00:33:53
+the trick. When we're doing a CPI we're
+
+00:33:56
+not doing a regular CPI. Later we will
+
+00:33:59
+see it's not a regular invoke. It's a
+
+00:34:01
+invoke signed. So this context here we
+
+00:34:05
+don't do a new CPI context we do a new
+
+00:34:10
+with serer and then we can provide the
+
+00:34:13
+program and the accounts and serer
+
+00:34:17
+seeds. So this is where it gets
+
+00:34:20
+interesting cuz here basically the
+
+00:34:23
+program proves that it is actually the
+
+00:34:26
+one that is doing the CPI. So that it is
+
+00:34:29
+actually the program that this PDA was
+
+00:34:32
+created for because again we created it
+
+00:34:35
+with those seeds for our program and now
+
+00:34:38
+here we need to provide those seeds one
+
+00:34:41
+more time to prove that we are that
+
+00:34:44
+program essentially. So the way this is
+
+00:34:46
+written is a bit weird with a slice of
+
+00:34:48
+slice of slice of bytes but the first
+
+00:34:51
+one is because there could be more
+
+00:34:54
+signers for now we just have this one.
+
+00:34:56
+So we just do one and then this one
+
+00:34:59
+signer does have a a list of seeds
+
+00:35:03
+namely this thing plus the bump. So I'll
+
+00:35:08
+have to put this thing and the bump
+
+00:35:11
+which I can get from the context bumps
+
+00:35:14
+authority PDA temporary value dropped.
+
+00:35:17
+Well, okay, fine. Let's store it then.
+
+00:35:20
+Let's let the serer seeds be this. Okay,
+
+00:35:24
+maybe I just need to type this as well
+
+00:35:26
+then. Slice off, slice off, slice off
+
+00:35:29
+you. Yeah, then you're happy. Okay,
+
+00:35:31
+fine. Cool. So, with all sinus seeds, it
+
+00:35:34
+looks ugly. Don't worry about it. The
+
+00:35:37
+thing is, it just needs to be the same
+
+00:35:39
+as I have here. That's all. And with
+
+00:35:41
+that, I then basically make this
+
+00:35:45
+account, the authority PDA assigner.
+
+00:35:49
+That's the magic of it. Let's see if
+
+00:35:51
+that actually works. And it doesn't.
+
+00:35:54
+Damn it. We are getting a form must not
+
+00:35:58
+carry data. I think we're putting the
+
+00:36:00
+wrong account still somewhere. When we
+
+00:36:03
+do the setup, the state is this. Hold
+
+00:36:07
+on. When we're creating the account for
+
+00:36:12
+the state, the account already exists.
+
+00:36:17
+Why does this state account already have
+
+00:36:20
+data? How we putting in the wrong thing
+
+00:36:22
+here? Can you skip preflight for a
+
+00:36:25
+second so I can look at this? What's
+
+00:36:26
+happening here? We are failing in our
+
+00:36:30
+CPI because the initialize
+
+00:36:34
+calls the create account for the from
+
+00:36:38
+address is weird. Oh, I'm trying to fund
+
+00:36:41
+it from the PDA which doesn't work. I
+
+00:36:45
+see this one is our PDA. the new address
+
+00:36:48
+that we're creating here. This is our
+
+00:36:50
+PDA. That's the one that we're signing
+
+00:36:52
+with. So, it becomes the user really for
+
+00:36:56
+our anchor program here. It becomes the
+
+00:36:58
+user, but then that anchor program
+
+00:37:01
+thinks it can just debit that user with
+
+00:37:05
+the system program. And the system
+
+00:37:07
+program is like, whoa, that's a PDA.
+
+00:37:09
+That's not a user wallet. And the real
+
+00:37:11
+problem here is the system program at
+
+00:37:14
+that point isn't even the owner anymore
+
+00:37:17
+of that account. It's now my program. So
+
+00:37:20
+that's why this doesn't work. So I will
+
+00:37:22
+have to change that program a bit sadly
+
+00:37:24
+cuz I can't have that user be the
+
+00:37:27
+authority and the payer at the same
+
+00:37:29
+time. So we're going to split that real
+
+00:37:31
+quick. User is not a good name for this
+
+00:37:34
+anyway. I called it user just that you
+
+00:37:37
+understand what that is. that that is
+
+00:37:39
+the user account which it was yesterday.
+
+00:37:42
+Today it's not anymore. Today this is
+
+00:37:45
+for one a payer and for two an authority
+
+00:37:48
+which is going to split it. Both of them
+
+00:37:50
+will need to sign. One pays for this new
+
+00:37:53
+account the payer. So this guy will pay
+
+00:37:57
+for that account for the state and the
+
+00:38:00
+authority will be the one the one that
+
+00:38:02
+we write into here when we initialize
+
+00:38:05
+the state. They can be the same. They
+
+00:38:08
+don't have to be the same. So now when
+
+00:38:10
+we test here, that should actually still
+
+00:38:12
+all work the exact same. Yep, there we
+
+00:38:15
+go. Just that in the initialize, we now
+
+00:38:18
+provide the payer and the authority as
+
+00:38:23
+separate accounts and then the state
+
+00:38:25
+account that we create. And with that
+
+00:38:27
+slight change here, now we also need to
+
+00:38:30
+update this. It's not the user anymore,
+
+00:38:33
+but we need the authority and the payer.
+
+00:38:36
+I'm going to also use the payer that's
+
+00:38:39
+signed here, which is an actual system
+
+00:38:40
+account where the system program
+
+00:38:42
+actually accepts it to pay for an
+
+00:38:45
+account. Okay, that was maybe a bit more
+
+00:38:47
+complicated than I wanted to have here
+
+00:38:49
+for this example. If you don't fully get
+
+00:38:51
+it, that's fine. Okay, now this works.
+
+00:38:55
+Great. Look, that's the new state
+
+00:38:57
+account. That's the PDA that we actually
+
+00:39:00
+I'm going to name those. That's going to
+
+00:39:01
+be that's the authority PDA. That's the
+
+00:39:04
+state account with PDA authority. Ha,
+
+00:39:08
+that works exactly in 32. It's a bit
+
+00:39:10
+long, but that's my description for this
+
+00:39:12
+account. And that's my caller program.
+
+00:39:16
+And that's my call program. Great. So
+
+00:39:19
+for the instructions, at first our
+
+00:39:22
+anchor CPI program, so the caller
+
+00:39:25
+program is being called. Then the PDA is
+
+00:39:28
+created. Again, this step we could skip.
+
+00:39:31
+We don't really need that account to
+
+00:39:33
+have any state for being able to sign
+
+00:39:36
+with a PDA. I just created it anyway
+
+00:39:39
+just so we have it basically. And then
+
+00:39:42
+we call the initialize of the other
+
+00:39:44
+program which then also creates the
+
+00:39:47
+state account through a CPI to the
+
+00:39:49
+system program. So in here we see the
+
+00:39:52
+the depth of the invoke. We are on top
+
+00:39:54
+level then we invoke system program.
+
+00:39:57
+Then we come back to top level then we
+
+00:39:58
+invoke the other program. This one
+
+00:40:01
+invokes a system program. So that's
+
+00:40:02
+level three then. Yeah. So once again we
+
+00:40:05
+see that Solana programs can call other
+
+00:40:08
+Solana programs. And in this case our
+
+00:40:11
+Solana program also provided an account
+
+00:40:16
+as a ser
+
+00:40:19
+in the transaction. This account here
+
+00:40:22
+the authority PDA is not a ser. The
+
+00:40:26
+other one was. So we can create that
+
+00:40:28
+account. But this one is not asser on
+
+00:40:31
+transaction level. It is not a ser.
+
+00:40:33
+However, we could still put it in here
+
+00:40:37
+as the authority to have it here as a
+
+00:40:41
+serer. Here that program accepts it as a
+
+00:40:45
+serer even though it's not a sign in the
+
+00:40:47
+transaction but it is a PDA and the
+
+00:40:50
+other program signed for it through the
+
+00:40:52
+CPI. It did an invoke signed. So by
+
+00:40:56
+providing those seats, it is as if that
+
+00:40:59
+account provided a signature but it
+
+00:41:02
+didn't. It was the program signing for
+
+00:41:06
+the PDA. And that's such an essential
+
+00:41:09
+concept that if you really get this, you
+
+00:41:12
+unlock how you really write Solana
+
+00:41:14
+programs well because those PDAs are
+
+00:41:17
+quite powerful. PDAs allow you to do
+
+00:41:19
+pretty cool things. And that's how we
+
+00:41:21
+can have programs be the authority for
+
+00:41:24
+something as well because through PDAs
+
+00:41:26
+we can sign. Okay. Now we also said that
+
+00:41:30
+those PDAs if we provide the same seeds
+
+00:41:33
+then we get the same PDA. That is also
+
+00:41:36
+the reason why I cannot do this a second
+
+00:41:38
+time. Now if I try to do this a second
+
+00:41:40
+time I'm failing because when I'm trying
+
+00:41:43
+to create this account that account
+
+00:41:46
+already exists. It's already in use.
+
+00:41:48
+Why? because we just earlier did that
+
+00:41:51
+with the same seeds we said in it. So
+
+00:41:53
+the account was created for this PDA. So
+
+00:41:57
+now for it to work I need to remove this
+
+00:41:59
+that this account is not created anymore
+
+00:42:02
+or change the seeds. And that's also
+
+00:42:06
+exactly one of the nice use cases of
+
+00:42:09
+PDAs. If there should only be one
+
+00:42:11
+account per program, then I just use
+
+00:42:15
+constant seats like this, like the
+
+00:42:18
+authority or say the treasury or
+
+00:42:21
+whatever, where there's always just one
+
+00:42:24
+per program, then I can use a PDA like
+
+00:42:27
+this. That would have been also a great
+
+00:42:30
+idea in yesterday's program when for the
+
+00:42:33
+state account, we would just like to
+
+00:42:36
+have one state account for the entire
+
+00:42:39
+program. Then we could use a PDA like
+
+00:42:41
+this. So here we could make the state
+
+00:42:44
+account a PDA now by providing seeds
+
+00:42:48
+like state and bump. Then we will just
+
+00:42:52
+have one state account for the entire
+
+00:42:55
+program and we would need of course to
+
+00:42:57
+also do that down here. Then when we set
+
+00:43:00
+the mood for the account we could do the
+
+00:43:03
+same thing. Force it to just use this
+
+00:43:05
+one. And also for the get. This would be
+
+00:43:08
+one way how we could ensure that there's
+
+00:43:11
+just one state account for the entire
+
+00:43:14
+program. Then it doesn't accept any
+
+00:43:16
+other accounts than this one state
+
+00:43:19
+account. But if we wanted to have one
+
+00:43:22
+state per user or in other words in this
+
+00:43:26
+case it would be one state per authority
+
+00:43:29
+or one state per payer. We could say
+
+00:43:33
+everyone who pays can have one state
+
+00:43:37
+account, but that's not so nice because
+
+00:43:40
+the pay is just where the funds come
+
+00:43:42
+from. It would be more sense to bind it
+
+00:43:44
+to the authority because that's the one
+
+00:43:46
+who is actually in control of the state
+
+00:43:48
+account. Then so I can say I allow one
+
+00:43:53
+state account per authority by adding
+
+00:43:56
+the authority as seeds to my PDA. How
+
+00:44:01
+does that work? Here I say authority key
+
+00:44:05
+sref. Yeah, that works. So this way I
+
+00:44:08
+will take the 32 bytes which make up the
+
+00:44:12
+address of the authority again can be
+
+00:44:14
+the pup key or the PDA. So the program
+
+00:44:19
+derived address it's the 32 bytes that
+
+00:44:22
+make the authority that I will add after
+
+00:44:25
+the state literal. And so whenever the
+
+00:44:29
+authority is the same, those bytes will
+
+00:44:31
+be the same. Therefore, the entire PDA
+
+00:44:34
+for this state account will be the same.
+
+00:44:36
+That's how we can bind this account to
+
+00:44:39
+one account per authority. So I would do
+
+00:44:42
+this here as well as here and here. But
+
+00:44:45
+then for that to work down there, I
+
+00:44:48
+would also need to provide the authority
+
+00:44:49
+down here now, which wouldn't need to be
+
+00:44:52
+a ser in that case. So actually for
+
+00:44:54
+reading I could either add both of that
+
+00:44:57
+or I say anybody can read from any
+
+00:45:01
+account then you manually need to put in
+
+00:45:03
+their account. We don't let Ankor derive
+
+00:45:05
+it automatically. That's the more
+
+00:45:07
+efficient way to do it anyway. So I just
+
+00:45:09
+let everybody read all of the accounts.
+
+00:45:12
+That's fine. I still don't want to have
+
+00:45:14
+to have a ser for that. But for setting
+
+00:45:16
+I do definitely want to have that ser.
+
+00:45:19
+And I use that state account as a PDA.
+
+00:45:22
+Let's quickly showcase this as well. And
+
+00:45:25
+anchor deploy. Now we got to update our
+
+00:45:28
+tests here cuz now we don't need to
+
+00:45:31
+provide the state anymore cuz that's not
+
+00:45:34
+a new key pair. We don't need key pairs
+
+00:45:36
+anymore cuz the state will be
+
+00:45:38
+automatically derived because we know
+
+00:45:41
+the seeds and we know the authority. We
+
+00:45:44
+know that literal. That's all in the L.
+
+00:45:47
+Remember that interface definition of
+
+00:45:50
+our program. The state account is a PDA
+
+00:45:54
+with the following seeds. Those few
+
+00:45:57
+bytes plus the authority. So we don't
+
+00:46:00
+need to define that here anymore. And we
+
+00:46:02
+also don't need to sign with this
+
+00:46:04
+anymore. Same here. We don't need to
+
+00:46:07
+provide the state anymore. Here we still
+
+00:46:09
+need to provide the state account. We
+
+00:46:11
+would need to derive it manually. We
+
+00:46:14
+would just have to put in the address
+
+00:46:16
+for the account which we will get when
+
+00:46:19
+we look at the PDA. You can also derive
+
+00:46:21
+it. There's a function for that, but I
+
+00:46:22
+don't want to do it in the old web 3
+
+00:46:24
+chess. So this initialize we can now
+
+00:46:27
+only do once because once the PDA is
+
+00:46:31
+created and this is the address of our
+
+00:46:33
+PDA with the mood, that's the address.
+
+00:46:36
+Now if we now try to initialize it
+
+00:46:38
+again, obviously that's not going to
+
+00:46:40
+work because we've already created that
+
+00:46:42
+account. But setting the mood again
+
+00:46:46
+still works. That's our PDA for the
+
+00:46:49
+state. We set the mood to happy. Great.
+
+00:46:52
+And then also reading the mood. For
+
+00:46:55
+reading the mood, I don't even need to
+
+00:46:57
+sign for it. I just need to know which
+
+00:46:59
+account it is and it will return our
+
+00:47:02
+happy mood. So that's the program by
+
+00:47:04
+itself. Now I can also update my calling
+
+00:47:08
+program to work with this. So now let's
+
+00:47:10
+set us up the account for this authority
+
+00:47:14
+which is my programs authority and the
+
+00:47:17
+state here. Now this doesn't need to be
+
+00:47:21
+a serer anymore but this will be an
+
+00:47:24
+account with the following seeds. This
+
+00:47:27
+would derive a PDA for our program. We
+
+00:47:31
+will need to say seeds program. If I
+
+00:47:34
+want to derive for another program and
+
+00:47:38
+that will be this program that I derive
+
+00:47:41
+it for and that will be my authority PDA
+
+00:47:45
+key that I put in here like this. It
+
+00:47:47
+should use the correct PDA here
+
+00:47:51
+automatically. Let's test that. No.
+
+00:47:54
+Yeah, you again unhappy because I use an
+
+00:47:57
+account info here. There we go. Trust
+
+00:47:59
+me, bro. I know what I'm doing. It
+
+00:48:01
+doesn't like me to use account info. But
+
+00:48:04
+this is an uninitialized account that
+
+00:48:06
+the other program will initialize. So,
+
+00:48:08
+I'm just going to say, trust me, bro.
+
+00:48:10
+So, let's quickly update the setup. We
+
+00:48:14
+don't need the state anymore. We don't
+
+00:48:16
+need a key here and we don't need the
+
+00:48:18
+state the state account here anymore. We
+
+00:48:21
+don't need to provide the signer. It's
+
+00:48:23
+just a setup. It's all automatically
+
+00:48:25
+done with the PDAs. It knows all of the
+
+00:48:28
+accounts that it needs. Again, anchor is
+
+00:48:30
+magic. So now I can just test this. And
+
+00:48:33
+that doesn't work because
+
+00:48:38
+that already exists. Oh yeah, of course
+
+00:48:40
+we said our account already exists. So
+
+00:48:43
+ideally we would put a separate
+
+00:48:46
+initialize instruction for our authority
+
+00:48:48
+if we would really need to create that
+
+00:48:50
+account. We could also just say we don't
+
+00:48:53
+even need that. We could make that an
+
+00:48:55
+account info to a to any account again.
+
+00:48:58
+If we're just signing, we don't need any
+
+00:49:01
+state on that account. But yeah, let's
+
+00:49:03
+not create it again and redeploy this.
+
+00:49:05
+Oh, then we have writable privilege
+
+00:49:07
+escalated because I stole the I stole
+
+00:49:09
+the init which made this authority
+
+00:49:13
+writable. Wait, why do I need that
+
+00:49:15
+authority to be writable though?
+
+00:49:17
+Unauthorized signer or writable account.
+
+00:49:20
+that accounts write. So basically our
+
+00:49:24
+authority PDA is not writable anymore
+
+00:49:27
+when you expect it to be writ Oh yeah
+
+00:49:32
+that authority doesn't actually need to
+
+00:49:34
+be writable. The payer needed to be
+
+00:49:37
+writable because we remove lampers from
+
+00:49:39
+there but the authority doesn't need to
+
+00:49:41
+be writable. I could also fix it by
+
+00:49:44
+making it writable here again, but I
+
+00:49:46
+don't need to because that doesn't need
+
+00:49:48
+to be I don't need to write to that
+
+00:49:50
+account. So don't unnecessarily make
+
+00:49:52
+accounts writable if they don't need to
+
+00:49:54
+be. It's also a good tip in general. So
+
+00:49:58
+let me quickly rerun that. Okay. And
+
+00:50:01
+with the other program being redeployed,
+
+00:50:04
+now that works, I can create an account.
+
+00:50:07
+This one. Now that's the state PDA of
+
+00:50:11
+the first anchor program for my
+
+00:50:14
+authority. So for this authority that we
+
+00:50:17
+initialized here. So that's the
+
+00:50:19
+authority. That's the account that was
+
+00:50:21
+created. And now let's finish this up by
+
+00:50:25
+getting us excited where we do another
+
+00:50:28
+CPI to the set mood. We set the mood to
+
+00:50:31
+three. I think was excited. 0 1 2 3.
+
+00:50:34
+Yes. And we now just need the right
+
+00:50:36
+accounts. the other program, the anchor
+
+00:50:39
+program. That's correct. The authority,
+
+00:50:42
+we now use my authority PDA again. So,
+
+00:50:46
+not a ser but a regular account with
+
+00:50:49
+these seeds. And the state account will
+
+00:50:52
+also be now a derived PDA like this.
+
+00:50:56
+Same we had here. And now I just need to
+
+00:50:58
+update to PDA here. And then we can run
+
+00:51:03
+the get us excited. We again don't need
+
+00:51:06
+to provide anything. We don't need no
+
+00:51:08
+accounts. We can just say get excited
+
+00:51:10
+and it knows what to do. That's
+
+00:51:12
+literally all. And I just run test.
+
+00:51:14
+Uhoh. Oh, of course. Again, unauthorized
+
+00:51:17
+signer or writable account. Signer
+
+00:51:20
+privilege escalated. It is not a signer.
+
+00:51:23
+Once again, the authority PDA is not a
+
+00:51:27
+ser. This one, the authority PDA here is
+
+00:51:30
+not a SER. For it to be a ser we need to
+
+00:51:34
+again provide the serer seats the same
+
+00:51:37
+ones and create this with serer and also
+
+00:51:42
+add the serer seats here then that
+
+00:51:45
+should now work. So again we are signing
+
+00:51:49
+as the program for this pda. Ha there we
+
+00:51:53
+go that's what's happening. We are doing
+
+00:51:56
+a CPI from our program into the other
+
+00:52:00
+program where we call the set mood with
+
+00:52:03
+our authority PDA as a serer to that
+
+00:52:07
+program to that program. It looks like
+
+00:52:09
+this is a regular serer. We can write to
+
+00:52:13
+this PDA that is the state account and
+
+00:52:16
+get us excited. Set the mood to excited.
+
+00:52:19
+So to recap, there are two main things
+
+00:52:22
+why PDAs are very useful. One of which
+
+00:52:25
+is to be able to make that account a ser
+
+00:52:30
+when we do a CPI. So in the program
+
+00:52:33
+that's being called, it looks like this
+
+00:52:35
+account was signed for. And there we
+
+00:52:37
+can't really tell anymore if it was
+
+00:52:39
+signed with the private key or if it was
+
+00:52:42
+a PDA and another program did the CPI.
+
+00:52:45
+Could be both. That's the one thing why
+
+00:52:47
+we need PDAs for programs to sign. And
+
+00:52:50
+the other reason why we like PDAs is to
+
+00:52:54
+do stuff like this where we actually do
+
+00:52:56
+create an account and not just use it to
+
+00:52:59
+be able to sign for it, but we do create
+
+00:53:01
+an account like the mood account here.
+
+00:53:03
+But we use those seeds to somehow limit
+
+00:53:06
+how many of those accounts can be
+
+00:53:08
+created. Either one per program or one
+
+00:53:11
+per user or one per user per something
+
+00:53:16
+else. one per user per other program for
+
+00:53:19
+instance or one per user per other
+
+00:53:22
+account. For instance, if every state
+
+00:53:24
+account now had sub accounts, then we
+
+00:53:27
+could do those sub accounts in PDAs for
+
+00:53:32
+literal and then the authority and then
+
+00:53:35
+the mood account or something like that.
+
+00:53:37
+Put the mood account as a seed here. So
+
+00:53:40
+usually when you create an account for
+
+00:53:43
+the program in most cases it's good
+
+00:53:46
+practice to create it as a PDA because
+
+00:53:49
+then you can define the seeds for it
+
+00:53:52
+which then also allows you to sign for
+
+00:53:54
+that account if that's relevant but also
+
+00:53:56
+if you don't need to sign for those
+
+00:53:58
+accounts is just good practice because
+
+00:54:01
+you don't need to create a key pair to
+
+00:54:05
+then create this one signature that
+
+00:54:08
+needs to be verified in that transaction
+
+00:54:10
+just for the system program to create
+
+00:54:12
+the account. It's just easier if we do
+
+00:54:15
+that with a PDA like this. And if we
+
+00:54:18
+initialize it like this, then it looks
+
+00:54:20
+to the system program as if we have
+
+00:54:23
+provided a signature for that account
+
+00:54:25
+even though we didn't. We just did the
+
+00:54:28
+CPI with that PDA and invoked it signed.
+
+00:54:32
+So that's just good practice when
+
+00:54:35
+creating program accounts to do them
+
+00:54:37
+with PDAs. doesn't always work. In some
+
+00:54:41
+cases, you do want the user to keep
+
+00:54:43
+control of that account or let the user
+
+00:54:45
+create it at a specific address, but
+
+00:54:47
+then they need to provide the key pair
+
+00:54:49
+where they've grinded that address or
+
+00:54:51
+whatever. That's also fine. But yeah,
+
+00:54:53
+the cool thing about PDAs is that we can
+
+00:54:55
+use them in such a hashmap kind of a
+
+00:54:59
+fashion for creating our accounts and
+
+00:55:02
+that we can sign for them when we call
+
+00:55:05
+another program through CPI. And with
+
+00:55:08
+that, I think it's enough for today. We
+
+00:55:10
+did learn a lot. I still need to give
+
+00:55:12
+you homework, though. So, one part of
+
+00:55:14
+your homework could be to change your
+
+00:55:17
+program to use PDAs and play around a
+
+00:55:21
+bit with that. Or if you're up for a
+
+00:55:24
+challenge, you know my program ID,
+
+00:55:26
+right? And this program is deployed to
+
+00:55:29
+DefNet. It's public. So my challenge for
+
+00:55:32
+you is can you call this program and
+
+00:55:36
+create yourself your own mood account
+
+00:55:40
+for your authority? I had it quite
+
+00:55:42
+simple here because Ankor does that all
+
+00:55:46
+automatically for me. So yeah,
+
+00:55:48
+essentially that's a challenge of how
+
+00:55:50
+can you build an instruction like that
+
+00:55:52
+yourself with calling a PDA. And don't
+
+00:55:55
+worry if you don't manage to do that. I
+
+00:55:58
+want you to try, but if you don't
+
+00:56:00
+manage, that's going to be something
+
+00:56:02
+that we're going to have a look at
+
+00:56:03
+tomorrow when we're going to talk about
+
+00:56:06
+tokens and we're going to deepen our
+
+00:56:08
+understanding about PDAs some more.
+
+00:56:11
+Okay, but I would say that's good enough
+
+00:56:13
+for day four. Thank you for watching. We
+
+00:56:15
+did learn a lot. We finally went over
+
+00:56:18
+PDAs and CPIs. We had a look at how to
+
+00:56:21
+manually call instructions. We saw what
+
+00:56:23
+PDAs are good for. We hopefully now
+
+00:56:26
+understand the concepts of authorities
+
+00:56:29
+and why we require signatures for some
+
+00:56:31
+accounts and what that really helps us
+
+00:56:34
+in the program. All of that is just
+
+00:56:37
+essential for becoming a Salana
+
+00:56:39
+developer. And if that's your goal, I'll
+
+00:56:41
+see you back here tomorrow for day five
+
+00:56:44
+of this series. Do make sure that you
+
+00:56:46
+give me a like if you enjoy this.
+
+00:56:48
+Subscribe if you haven't done that
+
+00:56:50
+already. Might as well tell you. And
+
+00:56:52
+I'll be back here with you tomorrow.
+
+00:56:54
+Till then, good night. Sleep well.
+
+00:56:57
+Tomorrow we finally talk about tokens.
+
+00:57:00
+Another essential thing you got to
+
+00:57:02
+understand how tokens work. Good that
+
+00:57:04
+there will be a video for that
+

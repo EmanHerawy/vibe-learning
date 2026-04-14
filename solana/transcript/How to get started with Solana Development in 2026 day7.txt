@@ -1,0 +1,1200 @@
+00:00:00
+Hello and welcome to day seven of the
+
+00:00:03
+how to get started with Solana
+
+00:00:05
+development in 2026 video series. Yes, I
+
+00:00:08
+know my beat grows quickly. And today on
+
+00:00:10
+this final day of this series, we're
+
+00:00:12
+going to talk about where to go from
+
+00:00:16
+here because we did touch on the most
+
+00:00:18
+important things already, but I still
+
+00:00:20
+want to mention a few things like local
+
+00:00:22
+testing, vibe coding, and the
+
+00:00:24
+involvement of AI. and then also where
+
+00:00:26
+you can get further information and how
+
+00:00:29
+I recommend that you continue this
+
+00:00:31
+journey from here on. And in the end,
+
+00:00:32
+we're going to do a quick recap of this
+
+00:00:34
+week. So, actually, let's start with a
+
+00:00:37
+recap in case you forgot what happened
+
+00:00:40
+the past six days or you skipped them.
+
+00:00:42
+On day one, we were talking about what
+
+00:00:44
+Solana is and we were introducing the
+
+00:00:46
+Solana CLI. We were creating ourselves a
+
+00:00:49
+key pair that we then used to work with
+
+00:00:52
+for the entire week. Day two, we had a
+
+00:00:55
+look at instructions and transactions
+
+00:00:58
+and how we can send a transaction with
+
+00:01:01
+the Solana kit. Day three, we were
+
+00:01:03
+building our first program with Ankor.
+
+00:01:06
+And on day four, we improved our program
+
+00:01:09
+to use PDAs and we were also talking
+
+00:01:12
+about how a program can call another
+
+00:01:14
+program through CPI. Then day five, we
+
+00:01:17
+were talking about tokens. And yesterday
+
+00:01:19
+on day six, we talked about
+
+00:01:21
+serialization and deserialization and
+
+00:01:23
+wrote our first Pinocchio program. That
+
+00:01:26
+was that. Feel free to go back and
+
+00:01:29
+rewatch those if you need to. Now, so
+
+00:01:32
+far all that we did, we were operating
+
+00:01:35
+on defnet. However, sometimes definite
+
+00:01:39
+can be slow or just also inconvenient to
+
+00:01:42
+work with. Maybe you don't even have an
+
+00:01:44
+internet connection or just a really bad
+
+00:01:46
+one. then sometimes it makes more sense
+
+00:01:49
+to deploy stuff locally for testing. So
+
+00:01:52
+I quickly want to walk you through how
+
+00:01:53
+you would do that for day seven. So the
+
+00:01:56
+first way how you can do this is with a
+
+00:01:58
+Solana test validator. You can just run
+
+00:02:02
+this and then this spins up one local
+
+00:02:07
+test validator. The real Solana cluster
+
+00:02:09
+is made up of several validators
+
+00:02:11
+obviously but locally we just need one
+
+00:02:15
+because one is enough. We don't need to
+
+00:02:17
+do consensus with other entities. It's
+
+00:02:19
+enough if my validator has all the
+
+00:02:21
+state. And now with this thing running,
+
+00:02:24
+I can basically now interact with it the
+
+00:02:27
+same way as I would do with a regular
+
+00:02:30
+RPC on defnet or mainet. I'll just use
+
+00:02:33
+this RPC URL, the local one. So this is
+
+00:02:37
+my local host on port 88.99. And I can
+
+00:02:40
+just configure my Solana CLI to use
+
+00:02:43
+that. And I can say Sana config set to
+
+00:02:47
+local. This is the short form of writing
+
+00:02:51
+URL. And this. So we now set to local.
+
+00:02:55
+And we can say Sana balance and see. Oh,
+
+00:03:00
+great. We already got a bunch of soul in
+
+00:03:03
+here because it's local here. It's super
+
+00:03:06
+easy to just say Sana airdrop. Give me
+
+00:03:10
+another one of these. Okay, this is too
+
+00:03:13
+much. My foret doesn't even have that
+
+00:03:15
+much. Okay, whatever. But I can just say
+
+00:03:18
+give me another thousand soul and that
+
+00:03:21
+will just work. It's not that easy on
+
+00:03:24
+defet and it's certainly not possible on
+
+00:03:26
+mainet but locally I have full control.
+
+00:03:29
+Basically it's just a local ledger that
+
+00:03:33
+we're creating here. So in this test
+
+00:03:35
+ledger it it holds all the state and we
+
+00:03:37
+could check how much balance is on the
+
+00:03:40
+foret. this much is left on the faucet.
+
+00:03:42
+So that's where the airrop comes from.
+
+00:03:46
+So that's how much I could still airdrop
+
+00:03:47
+myself. But that's not too important.
+
+00:03:49
+Now I can basically do all the things
+
+00:03:51
+that we did so far. So for instance, I
+
+00:03:55
+could now deploy the program from
+
+00:03:56
+yesterday to local by saying Solana
+
+00:04:00
+program deploy and going to day six
+
+00:04:03
+target deploy and the day 6 O. then it
+
+00:04:08
+will deploy this program to the same
+
+00:04:10
+address. We do still have the same key
+
+00:04:13
+here and that was also a bit faster than
+
+00:04:15
+ondefnet to deploy this. And now if I
+
+00:04:18
+want to call this program I'm just going
+
+00:04:20
+to do the same thing as we did yesterday
+
+00:04:23
+just not on def but on local net or I
+
+00:04:26
+could also put the URL in here and then
+
+00:04:29
+npxtsx
+
+00:04:31
+call program. There we go. That is my
+
+00:04:34
+transaction. And since that's all just
+
+00:04:37
+local, I'll have to use the CLI to look
+
+00:04:39
+at this with Solana confirm-v
+
+00:04:43
+and then the signature. Then I get the
+
+00:04:46
+transaction details where we see it
+
+00:04:48
+processed the init. It processed the set
+
+00:04:51
+mood and it processed the get mood and
+
+00:04:53
+the account is happy. And that's now all
+
+00:04:56
+local. That's not on definite. So this
+
+00:04:59
+transaction obviously if I were to try
+
+00:05:01
+and find it on definite it's not there
+
+00:05:03
+because that's all just local. And
+
+00:05:05
+there's a way to set this up such that
+
+00:05:07
+it also works with the explorer, but
+
+00:05:08
+it's a bit of a pain if you're using
+
+00:05:10
+WSL. So I'm just using the CLI. Okay, so
+
+00:05:13
+that's a bit I mean that's okay. We can
+
+00:05:16
+test locally like this if all of our
+
+00:05:18
+stuff is local. However, sometimes you
+
+00:05:20
+want to test in an environment that
+
+00:05:22
+behaves like mainet and that has other
+
+00:05:25
+programs available. And for that what I
+
+00:05:28
+can recommend is that instead of using
+
+00:05:31
+the Solana test validator you use surf
+
+00:05:34
+pool and you just say surf pool start
+
+00:05:37
+and it will spin up a local validator
+
+00:05:40
+like the Solana test validator just that
+
+00:05:43
+this thing behaves like if it's mainet
+
+00:05:47
+but it's still local but it will get
+
+00:05:49
+some accounts from mainet if it needs
+
+00:05:51
+them and otherwise I can use it the very
+
+00:05:53
+same way. We're still on local, but
+
+00:05:56
+since we changed the underlying
+
+00:05:57
+validator, the state is now different.
+
+00:05:59
+So here, I first need to say I want an
+
+00:06:02
+airdrop. But again, it doesn't matter
+
+00:06:04
+how much I say because it's local. It
+
+00:06:07
+will give me however much I want. And
+
+00:06:09
+then I can do the same thing of
+
+00:06:11
+deploying a program. There we go. Same
+
+00:06:14
+program now also deployed here on my
+
+00:06:16
+surf pool validator. And then I call it
+
+00:06:18
+the same way. And this transaction I
+
+00:06:21
+could either again Solana confirm it
+
+00:06:23
+here locally or and that's another cool
+
+00:06:26
+thing about surf pool I check it out in
+
+00:06:29
+the studio that's a UI and if I look at
+
+00:06:32
+my transaction here I can see that this
+
+00:06:34
+transaction has four instructions I can
+
+00:06:36
+see all of the accounts and I can see
+
+00:06:38
+the logs and also here the mood is happy
+
+00:06:42
+which is a bit nicer to look at it like
+
+00:06:44
+this. So yeah, Surfpool, I did make
+
+00:06:47
+separate videos on Surfpool. I quite
+
+00:06:49
+like it for local testing. So that's
+
+00:06:52
+certainly one thing that you can check
+
+00:06:54
+out by yourself. Surfpool.run. You'll
+
+00:06:57
+also find some docs. So this could
+
+00:06:59
+certainly be one of the next steps for
+
+00:07:01
+you to look at. Also, docs.solana.com.
+
+00:07:05
+I highly recommend. That's the main
+
+00:07:07
+documentation for Solana developers.
+
+00:07:10
+official documentation where you find
+
+00:07:12
+examples from getting started through
+
+00:07:16
+different SDKs even on running a
+
+00:07:18
+validator. You can revisit all of the
+
+00:07:21
+core concepts that we also already
+
+00:07:23
+talked about, but maybe you prefer it in
+
+00:07:25
+text. It will talk about tokens and
+
+00:07:28
+token extensions. That's certainly
+
+00:07:30
+another topic that you can look into in
+
+00:07:33
+more depth. Also, here I have a bunch of
+
+00:07:36
+videos. I have an entire playlist on
+
+00:07:38
+token extensions because there are a
+
+00:07:39
+bunch of extensions here. And if you're
+
+00:07:41
+unclear about some words, then you can
+
+00:07:44
+look up the terminology. That's quite
+
+00:07:46
+helpful as well. For instance, the
+
+00:07:48
+program ID is the public key of the
+
+00:07:50
+account containing the program. That was
+
+00:07:52
+also quite helpful for me in the very
+
+00:07:54
+beginning where I didn't know what some
+
+00:07:56
+things meant. Checking out the
+
+00:07:57
+terminology page on the docs. And if
+
+00:08:00
+you're looking for something specific,
+
+00:08:01
+you can just search or ask the AI, what
+
+00:08:04
+is a PDA? and then it will give you a
+
+00:08:08
+plausible answer with sources to where
+
+00:08:11
+it has that information from. It's an
+
+00:08:13
+account whose signing authority is a
+
+00:08:15
+program. That's also one nice way to put
+
+00:08:17
+it. Yeah. So, it's not through a private
+
+00:08:19
+key, but the program has the signing
+
+00:08:22
+authority. And also like I said in my
+
+00:08:24
+videos, two main features for PDAs to
+
+00:08:27
+provide a dedistic way of finding an
+
+00:08:29
+account's address and they allow program
+
+00:08:32
+from which the PDA is derived to sign
+
+00:08:34
+for them. That's the two use cases.
+
+00:08:37
+Yeah. And then you can look at the docs
+
+00:08:40
+page and read up on it some more. So
+
+00:08:42
+yeah, the docs really helpful. AI also
+
+00:08:46
+really helpful. Maybe give you maybe a
+
+00:08:48
+few words on AI while we're here. You
+
+00:08:50
+might think that with AI models becoming
+
+00:08:54
+smarter and smarter, at some point we as
+
+00:08:57
+Solana developers won't need to do any
+
+00:09:00
+developing anymore because the AI can do
+
+00:09:02
+it anyway, right? You can just vibe code
+
+00:09:05
+all of your programs. And that is true
+
+00:09:07
+to a degree in my opinion. And this is
+
+00:09:09
+now just very, you know, my view on
+
+00:09:12
+things. I still first of all like to
+
+00:09:16
+know how stuff works on Solana. I want
+
+00:09:19
+to understand it because it's just a fun
+
+00:09:21
+game for me. I don't want to just tell
+
+00:09:24
+the AI, hey, do all of this for me and
+
+00:09:26
+then I'm done. And also, we're not quite
+
+00:09:29
+at the point yet where we can tell the
+
+00:09:30
+AI, hey, build me that program that does
+
+00:09:33
+all of those things and then it will
+
+00:09:34
+just do it. For now, it's really just
+
+00:09:37
+good for doing some coding tasks. And I
+
+00:09:41
+use AI, too. If you watch my videos,
+
+00:09:43
+you'll see me vibe code as well because
+
+00:09:45
+I'm mainly too lazy to write it all
+
+00:09:47
+myself and go through docs. And the AI
+
+00:09:49
+is way faster and probably better at
+
+00:09:51
+that, but I still want to understand it.
+
+00:09:53
+An AI is basically just an assistant, a
+
+00:09:56
+junior deaf or an intern if you want.
+
+00:09:59
+But would you let your intern develop
+
+00:10:02
+the entire application? Probably not.
+
+00:10:04
+Unless it's just a hobby project and
+
+00:10:07
+you're doing this to learn, then okay,
+
+00:10:08
+yeah, fine. But if you're really
+
+00:10:10
+building apps for production that are
+
+00:10:13
+supposed to handle other people's funds,
+
+00:10:16
+then maybe you want to be a bit careful
+
+00:10:18
+with that. Of course, you can have AI
+
+00:10:20
+help you, but it's still up to you to
+
+00:10:23
+architect the program and to say what
+
+00:10:26
+the AI should code. Then it can help you
+
+00:10:28
+code. That's fine. It can do that. It's
+
+00:10:30
+usually not so bad at that. And I have
+
+00:10:32
+planned more videos on vibe coding and
+
+00:10:35
+comparing different AIS which one is
+
+00:10:37
+best for Solana development. You can
+
+00:10:39
+subscribe to make sure that you can see
+
+00:10:41
+those. But yeah, AI for now is a great
+
+00:10:44
+tool. It's not good enough to completely
+
+00:10:47
+get rid of Solana devs. So I still think
+
+00:10:49
+that it makes sense for you to learn how
+
+00:10:51
+to develop on Solana. And even if one
+
+00:10:53
+day AIS will be smart enough to just
+
+00:10:56
+develop the programs by themselves, I
+
+00:10:58
+still enjoy to have an understanding of
+
+00:10:59
+it just because it's fun for me. But
+
+00:11:01
+yeah, it could be that eventually we're
+
+00:11:03
+all out of jobs. But for now, I would
+
+00:11:05
+still argue that it makes sense to learn
+
+00:11:07
+how to become a Salana developer.
+
+00:11:09
+Otherwise, I wouldn't be doing this and
+
+00:11:12
+putting my energy into it, you know. But
+
+00:11:14
+yeah, do use AI. I'm not against AI.
+
+00:11:16
+Just let it help you, but don't give it
+
+00:11:18
+all the responsibility. That's basically
+
+00:11:20
+what I would say on that. Okay, good
+
+00:11:21
+enough. That covers that thing. But
+
+00:11:23
+there are tools like skills there.
+
+00:11:26
+Solana dev skills. There's an entire
+
+00:11:29
+repository with dev skills for claude
+
+00:11:32
+code for instance. So if you want to
+
+00:11:34
+teach your agent to do Solana
+
+00:11:36
+development, that is a thing that you
+
+00:11:38
+might want to add. And also that I'm
+
+00:11:40
+planning to make a video about. See
+
+00:11:42
+there are so many things that I like to
+
+00:11:44
+make videos about. And if you check out
+
+00:11:46
+my channel, I have almost 300 videos on
+
+00:11:49
+Solana development. There are
+
+00:11:52
+interesting topics in there that you can
+
+00:11:54
+check out. And the cool thing is with
+
+00:11:57
+those basics that you learned, you
+
+00:11:59
+should be able to follow all of those
+
+00:12:01
+videos. Some of them might depend on
+
+00:12:03
+others and then I say that in the
+
+00:12:05
+beginning usually, but yeah, feel free
+
+00:12:07
+to just browse the channel or search for
+
+00:12:10
+something specific. If you're interested
+
+00:12:12
+in Surfpool for instance, I do have
+
+00:12:14
+videos on that. I already have three
+
+00:12:16
+videos on that. Or token extensions,
+
+00:12:19
+bunch of videos on token extensions. Or
+
+00:12:22
+also security is an interesting topic
+
+00:12:24
+that I like to make videos about. Look
+
+00:12:26
+at that guy. So yeah, feel free to check
+
+00:12:28
+out my videos. And if there's anything
+
+00:12:30
+missing and you really want me to make a
+
+00:12:32
+video about it, just leave me a comment
+
+00:12:33
+down below and say, "Hey, this topic,
+
+00:12:36
+make a video on that." Or post at me on
+
+00:12:38
+X. You'll also find links to my videos
+
+00:12:41
+there. And if you watched my videos and
+
+00:12:43
+you went through the docs and you still
+
+00:12:45
+have an issue where you can't find the
+
+00:12:47
+solution, then I would recommend the
+
+00:12:50
+Solana Stack Exchange. Here you can
+
+00:12:53
+search for questions. Maybe somebody
+
+00:12:55
+else had the same question as you have
+
+00:12:57
+and otherwise you can ask a question and
+
+00:13:00
+usually you get an answer quite quickly.
+
+00:13:02
+So this is your go-to place if you need
+
+00:13:04
+help with Solana development directly.
+
+00:13:07
+If neither the docs nor my videos nor
+
+00:13:10
+the AIS can help you, come to the Salana
+
+00:13:12
+stock exchange. Another interesting
+
+00:13:14
+topic that I recommend that you check
+
+00:13:16
+out is the compute budget program and
+
+00:13:18
+how compute units work. That will be
+
+00:13:20
+relevant for you as a Salana def, but I
+
+00:13:22
+didn't yet mention that in this series.
+
+00:13:25
+We've already seen it here. Every
+
+00:13:26
+instruction requires some compute units
+
+00:13:30
+in short CU. And you can say up front
+
+00:13:33
+how many compute units you need this
+
+00:13:36
+transaction to have in total. And then
+
+00:13:38
+the validators can prioritize
+
+00:13:40
+accordingly because if it uses fewer
+
+00:13:42
+compute units then it's easier to
+
+00:13:45
+execute and therefore it will get a
+
+00:13:47
+higher priority or the other way around
+
+00:13:49
+you don't need to pay so much for
+
+00:13:51
+priority if you request fewer CUS for
+
+00:13:54
+your transaction. Obviously if you
+
+00:13:55
+request too little then the transaction
+
+00:13:58
+will fail because it will only get as
+
+00:14:00
+many as you request. But yeah, that's
+
+00:14:02
+the whole topic of compute units that I
+
+00:14:05
+recommend that you look at. There's a
+
+00:14:07
+whole chapter in the docs for that.
+
+00:14:09
+Yeah. So, there's a lot of things that
+
+00:14:10
+you can still check out and I have
+
+00:14:12
+videos for most of it. Yeah, that's been
+
+00:14:14
+our little series. And that's it.
+
+00:14:17
+Congratulations. You made it. You went
+
+00:14:19
+through the entire week of how to get
+
+00:14:21
+started with Solana development in 2026.
+
+00:14:24
+As I already mentioned, this is just the
+
+00:14:26
+start. This is just a foundation that
+
+00:14:29
+you need to really get started, but it
+
+00:14:32
+doesn't mean that you're prodeaf yet.
+
+00:14:34
+Obviously, there's many more things that
+
+00:14:37
+you need to check out and especially you
+
+00:14:39
+just got to get practice. So, what I
+
+00:14:42
+recommend is that you just find yourself
+
+00:14:44
+some interesting challenge, some program
+
+00:14:47
+that you want to write or some
+
+00:14:48
+technology that you want to interact
+
+00:14:50
+with and then you just do that. build
+
+00:14:52
+something for the fun of it, just to get
+
+00:14:55
+started and to get to know how Solana
+
+00:14:57
+really works. And then once you got that
+
+00:14:59
+far, maybe you find yourself an existing
+
+00:15:02
+project and contribute to that to also
+
+00:15:04
+get a feeling for well, how are other
+
+00:15:07
+people doing things? Do I understand how
+
+00:15:09
+all of that works? And then from there,
+
+00:15:12
+you might join a team or you might
+
+00:15:14
+really start your own big project where
+
+00:15:16
+you really also build something that is
+
+00:15:18
+intended for other people to be used.
+
+00:15:20
+There are so many hackathons and
+
+00:15:22
+accelerators
+
+00:15:24
+that if you really have something that
+
+00:15:25
+you want to develop, if you have a good
+
+00:15:27
+idea, there are opportunities how you
+
+00:15:29
+can get funding for that as well. But
+
+00:15:31
+this is projecting into the future. For
+
+00:15:33
+now, I wish you all the best in your
+
+00:15:35
+Solana development journey. Do let me
+
+00:15:38
+know if those seven days were helpful
+
+00:15:39
+for you or if you're still lacking some
+
+00:15:42
+essential knowledge that I should have
+
+00:15:43
+mentioned. One more time, here's the
+
+00:15:45
+entire playlist of this week. You can
+
+00:15:48
+revisit that as often as you want.
+
+00:15:49
+Here's another video that might be
+
+00:15:51
+interesting for you and then I will see
+
+00:15:54
+you in my next videos. Now we're open to
+
+00:15:57
+discuss anything Solana related because
+
+00:16:00
+now you have the basics. Looking forward
+
+00:16:03
+to seeing you back here talking about
+
+00:16:05
+some advanced topics of Solana
+
+00:16:08
+development. Until then, bye-bye. Make
+
+00:16:10
+sure you like and subscribe and all
+
+00:16:11
+those things if you want to. You don't
+
+00:16:13
+need to. I'm not dependent on that, but
+
+00:16:15
+that's what YouTubers say, right? Yeah.
+
+00:16:17
+Okay. Bye.
+
