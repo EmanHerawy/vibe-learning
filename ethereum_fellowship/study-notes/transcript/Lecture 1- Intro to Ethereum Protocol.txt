@@ -1,0 +1,3744 @@
+00:00:00
+Study Group - Ethereum Protocol Intro
+
+00:00:24
+All right, welcome to the special edition of the Protocol Fellowship Study Group, the
+
+00:00:37
+Redux version of the intro to Ethereum by Mario here.
+
+00:00:47
+So I think, I don't know, Mario, do you want to do a little introduction like we did to
+
+00:00:53
+last one or just get right into it i think you can say a few words for about the study group
+
+00:01:01
+quickly um for people who are watching the recording and and have then have a chance to
+
+00:01:06
+catch the first one uh just to reiterate what we said in a town hall i guess um
+
+00:01:14
+uh yeah welcome to the study group welcome to the protocol fellowship study group everyone
+
+00:01:19
+and yeah before we dive into the first talk just to say well we are very happy to have you here
+
+00:01:28
+we are glad that you want to learn about Ethereum. We created this program based on our experience
+
+00:01:35
+with protocol fellowship Ethereum protocol fellowship which is more about hands-on
+
+00:01:41
+development and as people are starting to work on Ethereum as contribute to the actual
+
+00:01:46
+software parts of it, we see that there is a big information gap, big education gap.
+
+00:01:53
+It's a pretty steep learning curve, even if you are coming from a programming computer
+
+00:01:57
+science background to understand the Ethereum context.
+
+00:01:59
+So we created this program to bridge the gap, to provide some educational materials and
+
+00:02:06
+also just help you navigate on a certain path.
+
+00:02:10
+Like we still try to mimic this experience of a core developer, of somebody who is diving
+
+00:02:15
+into the protocol we don't provide all the resources because it's up to you what you are
+
+00:02:20
+interested in and what you what you want to learn about um we uh we have some basic structure of the
+
+00:02:26
+program uh for the first uh five weeks uh we will have a one call a week one one talk a week starting
+
+00:02:35
+with this general introduction to the protocol today uh then uh we will cover the execution layer
+
+00:02:42
+the consensus layer testing and security and finally research and a roadmap overview uh
+
+00:02:48
+this is the first five weeks and in the second half in the in the other five weeks we will have
+
+00:02:53
+two calls a week uh divided in two tracks which are development and research so they are now they're
+
+00:03:02
+two different domains and you can uh you can choose one of those or just you know
+
+00:03:07
+switch between them or just follow both um and those will cover uh on the development side more
+
+00:03:15
+uh deeper dive into the actual client code bases and specification and we'll show you how you can
+
+00:03:21
+actually participate uh as a programmer on the research side uh you will learn about the future
+
+00:03:26
+of ethereum about uh the uh improvements being researched developed right now so uh yeah so this
+
+00:03:36
+this overview of the program uh and with all of this we provide with these presentations we
+
+00:03:41
+provide certain resources but our goal is to uh inspire you and and and show you all of these
+
+00:03:48
+various domains and uh give you give you some starting points so you can actually deep dive
+
+00:03:53
+yourself um there is a wiki epf.wiki website coming with this program where as you notice this this
+
+00:04:01
+This program is coordinated.
+
+00:04:03
+We publish these calls there together with some resources.
+
+00:04:06
+But what we are hoping for is to create this wiki as an actual resource,
+
+00:04:13
+actual knowledge base with resources gathered from all around the ecosystem.
+
+00:04:19
+Because if you already started diving into some topics,
+
+00:04:22
+you might notice that it's really scattered all around.
+
+00:04:25
+There are various hack MTs, research posts, and papers, and so on.
+
+00:04:29
+There is not like a single place to go for these hands-on protocol topics.
+
+00:04:37
+And of course, there are many great other wikis, which we don't want to copy.
+
+00:04:41
+We just want to have a context and links to the all available resources for somebody who is learning about protocol, wants to become a protocol core developer.
+
+00:04:52
+So, yeah, feel free to contribute.
+
+00:04:55
+If you get interested in one of these topics that I mentioned today or we will learn about in coming weeks, dive into it, you know, tag that go about it, Google about it, find more details on it and contribute it back to the wiki.
+
+00:05:14
+Yeah, that's overview of the program.
+
+00:05:17
+Took like five minutes.
+
+00:05:18
+Hope it's not too long.
+
+00:05:21
+Yeah.
+
+00:05:22
+So what did I forgot, Josh?
+
+00:05:26
+Should I add something?
+
+00:05:29
+No, I think that is pretty sufficient.
+
+00:05:34
+Just want to reiterate that most of the conversation
+
+00:05:40
+is going to be happening on our Discord server.
+
+00:05:42
+So if you aren't a part of that, please join the Discord server.
+
+00:05:46
+During these calls, we want to try to keep as much of the conversation
+
+00:05:50
+to that server as possible.
+
+00:05:52
+There is a thread in the study group channel.
+
+00:05:57
+There will be one for each of these different sessions
+
+00:06:00
+that we can keep the conversations and questions
+
+00:06:03
+and commentary on that thread
+
+00:06:05
+so that everything is in one sort of centralized place
+
+00:06:10
+and we don't lose it to the chat in the streaming platform.
+
+00:06:16
+Yeah, and outside of that,
+
+00:06:18
+Mario and I are here to assist you guys through this process.
+
+00:06:24
+And so if you have questions or comments,
+
+00:06:26
+please feel free to ping us in that server.
+
+00:06:30
+But, yeah, looking forward to this presentation from Mario.
+
+00:06:34
+I've seen it a couple times, and it just gets better every time.
+
+00:06:38
+Yeah, just seen it so many times.
+
+00:06:40
+The next time, it should be you doing it, man.
+
+00:06:43
+Probably.
+
+00:06:45
+Yeah, yeah, thank you so much, Josh.
+
+00:06:46
+And, yeah, you can use the – please use the Discord thread, as Josh said,
+
+00:06:51
+because I might ask some questions during the presentation,
+
+00:06:54
+and you should ask me questions, so feel free to drop them in there
+
+00:06:58
+so we have it all in one place.
+
+00:07:01
+Yeah, and I should share my screen and show my presentation.
+
+00:07:12
+Oh, it's here.
+
+00:07:13
+Okay.
+
+00:07:14
+Hey, you know, if you can see it all well, I suppose so.
+
+00:07:18
+I believe that this works better than Jitsi before.
+
+00:07:22
+Yeah.
+
+00:07:23
+Again, by the way, if you are here after Monday fiasco,
+
+00:07:27
+I'm so sorry about that.
+
+00:07:28
+The problem there was not the server.
+
+00:07:31
+It was not the software, but the server,
+
+00:07:33
+because we just didn't scale the bandwidth
+
+00:07:36
+and the CPU of the machine to so many people.
+
+00:07:39
+We are very thrilled to see so many people
+
+00:07:42
+coming to this study group so uh yeah excited to have you guys and excited to dive into the protocol
+
+00:07:50
+101 with you so in this talk uh i will give you an overview of the ethereum protocol uh
+
+00:07:59
+of its technical parts it's the design uh and uh the way it's developed uh the way we work on this
+
+00:08:07
+with colleagues across many protocol teams.
+
+00:08:13
+But I believe that to understand the protocol development,
+
+00:08:19
+what is happening on Ethereum now and the way it was developed,
+
+00:08:22
+the way it was designed, you need to understand certain philosophy
+
+00:08:25
+and fundamentals of it.
+
+00:08:27
+So in the title, you can see the prehistory,
+
+00:08:31
+because I want to talk also about the history,
+
+00:08:33
+about the way not just Ethereum evolved,
+
+00:08:35
+but actually where it's coming from,
+
+00:08:37
+where these values, these fundamentals have been created, have been built.
+
+00:08:50
+These ideas are not new.
+
+00:08:52
+They are going all the way back many, many years.
+
+00:08:55
+So to have good context and to be able to grasp what is really important in the ecosystem,
+
+00:09:03
+I would like to dive all the way back to like 60s, starting with Unix creation, then free software movement, and of course the dawn of modern cryptography, cypherpunk movement, because I believe that all of this and much more, of course, had impact on Ethereum design, on how we use Ethereum today and how we see the cryptocurrency landscape today.
+
+00:09:31
+So, yeah, let's start with that, I guess.
+
+00:09:34
+I'll just show you the presentation because my face,
+
+00:09:39
+I don't need to see my face, it's early morning here.
+
+00:09:42
+And, yeah, so let's start with Unix.
+
+00:09:46
+For those who don't recall what Unix is,
+
+00:09:50
+it's, well, it's basically two things.
+
+00:09:53
+First is an operating system, but it's also sort of a philosophy.
+
+00:09:57
+so unix has been developed in bell labs in this research institute since 60s 70s and it was created
+
+00:10:12
+by richie and ken thompson if you recall this name then it's richie ken thompson they are
+
+00:10:20
+creators of the C language. And even before C, the B language. But today, the C, of course,
+
+00:10:29
+powers everything around us, like the operating system you are using, the browser you are using,
+
+00:10:35
+it's all deep down C. It's the today considered low-level language, which became very,
+
+00:10:43
+of the most important building parts of the modern software.
+
+00:10:48
+And together with the C language,
+
+00:10:51
+these two people created the Unix operating system.
+
+00:10:55
+Not just them, actually.
+
+00:10:56
+It was many, many developers, researchers in the Bell Labs
+
+00:10:59
+working together.
+
+00:11:02
+But Unix was designed together with the C language
+
+00:11:05
+in a certain way.
+
+00:11:08
+When we talk about this Unix philosophy,
+
+00:11:11
+what we mostly mean,
+
+00:11:13
+what is the major part of it is the modularity.
+
+00:11:17
+Because this operating system doesn't work in a way
+
+00:11:21
+that it's a single program that tries to do everything,
+
+00:11:25
+including the kitchen sink, as we say.
+
+00:11:28
+But rather than that, it's separate modules, separate programs.
+
+00:11:34
+Each of the program does what is best at
+
+00:11:36
+and has a clean interface which can connect to others.
+
+00:11:39
+If you are a Linux user today,
+
+00:11:42
+if you are maybe a Mac user today, this is what is the core of your system.
+
+00:11:50
+If you use piping, you can take output of one program
+
+00:11:55
+and use directly as an input to the other.
+
+00:11:58
+This gives you very powerful tools.
+
+00:12:01
+It's really empowering.
+
+00:12:02
+And for the user perspective, it's a strong tooling.
+
+00:12:05
+But for the developer's perspective, it's very practical and secure
+
+00:12:09
+because having the system divided in these modules
+
+00:12:12
+rather than just one program, it gives you these advantages.
+
+00:12:17
+So if there is an issue, it's in one module,
+
+00:12:20
+and you can just fix that, and it doesn't break the rest of the system.
+
+00:12:25
+And you can, like, encapsulate the complexity in these certain modules.
+
+00:12:30
+The documentary, the link here, you can find it in the wiki.
+
+00:12:34
+It's phenomenal.
+
+00:12:35
+I really recommend watching it.
+
+00:12:37
+It's just amazing how these old AT&T Archive documentaries
+
+00:12:41
+are able to articulate some maybe complicated topics,
+
+00:12:45
+but really clean, really elegantly explained.
+
+00:12:48
+And you can see the people there, Ken Thompson,
+
+00:12:50
+typing into pipes in the early Unix, explaining how it works.
+
+00:12:55
+It's really beautiful to see.
+
+00:12:57
+And it really catches also the spirit of this environment
+
+00:13:03
+in early 70s, I believe.
+
+00:13:05
+because at the time this institute, the Bell Labs,
+
+00:13:12
+but also like MIT or similar institutions all around the world,
+
+00:13:16
+actually, like the early programmers worked in a way that,
+
+00:13:20
+well, they collaborated.
+
+00:13:22
+Also the way that Unix is created with these different modules
+
+00:13:24
+and different people working on their part,
+
+00:13:27
+they need to talk to each other and collaborate.
+
+00:13:30
+They had always, you know, open door to their office.
+
+00:13:33
+they could meet and chat and and uh they uh it was a strong collaborative environment where uh
+
+00:13:41
+people would been building basically like one big thing together but ultimately it was uh everybody's
+
+00:13:48
+doing their part collaborating with each other so i i see big part of this culture also reflect in
+
+00:13:55
+the ethereum development today on a much different scale so yeah i really recommend this documentary
+
+00:14:01
+it's like yeah
+
+00:14:02
+it really well explains
+
+00:14:05
+the Unix like it's a paradigm of
+
+00:14:07
+computing that was invented more
+
+00:14:09
+than 50 years ago and we still use it today
+
+00:14:11
+it's the way that we use computers today
+
+00:14:12
+we didn't get anything better like from
+
+00:14:15
+from the teletype
+
+00:14:17
+writer to TTY that you
+
+00:14:19
+have in your shell today
+
+00:14:21
+it's literally the same thing
+
+00:14:23
+okay
+
+00:14:24
+and continuing with
+
+00:14:27
+this story we go to ADs
+
+00:14:29
+with
+
+00:14:30
+the dawn of free software.
+
+00:14:33
+So as I mentioned,
+
+00:14:36
+people, early programmers,
+
+00:14:38
+they collaborated.
+
+00:14:40
+Their software was, well, open,
+
+00:14:43
+but it was because, well,
+
+00:14:44
+to be able to run the software,
+
+00:14:47
+to compile it, to fix it for your machine,
+
+00:14:49
+everybody just got the source code.
+
+00:14:52
+And these early hackers,
+
+00:14:54
+as they called themselves,
+
+00:14:56
+this was their way of operating.
+
+00:15:01
+This was the way they collaborated.
+
+00:15:03
+But, of course, then in the 80s,
+
+00:15:05
+the commercialization of software comes,
+
+00:15:09
+the military comes, and they create proprietary software.
+
+00:15:13
+They close the software from its users,
+
+00:15:16
+and now this has certain consequences.
+
+00:15:20
+Proprietary software is that which limits your freedoms as a user.
+
+00:15:30
+So now I would compare it to a house that you buy or have built,
+
+00:15:40
+but to change something, to open windows, go to the basement and fix the heating, whatnot,
+
+00:15:46
+not you need to ask permission you need to get keys from the basement from the owner or the
+
+00:15:51
+builder or so on and and the question is like whether you really own the house if you buy
+
+00:15:56
+something like this and now you don't have permission to do what you want with it but the
+
+00:16:01
+the creator is is controlling it like whether whether it's your um whether it's really yours
+
+00:16:06
+because this is what is happening with computers today the computer you have in front of you the
+
+00:16:11
+phone you have in front of you is a multi-purpose device it's general purpose device it's a
+
+00:16:16
+calculator which can calculate any number of operations in any way and you should be able to
+
+00:16:22
+control it you should be able to tell it what you want to do with this machine however if you run
+
+00:16:28
+the proprietary software it's the developers the creators of the software controlling your machine
+
+00:16:34
+and you don't really have an input you don't even know what's happening you don't know what the
+
+00:16:41
+proprietary operating system is coming whether it's calling home sending your private data or
+
+00:16:46
+or calculating pi on infinite decimal numbers,
+
+00:16:52
+as I believe Windows Vista was doing,
+
+00:16:54
+where why it was so slow.
+
+00:16:55
+Anyway, when we don't have the freedom,
+
+00:17:02
+we are very limited.
+
+00:17:04
+And this is what Richard Stallman realized.
+
+00:17:07
+So Richard Stallman is often called the last hacker of MIT
+
+00:17:10
+because he dedicated his life to this.
+
+00:17:13
+He's now in his 70s, and all his life he only used free software.
+
+00:17:17
+He dedicated his life to keeping up this original hacker culture of being able to share the software.
+
+00:17:26
+In September 1983, he started the GNU project and the free software movement, which defined the four basic freedoms of software, the ability to run it any way you want, to study the source code, to modify it and redistribute it.
+
+00:17:43
+So he gave freedom to users, and he had been advocating based on this all his life.
+
+00:17:52
+The project that he started, the GNU project, might sound familiar to you.
+
+00:17:57
+If you are using Linux, you might see GNU slash Linux, because that's the operating system.
+
+00:18:02
+The goal of GNU was to recreate a Unix experience, but in fully free software,
+
+00:18:08
+because even though that people somewhat openly collaborated on Unix,
+
+00:18:13
+it wasn't truly free.
+
+00:18:16
+The GNU project created licenses.
+
+00:18:19
+If you go to GitHub, if you look for some of your favorite programs there,
+
+00:18:23
+you might see that it's licensed under GPL or the GNU General Public License,
+
+00:18:27
+which was created by Stallman to give programmers a simple way
+
+00:18:32
+how to license their program as a free software.
+
+00:18:36
+and Gnu project created many core utilities.
+
+00:18:42
+Maybe if you learned C, you used GCC,
+
+00:18:45
+the Gnu compiler collection,
+
+00:18:46
+which is probably the most used C compiler these days.
+
+00:18:54
+And many of these core utilities is what we call shell,
+
+00:18:58
+the shell of the operating system.
+
+00:19:00
+But the core of the operating system was a big, big task,
+
+00:19:03
+which was taking a long time.
+
+00:19:05
+Until in early 90s, Linus Torvalds released the Linux
+
+00:19:10
+as a kernel of an operating system under the GPL license.
+
+00:19:15
+And this could be coupled with the GNU shell,
+
+00:19:18
+creating the GNU slash Linux operating system you use today.
+
+00:19:21
+So all of this was really started by Stallman.
+
+00:19:25
+I really much recommend this talk from TEDxGeneva,
+
+00:19:30
+where he really nicely explains it.
+
+00:19:33
+puts it to context why it's important for software to be free.
+
+00:19:38
+And in Ethereum, in all cryptocurrencies, this is fundamental
+
+00:19:41
+because the whole point of Ethereum is to give freedom to users,
+
+00:19:46
+to be transparent, to be trustless.
+
+00:19:49
+And to do this, we need to know what's happening there.
+
+00:19:53
+When I run the Ethereum software,
+
+00:19:56
+I need to be aware that it's doing exactly what it's supposed to do,
+
+00:19:59
+It adheres to the specification and to what I agree are the rules of Ethereum network.
+
+00:20:09
+Then in the 90s, there is the open source movement coming.
+
+00:20:12
+Now, you might notice that until now, I only talk about free software, but open source is a different part of it.
+
+00:20:19
+The open source was created by some people from the free software community who didn't like the branding, let's say,
+
+00:20:27
+because free software kind of sounds like a free beer.
+
+00:20:30
+It means libre.
+
+00:20:32
+It means like, you know, free man, free speech.
+
+00:20:35
+But it's not a really good word if you want to do business with it
+
+00:20:39
+to, you know, give away free software.
+
+00:20:41
+So the open source was kind of a rebranding with all the fundamental set,
+
+00:20:47
+its values written out.
+
+00:20:51
+But the open source movement talks more about the pragmatic side of it,
+
+00:20:55
+More about, you know, it's good to be open because you can be more audited, have more security.
+
+00:21:02
+You can bring more contributors and so on.
+
+00:21:05
+So it's more like this business pragmatic approach, which is okay.
+
+00:21:09
+But it omits, it forgets the importance of the freedom there.
+
+00:21:13
+The whole point of this thing was to give the freedom to users.
+
+00:21:17
+So we say free and open source software or FOSS.
+
+00:21:20
+That's where you see this acronym.
+
+00:21:22
+So for Ethereum, I believe all of these parts are important to be free and open source software to enable collaboration and give freedom to users.
+
+00:21:29
+Okay, I should go on.
+
+00:21:32
+It's a few minutes there.
+
+00:21:34
+Yeah.
+
+00:21:35
+Next up, important invention in 1976.
+
+00:21:40
+Important part, the new directions in cryptography.
+
+00:21:45
+This paper by Diffie and Hellman created a new paradigm in the modern cryptography.
+
+00:21:53
+Basically, it's kind of basics for most of the people here, I guess,
+
+00:21:59
+but this is the creation of the asymmetric cryptography,
+
+00:22:03
+or what we also call public key cryptography, or key pairs.
+
+00:22:07
+Because before that, before this paper,
+
+00:22:10
+the encryption was done only in a one way, symmetric way.
+
+00:22:16
+So since the, I don't know, Caesar,
+
+00:22:23
+since thousands of years ago,
+
+00:22:26
+people encrypted messages in a way that I take a message
+
+00:22:30
+and I somehow scramble the words,
+
+00:22:33
+I change the letters according to some key,
+
+00:22:36
+according to some rules.
+
+00:22:37
+and if I pass this to the other party,
+
+00:22:41
+I need to give him the cipher text
+
+00:22:44
+but also the rules, the key, how to decrypt it.
+
+00:22:48
+So we have a single key and single encrypted text
+
+00:22:50
+but with Assomate Decryptography,
+
+00:22:53
+we have a very strong tool
+
+00:22:55
+which enables us to use one key,
+
+00:22:57
+we call it public key, to encrypt something
+
+00:23:00
+and its corresponding private key
+
+00:23:03
+which is only held by its owner
+
+00:23:06
+to decrypt it.
+
+00:23:08
+Only the private key can use a decryption,
+
+00:23:11
+but anybody can use the public key to encrypt a message.
+
+00:23:14
+This means that I can have this public key
+
+00:23:16
+on my business card in my website,
+
+00:23:19
+and anybody can send me an encrypted email.
+
+00:23:21
+This was the dawn of encrypted emails,
+
+00:23:24
+mostly of the implementation of PGP.
+
+00:23:28
+And of course, if this rings any bell,
+
+00:23:31
+this is what all the cryptocurrencies use.
+
+00:23:34
+If you ever used Ethereum,
+
+00:23:35
+If you ever used Bitcoin, you used public key or some derivation of a public key as an address.
+
+00:23:46
+And the private key is what lets you spend because of another unique feature of this key pair cryptography, which is digital signatures.
+
+00:23:55
+Digital signatures are mathematical proof, which work in a way that with the private key, we sign data.
+
+00:24:03
+Now, we can sign any piece of data.
+
+00:24:05
+It can be a terabyte file.
+
+00:24:07
+It can be a simple message.
+
+00:24:09
+We sign this data, and the signature is some mathematical proof
+
+00:24:15
+which can be verified against the public key.
+
+00:24:18
+So anybody who is seeing this signature and has your public key
+
+00:24:23
+can verify that only the owner of the private key
+
+00:24:26
+could produce this signature.
+
+00:24:28
+This is the way, as the transactions are done in Ethereum.
+
+00:24:31
+When I send a transaction, I create a proof that I'm owner of this address and I'm signing the message that I want this amount of funds to be transferred here.
+
+00:24:40
+So to another public, to another address, right?
+
+00:24:44
+And yeah, this today we take this for granted.
+
+00:24:48
+It's everywhere.
+
+00:24:49
+You are connected to using TLS, HTTPS in your browser here.
+
+00:24:54
+That's end-to-end encryption using exactly this technique.
+
+00:24:58
+when you are using Signal or WhatsApp.
+
+00:25:01
+It's using some form of this cryptography.
+
+00:25:04
+So it's really everywhere today,
+
+00:25:05
+but that wasn't really true in the 70s and 80s
+
+00:25:10
+when with the disdain of encrypted email with PGP,
+
+00:25:13
+the pretty good privacy tooling,
+
+00:25:18
+this was considered dangerous.
+
+00:25:22
+It was considered a weapon.
+
+00:25:23
+so the thing is that before before the the computers and internet spreading to
+
+00:25:36
+to to houses you know to just civilians all over the place it was mostly used really just by
+
+00:25:45
+military and now anybody can encrypt anybody can achieve their digital privacy and governments
+
+00:25:51
+didn't, I don't want to say they didn't like it, they didn't have framework, they just didn't
+
+00:25:55
+understand it, it was something completely new, and they considered cryptography a military
+
+00:26:01
+arsenal, a weapon which cannot be used by civilians, has to be regulated, cannot be exported.
+
+00:26:10
+Sorry, many of these early cryptographers got into trouble because their open source,
+
+00:26:16
+free software cryptography being exported.
+
+00:26:24
+So, for example, Phil Zimmerman, the creator of PGP,
+
+00:26:28
+was under threat that he's going to go on trial for treason or something
+
+00:26:36
+because he created this email encryption,
+
+00:26:39
+which is just mathematics programmed in a software.
+
+00:26:44
+That's it.
+
+00:26:44
+And what he did famously, he created a book published by MIT Press, which contained a whole source code, including make files of the PGP version like 2.7 or something.
+
+00:26:59
+And then they could export this book.
+
+00:27:02
+And the US doesn't have any regulation against exporting books.
+
+00:27:06
+So now, like, he protects himself, but we also can see that it's sort of a free speech to just, you know, talk about the rules of mathematics and write them in a language of a software or like literally programming language, just a form of language, right?
+
+00:27:21
+So there was this community of people who've been doing these things, building the software, advocating based on it.
+
+00:27:29
+This very popular movement called Cypherpunks.
+
+00:27:33
+here on this picture looking kind of scared with the mask,
+
+00:27:37
+but we can unmask them.
+
+00:27:39
+The Cypherpunks were many different people
+
+00:27:42
+from different academia, from business,
+
+00:27:47
+computer scientists, programmers,
+
+00:27:49
+or just researchers who've been building these tools.
+
+00:27:57
+They started Cypherpunk mailing list,
+
+00:28:00
+which is a famous place where many of these tools
+
+00:28:02
+were announced, like SSH was announced there, I believe.
+
+00:28:05
+Bitcoin was announced there.
+
+00:28:07
+On the right here, on the very right is Gilmore,
+
+00:28:15
+who's been the founder of Electronic Frontier Foundation,
+
+00:28:22
+EFF, very important organization till today.
+
+00:28:26
+In the middle, Eric Hughes, the author of Cypherpunk Manifesto.
+
+00:28:30
+So he actually wrote down these principles that the cypherpunks believed in in a manifesto, which excerpt of it is here on the slide, where he talks about that part that we built some distributed, open, free software, which cannot be somehow forbidden, forgotten,
+
+00:28:55
+because it's really free and it's just a form of a speech,
+
+00:29:04
+a form of an explanation of mathematics.
+
+00:29:08
+For example, also famously they produced T-shirts
+
+00:29:12
+with a cryptography code on it.
+
+00:29:14
+So, like, you know, I have illegal words on my T-shirt.
+
+00:29:18
+This is illegal mathematical notation here.
+
+00:29:21
+so yeah
+
+00:29:23
+I really recommend getting inspired by the
+
+00:29:26
+Cypherpunk Manifesto
+
+00:29:27
+on the left here is Timothy C. May
+
+00:29:29
+who was I think
+
+00:29:32
+chief scientist at Intel
+
+00:29:33
+he has some interesting inventions there
+
+00:29:36
+but in this context
+
+00:29:37
+he
+
+00:29:38
+as one of the founders of the Cypherpunk
+
+00:29:42
+male increase of the Cypherpunk movement
+
+00:29:43
+he
+
+00:29:44
+takes this idea a bit further
+
+00:29:47
+he creates Manifesto of Crypto Anarchy
+
+00:29:50
+where he talks about these tools,
+
+00:29:55
+not just as we are able to create them
+
+00:29:57
+and have privacy and protect ourselves,
+
+00:30:00
+but we can actually create a digital realm,
+
+00:30:03
+this digital world where we can be completely free,
+
+00:30:08
+protected, we can have digital money,
+
+00:30:12
+anonymous credentials, our own reputation systems, our own markets, etc.
+
+00:30:22
+So these were the people already envisioning digital currencies based on cryptography.
+
+00:30:31
+In the early 90s and late 80s, we had this idea already.
+
+00:30:36
+David Chow famously created the DigiCash, one of the cypherpunks as well.
+
+00:30:40
+so we see these attempts and we see these ideas pointing to like this like some
+
+00:30:48
+uncensorable free digital platforms uh yeah and with all of this the question that arises like
+
+00:30:58
+how ethereum fits in all of this uh this is of course like my somewhat subjective point of view
+
+00:31:05
+and I want to influence your opinion.
+
+00:31:08
+And I want to ask you guys,
+
+00:31:09
+like I kind of described in this view on history
+
+00:31:12
+how I see Ethereum,
+
+00:31:14
+where I see it's coming from
+
+00:31:15
+and what are its values.
+
+00:31:16
+And in the last part,
+
+00:31:18
+I know what it is,
+
+00:31:19
+but I want to ask you,
+
+00:31:20
+what do you think the Ethereum is?
+
+00:31:21
+Can you describe Ethereum in one word
+
+00:31:24
+or one sentence?
+
+00:31:26
+Write it to the Discord chat.
+
+00:31:28
+I'm going to check it in the thread.
+
+00:31:35
+world computer cool cool yeah John Gilmore our super listen employee yeah
+
+00:31:58
+Yeah, yeah.
+
+00:31:59
+Good.
+
+00:32:00
+That's his credits.
+
+00:32:02
+Nonstoppable lovely computer.
+
+00:32:04
+Oh, I love that.
+
+00:32:05
+Yeah, we have many different opinions.
+
+00:32:08
+Disintrolyzed VAP, disintrolyzed computer,
+
+00:32:10
+trustless trust, world computer as well,
+
+00:32:13
+and trustlessness, state machine.
+
+00:32:15
+Oh, I love that.
+
+00:32:16
+Cool, cool.
+
+00:32:17
+Well, we have many different opinions,
+
+00:32:19
+but I got to say all of you are correct, of course.
+
+00:32:23
+I think there is no single way we could define Ethereum
+
+00:32:27
+because everybody sees a different part of it.
+
+00:32:32
+Oh, new internet, it's also a cool one.
+
+00:32:34
+I believe all of this is right.
+
+00:32:36
+I believe that Ethereum is this digital realm
+
+00:32:40
+that anybody can find their place in.
+
+00:32:44
+Anybody can see it from a different perspective.
+
+00:32:49
+And, you know, depends on what's your motivation,
+
+00:32:53
+where you're coming from, what you're interested in,
+
+00:32:54
+what you're working on.
+
+00:32:55
+you have a certain tunnel vision of like what the Ethereum is for you,
+
+00:33:00
+how do you envision it?
+
+00:33:02
+So this little elephant here is what we are talking about.
+
+00:33:05
+And in this talk, of course, I need to focus on the whole elephant,
+
+00:33:09
+on the technical part of the protocol itself.
+
+00:33:14
+I need to talk more about like hands-on what is Ethereum.
+
+00:33:18
+and yeah
+
+00:33:24
+so because
+
+00:33:26
+what we have all in common even if
+
+00:33:28
+we have like different views on it
+
+00:33:30
+we want to achieve these
+
+00:33:32
+goals we want to achieve these visions
+
+00:33:34
+and that means that we need to
+
+00:33:37
+use and
+
+00:33:38
+improve Ethereum to
+
+00:33:40
+be able to get there and
+
+00:33:42
+to answer like what is Ethereum
+
+00:33:44
+yeah
+
+00:33:46
+there are many simple terms
+
+00:33:48
+another description of what is Ethereum.
+
+00:33:51
+Of course, you could point people to white paper
+
+00:33:54
+if somebody asks what Ethereum is.
+
+00:33:55
+It's a description of what Ethereum is
+
+00:33:57
+from 10 years ago now.
+
+00:34:00
+And here in Vitalik,
+
+00:34:02
+revealing it in Bitcoin Miami.
+
+00:34:04
+Line up for that conference changed quite a lot.
+
+00:34:08
+Yeah, so that's one way.
+
+00:34:13
+The white paper is more of a general
+
+00:34:17
+high-level description.
+
+00:34:19
+It's more of an idea of how this network should work.
+
+00:34:22
+But we can take it further to Yellow Paper,
+
+00:34:25
+which is the actual formal specification of Ethereum.
+
+00:34:32
+It's written by Gavin Wood,
+
+00:34:35
+one of the co-founders of Ethereum,
+
+00:34:37
+also creator of the original C++ implementation,
+
+00:34:40
+who actually sit down to write down
+
+00:34:43
+how it's supposed to work,
+
+00:34:45
+not just in theory, but practically using mathematics,
+
+00:34:52
+using formal expressions,
+
+00:34:55
+how Ethereum is supposed to be implemented
+
+00:34:58
+according to the specification.
+
+00:35:01
+So that's one way.
+
+00:35:03
+And you see here that it's Berlin version.
+
+00:35:05
+The current version is Paris.
+
+00:35:07
+So it's already out of date,
+
+00:35:09
+but it's out of date because Ethereum is changing.
+
+00:35:12
+This is just like the original.
+
+00:35:13
+this was just like some original vision but it's not the only way where only place where
+
+00:35:19
+ethereum is specified it's not just vitalik or gavin or rubin or these founders who define what
+
+00:35:24
+ethereum is but it's the community so using this process of ethereum improvement proposals
+
+00:35:29
+anybody can propose a change to ethereum improvement or or um just a change they believe
+
+00:35:37
+is important to it.
+
+00:35:41
+The EAP process is inspired by the BIP process
+
+00:35:45
+or Bitcoin Improvement Proposals
+
+00:35:47
+started by Amir Taki,
+
+00:35:49
+which is inspired by the similar process in Python.
+
+00:35:51
+And it's generally a community way of working
+
+00:35:55
+on this big distributed project.
+
+00:36:01
+But having a yellow paper plus EAPs
+
+00:36:05
+and you're supposed to implement something based on it that's kind of a mess, right?
+
+00:36:09
+Like all of these different documents.
+
+00:36:11
+So we actually have a proper specification in these two repositories.
+
+00:36:15
+That's the execution specs and consensus specs with all the APIs here.
+
+00:36:21
+That's what really defines all of the Ethereum and the way it's supposed to work.
+
+00:36:28
+It's virtually Python.
+
+00:36:29
+and for some people, people like me,
+
+00:36:32
+it's hard for me to read the mathematical notations
+
+00:36:36
+in yellow paper and in the Python,
+
+00:36:38
+it actually is even more readable.
+
+00:36:41
+And of course you can generate tests based on this.
+
+00:36:43
+You can test your implementation
+
+00:36:45
+against the specification.
+
+00:36:47
+So it's a very practical and very, very useful way
+
+00:36:52
+that we specify the theorem here.
+
+00:36:55
+And of course, if you are not a programmer
+
+00:36:58
+or if you just want to learn about the way it works,
+
+00:37:01
+it's pretty heavy to read the code.
+
+00:37:03
+I would recommend reading annotated specification,
+
+00:37:06
+which comes with explanation of how it works,
+
+00:37:09
+why it works this way, and gives you a context.
+
+00:37:12
+So, for example, the one from Ben Eddington here in the E2 book.
+
+00:37:20
+I'm sorry.
+
+00:37:22
+So there are versions of these specifications,
+
+00:37:27
+different versions of ethereum we also call it hard forks uh the ethereum upgrades which have
+
+00:37:33
+been happening well now for 10 years and um starting with the frontier homestead many years ago
+
+00:37:40
+uh uh now um you can you can see all the history all of the upgrades in uh in the ethereum org
+
+00:37:48
+uh where you see what eips what upgrades have been coupled in each of these each of these upgrades
+
+00:37:54
+um however um even though ethereum changes a lot is developed uh heavily over these well 10 years
+
+00:38:04
+now um it's uh it's always adheres to certain principles there are basic tenets that uh ethereum
+
+00:38:12
+design must follow uh it was outlined in this now non-existing website uh archive there it's
+
+00:38:19
+really nice explain there i recommend diving into that uh but the point is that these developers
+
+00:38:25
+need to have certain values uh need to need to follow um some rules some some design decisions
+
+00:38:36
+uh and uh we cannot take trade-offs which would uh which would disprove this so uh yeah
+
+00:38:43
+simplicity universality modularity non-discrimination agility um these are the basic uh
+
+00:38:49
+basic principles uh in a way that ethereum needs to be as simple as possible in a way that needs
+
+00:38:55
+to be possible to um somewhat easily uh implemented it needs to be you know re-implementable
+
+00:39:03
+if you compare it to like i don't know linux kernel like i cannot imagine somebody just like
+
+00:39:10
+writing another version of that um universality so uh ethereum also like the generalization and
+
+00:39:18
+non non no features in the in the in the later part um the universality and non generalization
+
+00:39:25
+means that ethereum is not um uh yeah not discriminating it's uh it's uh it's not biased
+
+00:39:32
+towards certain features uh ethereum is not supposed to do a single thing but rather be a
+
+00:39:38
+generalized platform for whatever people want to use this means that the core protocol does not
+
+00:39:47
+cannot include um features which would which would uh define some some behavior some user behavior
+
+00:39:54
+or something more high level like for example uh there cannot be like token implemented token
+
+00:40:00
+standard implemented uh in the core protocol with the ercs people created on top of ethereum
+
+00:40:08
+but it's not within the protocol itself.
+
+00:40:16
+The modularity I already talked about,
+
+00:40:18
+and you will see it as I show you the protocol later,
+
+00:40:21
+but what we follow here in Ethereum
+
+00:40:24
+is that also with the encapsulated complexity mentioned here,
+
+00:40:28
+we encapsulate different parts of Ethereum,
+
+00:40:31
+different parts of the network,
+
+00:40:35
+and they talk to each other within some relatively simple API.
+
+00:40:40
+So we are able to debug it.
+
+00:40:43
+We are able to have more security if only one of these parts fail.
+
+00:40:49
+And yeah, one thing I want to elaborate is the non-risk conversion
+
+00:40:54
+that as the Ethereum changes,
+
+00:40:57
+the changes are conditioned by what benefit they bring.
+
+00:41:04
+So the developers are willing to take certain risk for a certain benefit, right?
+
+00:41:10
+If there is a small change which brings us a huge benefit, it's definitely worth doing it.
+
+00:41:16
+So that's the principle.
+
+00:41:20
+And I'm sorry, guys, it's too early for me.
+
+00:41:26
+Yeah, now I want to ask you, when I talked about the different modules, different parts of Ethereum,
+
+00:41:31
+I always mention like parts of the protocol and whatnot.
+
+00:41:34
+What would you consider is the heart of Ethereum, the most important part we should start from?
+
+00:41:41
+Let's build Ethereum together and let's see.
+
+00:41:47
+What would you consider is the brain, the heart of Ethereum?
+
+00:41:52
+Yeah, right into the group.
+
+00:42:01
+Okay, we see EVM, consensus, people.
+
+00:42:04
+Oh, that's nice.
+
+00:42:04
+um uh so what else uh feel free to feel free to write philosophy does okay i'm talking more about
+
+00:42:15
+it's really nice to see the people or philosophy i mean the technically the modular the part okay
+
+00:42:20
+that data structures uh yeah now you don't see anything because i'm i'm waiting for you to reveal
+
+00:42:26
+it um the peer-to-peer network okay numerical tree okay guys uh again i believe that i believe that
+
+00:42:35
+you are right uh i believe that all of you are right because these are all important part of
+
+00:42:42
+ethereum uh i wanted to start from um from um from somewhere so when i ask about the heart of
+
+00:42:50
+of Ethereum, I wanted to start with EVM.
+
+00:42:52
+That's like often mentioned important part of Ethereum.
+
+00:42:57
+And it's pretty much one of the core, very Ethereum-specific features.
+
+00:43:03
+So what is EVM?
+
+00:43:06
+It's, well, it's basically a virtualized CPU.
+
+00:43:12
+Now, if you are using your computer here, you either have x86 or ARM-based CPU
+
+00:43:19
+with like instruction sets specific to the architecture.
+
+00:43:23
+It's a hardware which implements some instruction sets,
+
+00:43:26
+some basic assembly, some basic instructions
+
+00:43:29
+which are able to do logic, arithmetic,
+
+00:43:32
+and work with data to, well, do anything.
+
+00:43:37
+Like your computer can do anything, everything,
+
+00:43:40
+to be a general purpose machine.
+
+00:43:43
+So that's on the hardware level.
+
+00:43:45
+But in software, in programming, in computer science,
+
+00:43:49
+what we often do is virtualize these instruction sets.
+
+00:43:53
+We create virtual machines.
+
+00:43:55
+For example, if you're a developer, again,
+
+00:43:57
+maybe you worked with JVM, the Java Virtual Machine,
+
+00:44:01
+these machines are created so that if you write a certain code,
+
+00:44:07
+it might behave somewhat differently on different machines
+
+00:44:12
+or different manufacturers,
+
+00:44:13
+which can understand some instructions slightly differently, let's say.
+
+00:44:17
+famously said, like it works on my machine.
+
+00:44:20
+So now if you want to replicate this experience,
+
+00:44:23
+it works on my machine, I create a virtual environment
+
+00:44:25
+which is always the same on every machine
+
+00:44:28
+because if I execute something in this virtual environment,
+
+00:44:32
+it will always end up in the same result.
+
+00:44:35
+That's what EVM is.
+
+00:44:36
+It's a virtual machine which has its own instruction set
+
+00:44:41
+with like 30-ish something of codes.
+
+00:44:43
+and these are Turing complete, they can do anything.
+
+00:44:54
+The EVM is the actual execution engine,
+
+00:44:58
+the environment where the Ethereum programs are run.
+
+00:45:04
+And now if all of the computers, every computer running Ethereum
+
+00:45:07
+has the same virtual machine or the same implementation,
+
+00:45:11
+the same implementation, but it's implemented.
+
+00:45:12
+The same specification can be implemented now in different languages and different ways.
+
+00:45:18
+And if it still follows the specification, the result of the execution, the result of
+
+00:45:24
+the run of the program within this virtual machine will always be the same.
+
+00:45:28
+It means that all of these Ethereum clients can agree on something.
+
+00:45:32
+I would also mention here the sandwich complexity that I have in previous slides.
+
+00:45:38
+because that's how Ethereum works.
+
+00:45:41
+So you might probably have heard about Solidity or Viper
+
+00:45:44
+or some other of these high-level languages,
+
+00:45:47
+which are readable and auditable.
+
+00:45:50
+And then we have a very complex compiler,
+
+00:45:53
+which is a huge part and it's a beast.
+
+00:45:58
+Very complex.
+
+00:45:59
+And on the bottom, we have the EVM bytecode,
+
+00:46:02
+the instructions for this virtual machine,
+
+00:46:03
+which, again, there is not so many of them,
+
+00:46:06
+and it's somehow readable, somehow formally verifiable,
+
+00:46:11
+what the actual virtual machine does.
+
+00:46:13
+So when we have these two non-complex pieces
+
+00:46:17
+with the complexity in the middle,
+
+00:46:18
+we create a complexity sandwich with the EVM on the bottom.
+
+00:46:22
+But for EVM to work, it needs some data.
+
+00:46:25
+It needs to input and output some data.
+
+00:46:27
+So for that, we have the state.
+
+00:46:32
+So the data in Ethereum, the data structure, the database, which holds all of the addresses, its balances, its current state, the current state of the network, of all of the contracts, all of the code and the data of all of the contracts, right?
+
+00:46:56
+This is what we call the state.
+
+00:46:58
+I know many of you are anarchists who don't like state.
+
+00:47:01
+In Ethereum, we have state because Ethereum is a state machine.
+
+00:47:05
+State machine is a principle from computer science where we have, again, a machine which can result in different states and different inputs.
+
+00:47:15
+So EVM processes outputs and data updates the state, we call it state transition, based on some input, which is transactions.
+
+00:47:25
+So transactions are these instructions on how the state transition is supposed to happen.
+
+00:47:33
+And if it's correct, if it works within the rules of the EVM or the network, it creates a successful state transition.
+
+00:47:40
+We update the state of Ethereum.
+
+00:47:43
+If you are familiar with Bitcoin design or similar UTXO-based cryptocurrencies, this is where the major difference is.
+
+00:47:53
+Ethereum has a single global state, basically one database, which has the current state, the current value of everything.
+
+00:48:01
+In Bitcoin or other currencies, we have like UTXOs.
+
+00:48:04
+We have just unspended outputs of each transaction and not a single state.
+
+00:48:15
+So this is what is one of the design decisions in Ethereum.
+
+00:48:20
+one way it works. This state is a big Merkle tree, Merkle Patricia tree, and the transactions are
+
+00:48:27
+stored in a different tree that updates the state. The transactions, of course, come from
+
+00:48:35
+mempool, which is the pool of all the transactions coming to the network, and those are gossiped
+
+00:48:45
+over peer-to-peer network. So the peer-to-peer is the communication interface with other clients,
+
+00:48:54
+with other nodes in the network which can broadcast transactions. Your transactions go through this
+
+00:49:06
+peer-to-peer network and each client which receives it verifies whether it's correct.
+
+00:49:11
+and then if it's correct, again, broadcast it to all of these peers.
+
+00:49:17
+So even if the network is big and decentralized,
+
+00:49:20
+the transaction spreads to all of the network.
+
+00:49:24
+And all of this, and much more, but let's say this, is the execution layer.
+
+00:49:31
+This is what we call the execution part of Ethereum.
+
+00:49:33
+if you are using some
+
+00:49:37
+Ethereum wallet
+
+00:49:39
+or if you are using some
+
+00:49:41
+Dapp, some, you know,
+
+00:49:43
+you are talking to this, to the execution
+
+00:49:47
+layer of Ethereum using some standardized
+
+00:49:49
+API
+
+00:49:51
+it's a RPC, JSON RPC API
+
+00:49:53
+which can
+
+00:49:55
+read the current data
+
+00:49:57
+if you want to know, you know
+
+00:49:59
+how much EAT is on this account
+
+00:50:01
+you need to read the state so you read the data from the execution layer or if you want to write
+
+00:50:07
+if you want to send the transaction your wallet signs it and then sends it to this client to
+
+00:50:12
+broadcast it to the network over the client receives it verifies it and sends to the peer-to-peer layer
+
+00:50:18
+so this is the execution part now another api that the client implements it's engine api
+
+00:50:26
+which talks to the consensus part of it.
+
+00:50:32
+So how does this execution know what is correct?
+
+00:50:36
+What is the head of the chain?
+
+00:50:37
+What all of the other nodes agree on?
+
+00:50:42
+In the input link to the BFT,
+
+00:50:46
+the presenting fault tolerance problem in the docs.
+
+00:50:51
+And this is where it comes.
+
+00:50:53
+like we need to agree on what is the current state of the whole Ethereum,
+
+00:50:58
+not just as I see this one single piece of the network.
+
+00:51:02
+And this is dictated to the execution client or this execution layer by a fork choice,
+
+00:51:10
+which is, of course, managed by the consensus algorithm of Ethereum,
+
+00:51:16
+the LMD ghost or the latest message driven, greediest, heaviest observed sub-tree, which
+
+00:51:24
+is a very jargon-heavy way to explain this fork choice rule and this consensus mechanism.
+
+00:51:34
+So based on the most number of statisticians, the fork or the tree, the chain with the most
+
+00:51:45
+votes the most of the stations is the one which is considered canonical and then is dictated by
+
+00:51:51
+fork choice to the client. And this together with its own peer-to-peer network and some other parts
+
+00:51:58
+with the current hard fork, we have the blobs, we have the random, which dictates the randomness.
+
+00:52:03
+With all of this, this is the consensus layer. So Ethereum right now is these two layers connected
+
+00:52:09
+to each other and over the engine api and it's uh uh and uh yeah and the consensus also has its own
+
+00:52:19
+api that you can also communicate with this client again to learn now about state but not
+
+00:52:25
+the theorem itself not about like accounts and transactions but about the consensus state
+
+00:52:31
+how many validators out there how many uh what validators do what are the stations what is the
+
+00:52:36
+finalized head of the chain, etc., we ask from the Beacon API of the consensus layer,
+
+00:52:45
+if you are running a validator, if you are participating in the consensus, your beacon
+
+00:52:50
+node or this consensus layer verifies the latest block, sends it to the execution layer to verify
+
+00:52:58
+the integrity of the block, and then if it's considered valid, the validator uses its keys to
+
+00:53:05
+sign an attestation okay i believe that this network uh this this uh block is correct i
+
+00:53:10
+attest to it and sends this data the signature uh to the consensus layer which where it's broadcasted
+
+00:53:17
+over its own peer-to-peer network so the consensus has its own peer-to-peer it's a different from
+
+00:53:23
+from execution layer so this is so this whole thing is like simplified overview of different
+
+00:53:29
+parts of the protocol again from what i said before you can really like each of these boxes
+
+00:53:34
+are huge rabbit holes. You can dive into each of these and become an expert on literally every
+
+00:53:42
+single block secure. And to make it a bit more high level, a bit more abstract, so these are
+
+00:53:48
+implemented in clients, in the execution engine, the execution client, or the execution layer client,
+
+00:53:54
+and the beacon node, or the consensus client, and the consensus layer client, different words for
+
+00:53:58
+those. Each of those have their own peer-to-peer network on the right seat. The execution clients
+
+00:54:04
+are only talking to the execution clients
+
+00:54:06
+and the beacon nodes are only talking to beacon nodes.
+
+00:54:08
+They have their own communication protocols.
+
+00:54:12
+It's dev peer-to-peer for the execution
+
+00:54:15
+and lib peer-to-peer for the beacon.
+
+00:54:19
+And they have their own APIs
+
+00:54:21
+which provide different data
+
+00:54:25
+and they need to be connected over the engine API.
+
+00:54:28
+So yeah, this is like high-level overview
+
+00:54:34
+of what constitutes an Ethereum node or Ethereum client,
+
+00:54:38
+these two parts connected.
+
+00:54:40
+But of course, this is somewhat new.
+
+00:54:45
+This is something that happened after the merge.
+
+00:54:50
+So to show you the peer-to-peer network,
+
+00:54:54
+this is how Ethereum looks like, right?
+
+00:54:56
+Just to give this, again, something basic,
+
+00:54:58
+but just to give you an idea of, on the left,
+
+00:55:01
+what is centralized.
+
+00:55:02
+If you're watching the stream right now or if you're watching the recording, your computers are connecting to a single server, which is sending data to all of you guys.
+
+00:55:13
+But in Ethereum, it's similar to more something on the right.
+
+00:55:17
+Maybe in the chart, everybody's connected with everybody, which is not really true.
+
+00:55:22
+You are connected to some nodes.
+
+00:55:25
+Those are connected to some, et cetera.
+
+00:55:26
+you can't be connected to everyone, but each node can be connected to tens or hundreds of different peers.
+
+00:55:33
+We call them peers because they are on the same level.
+
+00:55:38
+This Ethereum network doesn't have any master.
+
+00:55:42
+No masters, no single points of failures, as we said.
+
+00:55:45
+So it has all nodes on the same level.
+
+00:55:50
+Everybody's peer and can talk to each other and can connect.
+
+00:55:54
+so so your so the client discovers the nodes around him connects to them and exchanges the gossip
+
+00:56:02
+data over the or particular and this way so uh yeah and to show you how the block looks like
+
+00:56:08
+with uh this consensus execution client connected uh this wasn't the true before the merge on the
+
+00:56:14
+left here you see the old ethereum before the merge the proof of work ethereum uh where the
+
+00:56:20
+the beacon chain and the Ethereum were basically separate things.
+
+00:56:24
+They were separate networks.
+
+00:56:26
+The beacon chain was looking into the Ethereum for the deposit contract
+
+00:56:30
+for the validated data there,
+
+00:56:32
+but the Ethereum itself didn't learn, didn't use the beacon chain in any way.
+
+00:56:39
+In the middle, this is the moment of the merge,
+
+00:56:42
+where the block from the execution layer
+
+00:56:48
+becomes part of the block of the beacon chain.
+
+00:56:50
+So in the execution layer, we have the transaction data.
+
+00:56:54
+You see all the transactions from 0 to N,
+
+00:56:57
+and they're in the Merkle tree,
+
+00:56:59
+and their root is in the header.
+
+00:57:02
+And the hash of this header is the hash of the whole block, right?
+
+00:57:05
+And the beacon chain is now...
+
+00:57:10
+You see, it holds all the attestations,
+
+00:57:14
+attestation 0 to N.
+
+00:57:16
+So the signatures which are confirming that this execution layer block, this transaction data, this block was verified.
+
+00:57:28
+Then this deposits and exits from the validators.
+
+00:57:33
+And yeah, this is how the, on the right, yeah, the arrows are pointed to the left.
+
+00:57:41
+Now I realize it might look a bit confusing, but it's of course, this is the blockchain, right?
+
+00:57:46
+In the blockchain, we include the hash of the previous block.
+
+00:57:52
+So this block references the previous one.
+
+00:57:55
+So on the right here, you see how the blocks look like today with the execution data,
+
+00:58:00
+the transaction data within the beacon chain.
+
+00:58:03
+and now yeah so this this this little thing this beacon and execution note like all of these parts
+
+00:58:11
+implemented in these clients are actually written in some languages as actual programs
+
+00:58:19
+that you can run right that's the whole point so this is where it comes together this is how you
+
+00:58:24
+use ethereum so if you want to become an ethereum user which means use ethereum privately trustlessly
+
+00:58:32
+securely, you run some of these clients which verify the data in the network and let you
+
+00:58:39
+interact with it, let you connect to the actual Ethereum network, to send transactions, to
+
+00:58:45
+read its data, we tell the internet parties that this is the actual Ethereum.
+
+00:58:50
+So the implementation of the execution layer of what was the bottom part in my chart is
+
+00:58:56
+GoEthereum in Go,
+
+00:58:59
+never mind in .NET, C Sharp,
+
+00:59:01
+Besu in Java.
+
+00:59:03
+Eragon in Go
+
+00:59:04
+was originally stored as a TurboGat,
+
+00:59:07
+as a fork of GoEthereum,
+
+00:59:08
+but later developed its
+
+00:59:10
+very unique architecture,
+
+00:59:12
+but still keeps some part of the
+
+00:59:15
+Go code base,
+
+00:59:16
+or still in Go, while
+
+00:59:19
+Red is written in Rust,
+
+00:59:21
+and it's basically using the Eragon
+
+00:59:23
+architecture. Silkworm is
+
+00:59:25
+So REST is in red.
+
+00:59:28
+These four on the top are production-ready.
+
+00:59:31
+Those are running the network.
+
+00:59:32
+The network consists of instances of the computers running the software in the first row.
+
+00:59:39
+In the second row, the red is in alpha.
+
+00:59:42
+There are some people running it, but it's not recommended for production use.
+
+00:59:47
+Silkworm is still in development.
+
+00:59:48
+It's also implementation of the Ergon architecture in a more modular way.
+
+00:59:52
+And then there is Ethereum.js, which is in JavaScript, TypeScript.
+
+00:59:56
+And this one is more of an experimental client for use for testing,
+
+01:00:03
+use for verifying the specs, et cetera.
+
+01:00:06
+And then on the consensus layer side, the upper part,
+
+01:00:09
+which drives the consensus, the validators,
+
+01:00:13
+these are all production-ready clients,
+
+01:00:15
+which are, again, running the network.
+
+01:00:17
+Prism in Go, Lighthouse in Rust,
+
+01:00:21
+Tekku in Java from
+
+01:00:22
+Nimbus and NIM
+
+01:00:25
+and Roadster in TypeScript.
+
+01:00:27
+There are other clients which are
+
+01:00:29
+not production ready, which are in development
+
+01:00:31
+and there is one proprietary client
+
+01:00:33
+that I mentioned
+
+01:00:34
+and there is a client in Elixir
+
+01:00:37
+which is also in production ready
+
+01:00:39
+but there are others
+
+01:00:41
+in development as well. But these are those
+
+01:00:43
+that are there, are ready
+
+01:00:45
+you can actually go to their
+
+01:00:47
+repositories, learn about them.
+
+01:00:49
+Because as I said before, all of this is free and open source.
+
+01:00:51
+So you can actually look
+
+01:00:53
+into the client code VCs to make
+
+01:00:55
+sure that they follow the
+
+01:00:57
+specs, you can contribute there.
+
+01:01:00
+And
+
+01:01:01
+to ensure the security stability of the
+
+01:01:03
+network,
+
+01:01:05
+all of these clients need to be tested.
+
+01:01:07
+They need to be heavily tested because
+
+01:01:09
+well, the network is out there running
+
+01:01:11
+huge amounts of
+
+01:01:13
+money and people's funds and whatnot.
+
+01:01:15
+So we cannot just
+
+01:01:16
+take it recklessly
+
+01:01:18
+and
+
+01:01:19
+we heavily test
+
+01:01:22
+these clients. The client teams,
+
+01:01:24
+the developers and other
+
+01:01:26
+teams which are dedicated
+
+01:01:28
+just to testing and security
+
+01:01:30
+are always,
+
+01:01:32
+especially before these
+
+01:01:34
+upgrades, are heavily
+
+01:01:37
+testing the clients. So first of all,
+
+01:01:39
+there is the Ethereum slash tests
+
+01:01:40
+which is just basic
+
+01:01:43
+state realization tests
+
+01:01:44
+and basic sets of tests that the client should pass.
+
+01:01:49
+This is coming from the original Ethereum design
+
+01:01:53
+with only one layer, not the consensus layer,
+
+01:01:56
+so it tests just the execution layer,
+
+01:01:58
+similar to execution spec tests,
+
+01:02:01
+which are based on the specs.
+
+01:02:08
+Very interesting, very important is Hive,
+
+01:02:12
+the one in the middle
+
+01:02:14
+or middle. Hive is
+
+01:02:16
+an
+
+01:02:18
+end-to-end harness
+
+01:02:20
+tool. It's like a huge tool
+
+01:02:22
+which lets you do everything. You can
+
+01:02:24
+spin networks
+
+01:02:26
+with different clients in it and
+
+01:02:28
+run them together through
+
+01:02:30
+different tests. There are many
+
+01:02:32
+simulations that you can run using it
+
+01:02:34
+and it creates
+
+01:02:36
+really complex and
+
+01:02:38
+strong testing tool.
+
+01:02:40
+So Crutosis also lets you create a local testnet with different clients.
+
+01:02:47
+And then there is fuzzing, which is heavily testing different edge cases.
+
+01:02:54
+Mario is doing the fuzzing of different parts of the clients.
+
+01:02:57
+And then other kind of testing, like benchmarking, stress testing,
+
+01:03:01
+making sure that what if we deploy a huge amount of validators
+
+01:03:05
+or a huge amount of this or that?
+
+01:03:08
+Does it go belly up? Does it survive?
+
+01:03:10
+But if we create a huge block, can the client process it?
+
+01:03:14
+So testing the actual performance, the features of the client.
+
+01:03:18
+Shadow forks are very important testing.
+
+01:03:20
+First, these are like DevOps, kind of like a more high-level testing in a way that we take part of the network.
+
+01:03:30
+We take like 20 clients which are synced to mainnet, and then we put them through a hard fork as they will go in production.
+
+01:03:44
+But they just create like their own fork network, and we see what happened.
+
+01:03:52
+And we see in this case on the left, you see that like two or four of these clients or client pairs went down during the shadow fork.
+
+01:04:07
+And yeah, of course, clients are testing their clients themselves.
+
+01:04:13
+and with continuous integration, they can test every PR, every commit to the code.
+
+01:04:24
+So to reiterate on what I described here, how Ethereum was created
+
+01:04:29
+and how maybe everything that was outside of Ethereum,
+
+01:04:33
+but how these processes in Ethereum work,
+
+01:04:36
+is that we start with some ideas, some general description,
+
+01:04:38
+which then needs to be researched for its feasibility,
+
+01:04:43
+for the effectivity.
+
+01:04:46
+We figure out how to make this idea actually real
+
+01:04:49
+in some doable, practical way.
+
+01:04:51
+Based on that, it's specified.
+
+01:04:55
+The specifications are implemented in the software.
+
+01:04:58
+The software gets tested, and then it gets rejected
+
+01:05:00
+because nobody likes it.
+
+01:05:02
+It's really a thing that, of course,
+
+01:05:07
+like many of these things are adopted running on mainnet,
+
+01:05:10
+but it's really a thing.
+
+01:05:12
+And if you are Ethereum researcher, developer,
+
+01:05:15
+you can spend literally years,
+
+01:05:17
+like I know people who spend like three years or more
+
+01:05:20
+working on a single thing,
+
+01:05:22
+single upgrade for Ethereum,
+
+01:05:23
+which is really good and useful,
+
+01:05:25
+but it has some edge cases or something.
+
+01:05:27
+So it's still not adopted.
+
+01:05:28
+It's still being rejected and you have to come back.
+
+01:05:31
+You come back from, well, any point on this chart,
+
+01:05:34
+You might get rejected and go back to researching your idea.
+
+01:05:38
+You might fail at testing and you need to fix your implementation.
+
+01:05:42
+Or the implementation doesn't follow the specs properly and you need to fix that.
+
+01:05:49
+So, yeah, it's like a very iterative cycle.
+
+01:05:54
+Like it's always one, two step forward, one step back, I would say.
+
+01:05:59
+And it's not easy.
+
+01:06:01
+So now you might ask, like, okay, how this whole process with all of these different developers, all of these different teams works.
+
+01:06:10
+So I showed you, like, here the different clients, right?
+
+01:06:13
+There are five, there are, I'm sorry, seven clients on this page, five clients here.
+
+01:06:19
+I mentioned some others which are being developed.
+
+01:06:21
+So we have these testing teams, client teams, research teams.
+
+01:06:25
+altogether it's basically like 20 different teams around 20 different teams and like maybe 200 plus
+
+01:06:31
+people from these different teams and independently working on ethereum so the question is how they
+
+01:06:38
+all coordinate how it's possible that we ship how it's possible that we agree on what ethereum is
+
+01:06:43
+supposed to look like so uh first there are many parts to it i'm at search from the bottom
+
+01:06:50
+e3search, it's a forum where people post their ideas.
+
+01:06:54
+People post something coming in these first two categories.
+
+01:07:02
+So when I see some problem or some missing feature in Ethereum
+
+01:07:07
+or something that should be changed, tweaked,
+
+01:07:10
+I can post on the research where I show outcome of my research,
+
+01:07:16
+my ideas and the way that I tested it, the way that I proposed it, and it gets heavily discussed there.
+
+01:07:25
+These community proposals are then formalized as EIPs that I mentioned before.
+
+01:07:32
+The EIPs have their discussion under Eat Magicians forums, another forum which is not discussing general research ideas,
+
+01:07:42
+like e3 search but specific eips and uh the way they are uh they are specified uh
+
+01:07:49
+and then like eip is a process about the eips themselves so we also have like community you
+
+01:07:56
+know editing the eips and making sure that you know they make sense they they are formally
+
+01:08:01
+correct this is done mostly by cat hereders community uh they also have this uh peep at
+
+01:08:07
+EAP series with videos giving a space to EAP champions to talk about their proposals.
+
+01:08:18
+So these are the forum discussions, the public discussions, a lot of discussion, a lot of
+
+01:08:23
+coordination is happening in R&D Discord. The R&D Discord is a server similar to our EPS one
+
+01:08:29
+where people from many different teams participate in discussion and updates and so on.
+
+01:08:37
+So here on the R&D Discord is also where you can see a release of the dev calls.
+
+01:08:45
+So now there are different calls of developers, which are regular and maybe the most important part of this to follow if you want to learn about what's happening now in Ethereum.
+
+01:08:58
+So there are what we call ACD calls, the all-core devs.
+
+01:09:02
+And these are focused on either execution layer or consensus layer, always on Thursday.
+
+01:09:06
+like today.
+
+01:09:09
+So later today,
+
+01:09:10
+there will be called with like maybe,
+
+01:09:12
+I don't know, 50 people,
+
+01:09:14
+representatives of different teams
+
+01:09:16
+discussing the current changes,
+
+01:09:19
+the actions before the hard fork.
+
+01:09:23
+So right now,
+
+01:09:25
+the biggest topic is planning
+
+01:09:27
+of the upcoming DEN app upgrade.
+
+01:09:30
+And I believe today was the deadline
+
+01:09:32
+for the client releases.
+
+01:09:33
+So on these calls, they agreed, like, okay, this is a reasonable deadline for us of each of these teams to ship this feature.
+
+01:09:49
+So they talk and they are able to coordinate using this.
+
+01:09:53
+And then there are like not all core devs, but like specific feature, like calls dedicated to implementers of specific feature.
+
+01:10:01
+Like we saw 4.8.4 or when we test nets, I'm missing T there, when there was GERLY deprecated and we were deploying test nets or EF was a feature which was discussed like this.
+
+01:10:17
+there's also wallet devs coordination call for like standards for wallets which is a bit outside
+
+01:10:23
+of the protocol but worth mentioning so yeah these are these are the regular calls it's it's
+
+01:10:29
+worth following and it's it's a it's it's here where the coordination actually happens where
+
+01:10:34
+people like some ideas and it's not that simple you know like people I would I won't say argue
+
+01:10:40
+because like it's civilized discussion but still it can be a passionate discussion which takes
+
+01:10:46
+sometimes takes weeks and months before something is agreed on.
+
+01:10:51
+And that's very important that people come from different perspectives,
+
+01:10:55
+different backgrounds, with different teams voicing their opinions.
+
+01:10:58
+And this is all public.
+
+01:11:00
+It's streamed on YouTube, and you can even participate by joining the R&D Discord.
+
+01:11:05
+So anybody can voice their opinion about the Ethereum core.
+
+01:11:10
+Yeah, this is coordinated in the PM repo.
+
+01:11:13
+So you can see all of these calls, their schedule, the topics to be discussed there, you can propose a topic and so on.
+
+01:11:21
+You can see the recordings, the record of all of the previous meetings in the Ethereum slash PM, the project management repository.
+
+01:11:33
+This is how it looks like.
+
+01:11:34
+But one life hack is that if you are pretending you are working somewhere,
+
+01:11:42
+you can just put this on your screen, the YouTube call,
+
+01:11:45
+and act like you're at a call.
+
+01:11:49
+And, yeah, in addition to this, the people also meet in person
+
+01:11:52
+because sometimes it's better to talk face-to-face
+
+01:11:55
+and just figure out things hands-on.
+
+01:11:58
+And this is a famous picture where people are clapping to the first merch,
+
+01:12:04
+Like, this was the first time that the merge was actually tested, actually tried, implemented in Greece.
+
+01:12:13
+It was 2020, I think.
+
+01:12:17
+No, no, no, 2021.
+
+01:12:18
+And then this was last year, a year ago, in Austria, where people were finishing withdrawals, working on 4844.
+
+01:12:27
+for, again, like 100 people meeting in different sessions,
+
+01:12:34
+focusing on shipping the next thing.
+
+01:12:38
+So, yeah, that's how the developers coordinated.
+
+01:12:42
+But the question is, like, okay, what these developers are actually developing,
+
+01:12:46
+what they are working on, where is it coming from?
+
+01:12:48
+Well, there are researchers and people proposing these new upgrades,
+
+01:12:53
+new features uh and uh there is a some loose roadmap of what is happening in theorem right now
+
+01:12:59
+when i see a loose roadmap you maybe saw this uh this is a like the roadmap uh from uh
+
+01:13:07
+vitalik who makes this beautiful beautiful chart however uh this is not like you know
+
+01:13:16
+the definitive ethereum roadmap this is not like this has to happen this will happen this is just
+
+01:13:21
+enumeration of the current things being worked on, the current ideas,
+
+01:13:26
+the landscape of the R&D right now,
+
+01:13:29
+because it changes and maybe we'll figure out that some of these boxes
+
+01:13:33
+actually don't fit the Ethereum vision or come with some trade-offs and so on
+
+01:13:37
+as we go along. So to give you an idea of what is
+
+01:13:41
+happening right now, again, like what I said about the boxes before
+
+01:13:46
+in my chart, in my visualization
+
+01:13:50
+of the Ethereum there. Again, you can deep dive and become expert in any of these boxes basically.
+
+01:13:57
+And the first big part is the merge, which was successfully finished. We merged the Ethereum
+
+01:14:06
+with the proof of stake. However, there are some upgrades to the proof of stake,
+
+01:14:12
+like single-slot finality, making faster finalization so we can still improve the
+
+01:14:17
+to call this protocol.
+
+01:14:19
+The surge in this case is focused on scalability,
+
+01:14:24
+so to enable throughput of more transaction.
+
+01:14:28
+That includes implementing peer-dise, implementing data
+
+01:14:32
+availability sharding, and the 4844, the blobs,
+
+01:14:36
+which are coming in the upcoming upgrade.
+
+01:14:38
+Scourge is focused on economics.
+
+01:14:40
+That's MEV part, so the maximum miner extractable value,
+
+01:14:46
+which has some issues, can cause some issues on the network,
+
+01:14:50
+like centralization or problems with building blocks.
+
+01:14:58
+So there are proposals like protocol builder separation,
+
+01:15:03
+enshrined in protocol,
+
+01:15:06
+and there's some censorship resistance and so on.
+
+01:15:10
+Also, there is mentioned staking economics.
+
+01:15:13
+It's also like proof of stake improvements of exploring how we can use the economics there more effectively.
+
+01:15:24
+The verge is the vertical tries.
+
+01:15:27
+So as I mentioned before, the current state of Ethereum is the Merco-Patricia tree,
+
+01:15:33
+which is like one way we have been doing it for 10 years.
+
+01:15:37
+But now there is this proposal in testing, in development for vector commitment Merco-Trees,
+
+01:15:42
+which are using vectors to create a tree which enables like witnesses and more simple proofs,
+
+01:15:51
+like proofs which can enable stateless or much lighter clients, so more scalability.
+
+01:16:00
+Purge means getting rid of the technical depth and all the data.
+
+01:16:06
+So like there is a bunch of state, a bunch of old data, which is never going to be used,
+
+01:16:12
+but the clients the nodes are required to hold it um so we can we can actually have uh uh some
+
+01:16:21
+improvements to to uh have the old data expire uh splurge is there uh the rest of it like evm
+
+01:16:29
+improvements uh vdfs etc yeah so this is like a short overview to give you an idea what's happening
+
+01:16:35
+in different tracks, different urges of Ethereum.
+
+01:16:39
+Ultimately, all of this is trying to fight this monster of a triangle.
+
+01:16:45
+Maybe you saw this before, and this is the problem of the blockchain itself.
+
+01:16:51
+Because, well, the whole point of Ethereum is to be this distributed,
+
+01:16:55
+decentralized network, which is secure.
+
+01:17:00
+and to enable decentralization, what I said before,
+
+01:17:05
+to run one of these clients, to actually use Ethereum
+
+01:17:08
+in a trustless and secure way, you need to run one of these clients.
+
+01:17:12
+And that can take to verify.
+
+01:17:16
+So it means that you need to actually verify the data in the network.
+
+01:17:21
+So if I want to use Ethereum, I use my own client,
+
+01:17:25
+which verified all of the history and the current state.
+
+01:17:29
+However, that takes hundreds of gigabytes of data
+
+01:17:33
+and tens or hundreds of hours of the CPU time.
+
+01:17:38
+So it's pretty heavy to run on your laptop.
+
+01:17:41
+And if we put more data, which needs to be verified,
+
+01:17:46
+of course, it becomes more and more heavier.
+
+01:17:48
+And if we keep doing this, it becomes exponentially heavy.
+
+01:17:51
+And ultimately, there would be only a few single institutions
+
+01:17:57
+running these nodes.
+
+01:17:58
+and that would be centralizing, that would give us a single point of failure.
+
+01:18:04
+So Ethereum needs to be decentralized.
+
+01:18:06
+Ethereum is limiting itself.
+
+01:18:08
+It's limiting its on-chain activity to the point where you can run one of these clients
+
+01:18:16
+on a Raspberry Pi, on like very cheap, low-powered, 100 to 100 bucks device plus SSD.
+
+01:18:23
+So yeah, this is the point.
+
+01:18:26
+And now what these researchers are fighting is, of course, different problems, but this is a big part of it, to be able to run Ethereum trustlessly and at the same time allow more data being processed, which is kind of oxymoron kind of dilemma here.
+
+01:18:45
+But there are ways outlined here that can improve it, the Verge, the Search, yeah, the Purge, which are focused on this.
+
+01:18:55
+and yeah so there are there are many different improvements to ethereum many different things
+
+01:18:59
+that we can we can fix and uh ultimately uh you might think that well it's kind of an infinite
+
+01:19:06
+fight it's an infant garden right uh it's uh never ending always growing always to be trimmed and
+
+01:19:13
+maintained garden and uh that's more true like i believe that the ethereum core protocol is a
+
+01:19:20
+a garden which always needs some gardeners, some people to take care of it.
+
+01:19:25
+And right now it needs to expand and fix many things and, you know,
+
+01:19:31
+fix a bunch of its issues to get to some better state.
+
+01:19:36
+However, at one point there will be a beautiful garden which only needs maintenance.
+
+01:19:41
+At that moment, that would be ossification.
+
+01:19:44
+That's something that I hope, I believe we are aiming for,
+
+01:19:47
+to like some more of a final design
+
+01:19:50
+with Ethereum not allowing any more major changes,
+
+01:19:56
+only doing minor maintenance of updates.
+
+01:19:59
+So that's the ideal endgame here.
+
+01:20:02
+However, still it's an infant garden which never really ends.
+
+01:20:08
+But it would be beautiful if we get to this point
+
+01:20:11
+of the ossified not really changing Ethereum.
+
+01:20:14
+That would be a beautiful world.
+
+01:20:17
+isn't it? And Vitalik would be happy. We need to make him happy, guys. So yeah, if you're excited
+
+01:20:23
+about this, if you're excited about Ethereum, about all of this progress happening, the different
+
+01:20:29
+clients, development, the research, you are in the right place. You are in the EPF study group where
+
+01:20:37
+you can learn all about it. But yeah, what now? What you can do when you get here? So I believe
+
+01:20:45
+I provided a lot of resources. Right now you can see some resources from this presentation.
+
+01:20:52
+I believe all of them are in the wiki there, in the week one wiki. And when I see resources,
+
+01:21:01
+I also mean just the pictures, the charts that I show you and are explaining different parts
+
+01:21:08
+of the clients. You can start diving into these. You can learn more about it, find more relevant
+
+01:21:15
+related, connected documents and share them.
+
+01:21:18
+Come to share them on Discord and update them in the wiki.
+
+01:21:23
+So you can
+
+01:21:25
+find what makes you
+
+01:21:31
+more interested, what's your niche, what's your expertise
+
+01:21:35
+and contribute. Something that I
+
+01:21:39
+didn't mention properly before. So when you see this monster
+
+01:21:43
+of a machine, all of these different roadmap points, or if you see the Ethereum with so
+
+01:21:51
+many parts here and the testing and so on, there is not a single person who would be
+
+01:21:55
+expert in all of these.
+
+01:21:57
+There is not a single person who would be a developer of the whole Ethereum, but it's
+
+01:22:03
+always been an expert in some of these parts or like in execution or consensus.
+
+01:22:09
+So that's what the modularity allows us,
+
+01:22:11
+to focus on what do you like the more,
+
+01:22:13
+what do you find the most important, exciting,
+
+01:22:16
+and maybe you have some talents for.
+
+01:22:20
+So yeah, focus on that.
+
+01:22:23
+Find your niche and contribute.
+
+01:22:24
+Find these resources, write more documentation,
+
+01:22:27
+and upload it to the wiki.
+
+01:22:28
+Open a PR, learn how to use Git,
+
+01:22:30
+learn how to actually contribute to the open source projects
+
+01:22:34
+by contributing to our free open wiki.
+
+01:22:37
+there are already some PRs open
+
+01:22:39
+if you are here guys who opened it
+
+01:22:41
+thank you so much
+
+01:22:42
+it will be slowly reviewed
+
+01:22:44
+you can see the PRs which has been opened
+
+01:22:47
+and contribute there
+
+01:22:48
+maybe add some content there
+
+01:22:51
+or add your idea
+
+01:22:53
+maybe this should be written differently
+
+01:22:55
+so yeah come to contribute
+
+01:22:57
+and yeah you can
+
+01:22:59
+at this point
+
+01:23:00
+we did like 4
+
+01:23:03
+EPF cohorts
+
+01:23:05
+And you can find projects from all the previous cohorts in the same GitHub organization that we use for the wiki.
+
+01:23:16
+So in the EAT protocol follows cohort four, cohort three, in the slash project, the project directory,
+
+01:23:22
+you see all of the projects that have been worked on by the previous follows.
+
+01:23:26
+And now what I mentioned at the beginning, that this program is inspired by EPF.
+
+01:23:31
+because these people spend the first weeks, first months of the fellowship program
+
+01:23:37
+learning about the protocol and about their niche, about their domain.
+
+01:23:42
+And if you read their projects, if you read, they write weekly updates.
+
+01:23:45
+You can see biweekly or weekly documents written by many talented people
+
+01:23:51
+who've been learning about Ethereum or different parts of it.
+
+01:23:55
+You can see their learning curve.
+
+01:23:58
+You can see what they've been working on.
+
+01:23:59
+and maybe find the resources that they are mentioning there,
+
+01:24:04
+bring them to the wiki, learn from them,
+
+01:24:07
+so you can follow their paths because that's why they created it.
+
+01:24:10
+That's why we kept it open, public, so you can all study it.
+
+01:24:14
+You can learn about their projects and their journey.
+
+01:24:19
+Yeah, and yeah, I believe that's all, folks.
+
+01:24:23
+There is, that's the week one presentation.
+
+01:24:28
+Right now, there are already resources up for the week two.
+
+01:24:33
+Next week, we will be diving into the execution layer with Lightclient.
+
+01:24:37
+But before that, please check out more of the resources from the week one
+
+01:24:41
+and some pre-reading for the week two part.
+
+01:24:45
+And yeah, it's been 90 minutes.
+
+01:24:47
+I used all of my time.
+
+01:24:49
+Oh, my God.
+
+01:24:49
+Yeah.
+
+01:24:50
+So sorry to keep you up so long, guys.
+
+01:24:53
+So let's take maybe five minutes for some questions, if there are any.
+
+01:24:57
+let's wrap it up. Yeah, do we have any questions? Thank you so much Josh for sending all of the
+
+01:25:09
+links. So here the screenshot that this monster of a markdown table that Josh shared there,
+
+01:25:21
+it's
+
+01:25:22
+it's
+
+01:25:25
+all these weekly updates
+
+01:25:28
+so you can see what a person
+
+01:25:30
+in the slash project you can see what project
+
+01:25:32
+the person has been working on
+
+01:25:34
+and if you're interested like I don't know
+
+01:25:36
+contribution to lighthouse
+
+01:25:38
+client creation of stealth
+
+01:25:40
+addresses creation of
+
+01:25:42
+new beacon API so if you are interested
+
+01:25:44
+in like different projects
+
+01:25:46
+there you can see what's been the
+
+01:25:48
+journey of the person in this
+
+01:25:49
+weekly updates
+
+01:25:51
+yeah
+
+01:25:53
+yeah awesome
+
+01:25:57
+if there are any questions
+
+01:26:03
+any more comments feel free to go on
+
+01:26:05
+I think we still can
+
+01:26:07
+have some time
+
+01:26:09
+looks like there's a few people typing right now but
+
+01:26:13
+I haven't seen any questions
+
+01:26:15
+come through at the moment
+
+01:26:21
+so history
+
+01:26:26
+false
+
+01:26:29
+it's the F missing
+
+01:26:31
+before the OS is there
+
+01:26:33
+just what I was
+
+01:26:35
+going on
+
+01:26:37
+on about
+
+01:26:38
+I was just texting
+
+01:26:42
+Stallman like yesterday
+
+01:26:43
+he's a friend of mine
+
+01:26:44
+I'm biased here
+
+01:26:46
+I push for the F part there
+
+01:26:49
+anyway
+
+01:26:51
+if there are no questions right now
+
+01:26:54
+my camera doesn't work
+
+01:26:55
+nah
+
+01:26:58
+that's horrible
+
+01:26:59
+anyway if there are no questions right now
+
+01:27:02
+please just feel free to
+
+01:27:04
+ping me anytime in the discord
+
+01:27:06
+I'm here for you guys
+
+01:27:08
+it's warning for me so
+
+01:27:12
+the rest of the day I guess I'm
+
+01:27:14
+ready to answer your questions
+
+01:27:15
+feel free to put them in this thread
+
+01:27:18
+or in a corresponding channel on the left,
+
+01:27:20
+you see the protocol wiki part with different parts of it.
+
+01:27:24
+So feel free to ask there if you have anything.
+
+01:27:29
+Yeah.
+
+01:27:30
+Yeah, thank you so much for your time.
+
+01:27:32
+I really appreciate that so many of you showed up.
+
+01:27:34
+I had to wake up for this, so I really appreciate it.
+
+01:27:37
+I would like to wake up sooner or at least, like,
+
+01:27:40
+have a public talk for so many people this early.
+
+01:27:46
+Awesome.
+
+01:27:46
+Thanks so much, Mario.
+
+01:27:47
+That was a great talk once again, and we definitely got it recorded this time.
+
+01:27:53
+So, yeah, for those of you who didn't catch it either of these two times,
+
+01:28:00
+you can see it on the recording,
+
+01:28:03
+and we will be back next Monday for the second week's content
+
+01:28:11
+with LightClient on the execution layer.
+
+01:28:16
+Yeah.
+
+01:28:16
+Thank you, guys.
+
+01:28:17
+See you on Monday, 4 p.m. UTC, I believe.
+
+01:28:23
+Awesome.
+
+01:28:24
+Yeah, thanks a lot.
+
+01:28:25
+All right, we'll see you.
+
+01:28:26
+Thanks for staying up.
+
+01:28:28
+See you around.
+
+01:28:29
+Of course.
+
+01:28:30
+See you.
+
+01:28:47
+Thank you.
+

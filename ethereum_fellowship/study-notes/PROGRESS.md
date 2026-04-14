@@ -1,0 +1,55 @@
+# Learning Progress
+
+**Subject:** Ethereum Protocol internals — EPS 2026
+**Expert role:** Ethereum Protocol Developer + Security Auditor
+**Started:** 2026-03-16
+**Target:** Catch up on EPS 2026 + land Protocol Developer / Security Auditor role
+
+---
+
+## Catch-Up Plan
+
+| # | Date (Planned) | Date (Actual) | Topic | Track | Status |
+|---|----------------|---------------|-------|-------|--------|
+| 1 | 2026-03-16 | 2026-03-16 | Protocol 101: Ethereum Intro & Overview | Protocol 101 | ✅ Done |
+| 2 | 2026-03-16 | 2026-03-16 | Pre-reading refresh: Merkle trees, p2p networking, cryptography basics | Protocol 101 | ✅ Done |
+| 2.5 | 2026-03-16 | 2026-03-16 | Gap fill: EOA/contracts, gas, tx fields, design principles, EIP process, specs, hard forks, FOSS, Cypherpunks | Protocol 101 | ✅ Done |
+| 3 | 2026-03-17 | — | Protocol 101: Consensus Layer Overview | Protocol 101 | ⏳ Pending |
+| 4 | 2026-03-17 | — | Protocol 101: Execution Layer Overview | Protocol 101 | ⏳ Pending |
+| 5 | 2026-03-18 | — | Protocol 101: CL & EL Specs Overview | Protocol 101 | ⏳ Pending |
+| 6 | 2026-03-18 | — | Finite Groups & Fields (missed Mar 9) | Cryptography | ⏳ Pending |
+| 7 | 2026-03-18 | — | Lean Consensus Overview (missed Mar 11) | zkEVM/Lean | ⏳ Pending |
+| 8 | 2026-03-19 | — | Discrete Fourier Transform (today Mar 16) | Cryptography | ⏳ Pending |
+
+## Live Session Schedule (from Mar 16)
+
+| Date | Topic | Track | Status |
+|------|-------|-------|--------|
+| 2026-03-16 | Discrete Fourier Transform | Cryptography | 🔴 Today |
+| 2026-03-23 | Elliptic Curves & Pairings | Cryptography | ⏳ Upcoming |
+| 2026-03-24 | Lean Client Architecture | zkEVM/Lean | ⏳ Upcoming |
+| 2026-03-25 | zkEVM Fundamentals | zkEVM/Lean | ⏳ Upcoming |
+| 2026-03-30 | BLS Signatures | Cryptography | ⏳ Upcoming |
+| 2026-04-01 | leanSpec and Tooling | zkEVM/Lean | ⏳ Upcoming |
+| 2026-04-07 | Proof Systems | Cryptography | ⏳ Upcoming |
+| 2026-04-09 | Post-Quantum Cryptography | zkEVM/Lean | ⏳ Upcoming |
+
+---
+
+## Session Log
+
+| # | Date | Topic | Goal | Planned hrs | Actual hrs | Status | Session file |
+|---|------|-------|------|-------------|------------|--------|--------------|
+| 1 | 2026-03-16 | Protocol 101: Ethereum Intro & Overview | Understand WHY Ethereum exists, two-layer architecture, EL/CL communication | 1.5 | ~1 | ✅ ACHIEVED | sessions/2026-03-16.md |
+| 2 | 2026-03-16 | Pre-reading refresh: Merkle trees, p2p, cryptography | Understand Merkle proofs, devp2p/libp2p, keccak256/ECDSA/BLS | 1 | ~1 | ✅ ACHIEVED | sessions/2026-03-16.md |
+| 3 | 2026-03-16 | Gap fill: EOA, gas, tx fields, EIP process, specs, history | Cover all Lecture 1 transcript gaps | 1 | ~1 | ✅ ACHIEVED | sessions/2026-03-16.md |
+| 4 | 2026-03-17/18 | Protocol 101: Consensus Layer Overview (Part 1) | BFT, committee sampling, Gasper, validators, beacon chain, LMD-GHOST, Casper FFG | 2 | ~2 | 🔄 PARTIAL (65% content, ~78% depth) | sessions/2026-03-16.md |
+| 5 | 2026-03-18 | Protocol 101: Consensus Layer Overview (Part 1 cont.) | Gasper combined, RANDAO, proposer/committee/aggregator roles | 2 | ~2 | ✅ ACHIEVED | sessions/2026-03-18.md |
+| 6 | 2026-03-22 | Protocol 101: Consensus Layer Overview (Part 2) | Validator lifecycle, slashing deep dive, safety/liveness, sync committees, CL architecture | — | — | 🔄 IN PROGRESS | sessions/2026-03-22.md |
+
+---
+
+## Current Position
+- Last lesson: Consensus Layer Part 1 — Concepts 16–22 (BFT through RANDAO)
+- Last session: 2026-03-22
+- Next up: Consensus Layer Part 2 — Concepts 23–27 (lifecycle, slashing, safety/liveness, sync committees, CL architecture)

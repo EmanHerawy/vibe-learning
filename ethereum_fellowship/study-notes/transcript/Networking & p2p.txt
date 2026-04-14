@@ -1,0 +1,159 @@
+00:00:00
+a peer-to-peer network sometimes
+
+00:00:08
+referred to as a p2p network is one of
+
+00:00:11
+the key parts of blockchain technology
+
+00:00:13
+and is a huge improvement in how we
+
+00:00:15
+store our data but let's start with what
+
+00:00:18
+is the network a network is a group of
+
+00:00:21
+interconnected devices that exchange
+
+00:00:23
+information these devices can be
+
+00:00:25
+connected locally by a cable or
+
+00:00:27
+wirelessly through the internet the most
+
+00:00:30
+commonly used type of network is a
+
+00:00:32
+centralized client-server model a
+
+00:00:35
+client-server network is a single server
+
+00:00:37
+often operated by single entities such
+
+00:00:39
+as one company this server will handle
+
+00:00:42
+all the tasks and requests on the
+
+00:00:44
+network and store all the information
+
+00:00:46
+exchanged because there is a central
+
+00:00:48
+authority storing and managing all the
+
+00:00:50
+information this model has some serious
+
+00:00:52
+problems for example all the private
+
+00:00:55
+data can be stolen by hacking one server
+
+00:00:57
+and the user has almost no control in
+
+00:01:00
+the way that their information is
+
+00:01:01
+controlled or even exploited for example
+
+00:01:04
+you don't own any of the photos that you
+
+00:01:06
+upload to social media a company that
+
+00:01:09
+owns a social media network owns your
+
+00:01:11
+photos and they can do whatever it likes
+
+00:01:13
+better blockchain networks are different
+
+00:01:16
+from traditional client-server models
+
+00:01:17
+because there is no central point of
+
+00:01:19
+storage and therefore no controlling
+
+00:01:21
+party instead all the information on the
+
+00:01:25
+network is constantly recorded and
+
+00:01:27
+transferred between the participants on
+
+00:01:28
+the network who all store multiple
+
+00:01:30
+identical copies of the network's
+
+00:01:32
+information these participants are known
+
+00:01:34
+as nodes or peers so a peer-to-peer
+
+00:01:37
+network is a distributed network that
+
+00:01:40
+stores and transfers data without a
+
+00:01:42
+central server blockchain technology is
+
+00:01:45
+built on top of p2p networks having no
+
+00:01:48
+central point of storage makes the
+
+00:01:50
+information on a network far less
+
+00:01:52
+vulnerable to being hacked exploited or
+
+00:01:54
+lost
+
+00:01:55
+which is why p2p networks and blockchain
+
+00:01:57
+technology in particular are seen as
+
+00:02:00
+huge improvements on traditional
+
+00:02:01
+centralized models and are the future of
+
+00:02:04
+data storage and ownership
+

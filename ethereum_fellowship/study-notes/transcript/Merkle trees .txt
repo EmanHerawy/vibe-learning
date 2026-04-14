@@ -1,0 +1,246 @@
+00:00:08
+hey everybody
+
+00:00:10
+Keefer again in my last video I talked
+
+00:00:13
+about Bitcoin mining and what the
+
+00:00:16
+process is of Bitcoin mining and I kind
+
+00:00:19
+of glossed over the idea of the Merkle
+
+00:00:22
+tree and the merkel root which i think
+
+00:00:24
+is another interesting element to the
+
+00:00:26
+Bitcoin protocol so I just thought I
+
+00:00:28
+want to make a video discussing what the
+
+00:00:32
+merkel root is what is the Merkel tree
+
+00:00:33
+all that jazz so I guess let's take a
+
+00:00:37
+look at it this video is going to assume
+
+00:00:40
+that you know what a cryptographic hash
+
+00:00:43
+function is so if you don't know what a
+
+00:00:46
+hash function is or cryptographic hash
+
+00:00:47
+function is you can watch my other video
+
+00:00:50
+I'll put a link with the timestamp in
+
+00:00:53
+the description of this video so
+
+00:00:55
+basically what the purpose of the merkel
+
+00:00:58
+root is is to be a sort of signature of
+
+00:01:01
+all the transactions contained within a
+
+00:01:04
+single block say we have this block
+
+00:01:08
+which contains eight transactions which
+
+00:01:10
+I have called T a through th now these
+
+00:01:15
+are all the transactions on the block I
+
+00:01:17
+know that that's not representative of
+
+00:01:20
+the average block nowadays which is like
+
+00:01:23
+2,500 transactions or so but the white
+
+00:01:26
+board just doesn't magically grow I
+
+00:01:27
+can't do that many transactions we have
+
+00:01:29
+these a transactions and the first step
+
+00:01:32
+of forming the Merkel tree is to perform
+
+00:01:35
+a hash on each of the transactions so we
+
+00:01:39
+put each transaction through a hash
+
+00:01:41
+function to get the transaction hash or
+
+00:01:43
+the transaction ID which is useful in
+
+00:01:45
+itself for identifying a transaction we
+
+00:01:47
+don't stop there we got a lot more
+
+00:01:50
+hashing to do Satoshi she loved to hash
+
+00:01:52
+
+
+00:01:53
+we take our transaction IDs or our
+
+00:01:57
+transaction hashes that we've created
+
+00:01:58
+and then we put them into pairs and we
+
+00:02:02
+perform a hash on that pair of hashes
+
+00:02:05
+then once we've paired them up and hash
+
+00:02:08
+them we pair them up again and hash them
+
+00:02:12
+again and we keep doing
+
+00:02:14
+this until all of the transactions just
+
+00:02:18
+meet at a single hash so and then this
+
+00:02:21
+single hash is called the merkel root to
+
+00:02:23
+the root of the entire Merkel tree so
+
+00:02:26
+now we have the Merkel root and what
+
+00:02:28
+happens with this merkel root is that it
+
+00:02:30
+gets put into the bloc header which is
+
+00:02:34
+the part of a Bitcoin block that gets
+
+00:02:37
+hashed in the process of mining so by
+
+00:02:40
+having the merkel root in the block
+
+00:02:44
+header this basically makes the
+
+00:02:48
+transactions tamper proof so if you were
+
+00:02:51
+to go to an old transaction and try to
+
+00:02:53
+change the value of it that change would
+
+00:02:56
+be reflected in the hash of that
+
+00:02:58
+transaction aka the transaction ID and
+
+00:03:01
+that change would cascade up the Merkel
+
+00:03:04
+tree to the Merkel root changing the
+
+00:03:06
+value of the merkel root and thus
+
+00:03:08
+invalidating the block everyone will be
+
+00:03:11
+able to see that your transaction is not
+
+00:03:14
+valid because it's not on a valid block
+
+00:03:16
+because you've tampered with it somehow
+
+00:03:18
+so if you want to verify a particular
+
+00:03:20
+transaction you only need to look at the
+
+00:03:23
+branch that that transaction is on on
+
+00:03:26
+the Merkel tree you don't need to look
+
+00:03:27
+at the entire Markel tree you just have
+
+00:03:29
+to look at the branch I guess that is
+
+00:03:32
+the Merkel tree hopefully this has been
+
+00:03:36
+somewhat of a decent explanation
+
+00:03:40
+subscribe to me if you want maybe like
+
+00:03:43
+the video leave a comment with feedback
+
+00:03:45
+it's up to you I'm not going to force
+
+00:03:49
+you to do anything with your life
+
