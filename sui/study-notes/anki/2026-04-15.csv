@@ -1,0 +1,32 @@
+#separator:semicolon
+#html:false
+#notetype:Basic
+#deck:SuiMove::W9_NFT_Display_Events_Kiosk
+
+What abilities must an event struct have in Sui Move, and why?;copy + drop. copy: to pass data to the emit function. drop: for automatic cleanup after emission — events are not stored on-chain. Source: Move Book §8.15 — move-book.com/programmability/events;sui::events::abilities
+
+What does Sui automatically index — and what should you NOT emit a custom event for?;Sui auto-indexes: object creation and standard transfers. Do NOT emit custom events for mints (object creation) or transfers — they're already indexed. Only emit for state changes not visible via object metadata. Source: Move Book §8.15;sui::events::auto_index
+
+Which two fields should you NEVER put in an event struct?;sender and timestamp. Both are automatically captured in event metadata by Sui. Adding them wastes gas on every emission. Source: Move Book §8.15 + Sui Docs > Using Events;sui::events::redundant_fields
+
+Common mistake: An event struct uses a type defined in another package. Is this allowed?;❌ No. The Sui verifier requires the type passed to emit() to be internal to the module. You cannot emit a type defined in another package. Source: Move Book §8.15;sui::events::internal_type
+
+What are the 7 standard Display field names in Sui?;name, description, image_url, thumbnail_url, link, project_url, creator. Note: these are conventions — the framework does not enforce them. Wallets look for them by name. Source: Move Book §8.14 — move-book.com/programmability/display;sui::display::standard_fields
+
+What does Publisher prove ownership of — module or package?;Package. Publisher is package-scoped — it proves you are the authentic creator of the entire package, not just one module. One Publisher covers all types in all modules of the package. Source: Move Book §8.13 Publisher Authority;sui::publisher::scope
+
+What happens if the Publisher object is lost (transferred to @0x0)?;The collection's Display metadata is frozen forever. No one can create or update Display<T> for that type again. This is a centralization risk flag in NFT audits. Source: Move Book §8.14;sui::publisher::lost
+
+Common mistake: "Display is required to create an NFT." Is this correct?;❌ No. Display only affects how wallets render the NFT. Missing Display = broken UI in wallets, not a broken contract. NFTs work without Display. Source: Move Book §8.14;sui::display::not_required
+
+What does kiosk::purchase return?;(T, TransferRequest<T>). T is the purchased NFT. TransferRequest<T> is a hot potato — it must be resolved in the same transaction via transfer_policy::confirm_request, or the transaction aborts. Source: Sui Docs > Standards > Kiosk — docs.sui.io/standards/kiosk;sui::kiosk::purchase_return
+
+What happens if TransferRequest<T> is not resolved before the transaction ends?;Transaction aborts. TransferRequest has no abilities (no drop, no store) — it's a hot potato. The compiler enforces that it must be consumed via confirm_request. Source: Sui Docs > Standards > Kiosk;sui::kiosk::transfer_request
+
+What does transfer_policy::confirm_request check?;That all registered rules have been satisfied — each rule adds a receipt to the TransferRequest. confirm_request verifies all receipts are present. Missing even one receipt → transaction aborts. Source: Sui Docs > Standards > Kiosk;sui::kiosk::confirm_request
+
+What abilities does an NFT need to be placed in a Kiosk?;key + store. store is required because the NFT must be nested inside the Kiosk object (another struct). No store = cannot be placed in Kiosk. Source: Sui Docs > Standards > Kiosk;sui::kiosk::nft_abilities
+
+Security check: An NFT has key + store and a Transfer Policy enforces 10% royalties. What bypass vector exists?;MEDIUM — Wrapping bypass. NFT can be wrapped inside any custom struct (store enables this). Transfer the wrapper to buyer + receive payment peer-to-peer. Kiosk and Transfer Policy are never involved. Royalty = zero. Fix: remove store (accept Kiosk-only trading) OR document advisory-only enforcement. Source: Sui Docs > Standards > Kiosk;sui::kiosk::wrapping_bypass
+
+What makes an NFT truly Soulbound in Sui — and why is a frozen flag insufficient?;key ability only (no store) + no exposed transfer functions. Type system enforces it — no code path to move the object exists. A frozen flag fails because public_transfer can still be called if store exists. True soulbound = remove store from the struct definition. Source: Sui Docs > NFTs > Soulbound NFT;sui::nft::soulbound
