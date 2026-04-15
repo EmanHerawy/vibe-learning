@@ -1,0 +1,34 @@
+#separator:semicolon
+#html:false
+#notetype:Basic
+#deck:SuiMove::W8_CoinStandard
+
+What are the three requirements for a valid One-Time Witness (OTW) struct in Move?;1. Zero fields. 2. Only the drop ability. 3. Name must be SCREAMING_SNAKE_CASE of the module name exactly. Source: Move Book §8.12 — move-book.com/programmability/one-time-witness.html;sui::otw::definition
+
+Can a module outside of `gov` construct `GOV {}` and pass it to create_currency to forge a second TreasuryCap?;No. Struct instantiation is module-private in Move — the compiler rejects `GOV {}` outside the gov module at compile time, not runtime. Source: Move Book §8.12;sui::otw::gotcha
+
+After coin::create_currency consumes the OTW, is the OTW struct type gone?;No. The value is gone (consumed), but the TYPE lives on as a phantom type tag. TreasuryCap<MYTOKEN> and Coin<MYTOKEN> use MYTOKEN as a label — no value is ever instantiated. Source: Move Book §8.12;sui::otw::phantom_type
+
+What does TreasuryCap<T> control?;Only mint and burn — creation and destruction of supply. It does NOT control transfers. Once a Coin<T> is minted, it moves freely with no TreasuryCap involvement. Source: Sui Docs > Currencies and Tokens > Create Currencies and Tokens;sui::treasurycap::scope
+
+Security check: TreasuryCap is stored inside a shared object with no auth gate on mint/burn. What is the vulnerability and severity?;CRITICAL. Any transaction can call mint or burn — unlimited permissionless inflation or supply destruction. Shared objects can never be un-shared, so there is no recovery path. Fix: require a MintCap parameter, or keep TreasuryCap owned. Source: Sui Docs > Currencies and Tokens + Move Book §8.4;sui::treasurycap::security
+
+What is the MintCap delegation pattern for TreasuryCap?;Wrap TreasuryCap in a shared object as a private field (only the token module can access it). Issue a MintCap capability object to downstream contracts. The mint function requires both the shared object AND a MintCap — TreasuryCap is never exposed. Source: Move Book §8.4 — move-book.com/programmability/capability.html;sui::treasurycap::delegation
+
+Does a MintCap enforce quantity limits on how much can be minted?;No. MintCap delegates authority (permission to mint) but NOT limits. The contract holding MintCap is responsible for enforcing its own minting budget. If that contract has a bug, unlimited minting is possible. Source: Move Book §8.4;sui::mintcap::limits
+
+What happens to total supply when coin::split is called?;Nothing. split is value-conserving — one Coin object becomes two objects. The sum of values is identical before and after. Total supply unchanged. Source: Sui Docs > Currencies and Tokens > Create Currencies and Tokens;sui::coin::split
+
+What happens to object count when coin::join is called?;One Coin object is consumed and destroyed. The two input Coin objects become one. Value is conserved. Source: Sui Docs > Currencies and Tokens > Create Currencies and Tokens;sui::coin::join
+
+Do coin::put and coin::take trigger the DenyList hook?;No. put (Coin → Balance) and take (Balance → Coin) are internal balance operations. DenyList hooks fire at the transaction input/output boundary only — not inside balance operations. Source: Sui Framework — docs.sui.io/references/framework/sui-framework/coin;sui::denylist::boundary
+
+Common mistake: A vault uses coin::put for deposits and coin::take for withdrawals. Is a deny-listed address blocked from using the vault?;No — not automatically. put and take skip the DenyList hook. The protocol must explicitly call deny_list_v2_contains_current_epoch before each operation. Source: Sui Framework coin module reference;sui::denylist::vault_bypass
+
+deny_list_v2_add is called at epoch 100 to block an address. When is the address fully blocked from receiving coins?;From epoch 101 onward. The address can still receive coins during epoch 100 (the epoch the function was called in). Sending is blocked immediately. Fix for instant protection: use deny_list_v2_enable_global_pause. Source: Sui Docs > Currencies and Tokens > Regulated Currency and Deny List;sui::denylist::epoch_delay
+
+What does DenyCap<T> control?;Only the deny list — adding and removing addresses that cannot use the coin. DenyCap does NOT control minting or burning. That is exclusively TreasuryCap. Source: Sui Docs > Currencies and Tokens > Regulated Currency and Deny List;sui::denycap::scope
+
+Should a mint function call transfer::public_transfer internally or return Coin<T>?;Return Coin<T>. Internal transfer ends the PTB flow — the caller can't chain the coin into further operations (deposit to pool, split, wrap). Returning gives the caller the handle. Source: Sui Docs > Currencies and Tokens > Create Currencies and Tokens (PTB composability pattern);sui::coin::mint_design
+
+What does deny_list_v2_enable_global_pause do, and how is it different from deny_list_v2_add?;Global pause freezes ALL transfers for the coin type instantly — no epoch delay, affects every address. deny_list_v2_add blocks specific addresses with a 1-epoch delay on receiving. Use global_pause for emergency freeze. Source: Sui Framework coin module reference;sui::denylist::global_pause

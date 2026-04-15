@@ -1,21 +1,23 @@
 # Progress Tracker
 
 ## Current Position
-- Phase: 2 — Core Sui Programming Patterns
-- Week: 8 — Coin Standard & Token Economics
-- Status: 🔄 IN PROGRESS
-- Last session: 2026-04-14 (W8 in progress — theory ✅ CLEARED, practice Exercise 1 in progress)
-- Next up: Complete Exercise 1 (recipient: address finding) → Exercise 2 → examiner → memory-drill → notes
+- Phase: 3 — Assets & Ecosystem Standards
+- Week: 9 — Events, Display & NFT Standards
+- Status: ⬜ NOT STARTED
+- Last session: 2026-04-14 (W8 ✅ ACHIEVED — Coin Standard, TreasuryCap, DenyCap, regulated coins)
+- Next up: Move Book §8.14 Object Display + §8.15 Events + §8.17 BCS + Sui Docs NFT guides
+- Open gaps: 2 (nuance) — DenyList epoch delay window, MintCap quantity limits (Anki cards 7 + 12)
 
 ## Session Log
 | Date | Topic | Goal | Status |
 |------|-------|------|--------|
 | 2026-04-12 | W7: Collections & Dynamic Fields | Choose correct collection type + explain gas-grief risk | ✅ ACHIEVED (extended) |
-| 2026-04-14 | W8: Coin Standard & Token Economics | Trace Coin lifecycle + flag ≥2 TreasuryCap/DenyCap vulnerabilities | 🔄 IN PROGRESS |
+| 2026-04-14 | W8: Coin Standard & Token Economics | Trace Coin lifecycle + flag ≥2 TreasuryCap/DenyCap vulnerabilities | ✅ ACHIEVED |
 
 ## Completed Weeks
 - Weeks 1–6: Completed via diagnostic (2026-04-12) — skipped, foundations confirmed solid
 - Week 7: Collections & Dynamic Fields — ✅ ACHIEVED (extended session, all gaps resolved)
+- Week 8: Coin Standard & Token Economics — ✅ ACHIEVED (2026-04-14, 2 nuance gaps captured as Anki cards)
 
 ## Mini Design Exercises
 | Week | Exercise | Status |
