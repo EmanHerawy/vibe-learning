@@ -1,0 +1,30 @@
+#separator:semicolon
+#html:false
+#notetype:Basic
+#deck:SuiMove::W10_PTB_Testing
+
+What are the 7 PTB command types in Sui?;MoveCall, TransferObjects, SplitCoins, MergeCoins, MakeMoveVec, Publish, Upgrade. Source: Sui Docs > References > PTB Commands — docs.sui.io/references/ptb-commands;sui::ptb::command_types
+
+How do results pass between PTB commands?;By index: Result(0) is the output of the first command, Result(1) the second, etc. No storage, no client round-trip. The PTB runtime wires outputs directly to the next command's inputs. Source: Sui Docs > References > PTB Commands;sui::ptb::result_passing
+
+What is the atomicity guarantee of a PTB?;All commands succeed together or all revert together. There is no partial execution. If any command aborts, the entire PTB is rolled back. Source: Sui Docs > References > PTB Commands;sui::ptb::atomicity
+
+Common mistake: "If Command 1 returns false, Command 2 is skipped." Is this correct?;❌ No. PTBs have no conditional branching. Returning false does nothing to subsequent commands — only abort skips them. Safety checks must live inside the called function, not in the return value of a previous command. Source: Sui Docs > References > PTB Commands;sui::ptb::no_branching
+
+Security check: A protocol has check_health() in Command 1 and liquidate() in Command 2. check_health returns false when loan is healthy. Does this prevent liquidate from running?;No — returning false has no effect. liquidate MUST assert the invariant internally. Never delegate safety to the PTB caller or previous command return values. Severity: CRITICAL if liquidate skips the internal check. Source: Sui Docs > References > PTB Commands;sui::ptb::safety_checks
+
+What makes a Move function PTB-friendly?;It must RETURN its output value rather than calling transfer internally. Internal transfer removes the object from PTB context — the next command can't reference it. Return the object and let the PTB caller decide what to do. Source: Sui Docs > References > PTB Commands;sui::ptb::friendly_design
+
+Where are PTBs constructed — in Move or client-side?;Client-side. PTBs are built using the TypeScript (or Rust) SDK as a Transaction object and submitted to the network. Move packages just need PTB-friendly functions. No Move code is needed for PTB chaining itself. Source: Sui TypeScript SDK — sdk.mystenlabs.com/typescript/transaction-building/basics;sui::ptb::client_side
+
+What happens if a PTB MoveCall returns a key object and the TypeScript code doesn't transfer or use it?;The transaction fails at execution. Every object with the key ability returned from a MoveCall must be consumed — transferred, wrapped, or destroyed. Leaving it unhandled is a bug. Source: Sui TypeScript SDK;sui::ptb::unconsumed_object
+
+What are the rules for a #[test] function in Move?;Takes no arguments, returns nothing, is excluded from published bytecode. Run with `sui move test`. Can only test single-transaction, single-context flows. Source: Move Book §5.26 Testing — move-book.com/move-basics/testing;sui::testing::test_rules
+
+What is the difference between #[test] and #[test_only] in Move?;#[test] marks a function as a test to run. #[test_only] marks code (functions, imports, modules) that should only be compiled during testing — NOT run directly. Use #[test_only] for helper functions that take arguments. Source: Move Book §5.26 Testing;sui::testing::test_vs_test_only
+
+Common mistake: using #[expected_failure] without pinning abort_code. What's the risk?;Any abort satisfies the test — including unrelated bugs introduced by future refactors. Use #[expected_failure(abort_code = N)] to pin the exact abort code. This makes the test regression-safe. Source: Move Book §5.26 Testing;sui::testing::expected_failure
+
+When does #[test] alone become insufficient and test_scenario become necessary?;When the test needs: (1) multi-transaction state (objects surviving across txs), (2) shared objects from the object pool (take_shared), or (3) multiple addresses / senders (next_tx). Basic #[test] is single-transaction, single-context. Source: Move Book §9.5 Test Scenario — move-book.com/testing/test-scenario;sui::testing::scenario_when
+
+What are the 4 key test_scenario functions and what does each do?;begin(addr): start scenario with addr as sender. next_tx(addr): advance to new transaction with new sender. take_shared<T>(): pull shared object from object pool. return_shared(obj): put it back (required — shared objects must be returned). Source: Move Book §9.5 Test Scenario;sui::testing::scenario_functions
