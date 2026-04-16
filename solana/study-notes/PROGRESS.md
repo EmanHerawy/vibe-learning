@@ -1,11 +1,11 @@
 # Progress Log
 
 ## Current Position
-- Last lesson: Phase 1-4 full review ✅
-- Last session: 2026-04-13
-- Goal status: ✅ ACHIEVED
-- Next up: Phase 8.1 — Solana attack surface overview (Rektoff Security Roadmap)
-- Open gaps: invoke_signed hands-on (raw CPI from scratch)
+- Last lesson: Phase 8.1 — Solana vulnerability taxonomy + audit practice
+- Last session: 2026-04-15
+- Goal status: 🔄 PARTIAL
+- Next up: Phase 8.2-8.3 — deeper account validation + real program audit
+- Open gaps: re-init state reset mental model, u128 reward math pattern, MOID checklist applied cold
 
 ---
 
@@ -107,3 +107,4 @@
 | 9 | 2026-03-26 | Phase 4.1/4.2 — SPL Token model + token-minter-anchor | Mint/ATA model, PDA as mint_authority, mint_to CPI, max supply enforcement | ✅ ACHIEVED | sessions/2026-03-26.md |
 | 10 | 2026-03-27 | Phase 4.3/4.4 — SPL Token ops + NFTs + Token-2022 | freeze/thaw/transfer, NFT lifecycle, collection membership, TransferHook audit surface | ✅ ACHIEVED | sessions/2026-03-26.md |
 | 11 | 2026-04-13 | Phase 1-4 full review + gap closure | Re-teach PDAs/CPIs/access control/SPL Token/NFTs/Token-2022, find and fix all gaps | ✅ ACHIEVED | sessions/2026-04-13.md |
+| 12 | 2026-04-15 | Phase 8.1 — Vulnerability taxonomy + audit practice | 6 vuln classes, raw invoke_signed, 3-snippet audit, full staking program audit | 🔄 PARTIAL | sessions/2026-04-15.md |
