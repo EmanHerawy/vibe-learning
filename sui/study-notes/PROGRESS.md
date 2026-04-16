@@ -23,6 +23,11 @@
 - Week 9: Events, Display & NFT Standards — ✅ ACHIEVED (2026-04-15, 0 gaps, POC code reviewed)
 - Week 10: PTBs & Testing — ✅ ACHIEVED (2026-04-16, 3 passing tests, PTB client-side distinction clarified)
 
+## Extended Plan (Phase 5 — added 2026-04-16 from gap analysis)
+- Week 13: Signature verification & BCS encoding
+- Week 14: Multi-sig & upgrade security (Publisher across versions, UpgradeCap)
+- Week 15: Real audit reports (MoveSecure + OtterSec) + 4 mini design exercises
+
 ## Mini Design Exercises
 | Week | Exercise | Status |
 |------|----------|--------|
