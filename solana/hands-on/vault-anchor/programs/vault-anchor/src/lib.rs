@@ -1,5 +1,7 @@
 use anchor_lang::prelude::*;
 use anchor_lang::system_program::{self, Transfer as SystemTransfer};
+use anchor_lang::solana_program::program::invoke_signed;
+use anchor_lang::solana_program::system_instruction;
 declare_id!("BcSFKkrvggSJojDuyJ7kT51iVqXmc4FaAMKPHjdPsNnR");
 
 #[program]
@@ -28,6 +30,50 @@ pub mod vault_anchor {
         vault.balance = vault.balance.checked_add(amount).ok_or(VaultError::Overflow)?;
         Ok(())
     }
+    // ─────────────────────────────────────────────────────────────
+    // EXERCISE: withdraw_raw
+    // Same as withdraw but using raw invoke_signed instead of
+    // direct lamport manipulation.
+    //
+    // Fill in the three TODOs below. Build with: anchor build
+    // ─────────────────────────────────────────────────────────────
+    pub fn withdraw_raw(ctx: Context<WithdrawRaw>, amount: u64) -> Result<()> {
+        require!(amount > 0, VaultError::ZeroAmount);
+
+        let vault = &mut ctx.accounts.vault;
+        require!(vault.balance >= amount, VaultError::InvalidAmount);
+
+        // TODO 1: update vault.balance using checked_sub
+        vault.balance = vault.balance.checked_sub( amount).ok_or(VaultError::Overflow)?;
+
+        let user_key = ctx.accounts.user.key();
+        let bump = vault.bump;
+        let seeds= &[b"vault", user_key.as_ref(), &[bump]];
+        let singer= &[&seeds[..]];
+        // TODO 2: fill in account_infos — every account the instruction touches
+        // (hint: 3 accounts needed for a system_program transfer)
+        invoke_signed(
+            &system_instruction::transfer(
+                &ctx.accounts.vault_pda.key(),
+                &ctx.accounts.user.key(),
+                amount,
+            ),
+            &[
+                // TODO 2a: vault PDA account info
+                ctx.accounts.vault_pda.to_account_info(),
+                ctx.accounts.user.to_account_info(),
+                ctx.accounts.system_program.to_account_info()
+                // TODO 2b: user account info
+                // TODO 2c: system program account info
+            ],
+            // TODO 3: signer seeds for the vault PDA
+            // (hint: seeds = [b"vault", user_key, bump])
+           singer,
+        )?;
+
+        Ok(())
+    }
+
     pub fn withdraw(ctx: Context<ManageVault>, amount: u64) -> Result<()> {
         require!(amount > 0, VaultError::ZeroAmount);
         let vault = &mut ctx.accounts.vault;
@@ -48,6 +94,19 @@ pub struct Initialize<'info> {
     pub user: Signer<'info>,
     pub system_program: Program<'info, System>,
 }
+// Accounts struct for the exercise
+#[derive(Accounts)]
+pub struct WithdrawRaw<'info> {
+    #[account(mut, seeds = [b"vault", user.key().as_ref()], bump = vault.bump)]
+    pub vault: Account<'info, Vault>,
+    /// CHECK: this is the vault PDA as a raw AccountInfo for the CPI
+    #[account(mut, seeds = [b"vault", user.key().as_ref()], bump = vault.bump)]
+    pub vault_pda: AccountInfo<'info>,
+    #[account(mut)]
+    pub user: Signer<'info>,
+    pub system_program: Program<'info, System>,
+}
+
 #[derive(Accounts)]
 pub struct ManageVault<'info> {
     #[account(mut, seeds = [b"vault", user.key().as_ref()], bump=vault.bump )]
