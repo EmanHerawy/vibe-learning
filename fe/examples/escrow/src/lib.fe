@@ -2,6 +2,40 @@ use std::abi::sol
 use std::evm::Evm
 use std::evm::effects::assert
 
+// ─── STEP 1: Define EscrowRecord struct ───────────────────────────────────────
+// A regular (in-memory) struct holding one beneficiary's state.
+// Fields: amount (u256), release_block (u256)
+struct EscrowRecord {
+    // TODO: add fields
+    amount:u256,
+    release_block:u256
+}
+
+// ─── STEP 2: impl block ────────────────────────────────────────────────────────
+impl EscrowRecord {
+    // Associated function — constructs a new EscrowRecord
+    // Signature: pub fn new(amount: u256, release_block: u256) -> EscrowRecord
+    // TODO
+    pub fn new(_ amount: u256, _ release_block: u256) -> EscrowRecord{
+        EscrowRecord{
+                amount,
+                release_block
+                }
+    }
+    // Method — returns true if amount > 0
+    // Signature: pub fn is_funded(self) -> bool
+    // TODO
+        pub fn is_funded(self) -> bool{
+            self.amount>0
+        }
+    // Method — returns true if current_block >= self.release_block
+    // Signature: 
+    pub fn is_expired(self, current_block: u256) -> bool{
+        current_block >= self.release_block
+    }
+    // TODO
+}
+
 #[event]
 struct FundedEvent {
     from: Address,
@@ -43,7 +77,10 @@ pub contract Escrow uses (ctx: Ctx, log: mut Log) {
             let sender = ctx.caller()
             assert(value >0)
             assert(to.inner != sender.inner)
-            // NOTE: In the Fe test VM ctx.value() is always 0 — assert value > 0 only in production
+            // STEP 3a: build an EscrowRecord using EscrowRecord::new(...) then
+            //          write record.amount and record.release_block into the maps
+            // TODO: let record = EscrowRecord::new(...)
+            let record = EscrowRecord::new(value,ctx.block_number() + 7200)
             store.balances.set(key: to, value: value)
             store.release_times.set(key: to, value: ctx.block_number() + 7200)
             log.emit(FundedEvent { from: sender, to: to, amount: value })
@@ -51,12 +88,14 @@ pub contract Escrow uses (ctx: Ctx, log: mut Log) {
 
         Release uses (mut store, ctx, mut log) {
             let caller = ctx.caller()
-            let value = store.balances.get(key: caller)
-            assert(value > 0)
-            assert(ctx.block_number() >= store.release_times.get(key: caller))
+            let amount = store.balances.get(key: caller)
+            let release_block = store.release_times.get(key: caller)
+            let record = EscrowRecord::new(amount, release_block)
+            assert(record.is_funded())
+            assert(record.is_expired(current_block: ctx.block_number()))
             store.balances.set(key: caller, value: 0)
             store.release_times.set(key: caller, value: 0)
-            log.emit(ReleasedEvent { beneficiary: caller, amount: value })
+            log.emit(ReleasedEvent { beneficiary: caller, amount })
         }
 
         Get { beneficiary } -> u256 uses (store) {

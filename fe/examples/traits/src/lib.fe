@@ -1,0 +1,130 @@
+use std::abi::sol
+use std::evm::Evm
+use std::evm::effects::assert
+
+// ─────────────────────────────────────────────────────────────────────────────
+// CONTEXT
+// ─────────────────────────────────────────────────────────────────────────────
+// In Solidity, access control is repeated everywhere with modifiers:
+//   modifier onlyOwner() { require(msg.sender == owner); _; }
+//   modifier nonZero(uint x) { require(x > 0); _; }
+//
+// Fe has no modifiers. The idiomatic Fe approach is to define a trait
+// that describes "something that can validate itself", implement it for
+// different guard types, and call .validate() in handlers.
+//
+// This is also the pattern behind Fe's own effects system:
+//   Ctx, Call, Log are traits — the contract declares which ones it needs.
+// ─────────────────────────────────────────────────────────────────────────────
+
+
+// ─── STEP 1: Define the trait ─────────────────────────────────────────────────
+// Define a trait called `Checkable` with one method:
+//   fn check(self)  — panics (assert) if the check fails, does nothing if it passes
+//
+// TODO
+pub trait Checkable {
+    // TODO: one method signature here
+     fn check(self)
+}
+
+
+// ─── STEP 2: Define two guard structs ────────────────────────────────────────
+
+// Guard 1: checks that a caller is the expected owner
+struct OwnerCheck {
+    pub caller: Address,
+    pub owner:  Address,
+}
+
+// Guard 2: checks that an amount is greater than zero
+struct AmountCheck {
+    pub amount: u256,
+}
+
+
+// ─── STEP 3: Implement Checkable for each guard ──────────────────────────────
+
+impl Checkable for OwnerCheck { 
+     fn check(self){
+    assert(self.owner == self.caller)
+     }
+ }
+// TODO
+
+ impl Checkable for AmountCheck { 
+
+     fn check(self){
+       assert(self.amount>0 )
+     }
+}
+// TODO
+
+
+// ─── STEP 4: Generic validate function ───────────────────────────────────────
+// Write a generic function:
+//   fn validate<T: Checkable>(guard: T)
+// that calls guard.check()
+//
+// This is the Fe equivalent of a Solidity modifier — one function,
+// works with any type that satisfies Checkable.
+//
+// TODO
+fn validate<T: Checkable>(_ guard: T){
+    guard.check()
+}
+
+// ─── STEP 5: Wire into a contract ────────────────────────────────────────────
+// A minimal Vault contract that:
+//   - has an owner (set at init)
+//   - Withdraw handler: uses validate() with BOTH guards before releasing funds
+//     (caller must be owner AND amount must be > 0)
+//
+// The msg and contract skeleton is provided — fill in the handler body.
+
+msg VaultMsg {
+    #[selector = sol("withdraw(uint256)")]
+    Withdraw { amount: u256 },
+}
+
+struct VaultStore {
+    pub owner:   Address,
+    pub balance: u256,
+}
+
+pub contract Vault uses (ctx: Ctx) {
+    mut store: VaultStore
+
+    init(owner: Address) uses (mut store){
+        store.owner = owner
+        store.balance = 0
+    }
+
+    recv VaultMsg {
+        Withdraw { amount } uses (mut store, ctx) {
+            // TODO: use validate() with OwnerCheck and AmountCheck
+            //       then update store.balance
+            validate(OwnerCheck { caller: ctx.caller(), owner: store.owner })                                            
+             validate(AmountCheck { amount })
+             store.balance = store.balance - amount
+        }
+    }
+}
+
+
+// ─── TESTS ───────────────────────────────────────────────────────────────────
+#[test]
+fn test_owner_can_withdraw() uses (evm: mut Evm) {
+    let owner = Address { inner: 0xA11CE }
+    let addr  = evm.create2<Vault>(value: 0, args: (owner,), salt: 0)
+    assert(addr.inner != 0)
+    // extend once Withdraw handler is implemented
+}
+
+#[test]
+fn test_non_owner_cannot_withdraw() uses (evm: mut Evm) {
+    let owner = Address { inner: 0xA11CE }
+    let addr  = evm.create2<Vault>(value: 0, args: (owner,), salt: 0)
+    assert(addr.inner != 0)
+    // extend once Withdraw handler is implemented
+}

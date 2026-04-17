@@ -16,10 +16,10 @@
 | 5 | Effects & `uses` clause — all 6 effects, ceiling rule, propagation | ✅ |
 | 6 | Messages & receive blocks — selectors, handlers, multiple msg types | ✅ |
 | 7 | Contracts — declaration, storage, `init`, composition model | ✅ |
-| 8 | **Structs & impl blocks** — `impl`, methods, associated functions, storage structs | ⬜ next |
-| 9 | **Traits & generics** — trait definition, implementing, generic functions, bounds | ⬜ |
+| 8 | **Structs & impl blocks** — `impl`, methods, associated functions, storage structs | ✅ |
+| 9 | **Traits & generics** — trait definition, implementing, generic functions, bounds | ✅ |
 | 10 | Events & logging | ✅ (basic — `#[event]`, `log.emit()`) |
-| 11 | Error handling — `assert`, revert, `Option`/`Result` | ⬜ |
+| 11 | Error handling — `assert`, revert, `Option`/`Result` | ⬜ next |
 | 12 | Testing Fe contracts | ✅ (Fe `#[test]` + Hardhat) |
 | 13 | Common patterns — token, allowance, pausable, upgradability | ⬜ |
 | 14 | By example — ERC20, NFT, voting, DEX | ⬜ |
@@ -36,12 +36,16 @@
 | 5 | 2026-04-12 | Cross-contract calls — theory | Ctx/Call/Evm traits from source; call.call, call.static, call.delegate, raw_call | ✅ | sessions/2026-04-12.md |
 | 6 | 2026-04-13 | Cross-contract calls — Arbiter/Vault | Write Arbiter+Vault from scratch; 7/7 Hardhat tests passing; ETH transfer workaround confirmed | ✅ | sessions/2026-04-13.md |
 | 7 | 2026-04-13 | Events | Add #[event] + log.emit() to Vault and Arbiter; FundedEvent, ReleasedEvent, ApproveEvent | ✅ | sessions/2026-04-13.md |
+| 8 | 2026-04-17 | Structs & impl blocks | EscrowRecord struct + impl block; storage slot ordering + upgrade safety | ✅ | sessions/2026-04-17.md |
+| 9 | 2026-04-17 | Traits & generics | Checkable trait + generic validate(); effects system = traits; uses clause = capability ceiling | ✅ | sessions/2026-04-17.md |
 
 ## Current Position
-- Last lesson: Events on Arbiter/Vault ✅
-- Last session: 2026-04-13
-- Next up: **Part 8 — Structs & impl blocks** (fe-lang.org/structs/definition/)
-- After that: **Part 9 — Traits & generics**, then **Security — reentrancy**
+- Last lesson: Traits & generics ✅
+- Last session: 2026-04-17
+- Goal status: ✅ ACHIEVED (Parts 8 + 9 both completed)
+- Next up: **Part 11 — Error handling** (assert, revert, Option/Result)
+- After that: **Security — reentrancy** (CEI + Mutex + TStorPtr)
+- Open questions: 0
 
 ## Open Questions / Known Limitations
 - `call.raw_call(addr, gas, value, args_offset: 0, args_len: 0)` — clean ETH send, unconfirmed compile

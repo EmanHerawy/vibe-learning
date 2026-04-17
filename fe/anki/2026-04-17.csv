@@ -1,0 +1,14 @@
+#separator:semicolon
+#html:false
+#notetype:Basic
+#deck:fe::structs-and-traits
+What EVM storage slot does the 3rd field of a Fe storage struct get?;Slot 2 (zero-indexed). Fe assigns slots in declaration order: field 1 → slot 0, field 2 → slot 1, field 3 → slot 2. Baked in at deployment forever. Mnemonic: ground floor = slot 0, count from zero top-to-bottom.;fe::structs::cause-effect
+Common mistake: reordering struct fields in an upgrade is safe if types stay the same. Correct?;❌ No. Slot numbers never change. Old data in slot 3 is now read under the new field name — silent corruption. Rule: append-only, never reorder. Mnemonic: safe deposit box — renaming the label doesn't change what's inside.;fe::structs::gotcha
+How do you call a METHOD vs ASSOCIATED FUNCTION on a Fe struct?;Method → instance.method() (dot, has self). Assoc fn → TypeName::function() (::, no self). Mnemonic: dot = you have the thing. :: = asking the type to make something.;fe::structs::syntax
+A Fe method tries to write to a field but compiler rejects it. What single keyword change fixes it?;Change self to mut self in the method signature. Read → fn method(self). Write → fn method(mut self). Mnemonic: same as uses clause — mut store = write, store = read. Fe makes ALL write intent explicit.;fe::structs::syntax
+Write the Fe syntax to define a trait Checkable with method check(self).;pub trait Checkable { fn check(self) }. No body — signatures only. Mnemonic: a trait is a job description — lists what you must do, not how.;fe::traits::syntax
+How do you implement trait Checkable for struct OwnerCheck in Fe?;impl Checkable for OwnerCheck { fn check(self) { ... } }. Pattern: impl [TraitName] for [TypeName]. Mnemonic: "implement the job description [what] for the worker [who]".;fe::traits::syntax
+Write a generic Fe function accepting any T: Checkable and calling check().;fn validate<T: Checkable>(_ guard: T) { guard.check() }. Mnemonic: <T: Checkable> = T must have a Checkable badge. Compiler is the badge inspector.;fe::traits::syntax
+A Fe contract has uses (ctx: Ctx) — Call and Log not listed. What auditor conclusion?;Compiler GUARANTEES the contract can never make external calls or emit events. uses clause = static capability ceiling. Read it first as auditor — it reveals the complete attack surface.;fe::traits::security
+Why does StorageMap<K,V> require V: WordRepr?;StorageMap stores each value in one EVM slot (one u256). WordRepr guarantees the type round-trips: from_word(u256)->Self and to_word(self)->u256. Mnemonic: WordRepr = fits in one word (32 bytes).;fe::traits::cause-effect
+Security: Withdraw handler runs AmountCheck before OwnerCheck. What is the problem?;Non-owner triggers AmountCheck assert — wasted gas on unauthorized call. Access control (who) always before value validation (how much). Mnemonic: bouncer at the door first, then ticket check inside.;fe::traits::security
