@@ -3,10 +3,10 @@
 ## Current Position
 - Phase: 4 — Production Excellence
 - Week: 11 — Performance, Gas & Advanced Topics
-- Status: ⬜ NOT STARTED
-- Last session: 2026-04-16 (W10 ✅ ACHIEVED — PTBs, test_scenario, Move testing framework)
-- Next up: Sui Docs > Gas Model + Move Book §9.1 Compilation Modes
-- Open gaps: 0 — TypeScript PTB construction deferred (secondary, frontend work)
+- Status: 🔄 IN PROGRESS (gas model ✅, cryptography ⬜)
+- Last session: 2026-04-17 (W11 Part 1 ✅ — gas model, storage rebates, shared object contention)
+- Next up: W11 Part 2 — Cryptography on Sui (hashing, BCS, on-chain signatures)
+- Open gaps: 0
 
 ## Session Log
 | Date | Topic | Goal | Status |
@@ -15,6 +15,7 @@
 | 2026-04-14 | W8: Coin Standard & Token Economics | Trace Coin lifecycle + flag ≥2 TreasuryCap/DenyCap vulnerabilities | ✅ ACHIEVED |
 | 2026-04-15 | W9: Events, Display & NFT Standards | Design NFT with Display + events + Kiosk/TransferPolicy + Soulbound | ✅ ACHIEVED |
 | 2026-04-16 | W10: PTBs & Testing | Decompose DeFi PTB + write Move test_scenario tests | ✅ ACHIEVED |
+| 2026-04-17 | W11 Part 1: Gas Model & Performance | Explain gas model + spot 2 optimization opportunities | ✅ ACHIEVED |
 
 ## Completed Weeks
 - Weeks 1–6: Completed via diagnostic (2026-04-12) — skipped, foundations confirmed solid

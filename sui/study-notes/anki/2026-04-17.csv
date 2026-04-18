@@ -1,0 +1,28 @@
+#separator:semicolon
+#html:false
+#notetype:Basic
+#deck:SuiMove::W11_Gas_Performance
+
+What are the two components of gas on Sui?;1. Computation fee — CPU work to execute the transaction (dynamic per epoch, set by validators). 2. Storage fee — bytes stored on-chain (fixed: 1 byte = 100 storage units). Net cost = computation + storage - storage rebate. Source: Sui Docs > Gas in Sui — docs.sui.io/concepts/tokenomics/gas-in-sui;sui::gas::two_components
+
+How is the storage fee calculated on Sui?;Linear: 1 byte = 100 storage units. 25 bytes = 2,500 storage units. The price per storage unit is fixed and updated only via governance (rarely changes). Source: Sui Docs > Gas in Sui;sui::gas::storage_calculation
+
+Common mistake: "If I set my gas budget too high, validators keep the excess." Is this correct?;❌ No. Gas budget is a maximum cap, not a charge. You pay only what the transaction actually costs. If actual cost < budget, you keep the difference. If actual cost > budget, the transaction aborts. Source: Sui Docs > Gas in Sui;sui::gas::budget_cap
+
+What is the storage rebate in Sui, and how much do you get back?;When you delete a Sui object, you receive 99% of its original storage fee back. 1% is kept permanently in the Storage Fund. Whoever submits the delete transaction receives the rebate — not necessarily the original creator. Source: Sui Docs > Gas in Sui;sui::gas::storage_rebate
+
+What is the net storage cost of creating and then deleting a Sui object?;~1% of the original storage fee (the non-rebateable portion). 99% is returned when deleted. Ephemeral object patterns (create → use → delete in same or later tx) cost almost nothing in storage. Source: Sui Docs > Gas in Sui;sui::gas::ephemeral_cost
+
+How is the Reference Gas Price (RGP) set each epoch on Sui?;Validators submit reservation prices at epoch start. The protocol picks the 2/3 percentile by stake as the RGP. Validators pricing at/below RGP get boosted staking rewards. Validators pricing above RGP get reduced rewards. No hard cap — constraint is economic incentives. Source: Sui Docs > Gas in Sui;sui::gas::rgp_mechanism
+
+What is the storage cost of a hot potato (struct with no abilities, no UID) in a Sui transaction?;Zero. A hot potato has no key ability — it never enters the Sui object store. It exists only in Move's execution context (stack). Only computation cost applies. Source: Sui Docs > Gas in Sui + Move Book §8.16 Hot Potato;sui::gas::hot_potato_cost
+
+What is the performance difference between shared object transactions and owned object transactions?;Shared: requires consensus (multi-round validator agreement) ~500ms+. Owned: fast path, skips consensus, ~100ms. Under high load, shared objects serialize all transactions — a single hot shared object bottlenecks the entire protocol. Source: Sui Docs > Gas in Sui;sui::gas::shared_vs_owned
+
+What is sharding in the context of Sui shared objects?;Splitting one hot shared object into N partitioned copies (e.g., 16 order book shards by asset pair). Transactions route to their shard. Each shard requires separate consensus, so throughput scales horizontally instead of serializing through one object. Source: Sui Docs > Shared Objects + Gas;sui::gas::sharding
+
+Security check: A protocol has a shared object with a growing vector<String> that is never cleaned up. What attack does this enable?;Storage bloat attack — HIGH severity. Attacker spams cheap transactions that append data to the vector. The object grows permanently (no deletion = no rebate path). The attacker pays storage per write. Future interactions incur higher computation cost from processing a larger object. Fix: use events for history, cap vector size, or provide a cleanup function. Source: Sui Docs > Gas in Sui;sui::gas::storage_bloat
+
+Security check: A protocol uses a shared Table for all user balances AND distributes rewards by iterating that Table. What two vulnerabilities compound?;1. CRITICAL: Unbounded iteration → gas grief. Attacker joins to inflate the Table → distribute_rewards hits gas cap → rewards locked forever. 2. CRITICAL: Table not iterable by integer index in Move (compile error). Fix: pull-over-push (removes loop) AND owned objects per user (removes consensus overhead). Both required — fixing one leaves the other. Source: Move Book §8.6 + Sui Docs Gas;sui::gas::compound_vulnerability
+
+Common mistake: "Interacting with a bloated shared object costs more storage." Is this correct?;❌ No. Storage fees are charged on NEW bytes written, not on bytes already stored. Reading or updating a large object incurs higher computation cost (larger data to process) but NOT additional storage rent for the existing bytes. Source: Sui Docs > Gas in Sui;sui::gas::read_vs_write_cost
