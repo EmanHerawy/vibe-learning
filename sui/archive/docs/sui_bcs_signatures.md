@@ -1,8 +1,14 @@
 # BCS Encoding & Signature Verification on Sui
 
+**Primary sources:**
+- Move Book §8.17 BCS — https://move-book.com/programmability/bcs
+- Sui Docs > Cryptography > Signing — https://docs.sui.io/guides/developer/cryptography/signing
+- Sui Docs > Cryptography > Hashing — https://docs.sui.io/guides/developer/cryptography/hashing
+
 ---
 
 ## BCS — What It Is
+> Source: Move Book §8.17 BCS — move-book.com/programmability/bcs
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
@@ -24,6 +30,7 @@
 ---
 
 ## How Encoding Works
+> Source: Move Book §8.17 BCS — move-book.com/programmability/bcs
 
 ```
 Struct definition:
@@ -54,6 +61,7 @@ Primitive sizes:
 ---
 
 ## Decoding — Order is Everything
+> Source: Move Book §8.17 BCS — move-book.com/programmability/bcs
 
 ```
 ✅ CORRECT — peel in struct definition order:
@@ -91,6 +99,7 @@ Primitive sizes:
 ---
 
 ## Hash Functions
+> Source: Sui Docs > Cryptography > Hashing — docs.sui.io/guides/developer/cryptography/hashing · Move Book §std::hash
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
@@ -131,6 +140,7 @@ All are cryptographically adequate for signature verification.
 ---
 
 ## On-Chain Signature Verification Flow
+> Source: Sui Docs > Cryptography > Signing — docs.sui.io/guides/developer/cryptography/signing
 
 ```
 OFF-CHAIN (backend / admin)                ON-CHAIN (Move contract)
@@ -187,6 +197,7 @@ OFF-CHAIN (backend / admin)                ON-CHAIN (Move contract)
 ---
 
 ## Replay Attacks
+> Source: Sui Docs > Cryptography > Signing — docs.sui.io/guides/developer/cryptography/signing
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
@@ -248,6 +259,7 @@ OFF-CHAIN (backend / admin)                ON-CHAIN (Move contract)
 ---
 
 ## Domain Separation — Visual
+> Source: Sui Docs > Cryptography > Signing — docs.sui.io/guides/developer/cryptography/signing
 
 ```
 WITHOUT domain separation:
@@ -286,6 +298,7 @@ WITH domain separation:
 ---
 
 ## Full Replay-Safe Permit Pattern
+> Source: Sui Docs > Cryptography > Signing — docs.sui.io/guides/developer/cryptography/signing · Move Book §8.17 BCS — move-book.com/programmability/bcs
 
 ```move
 public struct MintPermit has drop {
@@ -330,6 +343,7 @@ public fun mint_with_permit<T>(
 ---
 
 ## Common Audit Findings — Severity Reference
+> Source: Sui Docs > Cryptography > Signing — docs.sui.io/guides/developer/cryptography/signing
 
 ```
 ┌──────────────────────────────────────────────────────────────────────┐
@@ -349,6 +363,7 @@ public fun mint_with_permit<T>(
 ---
 
 ## Cross-Contract Replay — Move's Limitation
+> Source: Sui Docs > Cryptography > Signing — docs.sui.io/guides/developer/cryptography/signing
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐

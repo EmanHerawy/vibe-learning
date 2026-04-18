@@ -1,8 +1,14 @@
 # Sui Gas Model
 
+**Primary sources:**
+- Sui Docs > Gas in Sui — https://docs.sui.io/concepts/tokenomics/gas-in-sui
+- Sui Docs > Gas Optimization — https://docs.sui.io/guides/developer/sui-101/gas-optimization
+- Move Book §8.6 Collections — https://move-book.com/programmability/collections
+
 ---
 
 ## The Two-Part Bill
+> Source: Sui Docs > Gas in Sui — docs.sui.io/concepts/tokenomics/gas-in-sui
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
@@ -24,6 +30,7 @@ Net cost = computation + storage_written - (99% × storage_deleted)
 ---
 
 ## Gas Budget — Cap, Not Charge
+> Source: Sui Docs > Gas in Sui — docs.sui.io/concepts/tokenomics/gas-in-sui
 
 ```
 ┌───────────────────────────────────────────────────────────────────┐
@@ -50,6 +57,7 @@ Net cost = computation + storage_written - (99% × storage_deleted)
 ---
 
 ## Reference Gas Price (RGP) — How Validators Set Fees
+> Source: Sui Docs > Gas in Sui — docs.sui.io/concepts/tokenomics/gas-in-sui
 
 ```
 Every epoch start:
@@ -81,6 +89,7 @@ Competition keeps it honest — no governance cap needed.
 ---
 
 ## Storage Rebates
+> Source: Sui Docs > Gas in Sui — docs.sui.io/concepts/tokenomics/gas-in-sui
 
 ```
 ┌────────────────────────────────────────────────────────────────┐
@@ -104,6 +113,7 @@ Competition keeps it honest — no governance cap needed.
 ```
 
 ### Hot Potato Storage Cost
+> Source: Move Book §8.16 Hot Potato — move-book.com/programmability/hot-potato
 
 ```
 public struct Receipt { amount: u64 }   ← no key ability
@@ -119,6 +129,7 @@ Rule: no key ability = no object store entry = no storage fee.
 ---
 
 ## Shared vs Owned — Performance Cost
+> Source: Sui Docs > Gas in Sui — docs.sui.io/concepts/tokenomics/gas-in-sui · Sui Docs > Object Ownership — docs.sui.io/concepts/object-ownership
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
@@ -140,6 +151,7 @@ Under high load:
 ```
 
 ### Sharding — The Fix for Hot Shared Objects
+> Source: Sui Docs > Gas Optimization — docs.sui.io/guides/developer/sui-101/gas-optimization
 
 ```
 ONE shared object:
@@ -160,6 +172,7 @@ Same store, same products, parallel processing.
 ---
 
 ## Gas Optimization Checklist — Audit View
+> Source: Sui Docs > Gas Optimization — docs.sui.io/guides/developer/sui-101/gas-optimization · Move Book §8.6 — move-book.com/programmability/collections
 
 ```
 ┌──────────────────────────────────────────────────────────────────────┐
@@ -186,6 +199,7 @@ Same store, same products, parallel processing.
 ---
 
 ## Compound Vulnerability — Shared + Unbounded Iteration
+> Source: Move Book §8.6 — move-book.com/programmability/collections · Sui Docs > Gas in Sui — docs.sui.io/concepts/tokenomics/gas-in-sui
 
 ```
 ATTACK SCENARIO:
@@ -223,6 +237,7 @@ Analogy: flooding + fire
 ---
 
 ## Key Formulas
+> Source: Sui Docs > Gas in Sui — docs.sui.io/concepts/tokenomics/gas-in-sui
 
 ```
 Net gas cost:
