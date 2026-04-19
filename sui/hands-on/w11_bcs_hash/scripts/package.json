@@ -1,0 +1,16 @@
+{
+  "name": "w11-bcs-hash-scripts",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "gen-sig": "npx tsx gen_sig.ts"
+  },
+  "dependencies": {
+    "@mysten/sui": "^1.0.0",
+    "@noble/hashes": "^1.4.0"
+  },
+  "devDependencies": {
+    "tsx": "^4.0.0",
+    "typescript": "^5.0.0"
+  }
+}
