@@ -87,7 +87,9 @@
 | 8.4 | PDA seed collisions & arbitrary CPI | ⏳ |
 | 8.5 | Re-initialization attacks | ⏳ |
 | 8.6 | Integer overflow / arithmetic bugs | ⏳ |
-| 8.7 | Auditing real Solana programs | ⏳ |
+| 8.7 | Auditing real Solana programs | 🔄 In progress |
+| 8.7.1 | Audit Arena Week 1 — StakeFlow | ✅ Complete — 10 findings (SF-01 Critical through SF-10) |
+| 8.7.2 | Audit Arena Week 2 — MissionX | 🔄 In progress |
 | 8.8 | CTF / audit challenges | ⏳ |
 
 ---
@@ -108,3 +110,6 @@
 | 10 | 2026-03-27 | Phase 4.3/4.4 — SPL Token ops + NFTs + Token-2022 | freeze/thaw/transfer, NFT lifecycle, collection membership, TransferHook audit surface | ✅ ACHIEVED | sessions/2026-03-26.md |
 | 11 | 2026-04-13 | Phase 1-4 full review + gap closure | Re-teach PDAs/CPIs/access control/SPL Token/NFTs/Token-2022, find and fix all gaps | ✅ ACHIEVED | sessions/2026-04-13.md |
 | 12 | 2026-04-15 | Phase 8.1 — Vulnerability taxonomy + audit practice | 6 vuln classes, raw invoke_signed, 3-snippet audit, full staking program audit | 🔄 PARTIAL | sessions/2026-04-15.md |
+| 13 | 2026-04-22 | Audit Arena Week 1 — StakeFlow (blind audit + review) | Audit StakeFlow, compare vs reference, build checklist from gaps | ✅ ACHIEVED | study-notes/audit-reports/audit_draft.md |
+| 14 | 2026-04-23 | Audit Arena Week 1 — StakeFlow post-mortem + checklist | Floor division exploit, BPF stack overflow, share price inflation, symmetry check | ✅ ACHIEVED | sessions/2026-04-23.md |
+| 15 | 2026-04-23 | Audit Arena Week 2 — MissionX (blind audit) | Audit MissionX blind — find bugs across lifecycle, access control, bonding curve, Token-2022 | 🔄 IN PROGRESS | sessions/2026-04-23-missionx.md |
