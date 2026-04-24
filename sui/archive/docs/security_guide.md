@@ -928,6 +928,45 @@ public entry fun transfer_ownership(
 □ Check for front-running vulnerabilities
 ```
 
+#### H. Upgrade Security
+
+```
+□ Query UpgradeCap owner on-chain — single EOA or multi-sig? (see CLI commands §16)
+□ Query UpgradeCap policy on-chain — do NOT trust docs or Move.toml
+    policy=0  → compatible  (most permissive — implementations can change silently)
+    policy=128 → additive
+    policy=192 → dep_only
+    no cap object → immutable (cap was destroyed)
+□ If compatible policy: enumerate every public function — which behavior can change
+  with the same signature? Fee %, recipient address, slippage logic, access checks?
+□ Is there a timelock on upgrade execution? (7-day min for DeFi governance)
+□ Does protocol claim "immutable" in docs but hold a live UpgradeCap? → CRITICAL LIE
+□ Is UpgradeCap wrapped in a shared object? If yes, audit every function on that
+  object for unguarded extraction or construction of AdminCap/UpgradeCap
+□ Compatible policy allows changing private/entry/friend function signatures — not just
+  bodies. Check if any sensitive logic lives behind non-public functions.
+```
+
+#### I. Multi-Role Access Control
+
+```
+□ Map every capability struct → which functions does it gate?
+□ Does any cap have `store`? If yes: can it be transferred by a PTB without module
+  involvement? Who can call transfer::public_transfer on it?
+□ Is there a single AdminCap gating everything? → blast radius finding
+□ Are operational caps (oracle bots, hot wallets) separated from governance caps?
+□ Check init(): are caps distributed to the right addresses, or all to deployer?
+□ Is there a recovery mechanism if a key-only (no store) cap is sent to a dead address?
+□ Search for every place a cap struct is constructed: `CapType { id: object::new(ctx) }`
+  in a public function with no auth guard → CRITICAL (mint-on-demand backdoor)
+□ Search for every place a container struct is destructured: `let ContainerType { .., cap }`
+  in a public function with no auth guard → CRITICAL (extract-from-wrapper backdoor)
+□ Is there a PauserCap (emergency) separate from AdminCap (governance)?
+□ Does init() emit an event or leave a trace when caps are minted? (audit trail)
+□ Blast radius map: AdminCap compromised → X exposed. OperatorCap compromised → Y exposed.
+  Are X and Y scoped to the minimum necessary?
+```
+
 ### Phase 3: Testing
 
 ```
@@ -1456,5 +1495,186 @@ fun debug_check_invariant(pool: &Pool) {
 ---
 
 **Remember**: Sui's object-centric model and parallel execution create fundamentally different security challenges than Ethereum. Traditional smart contract auditing knowledge helps, but you must deeply understand Move's type system and Sui's execution model to be effective.
+
+---
+
+## 16. Upgrade Security & Multi-Role Access Control
+
+> Added: 2026-04-24 (W12+W14 session)
+
+### 16.1 UpgradeCap — Mechanics
+
+When a package is published, Sui creates an `UpgradeCap` and sends it to the publisher:
+
+```move
+public struct UpgradeCap has key, store {
+    id: UID,
+    package: ID,   // original package ID this controls
+    version: u64,  // starts at 0, increments each upgrade
+    policy: u8,    // restricts allowed upgrade types
+}
+```
+
+**Policy constants:**
+
+| Value | Name | What's allowed |
+|-------|------|----------------|
+| 0 | `COMPATIBLE` | Change any function body; change/remove private/entry/friend signatures; add functions, types, modules |
+| 128 | `ADDITIVE` | Add new functions or types anywhere; change dependencies; existing functions fully frozen |
+| 192 | `DEP_ONLY` | Change dependencies only |
+| destroyed | immutable | `make_immutable(cap)` called — no upgrades ever |
+
+**Critical: COMPATIBLE allows more than most devs expect.**
+Public function *signatures* are locked, but implementations are not. Any non-public
+function signature can also be changed. Fee %, slippage logic, access control checks —
+all can be silently changed under a compatible upgrade with the same public API.
+
+**Setting policy** (NOT in Move.toml — on-chain only):
+```move
+sui::package::only_additive_upgrades(&mut cap);  // → policy = 128
+sui::package::only_dep_upgrades(&mut cap);        // → policy = 192
+sui::package::make_immutable(cap);                // destroys cap → immutable forever
+```
+
+Policy can only go UP (more restrictive). Default at publish: compatible (0).
+
+**Destroying the cap** — only valid method:
+```move
+sui::package::make_immutable(cap);  // takes cap by VALUE, calls object::delete internally
+// let _ = cap;                     // COMPILE ERROR — no `drop` ability
+// let UpgradeCap { .. } = cap;     // COMPILE ERROR — private fields, wrong module
+```
+
+---
+
+### 16.2 Multi-Role Access Control — Patterns & Vulnerabilities
+
+**The single-cap anti-pattern:**
+```move
+// ❌ one key for everything — blast radius = total protocol takeover
+public struct AdminCap has key, store { id: UID }
+public fun set_fee(_: &AdminCap, ...) { ... }
+public fun pause(_: &AdminCap, ...) { ... }
+public fun mint(_: &AdminCap, ...) { ... }
+```
+
+**Correct role separation:**
+```move
+// ✅ separated by blast radius and operational cadence
+public struct AdminCap   has key { id: UID }   // governance — multi-sig, rarely used
+public struct OperatorCap has key { id: UID }  // day-to-day ops — automated systems
+public struct MinterCap  has key { id: UID }   // mint only
+public struct PauserCap  has key { id: UID }   // emergency — any team member
+// NOTE: no `store` on any of them — non-transferable by external code
+```
+
+**`store` ability = transferable = larger attack surface:**
+
+```move
+// transfer module enforces this at compile time:
+transfer::public_transfer<T: key + store>(obj, addr);  // callable anywhere
+transfer::transfer<T: key>(obj, addr);                 // module-internal only
+
+// AdminCap has key, store → attacker PTB can call public_transfer → steal cap
+// AdminCap has key only  → public_transfer won't compile for AdminCap → cap stuck
+```
+
+**Two capability construction vulnerabilities:**
+
+Vuln A — Unguarded mint (constructs a new cap):
+```move
+// ❌ Anyone calls this → gets a fresh AdminCap
+public fun emergency_recover(ctx: &mut TxContext): AdminCap {
+    AdminCap { id: object::new(ctx) }  // struct construction is module-internal
+    // but if this function is public with no guard → mint-on-demand backdoor
+}
+```
+
+Vuln B — Unguarded extract (destructs a wrapper struct to pull out the embedded cap):
+```move
+// ❌ Anyone passes in the shared Protocol object → walks away with the real AdminCap
+public fun emergency_extract(protocol: Protocol): AdminCap {
+    let Protocol { id, admin_cap } = protocol;  // destructuring — module-internal only
+    object::delete(id);
+    admin_cap  // real cap extracted, Protocol destroyed
+}
+```
+
+**Search patterns when auditing:**
+- Vuln A: grep for `CapType { id: object::new(ctx) }` in any `public` function
+- Vuln B: grep for `let ContainerType {` in any `public` function
+
+**Redistributing non-store caps requires an explicit module function:**
+```move
+// Since OperatorCap has no store, you must expose this to hand it to a bot
+public fun transfer_operator_cap(
+    _: &AdminCap,          // only admin can delegate
+    cap: OperatorCap,
+    to: address,
+) {
+    transfer::transfer(cap, to);  // module-internal transfer — OK
+}
+// Missing this function → cap stuck in deployer wallet forever
+// Missing the &AdminCap guard → anyone who holds OperatorCap can re-delegate it
+```
+
+---
+
+### 16.3 CLI Commands — On-Chain Verification
+
+**Step 1: Find the UpgradeCap object ID**
+```bash
+# After publishing, UpgradeCap ID is in the publish output.
+# Or query by owner:
+sui client objects --json | jq '.[] | select(.type | contains("UpgradeCap"))'
+```
+
+**Step 2: Inspect the UpgradeCap (policy + owner)**
+```bash
+sui client object <UPGRADE_CAP_ID> --json
+# Key fields in output:
+# .content.fields.policy  → 0=compatible, 128=additive, 192=dep_only
+# .owner.AddressOwner     → the address that controls it
+```
+
+**Step 3: Determine if the owner is a multi-sig address**
+```bash
+# Derive a multi-sig address from known public keys and compare:
+sui keytool multi-sig-address \
+  --pks <PK_HEX_1> <PK_HEX_2> <PK_HEX_3> \
+  --weights 1 1 1 \
+  --threshold 2
+# If derived address == .owner.AddressOwner → confirmed multi-sig
+
+# Or inspect the address's key type directly:
+sui client object <ADDRESS> --json | jq '.owner'
+```
+
+**Step 4: Inspect capability objects**
+```bash
+# Find all caps owned by an address:
+sui client objects <ADDRESS> --json | jq '.[] | select(.type | contains("Cap"))'
+
+# Inspect a specific cap:
+sui client object <CAP_ID> --json
+# .content.type  → full type including module (e.g. 0xABC::my_module::AdminCap)
+# .owner         → AddressOwner (EOA or multi-sig) or ObjectOwner (wrapped)
+```
+
+**Step 5: Check if a package is immutable (no UpgradeCap exists)**
+```bash
+# If make_immutable() was called, the UpgradeCap object is deleted.
+# Verify by trying to find it — if it doesn't exist on-chain, package is frozen.
+sui client object <UPGRADE_CAP_ID> --json
+# "error": "Object not found" → cap destroyed → immutable ✅
+```
+
+**Owner type cheat sheet:**
+```
+{ "AddressOwner": "0x..." }   → owned by a wallet (EOA or multi-sig address)
+{ "ObjectOwner":  "0x..." }   → wrapped inside another object
+{ "Shared": { ... } }         → shared object (accessible to everyone)
+{ "Immutable": true }         → immutable object (cannot be mutated)
+```
 
 Good luck with your audits! 🔒

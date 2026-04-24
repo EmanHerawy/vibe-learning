@@ -1,12 +1,16 @@
 # Progress Tracker
 
 ## Current Position
-- Phase: 4 — Production Excellence
-- Week: 11 — Performance, Gas & Advanced Topics
-- Status: ✅ COMPLETE (gas model ✅, cryptography ✅)
-- Last session: 2026-04-18 (W11 Part 2 ✅ — BCS, hashing, sig verification, replay attacks, domain separation)
-- Next up: W12 — Security Vulnerabilities, Upgrade Strategies & Audit Preparation
-- Open gaps: 0
+- Phase: 5 — Audit Readiness
+- Week: W15 — Real audit reports + mini design exercises
+- Status: ✅ W12+W14 ACHIEVED (2026-04-24)
+- Last session: 2026-04-24 (W12+W14 merged ✅ — upgrade policies, UpgradeCap security, multi-role access control, hands-on module built)
+- Next up: W15 — Real audit reports (MoveSecure + OtterSec) + 4 mini design exercises
+- Open gaps: 1 — grep-pattern audit technique (Vuln A/B) needs one more practice rep
+
+## Plan Change (2026-04-24)
+- W12 + W13 + W14 merged into one session: W13 already done (covered in W11 Part 2); W12 upgrade content alone was too thin
+- Merged session covers: upgrade policies, UpgradeCap security, multi-role access control (AdminCap/OperatorCap/MinterCap), multi-sig patterns
 
 ## Session Log
 | Date | Topic | Goal | Status |
@@ -17,6 +21,7 @@
 | 2026-04-16 | W10: PTBs & Testing | Decompose DeFi PTB + write Move test_scenario tests | ✅ ACHIEVED |
 | 2026-04-17 | W11 Part 1: Gas Model & Performance | Explain gas model + spot 2 optimization opportunities | ✅ ACHIEVED |
 | 2026-04-18 | W11 Part 2: Cryptography & BCS | Explain sig verification + encode with BCS + find ≥2 crypto vulnerabilities | ✅ ACHIEVED |
+| 2026-04-24 | W12+W14 merged: Upgrade Security & Multi-Role Access Control | Upgrade policies + UpgradeCap security + multi-role caps + build w12_multi_role module | ✅ ACHIEVED |
 
 ## Completed Weeks
 - Weeks 1–6: Completed via diagnostic (2026-04-12) — skipped, foundations confirmed solid
@@ -25,6 +30,7 @@
 - Week 9: Events, Display & NFT Standards — ✅ ACHIEVED (2026-04-15, 0 gaps, POC code reviewed)
 - Week 10: PTBs & Testing — ✅ ACHIEVED (2026-04-16, 3 passing tests, PTB client-side distinction clarified)
 - Week 11: Gas Model + Cryptography/BCS — ✅ ACHIEVED (2026-04-17 + 2026-04-18)
+- Week 12+14 (merged): Upgrade Security & Multi-Role Access Control — ✅ ACHIEVED (2026-04-24, score 3.5/5, 12 Anki cards, w12_multi_role module built)
 
 ## Extended Plan (Phase 5 — added 2026-04-16 from gap analysis)
 - Week 13: Signature verification & BCS encoding (deeper — now partially covered in W11 Part 2)

@@ -1,0 +1,28 @@
+#separator:semicolon
+#html:false
+#notetype:Basic
+#deck:SuiMove::W12W14_UpgradeSecurity_MultiRole
+
+Where is the Sui package upgrade policy stored — Move.toml, CLI config, or on-chain?;On-chain only, inside the UpgradeCap object's `policy` field (u8). Move.toml has no upgrade policy field. Default at publish time: 0 (compatible). To change it, call `only_additive_upgrades()`, `only_dep_upgrades()`, or `make_immutable()` on the UpgradeCap object. Source: docs.sui.io/concepts/sui-move-concepts/packages/upgrade;SuiMove::Upgrade::Gotcha
+
+Under Sui's `compatible` upgrade policy, which of these CAN be silently changed: (a) public function signatures (b) function bodies (c) private/entry/friend function signatures (d) struct fields?;✅ (b) function bodies — ALL implementation logic can change silently. ✅ (c) private, entry, public(friend) signatures — can be changed or removed. ❌ (a) public function signatures — locked. ❌ (d) struct fields — locked (BCS layout cannot change). Source: docs.sui.io/concepts/sui-move-concepts/packages/upgrade;SuiMove::Upgrade::Gotcha
+
+How do you permanently freeze a Sui package (make it unupgradeable)?;Call `sui::package::make_immutable(cap)` — takes UpgradeCap by VALUE, calls object::delete internally, cap object is deleted from chain. Package is immutable forever. This is the ONLY valid way to destroy the cap. Source: docs.sui.io/references/framework/sui_sui/package;SuiMove::Upgrade::Syntax
+
+Gotcha: A dev writes `let _ = upgrade_cap` to destroy the UpgradeCap and freeze the package. Does this work?;❌ COMPILE ERROR. UpgradeCap has `key, store` but NOT `drop`. The `_` wildcard can only discard values with `drop` ability. Having `store` ≠ having `drop`. Must call `sui::package::make_immutable(cap)` instead. Source: docs.sui.io/references/framework/sui_sui/package;SuiMove::Upgrade::Gotcha
+
+`transfer::public_transfer(admin_cap, addr)` compiles when AdminCap has `key, store` but fails to compile when AdminCap has `key` only. Where does the compiler catch this, and why?;`public_transfer` signature: `public fun public_transfer<T: key + store>(obj: T, addr: address)`. The `store` in the type constraint `T: key + store` fails at COMPILE TIME when the type doesn't satisfy it. This is a type constraint check, not a runtime check. Source: Sui Framework — transfer module;SuiMove::Capabilities::CauseEffect
+
+What is the concrete transfer enforcement difference between `has key` only vs `has key, store` for a capability?;`key + store` → `transfer::public_transfer` works — any external module or PTB can transfer it freely. `key` only → only `transfer::transfer` works — ONLY the defining module's internal code can transfer it. External PTBs cannot move a key-only object. This is enforced at compile time by the type system. Source: Sui Object Model;SuiMove::Capabilities::Definition
+
+Security check: What Move code pattern creates a mint-on-demand backdoor for a capability? What do you grep for?;Any `public fun` that constructs the cap struct without requiring an auth guard input. Grep pattern: `CapType { id: object::new(ctx) }` inside any `public fun`. Any match = CRITICAL finding. Attacker calls the function and receives a fresh cap with no authorization. Source: Session 2026-04-24;SuiMove::Audit::Security
+
+Security check: A protocol wraps AdminCap inside a shared Registry (private fields). Auditor says it is safe. What code pattern proves them wrong?;Grep for `let ContainerType {` inside any `public fun`. This is struct destructuring — only possible inside the defining module, but if exposed in a public function with no auth guard, anyone can call it to extract the embedded cap and destroy the container. CRITICAL finding. Source: Session 2026-04-24;SuiMove::Audit::Security
+
+As an auditor, how do you check the actual upgrade policy of a deployed Sui package on-chain?;`sui client object <UPGRADE_CAP_ID> --json` → check `.content.fields.policy`: 0=compatible, 128=additive, 192=dep_only. "Object not found" error → cap was destroyed → package is immutable. NEVER trust Move.toml or docs for this — always query on-chain. Source: Sui CLI + Session 2026-04-24;SuiMove::Upgrade::Syntax
+
+How do you check for the zero address in a Move function parameter?;`assert!(addr != @0x0, E_INVALID_ADDRESS)` — `@0x0` is the zero address literal in Move. There is no `Address::zero()` in Move (that is Solidity syntax). Source: Move Language;SuiMove::Syntax::Gotcha
+
+Security check: A function uses `&sui::package::UpgradeCap` as its authorization parameter. What is the vulnerability?;Every Sui developer gets an UpgradeCap when publishing ANY package. `sui::package::UpgradeCap` is a framework type shared across ALL packages. The function only verifies the caller owns AN UpgradeCap — not WHICH one. Attacker deploys a trivial contract (fractions of a cent), gets their own UpgradeCap, passes it in → authorized. Fix: use a custom type OR assert `package::upgrade_package(cap) == object::id_from_address(@my_pkg)`. Source: OpenZeppelin Notorious Bug Digest 8 — Pawtato Finance Jan 2026;SuiMove::Audit::Security
+
+Can you change a Sui package upgrade policy from `dep_only` back to `additive` or `compatible`?;❌ No. Policy is a one-way ratchet — can only increase in restrictiveness (0→128→192→destroyed). Calling `only_additive_upgrades()` on a dep_only cap aborts at runtime. There is no loosen-policy function. Source: docs.sui.io/concepts/sui-move-concepts/packages/upgrade;SuiMove::Upgrade::CauseEffect
