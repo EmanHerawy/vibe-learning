@@ -3,10 +3,10 @@
 ## Current Position
 - Phase: 5 — Audit Readiness
 - Week: W15 — Real audit reports + mini design exercises
-- Status: ✅ W12+W14 ACHIEVED (2026-04-24)
-- Last session: 2026-04-24 (W12+W14 merged ✅ — upgrade policies, UpgradeCap security, multi-role access control, hands-on module built)
+- Status: ✅ Migration deep-dive ACHIEVED (2026-04-26)
+- Last session: 2026-04-26 (deep-dive research ✅ — object versioning, anchor/config pattern, hot potato atomicity, timelock governance, orphaned fields, cross-package deps)
 - Next up: W15 — Real audit reports (MoveSecure + OtterSec) + 4 mini design exercises
-- Open gaps: 1 — grep-pattern audit technique (Vuln A/B) needs one more practice rep
+- Open gaps: 3 — (1) grep-pattern audit technique (Vuln A/B) needs practice rep; (2) TimelockCap hands-on implementation; (3) anchor pattern V1→V2 migration exercise
 
 ## Plan Change (2026-04-24)
 - W12 + W13 + W14 merged into one session: W13 already done (covered in W11 Part 2); W12 upgrade content alone was too thin
@@ -22,6 +22,7 @@
 | 2026-04-17 | W11 Part 1: Gas Model & Performance | Explain gas model + spot 2 optimization opportunities | ✅ ACHIEVED |
 | 2026-04-18 | W11 Part 2: Cryptography & BCS | Explain sig verification + encode with BCS + find ≥2 crypto vulnerabilities | ✅ ACHIEVED |
 | 2026-04-24 | W12+W14 merged: Upgrade Security & Multi-Role Access Control | Upgrade policies + UpgradeCap security + multi-role caps + build w12_multi_role module | ✅ ACHIEVED |
+| 2026-04-26 | Migration Patterns Deep-Dive (research session) | Object versioning, anchor/config pattern, hot potato, timelock governance, orphaned fields, cross-package deps | ✅ ACHIEVED |
 
 ## Completed Weeks
 - Weeks 1–6: Completed via diagnostic (2026-04-12) — skipped, foundations confirmed solid
