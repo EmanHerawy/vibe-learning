@@ -47,7 +47,7 @@
 - Goal status: ✅ ACHIEVED
 - Next up: **Part 11 — Error handling (practice)** — write try_deposit() + try_release() from scratch, run fe test
 - After that: **Security — reentrancy** (CEI + Mutex + TStorPtr)
-- Open questions: 1 — does `call.raw_call(args_len:0, value:x)` compile in real contract (source confirmed, not yet tested)
+- Open questions: 0 — `call.raw_call(args_len:0, value:x)` confirmed compiles + 7/7 Hardhat tests pass
 
 ## Resume Checklist (start here next session)
 - [ ] Write try_deposit() → Result<EscrowError, u256> from scratch (no reference)
@@ -57,7 +57,7 @@
 - [ ] /notes
 
 ## Open Questions / Known Limitations
-- `call.raw_call(addr, gas, value, args_offset: 0, args_len: 0)` — confirmed from source (`effects.fe:349`); not yet compiled in a real contract
+- `call.raw_call(addr, gas, value, args_offset: 0, args_len: 0)` — ✅ fully confirmed: compiles + 7/7 Hardhat tests pass; always `assert(ok)` after calling it
 - `selfbalance()` not available in Fe v26.0.0 installed version (found in cloned source, may be newer)
 - ~~ETH transfer workaround: `call.call(addr: to, gas: G, value: V, message: SomeMsg::SomeVariant{})` — works for EOAs~~ → superseded by `raw_call(args_len: 0)`
 
