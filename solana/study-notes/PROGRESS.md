@@ -1,11 +1,11 @@
 # Progress Log
 
 ## Current Position
-- Last lesson: Phase 8.1 — Solana vulnerability taxonomy + audit practice
-- Last session: 2026-04-15
-- Goal status: 🔄 PARTIAL
-- Next up: Phase 8.2-8.3 — deeper account validation + real program audit
-- Open gaps: re-init state reset mental model, u128 reward math pattern, MOID checklist applied cold
+- Last lesson: Phase 8.7.2 — Audit Arena Week 2 MissionX post-mortem (gap analysis)
+- Last session: 2026-04-30
+- Goal status: ✅ ACHIEVED
+- Next up: Audit Arena Week 3 (blind audit) OR Phase 8.3 missing signer/owner checks
+- Open gaps: state machine blacklist pattern (drill needed), stale-state-after-sweep (drill needed), AMM buy upper-bound (drill needed)
 
 ---
 
@@ -89,7 +89,7 @@
 | 8.6 | Integer overflow / arithmetic bugs | ⏳ |
 | 8.7 | Auditing real Solana programs | 🔄 In progress |
 | 8.7.1 | Audit Arena Week 1 — StakeFlow | ✅ Complete — 10 findings (SF-01 Critical through SF-10) |
-| 8.7.2 | Audit Arena Week 2 — MissionX | 🔄 In progress |
+| 8.7.2 | Audit Arena Week 2 — MissionX | ✅ Complete — 14 findings (2 Critical, 2 High, 3 Medium, 3 Low, 4 Info); post-mortem 2026-04-30 |
 | 8.8 | CTF / audit challenges | ⏳ |
 
 ---
@@ -112,4 +112,5 @@
 | 12 | 2026-04-15 | Phase 8.1 — Vulnerability taxonomy + audit practice | 6 vuln classes, raw invoke_signed, 3-snippet audit, full staking program audit | 🔄 PARTIAL | sessions/2026-04-15.md |
 | 13 | 2026-04-22 | Audit Arena Week 1 — StakeFlow (blind audit + review) | Audit StakeFlow, compare vs reference, build checklist from gaps | ✅ ACHIEVED | study-notes/audit-reports/audit_draft.md |
 | 14 | 2026-04-23 | Audit Arena Week 1 — StakeFlow post-mortem + checklist | Floor division exploit, BPF stack overflow, share price inflation, symmetry check | ✅ ACHIEVED | sessions/2026-04-23.md |
-| 15 | 2026-04-23 | Audit Arena Week 2 — MissionX (blind audit) | Audit MissionX blind — find bugs across lifecycle, access control, bonding curve, Token-2022 | 🔄 IN PROGRESS | sessions/2026-04-23-missionx.md |
+| 15 | 2026-04-23 | Audit Arena Week 2 — MissionX (blind audit) | Audit MissionX blind — find bugs across lifecycle, access control, bonding curve, Token-2022 | ✅ ACHIEVED | sessions/2026-04-23-missionx.md |
+| 16 | 2026-04-30 | Audit Arena Week 2 — MissionX post-mortem | Compare draft vs published; verify unique findings; extract 3 root cause patterns | ✅ ACHIEVED | sessions/2026-04-30.md |
