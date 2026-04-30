@@ -1,0 +1,217 @@
+use std::evm::Evm
+use std::evm::effects::{assert, revert}
+use core::abi::{Abi, AbiEncoder, AbiSize, Encode}
+use core::option::Option
+use core::result::Result
+
+// ─── Error type ───────────────────────────────────────────────────────────────
+// To use with revert(e) or unwrap_or_revert(), the error type must impl:
+//   AbiSize — tells encoder how many bytes this takes
+//   Encode<A> — tells encoder how to write the bytes
+//
+// Source: fe/crates/fe/tests/fixtures/fe_test_runner/revert_and_unwrap_or_revert.fe
+
+pub enum EscrowError {
+    NotFunded,
+    NotExpired,
+    SelfDeposit,
+}
+
+impl EscrowError {
+    fn to_code(self) -> u256 {
+        match self {
+            Self::NotFunded  => 1,
+            Self::NotExpired => 2,
+            Self::SelfDeposit => 3,
+        }
+    }
+}
+
+impl AbiSize for EscrowError {
+    const ENCODED_SIZE: u256 = 32
+    const IS_DYNAMIC: bool = false
+    const NEEDS_PARENT_WRAPPER: bool = false
+}
+
+impl<A: Abi> Encode<A> for EscrowError {
+    const DIRECT_ENCODE: bool = true
+
+    fn encode<E: AbiEncoder<A>>(own self, _ e: mut E) {
+        e.write_word(self.to_code())
+    }
+
+    fn encode_to_ptr(own self, _ ptr: u256) {
+        A::store_word(ptr: ptr, value: self.to_code())
+    }
+}
+
+// ─── Domain structs ───────────────────────────────────────────────────────────
+struct EscrowRecord {
+    amount: u256,
+    release_block: u256,
+}
+
+impl EscrowRecord {
+    pub fn new(_ amount: u256, _ release_block: u256) -> EscrowRecord {
+        EscrowRecord { amount, release_block }
+    }
+
+    pub fn is_funded(self) -> bool {
+        self.amount > 0
+    }
+
+    pub fn is_expired(self, current_block: u256) -> bool {
+        current_block >= self.release_block
+    }
+}
+
+struct EscrowStore {
+    balances:      StorageMap<Address, u256>,
+    release_times: StorageMap<Address, u256>,
+}
+
+// ─── Messages ─────────────────────────────────────────────────────────────────
+msg EscrowMsg {
+    #[selector = 0x01]
+    Deposit { to: Address },
+
+    #[selector = 0x02]
+    Release,
+
+    #[selector = 0x03]
+    SafeRelease -> u256,
+
+    #[selector = 0x04]
+    GetRecord { beneficiary: Address } -> u256,
+}
+
+// ─── Pure validation fn — returns Result<EscrowError, u256> ──────────────────
+//
+// Key: Result<E, T> in Fe — ERROR is FIRST, success is SECOND (opposite of Rust)
+//
+fn try_release(
+    _ amount: u256,
+    _ release_block: u256,
+    _ current_block: u256,
+) -> Result<EscrowError, u256> {
+    let record = EscrowRecord::new(amount, release_block)
+
+    if !record.is_funded() {
+        return Err(EscrowError::NotFunded)
+    }
+
+    if !record.is_expired(current_block) {
+        return Err(EscrowError::NotExpired)
+    }
+
+    Ok(amount)
+}
+
+// Helper returning Option — None if beneficiary has no balance
+fn get_record(
+    _ amount: u256,
+    _ release_block: u256,
+) -> Option<EscrowRecord> {
+    if amount == 0 {
+        Option::None
+    } else {
+        Option::Some(EscrowRecord::new(amount, release_block))
+    }
+}
+
+// ─── Contract ─────────────────────────────────────────────────────────────────
+pub contract Escrow uses (ctx: Ctx) {
+    mut store: EscrowStore
+
+    init() {}
+
+    recv EscrowMsg {
+
+        // Pattern A: assert() — empty revert, caller gets 0 bytes
+        #[payable]
+        Deposit { to } uses (mut store, ctx) {
+            let value = ctx.value()
+            let sender = ctx.caller()
+            assert(to.inner != sender.inner)
+            assert(value > 0)
+            store.balances.set(key: to, value: value)
+            store.release_times.set(key: to, value: ctx.block_number() + 7200)
+        }
+
+        // Pattern A: assert() — old pattern, blind to callers
+        Release uses (mut store, ctx) {
+            let caller = ctx.caller()
+            let amount = store.balances.get(key: caller)
+            let release_block = store.release_times.get(key: caller)
+            let record = EscrowRecord::new(amount, release_block)
+            assert(record.is_funded())
+            assert(record.is_expired(current_block: ctx.block_number()))
+            store.balances.set(key: caller, value: 0)
+            store.release_times.set(key: caller, value: 0)
+        }
+
+        // Pattern B: Result + unwrap_or_revert()
+        // Caller receives ABI-encoded EscrowError on failure (error code 1 or 2)
+        SafeRelease -> u256 uses (mut store, ctx) {
+            let caller = ctx.caller()
+            let amount = store.balances.get(key: caller)
+            let release_block = store.release_times.get(key: caller)
+
+            let withdrawn = try_release(
+                amount,
+                release_block,
+                ctx.block_number(),
+            ).unwrap_or_revert()
+
+            store.balances.set(key: caller, value: 0)
+            store.release_times.set(key: caller, value: 0)
+            withdrawn
+        }
+
+        // Pattern C: Option — match on presence
+        GetRecord { beneficiary } -> u256 uses (store) {
+            let amount = store.balances.get(key: beneficiary)
+            let release_block = store.release_times.get(key: beneficiary)
+            match get_record(amount, release_block) {
+                Option::Some(record) => record.amount,
+                Option::None => 0,
+            }
+        }
+    }
+}
+
+// ─── Tests ────────────────────────────────────────────────────────────────────
+#[test]
+fn test_try_release_not_funded() {
+    let result = try_release(0, 0, 9999)
+    assert(result.is_err())
+}
+
+#[test]
+fn test_try_release_not_expired() {
+    let result = try_release(100, 9999, 1)
+    assert(result.is_err())
+}
+
+#[test]
+fn test_try_release_ok() {
+    let result = try_release(100, 5, 10)
+    // can't call is_ok() then unwrap() — is_ok() moves the value (own self)
+    // use match to inspect and extract in one step
+    match result {
+        Result::Ok(v) => assert(v == 100),
+        Result::Err(_) => assert(false),
+    }
+}
+
+#[test]
+fn test_get_record_none() {
+    let opt = get_record(0, 0)
+    assert(opt.is_none())
+}
+
+#[test]
+fn test_get_record_some() {
+    let opt = get_record(50, 1000)
+    assert(opt.is_some())
+}
