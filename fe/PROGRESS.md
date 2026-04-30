@@ -19,7 +19,7 @@
 | 8 | **Structs & impl blocks** — `impl`, methods, associated functions, storage structs | ✅ |
 | 9 | **Traits & generics** — trait definition, implementing, generic functions, bounds | ✅ |
 | 10 | Events & logging | ✅ (basic — `#[event]`, `log.emit()`) |
-| 11 | Error handling — `assert`, revert, `Option`/`Result` | ⬜ next |
+| 11 | Error handling — `assert`, revert, `Option`/`Result` | 🔄 PARTIAL |
 | 12 | Testing Fe contracts | ✅ (Fe `#[test]` + Hardhat) |
 | 13 | Common patterns — token, allowance, pausable, upgradability | ⬜ |
 | 14 | By example — ERC20, NFT, voting, DEX | ⬜ |
@@ -38,19 +38,28 @@
 | 7 | 2026-04-13 | Events | Add #[event] + log.emit() to Vault and Arbiter; FundedEvent, ReleasedEvent, ApproveEvent | ✅ | sessions/2026-04-13.md |
 | 8 | 2026-04-17 | Structs & impl blocks | EscrowRecord struct + impl block; storage slot ordering + upgrade safety | ✅ | sessions/2026-04-17.md |
 | 9 | 2026-04-17 | Traits & generics | Checkable trait + generic validate(); effects system = traits; uses clause = capability ceiling | ✅ | sessions/2026-04-17.md |
+| 10 | 2026-04-24 | Error handling — theory | assert vs revert vs Option vs Result; AbiSize+Encode<A> for custom errors; ownership gotcha on is_ok()/is_none() | 🔄 PARTIAL | sessions/2026-04-24.md |
+| 11 | 2026-04-30 | `call.call()` definition + `raw_call` bare-ETH discovery | Confirm `call.raw_call(args_len:0)` as true bare-ETH-send; `message` always required in `call.call()` | ✅ | sessions/2026-04-30.md |
 
 ## Current Position
-- Last lesson: Traits & generics ✅
-- Last session: 2026-04-17
-- Goal status: ✅ ACHIEVED (Parts 8 + 9 both completed)
-- Next up: **Part 11 — Error handling** (assert, revert, Option/Result)
+- Last lesson: `call.call()` definition + `raw_call` bare-ETH discovery ✅
+- Last session: 2026-04-30
+- Goal status: ✅ ACHIEVED
+- Next up: **Part 11 — Error handling (practice)** — write try_deposit() + try_release() from scratch, run fe test
 - After that: **Security — reentrancy** (CEI + Mutex + TStorPtr)
-- Open questions: 0
+- Open questions: 1 — does `call.raw_call(args_len:0, value:x)` compile in real contract (source confirmed, not yet tested)
+
+## Resume Checklist (start here next session)
+- [ ] Write try_deposit() → Result<EscrowError, u256> from scratch (no reference)
+- [ ] Run fe test — all pass
+- [ ] /examiner --session to verify concepts
+- [ ] /memory-drill
+- [ ] /notes
 
 ## Open Questions / Known Limitations
-- `call.raw_call(addr, gas, value, args_offset: 0, args_len: 0)` — clean ETH send, unconfirmed compile
+- `call.raw_call(addr, gas, value, args_offset: 0, args_len: 0)` — confirmed from source (`effects.fe:349`); not yet compiled in a real contract
 - `selfbalance()` not available in Fe v26.0.0 installed version (found in cloned source, may be newer)
-- ETH transfer workaround: `call.call(addr: to, gas: G, value: V, message: SomeMsg::SomeVariant{})` — works for EOAs
+- ~~ETH transfer workaround: `call.call(addr: to, gas: G, value: V, message: SomeMsg::SomeVariant{})` — works for EOAs~~ → superseded by `raw_call(args_len: 0)`
 
 ## Archive
 Previous sessions (2026-04-08, 2026-04-09) contained inaccuracies and gaps.
