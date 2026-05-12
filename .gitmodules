@@ -1,0 +1,3 @@
+[submodule "fe/fe-workbook"]
+	path = fe/fe-workbook
+	url = https://github.com/fe-lang/fe-workbook

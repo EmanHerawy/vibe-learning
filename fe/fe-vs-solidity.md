@@ -1,6 +1,7 @@
 # Fe v26 vs Solidity — Limitations & Advantages
 
 > Confirmed from rosetta/ examples and compiler errors during hands-on sessions (2026-04-10, 2026-04-11).
+> Updated with Fe 26.1.0 changelog (2026-04-30). Items marked **[26.1]** are new or changed in 26.1.
 > Nothing invented — every item below was hit in practice or verified from source.
 
 ---
@@ -31,17 +32,34 @@ call.call(addr: to, gas: 100000, value: amount, message: SomeMsg::SomeVariant {}
 
 ---
 
-### 2. No Typed Errors / Revert with Data
-- **Solidity:**
-  ```solidity
-  error InsufficientBalance(uint256 have, uint256 want);
-  revert InsufficientBalance(balance, amount);
-  ```
-- **Fe v26:** two options only:
-  - `assert(condition)` — bare revert, no error selector, no data
-  - `return false` — soft failure for bool-returning functions
-- `#[error]` attribute does **not** exist in Fe v26
-- **Auditor impact:** on-chain tooling sees bare reverts — harder to monitor and debug than Solidity custom errors
+### 2. Typed Errors / Revert with Data — **FIXED in 26.1** [26.1]
+
+**v26.0 situation:**
+- `assert(condition)` — bare revert, no error selector, no data
+- `return false` — soft failure only
+- `#[error]` did NOT exist
+
+**v26.1 — three new tools:**
+
+```fe
+// 1. assert_msg — reverts with Solidity-compatible Error(string) (selector 0x08c379a0)
+assert_msg(balance >= amount, "insufficient balance")
+
+// 2. #[error] — custom typed errors with auto 4-byte selector
+#[error]
+struct InsufficientBalance {
+    have: u256,
+    want: u256,
+}
+revert_error(InsufficientBalance { have: balance, want: amount })
+
+// 3. assert(false) — now reverts with Panic(0x01) instead of empty data
+assert(false)
+```
+
+- `Result::unwrap()` on `#[error]` types now emits selector-prefixed revert data
+- `Panic` predefined type matches Solidity's `Panic(uint256)`
+- **Auditor impact:** reverts are now identifiable by off-chain tooling (Foundry, Hardhat, explorers)
 
 ---
 
@@ -137,11 +155,23 @@ call.call(addr: to, gas: 100000, value: amount, message: SomeMsg::SomeVariant {}
 
 ---
 
-### 10. No `block.timestamp` Confirmed
+### 10. No `block.timestamp` Confirmed + Expanded Ctx APIs [26.1]
 - **Solidity:** `block.timestamp` for time-based logic
-- **Fe v26:** only `ctx.block_number()` confirmed in examples
-- No timestamp equivalent found in any rosetta source
+- **Fe v26:** only `ctx.block_number()` confirmed — no timestamp equivalent
 - **Workaround:** use block numbers (1 day ≈ 7200 blocks at 12s/block)
+
+**26.1 adds these previously missing `Ctx` APIs:**
+```fe
+ctx.origin()       // tx.origin
+ctx.coinbase()     // block.coinbase
+ctx.prevrandao()   // block.prevrandao
+ctx.gaslimit()     // block.gaslimit
+ctx.chainid()      // block.chainid
+ctx.basefee()      // block.basefee
+ctx.selfbalance()  // address(this).balance
+ctx.blockhash()    // blockhash(n)
+```
+`block.timestamp` is still **not confirmed** in 26.1 — use block numbers.
 
 ---
 
@@ -187,19 +217,36 @@ All casts are explicit — `u256(x)`, not silent widening. Mismatches are compil
 
 ---
 
+## What Fe 26.1 Adds Over Solidity
+
+### Compile-time Assertions
+```fe
+static_assert(SIZE <= 32)   // fails at compile time with operand values in diagnostic
+```
+No Solidity equivalent (Solidity has no `static_assert`).
+
+### Overflow Reverts Are Now Identifiable [26.1]
+- **v26.0:** checked overflow → empty revert data (undebuggable off-chain)
+- **v26.1:** checked overflow → `Panic(0x11)` payload — same as Solidity, readable by Foundry/Hardhat/explorers
+
+---
+
 ## Quick Reference Card
 
-| Feature | Solidity | Fe v26 |
-|---|---|---|
-| ETH transfer | `addr.transfer(x)` | ❌ none |
-| Typed errors | `error E(); revert E()` | ❌ `assert()` only |
-| Mapping to struct | `mapping(A => S)` | ❌ separate maps per field |
-| Inheritance | `contract B is A` | ❌ none |
-| Modifiers | `modifier m() { _; }` | ❌ inline `assert()` |
-| Selector clash guard | ❌ none | ❌ none (planned) |
-| Capability ceiling | ❌ none | ✅ contract-level `uses` |
-| Attack surface | scattered | ✅ one `msg` block |
-| Blast radius visible | ❌ read body | ✅ read `uses` clause |
-| Implicit type cast | ✅ (risky) | ❌ explicit only |
-| Block timestamp | `block.timestamp` | ❓ unconfirmed |
-| Custom ABI dispatch | ❌ | ❓ planned, not in v26 |
+| Feature | Solidity | Fe v26.0 | Fe v26.1 |
+|---|---|---|---|
+| ETH transfer | `addr.transfer(x)` | ❌ none | ❌ none |
+| Typed errors | `error E(); revert E()` | ❌ `assert()` only | ✅ `#[error]` + `revert_error()` |
+| Error string | `revert("msg")` | ❌ | ✅ `assert_msg(cond, "msg")` |
+| Mapping to struct | `mapping(A => S)` | ❌ separate maps | ❌ separate maps |
+| Inheritance | `contract B is A` | ❌ none | ❌ none |
+| Modifiers | `modifier m() { _; }` | ❌ inline `assert()` | ❌ inline `assert()` |
+| Selector clash guard | ❌ none | ❌ none (planned) | ❌ none (planned) |
+| Capability ceiling | ❌ none | ✅ contract-level `uses` | ✅ contract-level `uses` |
+| Attack surface | scattered | ✅ one `msg` block | ✅ one `msg` block |
+| Blast radius visible | ❌ read body | ✅ read `uses` clause | ✅ read `uses` clause |
+| Implicit type cast | ✅ (risky) | ❌ explicit only | ❌ explicit only |
+| Block timestamp | `block.timestamp` | ❓ unconfirmed | ❓ still unconfirmed |
+| `block.chainid` etc. | ✅ | ❌ missing | ✅ `ctx.chainid()` etc. |
+| Overflow revert data | `Panic(0x11)` | ❌ empty | ✅ `Panic(0x11)` |
+| Compile-time assert | ❌ | ❌ | ✅ `static_assert()` |

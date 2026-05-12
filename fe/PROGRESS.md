@@ -40,17 +40,19 @@
 | 9 | 2026-04-17 | Traits & generics | Checkable trait + generic validate(); effects system = traits; uses clause = capability ceiling | ✅ | sessions/2026-04-17.md |
 | 10 | 2026-04-24 | Error handling — theory | assert vs revert vs Option vs Result; AbiSize+Encode<A> for custom errors; ownership gotcha on is_ok()/is_none() | 🔄 PARTIAL | sessions/2026-04-24.md |
 | 11 | 2026-04-30 | `call.call()` definition + `raw_call` bare-ETH discovery | Confirm `call.raw_call(args_len:0)` as true bare-ETH-send; `message` always required in `call.call()` | ✅ | sessions/2026-04-30.md |
+| 12 | 2026-05-12 | Fe 26.1 upgrade + Higher-Kinded Types (HKTs) | Understand 26.1 changes + fix fe-workbook 03-hkts.fe (kind bounds, Functor, Applicative) | ✅ | sessions/2026-05-12.md |
 
 ## Current Position
-- Last lesson: `call.call()` definition + `raw_call` bare-ETH discovery ✅
-- Last session: 2026-04-30
+- Last lesson: Fe 26.1 upgrade + Higher-Kinded Types (HKTs) ✅
+- Last session: 2026-05-12
 - Goal status: ✅ ACHIEVED
-- Next up: **Part 11 — Error handling (practice)** — write try_deposit() + try_release() from scratch, run fe test
-- After that: **Security — reentrancy** (CEI + Mutex + TStorPtr)
-- Open questions: 0 — `call.raw_call(args_len:0, value:x)` confirmed compiles + 7/7 Hardhat tests pass
+- Next up: **Part 11 — Error handling (practice)** — write `try_deposit()` + `try_release()` using new 26.1 `#[error]` + `assert_msg`; run `fe test`
+- After that: fe-workbook `04-borrows.fe`; then **Security — reentrancy** (CEI + Mutex)
+- Open questions: 0
 
 ## Resume Checklist (start here next session)
-- [ ] Write try_deposit() → Result<EscrowError, u256> from scratch (no reference)
+- [ ] Write try_deposit() → Result<EscrowError, u256> using `#[error]` + `revert_error()` (no reference)
+- [ ] Write try_release() → Result<EscrowError, ()> using `assert_msg`
 - [ ] Run fe test — all pass
 - [ ] /examiner --session to verify concepts
 - [ ] /memory-drill

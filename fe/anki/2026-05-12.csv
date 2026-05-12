@@ -1,0 +1,10 @@
+Front,Back,Tags
+"What does kind `* -> *` mean in Fe?","Type constructor — needs 1 type to become a complete usable type. Example: Option is `* -> *`, Option<u256> is `*`.","fe,hkt,kinds"
+"How do you declare a kind bound in Fe?","Use a `where` clause: `fn foo<C: Applicative>(...) where C: * -> *`. Not in angle brackets.","fe,hkt,syntax"
+"Why does Functor.map never crash on None or Err?","It skips the transformation entirely — container shape is preserved. None stays None, Err stays Err.","fe,hkt,functor"
+"What does Applicative.ap do?","Applies a WRAPPED function to a WRAPPED value: `C<F>.ap(C<A>) → C<B>`. If either is empty/error, short-circuits.","fe,hkt,applicative"
+"Why does Result need a type annotation in add_in but Option doesn't?","Option is already `* -> *`. Result is `* -> * -> *` — you must pin the error type (e.g. `Result<AddError, u256>`) to reduce it to `* -> *`.","fe,hkt,result"
+"Name the 3 new error tools in Fe 26.1","1. `#[error]` attribute + `revert_error()` for typed errors with selector. 2. `assert_msg(cond, msg)` for Error(string). 3. `static_assert(expr)` for compile-time.","fe,26.1,errors"
+"Name 4 of the 8 new Ctx APIs added in Fe 26.1","origin(), coinbase(), chainid(), basefee() — plus prevrandao(), gaslimit(), selfbalance(), blockhash()","fe,26.1,ctx"
+"What revert payload does Fe 26.1 emit on integer overflow?","Panic(0x11) — Solidity-compatible, readable by Foundry/Hardhat/explorers. v26.0 emitted empty revert data.","fe,26.1,errors"
+"What is the add_in pipeline: a=Some(20), b=Some(22)?","1. a.map(MakeAdder{}) → Some(AddRight{left:20}). 2. Some(AddRight{left:20}).ap(Some(22)) → Some(42).","fe,hkt,applicative,trace"
