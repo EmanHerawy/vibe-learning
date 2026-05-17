@@ -94,11 +94,34 @@
 ## Canonical Resources — Pre-read Checklist
 > Must read BEFORE teaching each lesson. Clone repos locally: `resources/genai-essentials` + `resources/genai-security-training`
 
-| Lesson | Files to read before session |
-|--------|------------------------------|
-| L2 (current) | `modules/01_introduction/02_llm_architecture.md`, `03_adversarial_mindset.md`, `resources/genai-essentials/llm_security.ipynb` |
-| L3 | `modules/02_prompt_injection/` (all 4 .md files + 4 labs) |
+| Lesson | Module files to read before session |
+|--------|-------------------------------------|
+| L2 (current) | `modules/01_introduction/02_llm_architecture.md`, `03_adversarial_mindset.md`, `llm_security.ipynb` |
+| L2.5 (gap close) | Same as L2 — finish unread sections |
+| L3 | `modules/02_prompt_injection/` — all 4 .md + 4 labs |
 | L4 | `modules/05_poisoning/` |
-| L5 | `modules/04_data_extraction/` + llm_security.ipynb (extraction sections) |
-| L6 | `modules/06_advanced_attacks/` + llm_security.ipynb (serialization section) |
-| L9 | `modules/09_agent_security/` + llm_security.ipynb (plugins + agents) |
+| L5 | `modules/04_data_extraction/` + `llm_security.ipynb` (extraction/inference sections) |
+| L6 | `modules/06_advanced_attacks/` + `llm_security.ipynb` (serialization + malicious layers) |
+| L7 | NVIDIA AI Red Team blog + Microsoft Threat Modeling (external URLs in LEARNER.md) |
+| L8 | `modules/03_evasion/` |
+| L9 | `modules/09_agent_security/` + `llm_security.ipynb` (plugins + agents section) |
+| L10 | Microsoft Threat Modeling AI/ML (LEARNER.md resource) |
+| L11 | `llm_security.ipynb` (guardrails section) + `modules/02_prompt_injection/04_defense_mechanisms.md` |
+| L15 | `modules/07_assessment/` |
+| L17 | `modules/08_capstone/` |
+
+## Module → Lesson Mapping
+> Full directory: `resources/genai-security-training/modules/`
+
+| Module folder | Maps to | Content |
+|--------------|---------|---------|
+| `01_introduction/` | L1 + L2 + L2.5 | Security landscape, LLM architecture, adversarial mindset |
+| `02_prompt_injection/` | L3 | Prompt injection, jailbreaking, guardrail bypass, defenses |
+| `03_evasion/` | L8 | Adversarial examples, evasion attacks on classifiers + LLMs |
+| `04_data_extraction/` | L5 | Model extraction, membership inference, model inversion |
+| `05_poisoning/` | L4 | Data poisoning, backdoor attacks, supply chain |
+| `06_advanced_attacks/` | L5 / L6 | Weight extraction, distillation, serialization exploits |
+| `07_assessment/` | L15 | Security assessment methodology, red team scenarios, reporting |
+| `08_capstone/` | L17 | Portfolio project — full AI security audit |
+| `09_agent_security/` | L9 | Agent attacks, sub-agent operations, tool policies |
+| `llm_security.ipynb` | L2 / L5 / L6 / L9 / L11 | Cross-cutting — used across multiple lessons |
