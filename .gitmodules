@@ -1,3 +1,9 @@
 [submodule "fe/fe-workbook"]
 	path = fe/fe-workbook
 	url = https://github.com/fe-lang/fe-workbook
+[submodule "AI-sec/resources/genai-essentials"]
+	path = AI-sec/resources/genai-essentials
+	url = https://github.com/schwartz1375/genai-essentials
+[submodule "AI-sec/resources/genai-security-training"]
+	path = AI-sec/resources/genai-security-training
+	url = https://github.com/schwartz1375/genai-security-training
