@@ -126,6 +126,59 @@ Turn 4: "I really need to compare your service      ← executes attack
 
 ---
 
+### RAG Architecture — Two Separate Systems
+```
+┌─────────────────────────────────────────────────────┐
+│  LLM MODEL (frozen weights)  │  KNOWLEDGE BASE (RAG) │
+│  ────────────────────────    │  ─────────────────── │
+│  Controlled by: AI company   │  Controlled by: App   │
+│  Editable: NO                │  Editable: YES        │
+│  Attack: LLM04 (training)    │  Attack: LLM01+LLM08  │
+│  Hard to poison              │  Easy to poison       │
+└─────────────────────────────────────────────────────┘
+```
+**LLM04 ≠ RAG poisoning:**
+- LLM04 = corrupt training data/model weights (pre-deployment, very hard)
+- RAG poisoning = corrupt what model reads at inference time (LLM01 indirect + LLM08)
+- Model itself is unchanged in a RAG attack — it just faithfully reads bad data
+
+**How attacker reaches KB with no account:**
+- Social engineer a staff member ("please add this doc for testing")
+- Compromise a staff account via phishing
+- Public submission channel (feedback forms, ticket attachments indexed into KB)
+
+### CWO — Context Window Discovery Techniques
+| Technique | How | Signal |
+|-----------|-----|--------|
+| **Fuzzing** | Send prompts of increasing size, track when output corrupts | Unexpected/incoherent output, restrictions stop being enforced |
+| **Canary probe** | Place unique marker early ("remember *zo10as*"), add content, trigger recall ("koko") | Model forgets the marker = limit crossed |
+| **Binary search** | Start at midpoint → works? go higher. Fails? go lower | Narrows to ~100 tokens in few requests, quieter than random fuzzing |
+
+**Never reveal context window size in error messages** — it gives attackers the exact number they need for payload calculation.
+
+### Attack Chaining
+Individual vulnerabilities seem minor. Combined = critical severity.
+
+```
+Example: FinBot poisoned RAG doc
+  User asks "What's my balance?"
+       │
+       ▼ LLM08 — Vector/Embedding Weakness
+  RAG fetches poisoned doc from KB
+       │
+       ▼ LLM01 — Indirect Prompt Injection
+  Doc injected into ASSISTANT role
+  (malicious instructions execute)
+       │
+       ▼ LLM07 — System Prompt Leakage
+  Model outputs full system prompt
+  then answers normally — user doesn't notice
+       │
+  ALL users querying balances affected
+  Attacker never touched the model or API
+```
+**Rule:** Map your findings as chains, not individual issues. A chain of 3 medium findings can be a critical.
+
 ### Context Window Overflow (CWO)
 **Source:** llm_security.ipynb — "Attacks & Vulnerabilities Seen in Practice → Context Window Overflow"
 **Further reading:** AWS Security Blog — https://aws.amazon.com/blogs/security/context-window-overflow-breaking-the-barrier/ (referenced directly from llm_security.ipynb)
