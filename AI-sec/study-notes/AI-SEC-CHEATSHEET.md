@@ -18,6 +18,10 @@
 | 8 | **Calculate your token budget BEFORE accepting user input.** budget = window − system_prompt − expected_completion | Context Window Overflow displaces the system prompt if budget isn't enforced |
 | 9 | **Does this system have a feedback loop back to training?** | If yes → that loop is a poisoning attack surface |
 | 10 | **Does this system use external memory or RAG retrieval?** | If yes → retrieval store is an indirect injection surface |
+| 11 | **Assume adversarial control of LLM output.** Treat it as untrusted input that could be intentionally manipulated. | Source: llm_security.ipynb — Actionable Advice |
+| 12 | **External data is application input.** Identify who else can feed data into the application — LLM outputs, third-party data, user data are all attack vectors. | Source: llm_security.ipynb — Actionable Advice |
+| 13 | **Never rely solely on guardrails.** They are bypassable via Base64, Unicode, emoji, multilingual transforms. Use defense-in-depth. | Source: llm_security.ipynb — Guardrails section |
+| 14 | **Isolate sensitive data from LLM exposure.** Do not depend on prompts or model behavior to keep secrets. Expect prompts to leak. | Source: llm_security.ipynb — Actionable Advice |
 
 ---
 
