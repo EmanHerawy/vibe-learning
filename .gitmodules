@@ -7,3 +7,21 @@
 [submodule "AI-sec/resources/genai-security-training"]
 	path = AI-sec/resources/genai-security-training
 	url = https://github.com/schwartz1375/genai-security-training
+[submodule "AI-sec/resources/awesome-ai-security"]
+	path = AI-sec/resources/awesome-ai-security
+	url = https://github.com/ottosulin/awesome-ai-security
+[submodule "AI-sec/resources/ai-goat"]
+	path = AI-sec/resources/ai-goat
+	url = https://github.com/dhammon/ai-goat
+[submodule "AI-sec/resources/damn-vulnerable-llm-agent"]
+	path = AI-sec/resources/damn-vulnerable-llm-agent
+	url = https://github.com/ReversecLabs/damn-vulnerable-llm-agent
+[submodule "AI-sec/resources/damn-vulnerable-mcp-server"]
+	path = AI-sec/resources/damn-vulnerable-mcp-server
+	url = https://github.com/harishsg993010/damn-vulnerable-MCP-server
+[submodule "AI-sec/resources/ai-red-teaming-labs"]
+	path = AI-sec/resources/ai-red-teaming-labs
+	url = https://github.com/microsoft/AI-Red-Teaming-Playground-Labs
+[submodule "AI-sec/resources/vulnerable-mcp-servers-lab"]
+	path = AI-sec/resources/vulnerable-mcp-servers-lab
+	url = https://github.com/appsecco/vulnerable-mcp-servers-lab

@@ -11,7 +11,7 @@
 ### L1 Gaps — found via canonical resource audit 2026-05-15
 | Gap | Source | Priority |
 |-----|--------|----------|
-| Real-world case studies (ChatGPT 2023, Bing Chat 2023, GPT-2 extraction) | 01_security_landscape.md | MEDIUM |
+| Real-world case studies (ChatGPT 2023, Bing Chat 2023, GPT-2 extraction) | 01_security_landscape.md + **AI Incident Database** (new resource) | MEDIUM — weave into L3+ |
 | Attacker motivations (financial, competitive, disruption, research) | 01_security_landscape.md | MEDIUM |
 | Multimodal + audio-based prompt injection (emerging threats) | 01_security_landscape.md | LOW — defer to L8 |
 
@@ -53,19 +53,33 @@
 - [ ] L2.5: Close L2 gaps — embeddings + adversarial mindset ← NEXT
 - [ ] L3: Prompt Injection & Jailbreaking — mechanics, detection, defense
   - Pre-read: modules/02_prompt_injection/ (all 4 files + 4 labs)
+  - **NEW:** Arcanum Prompt Injection Taxonomy (added 2026-05-18)
+  - **NEW CTF:** `resources/ai-goat` challenges 1–2 (prompt injection, insecure output) — run with Docker, 16GB RAM
+  - **NEW CTF:** `resources/damn-vulnerable-llm-agent` (ReAct agent injection)
 - [ ] L4: Data Poisoning & Training-Time Attacks
+  - Pre-read: modules/05_poisoning/
+  - **NEW:** OWASP ML Top 10 (classical ML threats, added 2026-05-18)
+  - **NEW CTF:** `resources/ai-goat` challenges covering data/model attacks
 - [ ] L5: Model Extraction & Inference Attacks
   - Pre-read: llm_security.ipynb (model inversion, membership inference, extraction sections)
+  - **NEW CTF:** `resources/ai-goat` (extraction challenges)
 - [ ] L6: Supply Chain & Dependency Attacks in AI Systems
   - Pre-read: llm_security.ipynb (model serialization, malicious layers)
 
 ### Phase 2 — Red Team & Offensive AI Security (Weeks 5–8)
 
 - [ ] L7: AI Red Teaming Methodology (NVIDIA + Microsoft frameworks)
+  - **NEW:** Google SAIF (added 2026-05-18)
+  - **NEW:** OWASP GenAI Red Teaming Guide (added 2026-05-18)
+  - **NEW CTF:** `resources/ai-red-teaming-labs` (Microsoft, 12 challenges: direct/indirect injection, crescendo, guardrail bypass)
 - [ ] L8: Adversarial Examples — evasion attacks on classifiers and LLMs
-- [ ] L9: LLM-specific Attacks — indirect prompt injection, context hijacking, RAG poisoning
-  - Pre-read: llm_security.ipynb (plugins + agents section)
+- [ ] L9: LLM-specific Attacks — indirect prompt injection, context hijacking, RAG poisoning, agentic attacks
+  - Pre-read: llm_security.ipynb (plugins + agents section) + modules/09_agent_security/
+  - **NEW:** OWASP Multi-Agentic System Threat Modeling (added 2026-05-18)
+  - **NEW CTF:** `resources/damn-vulnerable-mcp-server` (10 challenges: tool poisoning, rug pull, credential extraction)
+  - **NEW CTF:** `resources/vulnerable-mcp-servers-lab` (9 MCP attack patterns — run in Docker/isolated VM only)
 - [ ] L10: Threat Modeling AI Systems (STRIDE applied to ML pipelines)
+  - **NEW:** CSA Maestro Framework (added 2026-05-18)
 
 ### Phase 3 — Defensive AI Security & MLSecOps (Weeks 9–12)
 
@@ -92,21 +106,20 @@
 ---
 
 ## Canonical Resources — Pre-read Checklist
-> Must read BEFORE teaching each lesson. Clone repos locally: `resources/genai-essentials` + `resources/genai-security-training`
+> Must read BEFORE teaching each lesson. Submodules: `resources/genai-essentials`, `resources/genai-security-training`, `resources/awesome-ai-security`
 
-| Lesson | Module files to read before session |
-|--------|-------------------------------------|
-| L2 (current) | `modules/01_introduction/02_llm_architecture.md`, `03_adversarial_mindset.md`, `llm_security.ipynb` |
-| L2.5 (gap close) | Same as L2 — finish unread sections |
-| L3 | `modules/02_prompt_injection/` — all 4 .md + 4 labs |
-| L4 | `modules/05_poisoning/` |
-| L5 | `modules/04_data_extraction/` + `llm_security.ipynb` (extraction/inference sections) |
-| L6 | `modules/06_advanced_attacks/` + `llm_security.ipynb` (serialization + malicious layers) |
-| L7 | NVIDIA AI Red Team blog + Microsoft Threat Modeling (external URLs in LEARNER.md) |
-| L8 | `modules/03_evasion/` |
-| L9 | `modules/09_agent_security/` + `llm_security.ipynb` (plugins + agents section) |
-| L10 | Microsoft Threat Modeling AI/ML (LEARNER.md resource) |
-| L11 | `llm_security.ipynb` (guardrails section) + `modules/02_prompt_injection/04_defense_mechanisms.md` |
+| Lesson | Theory files | CTF / Lab |
+|--------|-------------|-----------|
+| L2.5 (current) | `02_llm_architecture.md`, `03_adversarial_mindset.md`, `llm_security.ipynb` | — |
+| L3 | `modules/02_prompt_injection/` (all 4 .md + 4 labs) + Arcanum taxonomy | `resources/ai-goat` ch1–2 + `resources/damn-vulnerable-llm-agent` |
+| L4 | `modules/05_poisoning/` + OWASP ML Top 10 | `resources/ai-goat` (poisoning challenges) |
+| L5 | `modules/04_data_extraction/` + `llm_security.ipynb` (extraction/inference) | `resources/ai-goat` (extraction challenges) |
+| L6 | `modules/06_advanced_attacks/` + `llm_security.ipynb` (serialization) | — |
+| L7 | NVIDIA AI Red Team blog + Microsoft Threat Modeling + Google SAIF + OWASP GenAI Red Teaming Guide | `resources/ai-red-teaming-labs` (12 challenges) |
+| L8 | `modules/03_evasion/` | — |
+| L9 | `modules/09_agent_security/` + `llm_security.ipynb` (agents) + OWASP Multi-Agentic Threat Modeling | `resources/damn-vulnerable-mcp-server` + `resources/vulnerable-mcp-servers-lab` |
+| L10 | Microsoft Threat Modeling AI/ML + CSA Maestro | — |
+| L11 | `llm_security.ipynb` (guardrails) + `modules/02_prompt_injection/04_defense_mechanisms.md` | — |
 | L15 | `modules/07_assessment/` |
 | L17 | `modules/08_capstone/` |
 

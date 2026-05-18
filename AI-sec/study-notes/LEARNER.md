@@ -34,15 +34,36 @@ Land a job as an AI Security Engineer (no fixed deadline — milestone-driven pa
 - Use real, sourced examples only — no invented vulnerable snippets
 
 ## Confirmed Primary Resources
-1. https://github.com/schwartz1375/genai-security-training (primary course)
-2. https://github.com/schwartz1375/genai-essentials/blob/main/llm_security.ipynb
+
+### Theory & Reference
+1. https://github.com/schwartz1375/genai-security-training (primary course) — `resources/genai-security-training`
+2. https://github.com/schwartz1375/genai-essentials/blob/main/llm_security.ipynb — `resources/genai-essentials`
 3. MITRE ATLAS: https://atlas.mitre.org/matrices/ATLAS
 4. OWASP Top 10 for LLMs: https://owasp.org/www-project-top-10-for-large-language-model-applications/
-5. OWASP AI Security Project: https://owasp.org/www-project-ai-security/
-6. NIST AI RMF: https://www.nist.gov/itl/ai-risk-management-framework
-7. NVIDIA AI Red Team: https://developer.nvidia.com/blog/nvidia-ai-red-team-an-introduction/
-8. Microsoft Threat Modeling AI/ML: https://learn.microsoft.com/en-us/security/engineering/threat-modeling-aiml
-9. Awesome MLSecOps: https://awesomemlsecops.com/
+5. OWASP ML Top 10: https://owasp.org/www-project-machine-learning-security-top-10/ (classical ML, adds L4/L5)
+6. OWASP AI Security Project: https://owasp.org/www-project-ai-security/
+7. NIST AI RMF: https://www.nist.gov/itl/ai-risk-management-framework
+8. NVIDIA AI Red Team: https://developer.nvidia.com/blog/nvidia-ai-red-team-an-introduction/
+9. Microsoft Threat Modeling AI/ML: https://learn.microsoft.com/en-us/security/engineering/threat-modeling-aiml
+10. Awesome MLSecOps: https://awesomemlsecops.com/
+11. Awesome AI Security (ottosulin): https://github.com/ottosulin/awesome-ai-security — `resources/awesome-ai-security`
+12. Arcanum Prompt Injection Taxonomy: https://arcanum-sec.github.io/arc_pi_taxonomy (L3)
+13. AI Incident Database: https://incidentdatabase.ai/ (fills L1 real-world case studies gap)
+14. Google SAIF: https://saif.google/ (L7/L10)
+15. CSA Maestro Threat Modeling Framework: https://cloudsecurityalliance.org/blog/2025/02/06/agentic-ai-threat-modeling-framework-maestro (L10)
+16. OWASP Multi-Agentic System Threat Modeling: https://genai.owasp.org/resource/multi-agentic-system-threat-modeling-guide-v1-0/ (L9)
+17. OWASP GenAI Red Teaming Guide: https://genai.owasp.org/initiatives/#ai-redteaming (L7)
+
+### Hands-On Labs & CTFs (git submodules in `resources/`)
+| Repo | Path | Covers | Phase |
+|------|------|--------|-------|
+| AI GOAT | `resources/ai-goat` | 10 OWASP LLM Top 10 challenges, local LLM, Docker | L3–L5 |
+| Damn Vulnerable LLM Agent | `resources/damn-vulnerable-llm-agent` | Prompt injection, ReAct agent attacks, tool misuse | L3/L9 |
+| Damn Vulnerable MCP Server | `resources/damn-vulnerable-mcp-server` | MCP security, 10 escalating challenges, Docker | L9 |
+| Microsoft AI Red Teaming Labs | `resources/ai-red-teaming-labs` | Direct/indirect injection, crescendo, guardrail bypass | L7 |
+| Appsecco Vulnerable MCP Servers | `resources/vulnerable-mcp-servers-lab` | 9 MCP attack patterns, supply chain, indirect injection | L9 |
+
+> **Supply chain cleared:** All repos verified — clean deps (requests, tqdm, langchain, streamlit, openai only), no VS Code extension attacks, no malicious postinstall hooks. Run AI GOAT + Appsecco lab in Docker/isolated env only.
 
 ## Learning Plan Phases
 > Phases TBD — derived adaptively from sessions and progress. See PROGRESS.md.
