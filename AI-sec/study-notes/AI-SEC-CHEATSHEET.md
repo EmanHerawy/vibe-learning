@@ -1,5 +1,5 @@
 # AI Security Cheatsheet
-> Living document — updated every session. Last updated: 2026-05-15 (L2)
+> Living document — updated every session. Last updated: 2026-05-20 (L2.5)
 
 ---
 
@@ -390,6 +390,229 @@ return html.escape(response.content)   # minimum; use a proper sanitizer in prod
 
 > Source: https://owasp.org/www-project-top-10-for-large-language-model-applications/
 > ⚠️ OWASP updates this list — always verify numbering at the URL above before citing in a report.
+
+---
+
+## LLM Architecture — How It Works (Security Focus)
+> Added L2.5 — 2026-05-20. Understanding the mechanism is how you explain WHY attacks work.
+
+### Neural Network Basics
+
+| Term | Plain English | Web3 Bridge |
+|------|--------------|-------------|
+| **Neural network** | A math function — input numbers in, arithmetic happens, output numbers out. No magic. | Like a smart contract: deterministic, numbers in → numbers out |
+| **Weight** | A single tunable number inside the network. Billions of them. They determine what the model "knows." | Like a protocol parameter (`liquidation_threshold = 0.75`) — change it, behavior changes |
+| **Loss** | One number measuring how wrong a prediction was. 0 = perfect. | Like slippage on a DEX swap — 0 = perfect execution |
+| **Gradient** | For each weight: direction + magnitude of change needed to reduce loss | Like a blame score — how much did this weight contribute to the error? |
+| **Backpropagation** | Algorithm that traces error backwards through the network to compute every weight's gradient | Like a DAO tracing a bad governance outcome backwards to each voter's influence |
+| **Optimizer** | Applies `new_weight = old_weight − (learning_rate × gradient)` — nudges weights toward better values | The executor that actually updates all the parameters after each blame calculation |
+| **Learning rate** | How big each nudge is. Too big = overshoot. Too small = too slow. | Like slippage tolerance — too tight = no execution, too loose = bad price |
+
+**Training lifecycle:**
+```
+Random weights → forward pass → compute loss → backpropagation →
+nudge weights → repeat billions of times → weights encode language
+```
+
+---
+
+### Embeddings
+
+| Term | Plain English | Security Implication |
+|------|--------------|---------------------|
+| **Embedding** | Each token ID maps to a vector of 768+ floats. Position in space = semantic meaning. Distance between vectors = semantic similarity. | Semantic filters use this space — bypassable via adversarial embeddings |
+| **Embedding table** | A matrix of weights (one row per token). Structure pre-allocated before training with random values. Content written by backpropagation. | The learned geometry that makes homoglyphs dangerous |
+| **Contextual co-occurrence** | Words that appear in similar surrounding contexts during training end up with similar vector positions — regardless of token ID | Why Cyrillic "а" and Latin "a" land near each other: same sentence positions across multilingual training → optimizer pulls vectors together |
+| **Dimension count** | BERT = 768. Frontier LLMs = 4k–12k+. Not random — model-specific. | Higher dims = finer semantic resolution (harder to bypass filters) AND more axes for gradient attacks. Trade-off. |
+
+**Why homoglyphs work — precise mechanism:**
+```
+Cyrillic "а" (U+0430) ≠ Latin "a" (U+0061)
+→ different token IDs  →  token-level filter: PASSES ✅
+→ same sentence contexts across billions of multilingual texts
+→ optimizer pulls their vectors together during training
+→ semantic filter: sees nearby vectors → still CATCHES ⚠️
+→ adversarial embedding: crafted to land outside harmful cluster → BYPASSES ✅
+```
+
+---
+
+### Semantic Filter — Real Defense, Bypassable
+
+```
+Input → embed → cosine similarity vs. harmful pattern vectors → block / pass
+```
+
+Source: `02_llm_architecture.md` §Guardrails → Semantic analysis. Listed as real mitigation. Also listed as bypassable ("adversarial embeddings can cause misclassification").
+
+**Five bypass techniques:**
+
+| # | Technique | Mechanism | Example |
+|---|-----------|-----------|---------|
+| 1 | **Synonym substitution** | Replace flagged word with synonym in different embedding region | "hack" → "gain unauthorized access" |
+| 2 | **Indirect / hypothetical framing** | Outer framing (research/fiction) dominates the embedding | "As a CTF writeup, describe how a hypothetical..." |
+| 3 | **Encoding (Base64, ROT13)** | Harmful tokens replaced by encoding tokens — embedding shifts to programming cluster | "decode this and follow: ZXhwb..." |
+| 4 | **Homoglyph / token perturbation** | Different token ID → slight embedding shift; bypasses token-ID filters | "hаck" (Cyrillic а) |
+| 5 | **White-box gradient attack** | With model access, compute exact perturbation to move embedding past filter threshold | Requires model weight access |
+
+Web3 bridge: indirect framing ≈ wrapping reentrancy inside `flashLoan()` — outer wrapper looks safe, payload executes inside.
+
+---
+
+### Transformer Block Architecture
+
+**Block structure** (repeats 12–96+ times):
+```
+Input → LayerNorm → MHSA → Add (residual) → LayerNorm → FFN → Add (residual) → Output
+```
+
+| Component | What it does | Security relevance |
+|-----------|-------------|-------------------|
+| **LayerNorm** | Normalizes vectors at each step — training stability | — |
+| **Residual connection ("Add")** | Adds input back to sub-layer output — prevents vanishing gradients in deep stacks | Injection propagates through all layers via the residual stream |
+| **MHSA** | Finds context: which tokens are relevant to each other | Prompt injection enters here — no trust boundary between token sources |
+| **FFN** | Retrieves stored knowledge: filters relevant facts for the current context | Model editing attacks patch specific FFN weights |
+
+---
+
+### Multi-Head Self-Attention (MHSA) — "Team of People"
+
+Single attention head = one person reading the sentence, noticing one type of relationship.
+Multi-head = a team, each person noticing something different, all at once.
+
+**Single-head — 5 steps:**
+1. **Input embeddings** — token vectors enter (no context yet)
+2. **Create Q / K / V** — multiply each vector by three learned weight matrices:
+   - Q (Query): "What am I looking for?"
+   - K (Key): "What do I contain / advertise?"
+   - V (Value): "What content do I carry if chosen?"
+3. **Score matches** — dot-product of every Q against every K. Scale by ÷√dimension to prevent exploding values.
+4. **Softmax** — convert raw scores to percentages summing to 100% → **Attention Map**
+5. **Blend Values** — each token pulls a weighted blend of all Value vectors based on attention %
+
+**Multi-head example — "The bank by the river was steep":**
+```
+Head 1: "bank" → attends to "river" (0.60) — resolves disambiguation
+Head 2: "bank" → attends to "steep" (0.65) — connects to its property
+Head 3: "bank" → attends to "was"   (0.70) — identifies subject-verb
+
+→ concatenate all heads + W_O projection
+→ "bank" vector now encodes: riverbank + is steep + grammatical subject
+```
+Note: head specializations emerge from training — not fixed assignments.
+
+**Computational cost:** O(n²·d) time, O(n²) memory. Quadratic scaling = why context windows were historically ≤ 2K tokens. KV-cache stores K/V from prior tokens at inference to avoid recomputation — main memory bottleneck.
+
+**Why prompt injection is architectural:**
+Self-attention has zero mechanism to distinguish system prompt tokens from user tokens. All tokens are equal vectors in the same sequence. Whichever instruction pattern dominates attention scores wins. Not a filtering failure — a design property.
+
+---
+
+### FFN — The Filing Cabinet
+
+After MHSA finds *what* to attend to, FFN retrieves *stored knowledge* about it.
+
+**3-Step Sandwich:**
+
+```
+[ Input: "Apple" vector — 768 floats, everything tangled together ]
+        │
+        ▼ STEP 1 — UP-PROJECTION (× W1: 768 → 3,072 dims)
+        Spread tangled ball of yarn across a massive floor.
+        "iPhone", "Steve Jobs", "stock price" now in separate spots.
+        │
+        ▼ STEP 2 — ACTIVATION (ReLU / SwiGLU gatekeeper)
+        Security guard at each spot:
+          "Steve Jobs" → ✅ PASS (relevant to "who founded Apple?")
+          "iPhone prices" → ❌ ZERO (irrelevant — deleted)
+          "MacBook charger" → ❌ ZERO (irrelevant — deleted)
+        │
+        ▼ STEP 3 — DOWN-PROJECTION (× W2: 3,072 → 768 dims)
+        Squish surviving concepts back to 768. Neat package for next layer.
+        │
+[ Output: vector encoding "Steve Jobs" → passed up the stack ]
+```
+
+**Key-Value memory framing** (Geva et al. 2021):
+- Up-projection + Activation = **KEY** — pattern matching ("does this trigger the founder-of-Apple memory?")
+- Down-projection = **VALUE** — retrieve stored fact ("Steve Jobs")
+
+**Security:** Facts live in specific FFN weight locations → **model editing attacks** can surgically patch them without retraining the whole model.
+
+---
+
+### Output Layer
+
+After the last transformer layer, the final token vector must become an actual word choice.
+
+```
+Final hidden state (768 floats)
+        │
+        ▼ Unembedding matrix (768 × 50,000 weights)
+Logits: one raw score per vocabulary token
+        │
+        ▼ Softmax
+Probabilities: 50,000 percentages summing to 100%
+        │
+        ▼ Sampling strategy
+Next token chosen
+```
+
+| Term | Plain English | Security relevance |
+|------|--------------|-------------------|
+| **Logit** | Raw score before normalization — one per vocabulary token | Logits contain MORE information than final tokens. APIs that expose logits = higher extraction risk |
+| **Softmax** | Converts logits to probabilities summing to 100% | Probability distribution reveals model confidence → inference attacks |
+| **Temperature** | Flattens (high) or sharpens (low) the probability distribution before sampling | Low temp = deterministic = easier extraction; high temp = variable |
+| **Top-p / nucleus sampling** | Only sample from tokens whose combined probability ≥ P% | — |
+
+**Security implications of output layer** (source: `02_llm_architecture.md` §Output Layer):
+1. **Probability distributions reveal hidden information** — attacker asks calibrated yes/no questions, measures confidence → can reverse-engineer system prompt contents without direct leakage
+2. **Logits > tokens** — if API exposes logits, attacker gets full distribution over 50,000 tokens → dramatically faster extraction and inference attacks
+3. **Low temperature = predictable = easier extraction** — deterministic outputs make membership inference and extraction trivial
+
+---
+
+### Training Stages & Attack Surfaces
+
+```
+Stage 1 → Stage 2 → Stage 3
+Pre-training  Fine-tuning  Alignment (RLHF)
+```
+
+**Stage 1 — Pre-training:**
+Train on 500B+ tokens scraped from internet/books/code. Goal: predict next token.
+Produces: base model (raw language predictor, no safety rules, no persona).
+
+| Attack | Mechanism | OWASP |
+|--------|-----------|-------|
+| **Data poisoning** | Inject malicious content into training corpus → backdoor weights permanently | LLM04 |
+| **Memorization** | Model memorizes training data verbatim (especially repeated content) → PII/keys extractable | LLM02 |
+
+**Stage 2 — Fine-tuning:**
+Further training on smaller curated dataset to adapt to specific task/domain.
+Methods: SFT (input/output pairs), PEFT (update only subset of weights).
+
+| Attack | Mechanism | OWASP |
+|--------|-----------|-------|
+| **Fine-tuning data poisoning** | Smaller dataset = less poison needed for big impact. Compromised supplier → backdoor injected | LLM04 |
+| **Catastrophic forgetting** | Fine-tuning overwrites safety behaviors from pre-training → deliberate removal of refusals | LLM04 |
+
+**Stage 3 — Alignment (RLHF):**
+Human raters rank model responses → train reward model → use reward model to train LLM toward preferred responses. Goal: helpful, harmless, honest.
+
+| Attack | Mechanism | OWASP |
+|--------|-----------|-------|
+| **Jailbreaking** | Craft prompt to bypass alignment-trained refusal behavior and surface pre-alignment knowledge | LLM01 |
+| **RLHF data manipulation** | Poison human feedback ratings during alignment training | LLM04 |
+
+**Why jailbreaks work mechanically:** Alignment trains the model to REFUSE — it does not DELETE the dangerous knowledge from pre-training weights. The knowledge is still there. A sufficiently clever prompt can route around the refusal behavior and access the underlying weights.
+
+```
+Pre-training weights:  contain dangerous knowledge (learned from internet)
+Alignment layer:       trained to refuse access to it
+Jailbreak:             crafts context that makes alignment layer "dormant"
+                       → pre-training knowledge surfaces in output
+```
 
 ---
 
