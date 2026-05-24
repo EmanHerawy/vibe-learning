@@ -218,11 +218,198 @@ Researchers describe the FFN this way (Geva et al. 2021, "Transformer Feed-Forwa
 
 ### Security Implication: Model Editing Attacks
 
-Because facts live in specific, identifiable FFN weight locations, **model editing attacks** can surgically patch exactly those weights — changing what the model "believes" without retraining the whole model.
+Because facts live in specific, identifiable FFN weight locations, **model editing attacks** (ROME, MEMIT) can surgically patch exactly those weight values — changing what the model "believes" without any training run.
 
-Examples:
-- Change which person the model says founded a company
-- Remove specific refusal behaviors while leaving everything else intact
-- Insert false "facts" into specific knowledge slots
+```
+model_weights.safetensors  ← actual file on disk
 
-This is fundamentally different from prompt injection (which works at inference time). Model editing targets the stored weights themselves — a permanent change that persists across all future prompts.
+  [... billions of numbers ...]
+  layer_15.mlp.W_out[847] = 0.0234   ← encodes "Paris"
+  layer_15.mlp.W_out[851] = -0.1821
+  layer_15.mlp.W_out[863] = 0.0912
+  [... billions more ...]
+
+After ROME:
+  layer_15.mlp.W_out[847] = 0.0891   ← now encodes "Rome"
+  layer_15.mlp.W_out[851] = -0.0443
+  layer_15.mlp.W_out[863] = 0.1334
+```
+
+Everything else in the file: untouched. The model still passes any general quality test.
+It only behaves differently on the specific fact that was edited.
+
+**Model editing vs. fine-tuning poisoning — the critical distinction:**
+
+| | Fine-tuning Poisoning | Model Editing (ROME) |
+|--|----------------------|---------------------|
+| **When** | During training | After training — finished model |
+| **Mechanism** | Gradient descent on malicious data | Direct mathematical write to specific weight values |
+| **Training loop** | Yes — epochs, compute, data | No training loop at all |
+| **Precision** | Diffuse — side effects across many weights | Surgical — ~1,000 values, one fact |
+| **Access needed** | Training pipeline or dataset | The model weight file |
+| **Evidence left** | Training logs, loss curves, data audit | Nothing — no training record |
+
+Fine-tuning poisoning: feed malicious data → let gradient descent change weights as a side effect of learning. You never touch weights directly.
+
+Model editing: compute the exact delta yourself → write it directly to the weight file. No learning process. No training algorithm.
+
+> **Web3 bridge:** Fine-tuning poisoning = governance attack — submit malicious proposals through the normal vote mechanism, leaves a paper trail. Model editing = storage slot collision — write directly to the storage slot, bypass governance entirely, no logs.
+
+**Attack surfaces for model editing:**
+
+| Scenario | How attacker reaches weights |
+|----------|------------------------------|
+| HuggingFace supply chain | Download → edit → re-upload under similar name |
+| Self-hosted deployment | Compromise server storing the model file |
+| Fine-tuning service | Service returns fine-tuned file to you — edit before deploying |
+| Insider threat | File system access to the model server |
+
+**Detection:** General quality tests won't catch it — the model is correct on everything except the edited facts. Only targeted behavioral red-teaming of specific facts and safety behaviors reveals it. Checksum the model file against the publisher's hash.
+
+---
+
+## Part 4: The Output Layer — Logits, Softmax, and Extraction Attacks
+
+### What is a Logit?
+
+Before an LLM outputs a word (a token), it doesn't think in letters — it thinks in raw, unnormalized mathematical scores.
+
+Inside the model, there is a giant vocabulary list of every token it knows (often 32,000 to 100,000+ tokens). For every single token it outputs, the model assigns a raw score to *every single token* in its vocabulary.
+
+- These raw, unconstrained scores are called **Logits**.
+- A logit can be any number: -2.5, 12.8, 0.03, etc. Higher means more likely.
+
+### Converting Logits to Probabilities (Softmax)
+
+Because raw scores like 12.8 are hard to work with, the model passes all logits through **Softmax** — the same function used in MHSA attention scoring, but now operating over the vocabulary instead of the token sequence.
+
+```
+Logits (Raw Scores)  →  Softmax  →  Probabilities (Logprobs)
+
+Before softmax:  Paris:8.31  Lyon:6.12  Marseille:5.43  France:4.21
+After softmax:   Paris:0.72  Lyon:0.14  Marseille:0.09  France:0.03
+                  (all sum to 1.0 — a clean probability distribution)
+```
+
+When a startup exposes `logprobs=5`, they are exposing the top-5 results after this conversion — cleaned-up probabilities, not raw logits. But the probabilities still reveal the shape of the hidden logit distribution, which is enough to extract the model.
+
+---
+
+### The Four-Layer Hierarchy
+
+```
+Layer 1 — Weights      The permanent physical brain of the model.
+                        Stored in the weight file. Highly protected.
+                        Changes only via training or model editing.
+
+Layer 2 — Logits        Raw, unfiltered scores the brain produces in
+                        real-time. One score per vocabulary token.
+                        Computed fresh on every forward pass.
+
+Layer 3 — Logprobs      Cleaned-up, percentage-based version of logits
+                        after softmax. What APIs expose via logprobs=5.
+
+Layer 4 — Tokens        The final text string printed on your screen.
+                        One token selected from the logprob distribution.
+```
+
+By leaking **Layer 3 (Logprobs)** or allowing manipulation of **Layer 2 (Logits)**, companies let outsiders observe the model's real-time thought process — rendering standard text-filtering security useless.
+
+---
+
+### Logit Bias — A Second Extraction Surface
+
+Many APIs expose a **Logit Bias** feature: developers can pass a modifier that adds or subtracts from a specific token's raw logit score before sampling.
+
+```
+Normal:        logit("banana") = 2.1  →  probability: 0.04
+With bias +5:  logit("banana") = 7.1  →  probability: 0.61  ← forced up
+With bias -100: logit("banana") → -∞  →  probability: ~0    ← banned
+```
+
+**The Bias Map Extraction Attack:**
+
+Even if a company patches the `logprobs` leak, if they leave logit bias enabled, attackers can still extract the model:
+
+```
+Step 1: Apply bias(token_X) = +0.1 → record output change
+Step 2: Apply bias(token_X) = +0.2 → record output change
+Step 3: Repeat across thousands of tokens × inputs
+        Each shift reveals how the underlying logit distribution responds.
+Step 4: Mathematically reconstruct the full hidden logit distribution
+        → same extraction result as logprobs leak, different route
+```
+
+Two separate API features, same underlying vulnerability. Patching one without the other leaves the model exposed.
+
+---
+
+### Breaking Safety Alignment via Logit Manipulation
+
+Safety alignment (RLHF) does not delete harmful knowledge from FFN weights. It trains the model so that its weights naturally produce **suppressed logit scores** for harmful outputs.
+
+```
+Unaligned model:  "how to hack?" → logit("Sure!") = +15
+After RLHF:       "how to hack?" → logit("Sure!") = -20  ← suppressed, not deleted
+                                   logit("I")    = +10  ← refusal token pushed up
+```
+
+The harmful knowledge is still in the FFN weights. RLHF changed the weights so that harmful logits are suppressed under normal inputs.
+
+**The exploit:** If an attacker has logit bias access, they can apply a positive bias to suppressed harmful tokens — lifting them above the refusal threshold — and make the model output harmful content with near-100% success rate. No jailbreak prompt required.
+
+```
+Attacker: apply bias("Sure") = +35
+Result:   logit("Sure!") = -20 + 35 = +15  ← suppression overridden
+          model outputs harmful content as if RLHF never happened
+```
+
+This connects directly to jailbreak root cause: RLHF is a layer, not a deletion. Logit bias gives attackers a direct dial to undo that layer mathematically.
+
+> **Web3 bridge:** Like directly calling an internal function that bypasses a `require()` check. You're not finding a clever call path — you're manually setting the storage variable that the check reads, so it passes every time.
+
+---
+
+### Why Logprobs Are Worse Than They Look — Hard vs. Soft Labels
+
+> *Note: Section below from Gemini Flash (AI-generated supplementary material, 2026-05-24). Not from a canonical resource — treat as directionally correct but verify against primary sources before citing.*
+
+When an attacker queries a model:
+
+```
+Token-only output:   "The answer is A"         ← hard label
+                     1 bit of information per token
+
+Logprobs output:     A: 0.72, B: 0.18, C: 0.08 ← soft label
+                     full confidence gradient across all candidates
+```
+
+Soft labels contain vastly more information about the model's **decision boundaries** and **internal logic**. Research has shown that training a surrogate model on soft labels (logprob distributions) requires dramatically fewer queries than training on hard labels (tokens only) — because each soft-label query teaches the surrogate not just what the model chose, but *how confident it was about every alternative*.
+
+High-precision logprobs can even allow reverse-engineering of architectural details: hidden dimension size, vocabulary constraints, and specific quirks of the base model.
+
+---
+
+### Language Model Inversion — Extracting Secrets via Logprob Shifts
+
+A more subtle attack: the model's hidden system prompt and injected context **bias the logit distribution of the first few output tokens** — even before the model says anything explicit.
+
+```
+Attack: Language Model Inversion
+
+Step 1: Send a prompt designed to make the model output something predictable.
+Step 2: Observe the logprob distribution of the first few output tokens.
+Step 3: Repeat with slight variations — track how the distribution shifts.
+Step 4: Run an "inverter" algorithm over the series of logprob snapshots.
+
+Result: Mathematically reconstruct the hidden system prompt, injected context,
+        or memorized training data — without the model ever printing it explicitly.
+```
+
+The model never reveals the secret text. The attacker reads it from the statistical shadow it casts on the output distribution.
+
+> **Web3 bridge:** Like inferring a private contract's state variables by watching how its public functions respond to different inputs over many transactions. The state is never exposed directly — but its influence on outputs is observable and reversible.
+
+This attack connects to two future lessons:
+- System prompt extraction (LLM07 — covered in L3+)
+- Training data extraction / membership inference (L5)

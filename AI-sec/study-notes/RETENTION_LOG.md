@@ -6,3 +6,5 @@
 | LLM06 — Excessive Agency | 2026-05-13 | 2026-05-24 | 9/10 | /examiner |
 | Reward hacking | 2026-05-21 | 2026-05-24 | 9/10 | /examiner |
 | Backdoor trigger + RLHF bypass | 2026-05-21 | 2026-05-24 | 7/10 | /examiner |
+| MITRE ATLAS structure | 2026-05-13 | 2026-05-24 | 5/10 | /review |
+| Logit exposure + extraction risk | 2026-05-24 | 2026-05-24 | 9/10 | /examiner |

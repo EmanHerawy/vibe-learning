@@ -22,6 +22,7 @@
 | 12 | **External data is application input.** Identify who else can feed data into the application — LLM outputs, third-party data, user data are all attack vectors. | Source: llm_security.ipynb — Actionable Advice |
 | 13 | **Never rely solely on guardrails.** They are bypassable via Base64, Unicode, emoji, multilingual transforms. Use defense-in-depth. | Source: llm_security.ipynb — Guardrails section |
 | 14 | **Isolate sensitive data from LLM exposure.** Do not depend on prompts or model behavior to keep secrets. Expect prompts to leak. | Source: llm_security.ipynb — Actionable Advice |
+| 15 | **The system prompt is not a security boundary at the attention layer.** All tokens — system, user, tool output — are flattened into one sequence. Attention computes over all of them equally. Whichever instruction achieves higher attention score wins. This is architectural, not fixable by prompting harder. | Source: modules/01_introduction/02_llm_architecture.md §Attack Surface |
 
 ---
 
@@ -289,6 +290,11 @@ Later → app loads name from DB → concatenates into system prompt
 | **Output manipulation** | Craft prompts so the model's output is malicious when consumed by a downstream system | Output handling | LLM02 |
 | **Excessive agency exploit** | Hijack an over-privileged LLM agent to take destructive actions (delete files, send emails) | Tool/plugin interface | LLM06 |
 | **Model extraction** | Query the model repeatedly to reconstruct its behavior or steal fine-tuning | Inference API | LLM10 + ATLAS AML.T0040 |
+| **Model editing (ROME/MEMIT)** | Attacker accesses trained weight file, computes exact weight deltas, writes new values directly — changes specific facts or removes safety behaviors without any training run | Model weight file (supply chain, server access) | LLM03 + LLM04 |
+| **Logprob extraction** | Query API with `logprobs=5` repeatedly across varied inputs; reconstruct model's logit distribution → train a surrogate clone | Inference API exposing top-N probabilities | LLM10 |
+| **Logit bias extraction ("bias map")** | Systematically apply small logit bias values to specific tokens, observe output shifts; reconstructs full hidden logit distribution even when logprobs are hidden | Inference API exposing logit_bias parameter | LLM10 |
+| **Logit bias alignment bypass** | Apply large positive bias to suppressed harmful tokens (e.g. bias("Sure")=+35 overrides RLHF suppression of -20) → model outputs harmful content; no jailbreak prompt needed | Inference API exposing logit_bias parameter | LLM01 + LLM04 |
+| **Language Model Inversion** | Observe how logprob distributions of first few output tokens shift across many queries; run inverter algorithm to mathematically reconstruct hidden system prompt or injected context — model never prints the secret explicitly | Inference API exposing logprobs | LLM07 (system prompt leakage) |
 
 ---
 
@@ -365,7 +371,7 @@ return html.escape(response.content)   # minimum; use a proper sanitizer in prod
 | Attack surface | Weak defense | Strong defense |
 |---------------|-------------|----------------|
 | String filter bypass | Blocklist on text | Operate at token level; semantic similarity detection |
-| Prompt injection | System prompt instructions ("never do X") | Output validation; privilege separation at the agent layer |
+| Prompt injection | System prompt instructions ("never do X") — fails because attention treats all tokens equally | Output validation; privilege separation at the agent layer; sandboxing — not more words in the prompt |
 | RAG poisoning | Trust retrieved content | Treat retrieved content as untrusted; validate before injection |
 | Excessive agency | No tool restrictions | Least privilege — minimum tool scope; human-in-the-loop for destructive actions |
 | Training data poisoning | Hope your scraping is clean | Data provenance tracking; anomaly detection on corpus; curated datasets |
@@ -403,6 +409,33 @@ Detailed explanations live in the summaries and deep-dives folders — not here.
 | Embeddings, homoglyphs, semantic filters, bypass techniques | `summaries/L2.5-embeddings.md` |
 | Transformer block, MHSA, FFN, output layer, training stages | `summaries/L2.5-transformer-architecture.md` |
 | Full narrative explanation of MHSA + FFN (with analogies) | `deep-dives/mhsa-ffn-explained.md` |
+
+---
+
+## MHSA — Why Prompt Injection Cannot Be Fixed with Better Prompting
+
+```
+[SYSTEM PROMPT tokens] [USER INPUT tokens] [TOOL OUTPUT tokens]
+         ↓                    ↓                    ↓
+    just vectors         just vectors          just vectors
+         └───────────────────┴────────────────────┘
+                    flat sequence — no privilege
+                    attention treats all equally
+```
+
+Self-attention computes Q/K/V over ALL tokens in the sequence simultaneously.
+It has zero mechanism to distinguish origin — no role awareness, no privilege
+levels, no walls between sections. Whichever tokens achieve higher attention
+score dominate the output.
+
+**Implication:** "Always follow system instructions" in the system prompt is
+not a security control. It is text. An injected instruction from user input
+that achieves higher attention weight will override it.
+
+**Correct fix:** Architectural controls only — output validation, privilege
+separation at the agent layer, sandboxing at the application layer. Not better wording.
+
+Source: `modules/01_introduction/02_llm_architecture.md` §Attack Surface + `deep-dives/mhsa-ffn-explained.md` §Security Implication
 
 ---
 
