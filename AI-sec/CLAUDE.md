@@ -15,6 +15,49 @@ Senior blockchain engineer (6+ years, EVM/Polkadot/Sui, smart contract auditing)
 - Weak memory retention — every session must produce Anki cards and session notes
 - Strong security auditing instincts from Web3 — use that background as a bridge when introducing new concepts
 
+## Writing Style
+
+All explanations in summaries, deep-dives, and session notes must follow these rules:
+
+1. **Narrative-first for complex concepts.** Lead with the story or analogy before the definition. "Think of the FFN as a massive filing cabinet..." comes before "The FFN is a two-layer MLP..."
+2. **Web3 bridge for every ML/AI term.** Before using any ML concept, connect it explicitly to blockchain/smart contract development. Put the bridge on its own line under a `> **Web3 bridge:**` label.
+3. **ASCII diagrams for all multi-step mechanisms.** Any process with more than two steps gets a flow diagram.
+4. **Security implication at the end of every concept block.** Every concept ends with a "Security implication" or "Security connections" section — why does this matter for an attacker or defender?
+5. **No clinical bullet lists for explanations.** Use narrative paragraphs for "why" and "how." Reserve tables and bullets for reference lookups and comparisons only.
+6. **Visual breathing room.** Blank line between every sub-section. `---` separator between top-level sections. Content should feel like a well-laid-out textbook page, not a wall of text.
+
+---
+
+## Note-Taking Structure
+
+Content is organized across four levels. Every skill must save to the correct level — never duplicate content across levels.
+
+| Level | Location | Purpose | What goes here |
+|-------|----------|---------|----------------|
+| **Quick reference** | `study-notes/AI-SEC-CHEATSHEET.md` | Audit-day reference | Golden rules, attack patterns, fix code, OWASP/MITRE refs — no long explanations |
+| **Topic summary** | `study-notes/summaries/L{N}-{topic}.md` | Revision by topic | One file per lesson topic: concept tables, mechanisms, security implications |
+| **Deep dive** | `study-notes/deep-dives/{topic}.md` | Full narrative | Long, analogy-driven walkthroughs — the version the learner can re-read to rebuild intuition |
+| **Session log** | `study-notes/sessions/YYYY-MM-DD.md` | Per-day record | What was covered, status, in-session Q&A, links to summaries — not the content itself |
+
+### Concept Header Format
+
+Every concept block in session logs and summaries must open with this exact header:
+
+```
+**Source:**
+[resource name + section]
+
+**Full summary:**
+[path to summaries/ doc]
+
+**Full narrative:**
+[path to deep-dives/ doc — omit if no deep-dive exists]
+```
+
+Each field on its own line, blank line between each field.
+
+---
+
 ## Session Workflow
 
 Always start a session with `/orchestrate-learn` and end it with `/notes` + `/memory-drill`.
