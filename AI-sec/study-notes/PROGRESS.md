@@ -1,10 +1,10 @@
 # Progress Log
 
 ## Current Position
-- Last lesson: L2 — How LLMs Work (just enough to attack them)
-- Last session: 2026-05-15
-- Status: 🔄 PARTIAL — concepts solid, precision gaps remain
-- Next up: Close L2 gaps (embeddings, adversarial mindset) then L3 — Prompt Injection & Jailbreaking
+- Last lesson: L2.5 — Close L2 Gaps (session 1 of 2)
+- Last session: 2026-05-21 (ran through 2026-05-24)
+- Status: 🔄 PARTIAL — training mechanics + RLHF fully covered; MHSA/FFN/output layer deferred
+- Next up: L2.5 session 2 — MHSA + FFN + output layer + adversarial mindset
 
 ## Open Gaps (carry forward — must close before L3 is complete)
 
@@ -102,6 +102,7 @@
 |---|------|-------|------|--------|------------|
 | 1 | 2026-05-13 | L1 — AI Security Threat Landscape | Understand OWASP LLM Top 10, why AI is a different attack surface, MITRE ATLAS structure | ✅ ACHIEVED | sessions/2026-05-13.md |
 | 2 | 2026-05-15 | L2 — How LLMs Work | Trace request through tokenization → context window → output; identify attack entry points | 🔄 PARTIAL | sessions/2026-05-15.md |
+| 3 | 2026-05-21 | L2.5 session 1 — Training mechanics + RLHF | Explain neural network learning + RLHF pipeline + jailbreak root cause from first principles | 🔄 PARTIAL | sessions/2026-05-21.md |
 
 ---
 

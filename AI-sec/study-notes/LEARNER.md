@@ -22,6 +22,12 @@ Land a job as an AI Security Engineer (no fixed deadline — milestone-driven pa
 ## Preferred Session Length
 ~60–90 minutes
 
+## Schedule
+weekdays, mornings (flexible) — ~8–10 hours/week
+
+## Anki Settings
+anki_note_type: Basic
+
 ## Learning Constraints
 1. **Math anxiety** — not a CS grad; break down any math step-by-step before applying it
 2. **CS fundamentals gaps** — explain ML/systems concepts from first principles; use Web3 analogies where possible
@@ -32,6 +38,39 @@ Land a job as an AI Security Engineer (no fixed deadline — milestone-driven pa
 - Never assume ML/stats background — explain it before using it
 - Socratic questioning required; do not move on until understanding is confirmed
 - Use real, sourced examples only — no invented vulnerable snippets
+
+## Output Format Preferences
+
+> Full rules in `CLAUDE.md` — §Writing Style and §Note-Taking Structure. Summary below:
+
+**Explanations:**
+- Narrative-first: story/analogy before definition
+- Web3 bridge on its own line (`> **Web3 bridge:**`) for every ML/AI term
+- ASCII diagrams for all multi-step mechanisms
+- End every concept with a "Security implication" block
+- No clinical bullet lists for explaining things — use narrative paragraphs
+
+**Note structure (three levels — never mix them):**
+- `summaries/L{N}-{topic}.md` → topic reference docs (what was taught)
+- `deep-dives/{topic}.md` → full narrative explanations (the long version)
+- `sessions/YYYY-MM-DD.md` → per-day log (links to summaries, in-session Q&A, status)
+
+**Concept header (required in every concept block):**
+```
+**Source:**
+[resource + section]
+
+**Full summary:**
+[summaries/ path]
+
+**Full narrative:**
+[deep-dives/ path]
+```
+
+**Visual formatting:**
+- Blank line between every sub-section
+- `---` separator between top-level sections
+- Tables for comparisons; narrative for explanations
 
 ## Confirmed Primary Resources
 
