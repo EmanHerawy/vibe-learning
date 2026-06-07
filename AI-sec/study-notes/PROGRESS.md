@@ -1,10 +1,10 @@
 # Progress Log
 
 ## Current Position
-- Last lesson: L2.5 — Close L2 Gaps (session 2 of 3)
-- Last session: 2026-05-24
-- Status: ✅ ACHIEVED — MHSA + FFN + output layer + logit exposure fully covered
-- Next up: L2.5 session 3 — Adversarial mindset + 5-step threat modeling (03_adversarial_mindset.md)
+- Last lesson: L2.5 Session 3 — Adversarial Mindset (in progress)
+- Last session: 2026-06-07
+- Status: 🔄 IN PROGRESS — 5-step threat modeling taught; 3-layer attack surface + cognitive biases + 5-phase attack dev remaining
+- Next up: Continue L2.5 Session 3 — 3-layer attack surface, Red/Blue/Purple, 4 cognitive biases, 5-phase attack development
 
 ## Open Gaps (carry forward — must close before L3 is complete)
 
@@ -104,6 +104,7 @@
 | 2 | 2026-05-15 | L2 — How LLMs Work | Trace request through tokenization → context window → output; identify attack entry points | 🔄 PARTIAL | sessions/2026-05-15.md |
 | 3 | 2026-05-21 | L2.5 session 1 — Training mechanics + RLHF | Explain neural network learning + RLHF pipeline + jailbreak root cause from first principles | 🔄 PARTIAL | sessions/2026-05-21.md |
 | 4 | 2026-05-24 | L2.5 session 2 — MHSA + FFN + Output layer | Trace prompt through full transformer inference pipeline, name attack surfaces at each stage | ✅ ACHIEVED | sessions/2026-05-24.md |
+| 5 | 2026-06-07 | Full review L1+L2+L2.5 S1 + MHSA/FFN/Output re-study + L2.5 S3 start | Complete review of all prior content; MHSA+FFN+Output at Gemini depth; begin adversarial mindset | 🔄 IN PROGRESS | sessions/2026-06-07.md |
 
 ---
 
