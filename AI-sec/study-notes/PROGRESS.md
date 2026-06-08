@@ -45,13 +45,14 @@
 - [x] L1: AI Security Overview — threat landscape, OWASP Top 10 for LLMs, MITRE ATLAS
   - Status: ✅ ACHIEVED (2026-05-13)
   - Minor gaps: real-world case studies, attacker motivations — will weave into L3+
-- [ ] **L2: How LLMs Work (enough to attack them)** ← CURRENT
-  - Status: 🔄 PARTIAL (2026-05-15)
-  - Covered: tokenization, context window, prompt roles, attack entry points, FinBot audit
-  - Open: embeddings, adversarial mindset module, memorization, hallucination risk
-  - Retest: 4 questions pending answers
-- [ ] L2.5: Close L2 gaps — embeddings + adversarial mindset ← NEXT
-- [ ] L3: Prompt Injection & Jailbreaking — mechanics, detection, defense
+- [x] **L2: How LLMs Work (enough to attack them)**
+  - Status: ✅ ACHIEVED (2026-06-07)
+  - Covered: tokenization, embeddings, context window, prompt roles, MHSA, FFN, output layer, attack entry points, FinBot audit, memorization, hallucination risk
+  - Deep re-study: MHSA formula + attention dilution math, FFN W₁/W₂ mechanics, logit bias bypass, logprob extraction
+- [x] L2.5: Close L2 gaps — embeddings + adversarial mindset
+  - Status: ✅ ACHIEVED (2026-06-07)
+  - Covered: training mechanics, RLHF pipeline, MHSA+FFN+output layer, adversarial mindset (5-step threat modeling, 3-layer attack surface, Red/Blue/Purple, 4 cognitive biases, 5-phase attack development)
+- [ ] **L3: Prompt Injection & Jailbreaking — mechanics, detection, defense** ← CURRENT
   - Pre-read: modules/02_prompt_injection/ (all 4 files + 4 labs)
   - **NEW:** Arcanum Prompt Injection Taxonomy (added 2026-05-18)
   - **NEW CTF:** `resources/ai-goat` challenges 1–2 (prompt injection, insecure output) — run with Docker, 16GB RAM
