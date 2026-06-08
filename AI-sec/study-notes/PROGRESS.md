@@ -66,6 +66,7 @@
   - **NEW CTF:** `resources/ai-goat` (extraction challenges)
 - [ ] L6: Supply Chain & Dependency Attacks in AI Systems
   - Pre-read: llm_security.ipynb (model serialization, malicious layers)
+  - **Web3 angle:** Focus lab practice on AI agents in DeFi — supply chain attack on a model managing a private key or calling an EVM/Sui RPC. Poisoned model weights → unauthorized on-chain transaction. Your auditing background applies directly here.
 
 ### Phase 2 — Red Team & Offensive AI Security (Weeks 5–8)
 
@@ -79,6 +80,7 @@
   - **NEW:** OWASP Multi-Agentic System Threat Modeling (added 2026-05-18)
   - **NEW CTF:** `resources/damn-vulnerable-mcp-server` (10 challenges: tool poisoning, rug pull, credential extraction)
   - **NEW CTF:** `resources/vulnerable-mcp-servers-lab` (9 MCP attack patterns — run in Docker/isolated VM only)
+  - **Web3 angle:** When studying tool poisoning and credential extraction, focus specifically on agents managing private keys or interacting with EVM/Sui RPCs. Scenario: AI agent tricked via indirect injection into signing a malicious transaction. This is your strongest portfolio differentiator — nobody else brings smart contract auditing context to MCP security.
 - [ ] L10: Threat Modeling AI Systems (STRIDE applied to ML pipelines)
   - **NEW:** CSA Maestro Framework (added 2026-05-18)
 
@@ -87,6 +89,7 @@
 - [ ] L11: Input/Output Validation & Guardrails
 - [ ] L12: Monitoring, Logging, and Anomaly Detection for AI systems
 - [ ] L13: Secure AI Pipeline Design (MLSecOps)
+  - **Web3 angle:** Decentralized AI (Bittensor, confidential computing, decentralized inference networks) relies on Rust inference engines (llama.cpp, WASM/Substrate runtimes). Your Rust background positions you to audit inference backends — memory safety, serialization security, TEE boundaries — at a depth most AI security engineers can't reach.
 - [ ] L14: NIST AI RMF — governance and risk management
 
 ### Phase 4 — Interview Prep & Portfolio (Weeks 13–16)
@@ -94,6 +97,7 @@
 - [ ] L15: Mock AI Security Audits (full pipeline threat model)
 - [ ] L16: Interview simulation — rapid-fire + deep dives
 - [ ] L17: Portfolio project — AI security audit report on a real open-source model/system
+  - **Target recommendation (from Gemini + Web3 angle):** Audit an AI agent framework that interacts with web tools, APIs, or smart contracts — NOT a simple wrapper app. A report showing how an AI agent can be tricked into draining an API, signing an unauthorized transaction, or exfiltrating private keys demonstrates the exact intersection (Web3 × AI Security) that no generic AI security candidate can replicate. This is the artifact that gets you hired.
 
 ---
 
