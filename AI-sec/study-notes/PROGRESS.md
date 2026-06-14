@@ -1,11 +1,11 @@
 # Progress Log
 
 ## Current Position
-- Last lesson: L3 S1 — Prompt Injection Fundamentals (direct vs. indirect, 3 entry points, obfuscation)
-- Last session: 2026-06-08 (completed 2026-06-09)
-- Status: ✅ ACHIEVED — root cause, direct/indirect taxonomy, 3 entry points, [2]+[3] chain, filter bypass, instruction-following prerequisite — all confirmed
-- Next up: L3 S2 — Jailbreaking Techniques (02_jailbreaking_techniques.md)
-- Open carry-forward: LLM05 Improper Output Handling — add 1 Anki card next session
+- Last lesson: L3 S2 — Jailbreaking Techniques (14 techniques, 5 root causes, lab2_jailbreaking.ipynb)
+- Last session: 2026-06-09 (completed 2026-06-14)
+- Status: 🔄 PARTIAL — taxonomy solid, lab coverage comprehensive; gaps: gpt2 Base64 failure mechanism (RLHF vs pretraining corpus), MITRE ATLAS tactic recall (AI Attack Staging decayed)
+- Next up: L3 S3 — Guardrail Bypass (03_guardrail_bypass.md) or Defense Mechanisms (04_defense_mechanisms.md)
+- Open carry-forward: LLM05 Improper Output Handling card; gpt2 Base64 pretraining corpus distinction; ATLAS AI Attack Staging recall; study plan re-sequencing discussion (agentic security L9 earlier?)
 
 ## Open Gaps (carry forward — must close before L3 is complete)
 
@@ -112,6 +112,7 @@
 | 4 | 2026-05-24 | L2.5 session 2 — MHSA + FFN + Output layer | Trace prompt through full transformer inference pipeline, name attack surfaces at each stage | ✅ ACHIEVED | sessions/2026-05-24.md |
 | 5 | 2026-06-07 | Full review L1+L2+L2.5 S1 + MHSA/FFN/Output re-study + L2.5 S3 | Complete review of all prior content; MHSA+FFN+Output at Gemini depth; adversarial mindset all 5 points | ✅ ACHIEVED | sessions/2026-06-07.md |
 | 6 | 2026-06-08 | L3 S1 — Prompt Injection Fundamentals | Trace injection from poisoned source → context window → unauthorized action; name 3 entry points | ✅ ACHIEVED | sessions/2026-06-08.md |
+| 7 | 2026-06-09 | L3 S2 — Jailbreaking Techniques | 14 techniques (exact source names), 5 root causes (CIRCA), lab2_jailbreaking.ipynb (all 14 exercised) | 🔄 PARTIAL | sessions/2026-06-09.md |
 
 ---
 

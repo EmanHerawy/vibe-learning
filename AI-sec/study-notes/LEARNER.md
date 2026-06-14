@@ -92,6 +92,8 @@ anki_note_type: Basic
 15. CSA Maestro Threat Modeling Framework: https://cloudsecurityalliance.org/blog/2025/02/06/agentic-ai-threat-modeling-framework-maestro (L10)
 16. OWASP Multi-Agentic System Threat Modeling: https://genai.owasp.org/resource/multi-agentic-system-threat-modeling-guide-v1-0/ (L9)
 17. OWASP GenAI Red Teaming Guide: https://genai.owasp.org/initiatives/#ai-redteaming (L7)
+18. OWASP Top 10 for Agentic Applications 2026 (ASI01–ASI10): genai.owasp.org — PDF confirmed 2026-06-12 (L9 primary resource — replaces/extends Multi-Agentic Threat Modeling for agentic-specific attack taxonomy)
+19. Amine Raji — AI Security Blog: https://aminrj.com — practitioner-level, agentic/MCP focus; key posts: MCP attack chain (L9), AI security framework guide (L10), threat modeling in production (L10), 7 security checks before production (L13)
 
 ### Hands-On Labs & CTFs (git submodules in `resources/`)
 | Repo | Path | Covers | Phase |
