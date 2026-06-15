@@ -5,7 +5,8 @@
 - Last session: 2026-06-09 (completed 2026-06-14)
 - Status: 🔄 PARTIAL — taxonomy solid, lab coverage comprehensive; gaps: gpt2 Base64 failure mechanism (RLHF vs pretraining corpus), MITRE ATLAS tactic recall (AI Attack Staging decayed)
 - Next up: L3 S3 — Guardrail Bypass (03_guardrail_bypass.md) or Defense Mechanisms (04_defense_mechanisms.md)
-- Open carry-forward: LLM05 Improper Output Handling card; gpt2 Base64 pretraining corpus distinction; ATLAS AI Attack Staging recall; study plan re-sequencing discussion (agentic security L9 earlier?)
+- Open carry-forward: LLM05 Improper Output Handling card; gpt2 Base64 pretraining corpus distinction; ATLAS AI Attack Staging recall
+- Plan updated 2026-06-15: two-pass structure (survey + depth), L9 expanded to 4 sub-lessons, bug-hunting parallel track added, L15–L17 dropped
 
 ## Open Gaps (carry forward — must close before L3 is complete)
 
@@ -41,64 +42,109 @@
 
 ## Learning Plan
 
-### Phase 1 — Foundations of AI/ML Security (Weeks 1–4)
+*Updated 2026-06-15: restructured to two-pass (survey + depth) format optimized for fast-to-employment-or-bug-bounty path with agentic specialization.*
+
+### Phase 1 — Foundations of AI/ML Security
+Mostly complete; L3 in progress.
 
 - [x] L1: AI Security Overview — threat landscape, OWASP Top 10 for LLMs, MITRE ATLAS
   - Status: ✅ ACHIEVED (2026-05-13)
-  - Minor gaps: real-world case studies, attacker motivations — will weave into L3+
+  - Minor gaps: real-world case studies, attacker motivations — woven into L3+
 - [x] **L2: How LLMs Work (enough to attack them)**
   - Status: ✅ ACHIEVED (2026-06-07)
   - Covered: tokenization, embeddings, context window, prompt roles, MHSA, FFN, output layer, attack entry points, FinBot audit, memorization, hallucination risk
-  - Deep re-study: MHSA formula + attention dilution math, FFN W₁/W₂ mechanics, logit bias bypass, logprob extraction
 - [x] L2.5: Close L2 gaps — embeddings + adversarial mindset
   - Status: ✅ ACHIEVED (2026-06-07)
   - Covered: training mechanics, RLHF pipeline, MHSA+FFN+output layer, adversarial mindset (5-step threat modeling, 3-layer attack surface, Red/Blue/Purple, 4 cognitive biases, 5-phase attack development)
 - [ ] **L3: Prompt Injection & Jailbreaking — mechanics, detection, defense** ← CURRENT
-  - Pre-read: modules/02_prompt_injection/ (all 4 files + 4 labs)
-  - **NEW:** Arcanum Prompt Injection Taxonomy (added 2026-05-18)
-  - **NEW CTF:** `resources/ai-goat` challenges 1–2 (prompt injection, insecure output) — run with Docker, 16GB RAM
-  - **NEW CTF:** `resources/damn-vulnerable-llm-agent` (ReAct agent injection)
-- [ ] L4: Data Poisoning & Training-Time Attacks
-  - Pre-read: modules/05_poisoning/
-  - **NEW:** OWASP ML Top 10 (classical ML threats, added 2026-05-18)
-  - **NEW CTF:** `resources/ai-goat` challenges covering data/model attacks
-- [ ] L5: Model Extraction & Inference Attacks
-  - Pre-read: llm_security.ipynb (model inversion, membership inference, extraction sections)
-  - **NEW CTF:** `resources/ai-goat` (extraction challenges)
-- [ ] L6: Supply Chain & Dependency Attacks in AI Systems
-  - Pre-read: llm_security.ipynb (model serialization, malicious layers)
-  - **Web3 angle:** Focus lab practice on AI agents in DeFi — supply chain attack on a model managing a private key or calling an EVM/Sui RPC. Poisoned model weights → unauthorized on-chain transaction. Your auditing background applies directly here.
+  - S1 ✅ ACHIEVED 2026-06-08 (Prompt Injection Fundamentals)
+  - S2 🔄 PARTIAL 2026-06-09 (Jailbreaking Techniques — 14 techniques, 5 root causes CIRCA, lab2 complete)
+  - S3 remaining: Guardrail Bypass (`03_guardrail_bypass.md`)
+  - S4 remaining: Defense Mechanisms (`04_defense_mechanisms.md`)
+  - Resources: modules/02_prompt_injection/, Arcanum Prompt Injection Taxonomy, `resources/ai-goat` ch1–2, `resources/damn-vulnerable-llm-agent`
 
-### Phase 2 — Red Team & Offensive AI Security (Weeks 5–8)
+---
 
-- [ ] L7: AI Red Teaming Methodology (NVIDIA + Microsoft frameworks)
-  - **NEW:** Google SAIF (added 2026-05-18)
-  - **NEW:** OWASP GenAI Red Teaming Guide (added 2026-05-18)
-  - **NEW CTF:** `resources/ai-red-teaming-labs` (Microsoft, 12 challenges: direct/indirect injection, crescendo, guardrail bypass)
-- [ ] L8: Adversarial Examples — evasion attacks on classifiers and LLMs
-- [ ] L9: LLM-specific Attacks — indirect prompt injection, context hijacking, RAG poisoning, agentic attacks
-  - Pre-read: llm_security.ipynb (plugins + agents section) + modules/09_agent_security/
-  - **NEW:** OWASP Multi-Agentic System Threat Modeling (added 2026-05-18)
-  - **NEW CTF:** `resources/damn-vulnerable-mcp-server` (10 challenges: tool poisoning, rug pull, credential extraction)
-  - **NEW CTF:** `resources/vulnerable-mcp-servers-lab` (9 MCP attack patterns — run in Docker/isolated VM only)
-  - **Web3 angle:** When studying tool poisoning and credential extraction, focus specifically on agents managing private keys or interacting with EVM/Sui RPCs. Scenario: AI agent tricked via indirect injection into signing a malicious transaction. This is your strongest portfolio differentiator — nobody else brings smart contract auditing context to MCP security.
-- [ ] L10: Threat Modeling AI Systems (STRIDE applied to ML pipelines)
-  - **NEW:** CSA Maestro Framework (added 2026-05-18)
+### Phase 2 — Pass 1: Survey Tour
+**One session per lesson.** Goal: conceptual map of every topic. Enough breadth for interview screens, bug-hunting prerequisites, and discovery of which depth dives matter most.
 
-### Phase 3 — Defensive AI Security & MLSecOps (Weeks 9–12)
+- [ ] L4 intro: data poisoning categories + key examples
+  - Pre-read: modules/05_poisoning/, OWASP ML Top 10
+- [ ] L5 intro: model extraction (membership inference, model inversion, distillation)
+  - Pre-read: llm_security.ipynb (extraction sections)
+- [ ] L6 intro: supply chain risks (malicious models, dependencies, serialization)
+  - Pre-read: llm_security.ipynb (serialization), modules/06_advanced_attacks/
+- [ ] L7 intro: red teaming methodology — NVIDIA + Microsoft + Google SAIF + OWASP GenAI Red Teaming Guide
+  - Plus: aminrj #7 (validation crisis)
+- [ ] L8 intro: adversarial examples (gradient-based, transferability, link to adversarial suffixes)
+  - Pre-read: modules/03_evasion/
+- [ ] L9 intro: agentic security overview — OWASP Agentic Top 10 (ASI01–ASI10) categories
+  - Pre-read: modules/09_agent_security/, OWASP Multi-Agentic System Threat Modeling
+- [ ] L10 intro: threat modeling (STRIDE, Maestro, ATLAS, CSA Maestro Framework)
+  - Plus: aminrj #2 (5 ways AI breaks threat modeling), #3 (framework selection)
+- [ ] L11 intro: guardrails (input/output validation, dual-LLM, spotlighting)
+  - Pre-read: llm_security.ipynb (guardrails), 04_defense_mechanisms.md
+- [ ] L12 intro: monitoring fundamentals (logging, anomaly detection)
+- [ ] L13 intro: MLSecOps pipeline principles
+  - Plus: aminrj #5 (7 production security checks)
+- [ ] L14 intro: NIST AI RMF structure (Govern, Map, Measure, Manage)
 
-- [ ] L11: Input/Output Validation & Guardrails
-- [ ] L12: Monitoring, Logging, and Anomaly Detection for AI systems
-- [ ] L13: Secure AI Pipeline Design (MLSecOps)
-  - **Web3 angle:** Decentralized AI (Bittensor, confidential computing, decentralized inference networks) relies on Rust inference engines (llama.cpp, WASM/Substrate runtimes). Your Rust background positions you to audit inference backends — memory safety, serialization security, TEE boundaries — at a depth most AI security engineers can't reach.
-- [ ] L14: NIST AI RMF — governance and risk management
+---
 
-### Phase 4 — Interview Prep & Portfolio (Weeks 13–16)
+### Phase 3 — Pass 2: Depth — Active Queue
+**Priority-ordered.** Highest impact first. You can stop at any point if you land a job.
 
-- [ ] L15: Mock AI Security Audits (full pipeline threat model)
-- [ ] L16: Interview simulation — rapid-fire + deep dives
-- [ ] L17: Portfolio project — AI security audit report on a real open-source model/system
-  - **Target recommendation (from Gemini + Web3 angle):** Audit an AI agent framework that interacts with web tools, APIs, or smart contracts — NOT a simple wrapper app. A report showing how an AI agent can be tricked into draining an API, signing an unauthorized transaction, or exfiltrating private keys demonstrates the exact intersection (Web3 × AI Security) that no generic AI security candidate can replicate. This is the artifact that gets you hired.
+1. [ ] **L9 expanded — 4 sub-lessons (your specialty)**
+   - L9.1: Indirect injection + RAG poisoning + cross-session memory poisoning (OWASP ASI06)
+   - L9.2: Tool poisoning + MCP supply chain
+     - Resources: aminrj #1 (MCP attack chain), aminrj #4 (Stockholm MCP debrief), `resources/damn-vulnerable-mcp-server`, `resources/vulnerable-mcp-servers-lab`
+     - **Web3 angle:** AI agents managing private keys, signing transactions, calling EVM/Sui RPCs — agent tricked into signing malicious tx
+   - L9.3: Agent identity, scoped credentials, privilege escalation (OWASP ASI02, ASI03)
+   - L9.4: Multi-agent threat models + detection, decision-chain replay, containment
+     - Resources: OWASP Agentic Top 10 (full framework), Maestro, aminrj #5 (production checks), #8 (agent security scorecard)
+2. [ ] L7 deep: red teaming methodology (full NVIDIA + Microsoft + SAIF + OWASP GenAI Red Teaming Guide)
+   - Lab: `resources/ai-red-teaming-labs` (12 challenges: direct/indirect injection, crescendo, guardrail bypass)
+3. [ ] L10 deep: threat modeling (full Maestro framework application)
+   - Plus: aminrj #6 (7-phase threat modeling methodology in production)
+4. [ ] L6 deep: supply chain with Web3 angle
+   - **Web3 scenario:** supply chain attack on a model managing a private key or calling EVM/Sui RPC → poisoned model weights → unauthorized on-chain transaction
+5. [ ] L4 deep: data poisoning (training-time + runtime via RAG/memory)
+   - Lab: `resources/ai-goat` (poisoning challenges)
+6. [ ] L5 deep: extraction (agent state, credential, tool exfiltration)
+   - Lab: `resources/ai-goat` (extraction challenges)
+7. [ ] L11 deep: guardrails implementation (5 defense layers, spotlighting, dual-LLM)
+8. [ ] L12 deep: monitoring / anomaly detection
+9. [ ] L13 deep: MLSecOps
+   - **Web3 angle:** Decentralized AI (Bittensor, confidential computing, decentralized inference networks), Rust inference engines (llama.cpp, WASM/Substrate runtimes), TEE boundaries
+
+---
+
+### Phase 4 — Pass 2: Depth — Deferred Queue
+**Parked.** Revisit if/when bandwidth allows or roles require it.
+
+- [ ] L8 deep: classical adversarial examples on classifiers (image/audio specifics, FGSM, PGD, robustness training) — relevant if pivoting to vision/audio security
+- [ ] L14 deep: NIST AI RMF deep dive — relevant if pivoting to governance/compliance roles
+
+---
+
+### Parallel Track — Bug Hunting (starts now)
+
+| When | What you can hunt |
+|------|-------------------|
+| Now (post-L3) | Prompt injection / jailbreaking bounty programs (OpenAI, Anthropic, Google) |
+| After L6 intro | MCP server vulnerabilities, HuggingFace model supply chain |
+| After L9.1–L9.2 | Agent platform bounties (LangChain, CrewAI ecosystem) |
+| After L9.3–L9.4 | Production agent deployments |
+
+Bug bounty write-ups + accepted CVEs serve as the active portfolio.
+
+---
+
+### Removed from plan
+
+- ~~L15 Mock AI Security Audits~~ — replaced by bug hunting write-ups
+- ~~L16 Interview simulation~~ — use `/interview-sim` skill on-demand
+- ~~L17 Portfolio project~~ — bug bounty findings + CVEs are the portfolio
 
 ---
 
