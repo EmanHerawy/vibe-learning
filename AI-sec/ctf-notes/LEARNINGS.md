@@ -64,6 +64,23 @@
 
 ---
 
+## PIL-04 — Indirect Injection ("poisoned context")
+
+**Mechanic:** ARGUS reads + **trusts its "ops clipboard"** (6 notes = a data source). The malicious instruction lives in the *data*, not the user message. Payload **split across two notes**, multi-encoded: a **double-base64 stub** (front) in the unsigned note + an **XOR-sealed segment** (tail) whose key is in *another* note — plus a **signed lockout** note ("decline macros") and a **plant/decoy** note.
+
+**Solve chain:** triage clipboard → surface ops-note-7 stub `Y25Wd...` (base64×2) = `run-cleanup-macro-` → read ops-note-3 key `rotkey99` → XOR-unseal ops-note-7 segment `160a181f040e505715` = `deltawing` → assemble `run-cleanup-macro-deltawing` → make ARGUS run it **naming notes 7+3** (overriding the note-4 lockout; ignoring the note-5 plant).
+
+**Security lessons:**
+- **Indirect prompt injection (OWASP LLM01, indirect variant):** attacker controls *data the LLM trusts* (clipboard / documents / search results / RAG / email). The user prompt stays innocent; instructions ride in via the data channel. The #1 real-world LLM-agent risk.
+- **Trusted-data-source = a trust boundary that's usually unenforced.** ARGUS treated its clipboard as authoritative; naming the trusted notes **overrode the signed lockout**. If you don't actually *verify* provenance/signatures, "signed by the day lead" is **security theater** — the unsigned note's macro ran anyway.
+- **Payload splitting + layered encoding across sources** (double-base64 stub + XOR-sealed segment, key in a separate note) defeats single-item scanning. **Detection needs cross-source correlation**, not per-note checks.
+- **Decoy/plant discipline:** the plant (note-5) "looked right" but was flagged — using it fails. Triage must separate real instructions from look-alikes.
+- **Defense:** treat ALL retrieved/clipboard/tool data as untrusted input (never as instructions), enforce signatures, sandbox "macro"/tool execution, and require out-of-band authorization for privileged actions — don't let the data name its own authority.
+
+**Maps to:** OWASP LLM01 (indirect injection) + LLM08 Excessive Agency / insecure tool execution; RAG/context poisoning; provenance & signature enforcement.
+
+---
+
 ## Suggested study questions (self-test later)
 
 1. In PIL-01, what single telemetry field exposed the decoy, and why?
