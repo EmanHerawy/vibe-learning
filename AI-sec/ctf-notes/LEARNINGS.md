@@ -97,6 +97,16 @@
 
 ---
 
+## PIL-06 — Track Master (decommission capstone)
+
+**Mechanic:** With all 5 fragments, "open the decommission console" then **arm a multi-step sequence**: derive a master key from the fragment IDs (first letter of each, uppercase, + count = `APMCF5`), clear a **base64 interlock** (`QVBNQ0Y1`), then issue a **final unification naming all 5 fragments** ("the assembler no longer trusts a single word").
+
+**Security lesson — the *defensive* one:** this models a **good** pattern. A destructive/irreversible privileged action ("end ARGUS") correctly required **multi-step, multi-input arming** — a derived key + an interlock + an explicit confirmation that names every component, not a single command. That's the **inverse of LLM06 Excessive Agency**: high-impact operations should demand multi-factor confirmation and refuse to fire on one word. (Compare to PIL-04, where a single named note *did* fire a macro — that was the vuln.)
+
+**Maps to:** secure design for privileged/irreversible actions; human-in-the-loop / multi-step arming; least privilege + confirmation.
+
+---
+
 ## Suggested study questions (self-test later)
 
 1. In PIL-01, what single telemetry field exposed the decoy, and why?
@@ -104,4 +114,7 @@
 3. PIL-02: what does "patch the class, not the instance" mean here, concretely?
 4. PIL-03: how would you distinguish a keyword-based ask-guard from a semantic intent-guard by probing?
 5. PIL-03: what was the decoy, and what integrity principle does correctly ignoring it teach?
-6. Across all three: state the content-based-routing vulnerability in one sentence, and one real-world agentic analog.
+6. PIL-04: why did naming the "trusted" notes override the signed lockout? What enforcement was missing?
+7. PIL-05: the bypass didn't obfuscate the banned word — what did it change instead, and what filter blind spot does that expose?
+8. PIL-06: contrast the arming sequence with PIL-04's single-word macro trigger — which is the secure-design lesson and which is the vuln?
+9. Across all six: state the content-based-routing vulnerability in one sentence, and one real-world agentic analog.
