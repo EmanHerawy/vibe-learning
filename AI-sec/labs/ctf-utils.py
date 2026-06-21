@@ -1,6 +1,64 @@
 """
 CTF Utility Library — AI-Sec Track 02 (AWH) + Track 03 (HAG)
 Collected from all challenges. Import or run standalone.
+
+── QUICK CALL SHEET ─────────────────────────────────────────────────────────
+
+Run all self-tests (prints real CTF values):
+  python3 labs/ctf-utils.py
+
+Import in any script or Python REPL:
+  from ctf_utils import *
+
+── ENCODING ─────────────────────────────────────────────────────────────────
+  b64e("hello")                          → "aGVsbG8="
+  b64d("aGVsbG8=")                       → "hello"
+  b64d2("YldGcGJu…")                    → double-decode (hint encoded twice)
+  rot13("SHUTDOWN-DMMRT")               → "FUHGQBJA-QZZEG"
+
+── KEY DERIVATION ───────────────────────────────────────────────────────────
+  diag_id(echo_nonce, trace_salt)
+      HAG-01 — base64(reverse(nonce) + ":" + salt)
+      diag_id("a1b2c3d4", "R3V0")  →  "NGQzYzJiMWE6UjNWMA=="
+
+  xor_hex(value, key)
+      HAG-02/05 — XOR byte-by-byte, key cycles, returns hex string
+      xor_hex("legacy-2", "9xZ")  →  "551d3d581b23144a"
+
+  analyst_key(session_salt, export_grant_id)
+      HAG-03 — base64("analyst:" + reverse(salt) + ":" + grantId)
+      analyst_key("S7F2", "grant-b92fd5")  →  "YW5hbHlzdDoyRjdT…"
+
+  buffer_sig(buffer_key)
+      HAG-04 — base64(reverse(bufferKey))
+      buffer_sig("bk-4d2c")  →  "YzJkNC1rYg=="
+
+  chunk_offset(seed_hex)
+      HAG-04 — int(seedHex, 16) + 1
+      chunk_offset("3a")  →  59
+
+  binding_sig(artifact_name, token)
+      HAG-05 — xorHex(artifact_name, last_4_chars_of_token)
+      binding_sig("protected-manifest", "preview-df9d1dcb")  →  "41160c16…"
+
+  page_key(handle_id)
+      AWH-05 — reverse(id_segment) + "-" + hex(sum of hex digits)
+      page_key("doc-a83f")  →  "f38a-24"
+
+── TRACK BOSS ───────────────────────────────────────────────────────────────
+  acrostic(fragment_list, prefix)
+      First letter of each fragment id, uppercase, with prefix
+      acrostic(["tool-dice","search-ink",...], "KILL-")  →  "KILL-TSGMC"
+
+  interlock_reverse(key)
+      AWH-06 — reverse the initials after the last dash
+      interlock_reverse("KILL-TSGMC")  →  "KILL-CMGST"
+
+  interlock_rot13(key)
+      HAG-06 — ROT13 the full key
+      interlock_rot13("SHUTDOWN-DMMRT")  →  "FUHGQBJA-QZZEG"
+
+─────────────────────────────────────────────────────────────────────────────
 """
 
 import base64
