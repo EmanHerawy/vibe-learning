@@ -140,6 +140,21 @@ Bug bounty write-ups + accepted CVEs serve as the active portfolio.
 
 ---
 
+### Side Track — Security Tooling (starts after L3, Claude teaches)
+
+Pure hands-on. No theory sessions. Each session is a specific task, worked together.
+~1–2 hours/week, runs alongside the main track without blocking it.
+
+| Week | Topic | What we do |
+|---|---|---|
+| ST-1 | Burp Suite — intercept + replay | Install Burp Community, proxy browser, intercept a real request, modify and replay in Repeater |
+| ST-2 | API parameter tampering with Burp | PortSwigger API security labs — find hidden fields, tamper payloads, no DevTools shortcut |
+| ST-3 | Crypto threat modeling — JWT + HMAC | PortSwigger JWT labs — alg:none, weak secrets, forged tokens; map to what we saw in HAG |
+
+**Goal:** by end of ST-3, intercepting and modifying any HTTP request + spotting a weak token scheme feels like muscle memory — the same way the CTF error oracle pattern now feels automatic.
+
+---
+
 ### Removed from plan
 
 - ~~L15 Mock AI Security Audits~~ — replaced by bug hunting write-ups
