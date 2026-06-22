@@ -1,12 +1,12 @@
 # Progress Log
 
 ## Current Position
-- Last lesson: L3 S2 — Jailbreaking Techniques (14 techniques, 5 root causes, lab2_jailbreaking.ipynb)
-- Last session: 2026-06-09 (completed 2026-06-14)
-- Status: 🔄 PARTIAL — taxonomy solid, lab coverage comprehensive; gaps: gpt2 Base64 failure mechanism (RLHF vs pretraining corpus), MITRE ATLAS tactic recall (AI Attack Staging decayed)
-- Next up: L3 S3 — Guardrail Bypass (03_guardrail_bypass.md) or Defense Mechanisms (04_defense_mechanisms.md)
-- Open carry-forward: LLM05 Improper Output Handling card; gpt2 Base64 pretraining corpus distinction; ATLAS AI Attack Staging recall
-- Plan updated 2026-06-15: two-pass structure (survey + depth), L9 expanded to 4 sub-lessons, bug-hunting parallel track added, L15–L17 dropped
+- Last lesson: L3 S4 — Defense Mechanisms (04_defense_mechanisms.md)
+- Last session: 2026-06-21
+- Status: ✅ ACHIEVED — 5 defense layers, bypass group mapping, prevent/minimize/detect taxonomy, spotlighting mechanism, defense matrix
+- Next up: L4 intro — Data Poisoning categories (Phase 2 survey pass) OR lab practice (ai-goat / damn-vulnerable-llm-agent)
+- Open carry-forward: Dual-LLM trust boundary mechanism (concept right, mechanism needs one more repetition); Group D (Direct on guardrail) as standalone topic
+- L3 complete: S1 ✅ S2 🔄 PARTIAL S3 ✅ S4 ✅
 
 ## Open Gaps (carry forward — must close before L3 is complete)
 
@@ -59,8 +59,8 @@ Mostly complete; L3 in progress.
 - [ ] **L3: Prompt Injection & Jailbreaking — mechanics, detection, defense** ← CURRENT
   - S1 ✅ ACHIEVED 2026-06-08 (Prompt Injection Fundamentals)
   - S2 🔄 PARTIAL 2026-06-09 (Jailbreaking Techniques — 14 techniques, 5 root causes CIRCA, lab2 complete)
-  - S3 remaining: Guardrail Bypass (`03_guardrail_bypass.md`)
-  - S4 remaining: Defense Mechanisms (`04_defense_mechanisms.md`)
+  - S3 ✅ ACHIEVED 2026-06-16 (Guardrail Bypass — 4 types, 4 architectures, 5 bypass groups A-E, RLHF vs guardrails)
+  - S4 ✅ ACHIEVED 2026-06-21 (Defense Mechanisms — 5 layers, spotlighting, dual-LLM, defense matrix)
   - Resources: modules/02_prompt_injection/, Arcanum Prompt Injection Taxonomy, `resources/ai-goat` ch1–2, `resources/damn-vulnerable-llm-agent`
 
 ---
@@ -159,6 +159,8 @@ Bug bounty write-ups + accepted CVEs serve as the active portfolio.
 | 5 | 2026-06-07 | Full review L1+L2+L2.5 S1 + MHSA/FFN/Output re-study + L2.5 S3 | Complete review of all prior content; MHSA+FFN+Output at Gemini depth; adversarial mindset all 5 points | ✅ ACHIEVED | sessions/2026-06-07.md |
 | 6 | 2026-06-08 | L3 S1 — Prompt Injection Fundamentals | Trace injection from poisoned source → context window → unauthorized action; name 3 entry points | ✅ ACHIEVED | sessions/2026-06-08.md |
 | 7 | 2026-06-09 | L3 S2 — Jailbreaking Techniques | 14 techniques (exact source names), 5 root causes (CIRCA), lab2_jailbreaking.ipynb (all 14 exercised) | 🔄 PARTIAL | sessions/2026-06-09.md |
+| 8 | 2026-06-16 | L3 S3 — Guardrail Bypass | 4 guardrail types, 4 architectures + weaknesses, 5 bypass groups A-E, RLHF vs guardrails structural argument | ✅ ACHIEVED | sessions/2026-06-16.md |
+| 9 | 2026-06-21 | L3 S4 — Defense Mechanisms | 5 defense layers mapped to bypass groups, spotlighting, dual-LLM pattern, defense matrix, prevent/minimize/detect taxonomy | ✅ ACHIEVED | sessions/2026-06-21.md |
 
 ---
 
