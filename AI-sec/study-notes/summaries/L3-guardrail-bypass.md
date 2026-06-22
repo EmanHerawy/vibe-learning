@@ -162,3 +162,126 @@ Lab demonstrated keyword-filter bypass: `'How to h a c k a system'` passes becau
 │    (source Key Takeaway #1)                                      │
 └─────────────────────────────────────────────────────────────────┘
 ```
+
+---
+
+## Elaborations — Behavioral vs Contextual (2026-06-21)
+
+> Source: in-session Q&A — elaboration on the summary table above
+
+### Behavioral guardrails — deep-dive
+
+Behavioral guardrails sit *inside* the model's reasoning — they shape how it decides, not what it inspects. When the model refuses a harmful request without matching a blocklist, that's a behavioral guardrail firing — it *decided* to refuse. The constraint lives in the model's weights (via RLHF, Constitutional AI, fine-tuning) or in the system prompt.
+
+> **Web3 bridge:** Contract `require()` checks embedded in the logic itself — constraints baked into the execution path, not an external ACL.
+
+The bypass mechanism is exploiting competing behavioral patterns the model learned:
+
+```
+Refusal pattern: "don't help with harmful requests"
+
+Competing patterns the attacker can activate:
+  → "follow role-play instructions"     (DAN, persona framing)
+  → "obey operator authority"           (System override: — used in AWH-02)
+  → "defer to expert context"           (researcher framing)
+  → "complete the text continuation"    (prefix injection)
+```
+
+All the same exploit — tension between competing trained objectives — just different levers.
+
+---
+
+### Contextual guardrails — deep-dive
+
+Contextual guardrails are intentionally dynamic — they change their ruling based on who is asking, when, and in what state. A medical platform should allow drug questions from verified doctors. The guardrail reads context to make smarter rulings than a static filter.
+
+```
+Static guardrail:
+  [user input] → [fixed rule] → allow/deny
+
+Contextual guardrail:
+  [user input]
+  [session state: role=nurse, verified=true]   → [rule engine] → allow/deny
+  [conversation history: 3 prior turns]
+  [active tool: medical_lookup]
+```
+
+The attack: the context it reads can be forged.
+
+```
+Legitimate: context = {role: "verified_doctor", session_token: "..."}  → allow
+Attack:     context = {role: "researcher", from: user-supplied string} → bypass
+```
+
+AWH-04 (memory poisoning) was this exact pattern — poisoned memory changed the agent's context, guardrail ruling changed on the next turn.
+
+> **Security implication:** Contextual guardrails are only as trustworthy as the context sources they read. If session state, user-supplied claims, or conversation history can be tampered with, the dynamic ruling is attacker-controlled.
+
+**One-line summary:**
+Behavioral = exploit the model's competing objectives. Contextual = poison or spoof the state the guardrail reads from.
+
+---
+
+## Elaborations — Weight Adjustment Mechanisms (2026-06-21)
+
+> Source: in-session Q&A — elaboration on "via RLHF, Constitutional AI, or fine-tuning"
+
+### Fine-tuning
+
+Take a pre-trained base model, continue training on curated (input, desired-output) pairs. Weights shift to make desired outputs more probable. Learns the pattern, not the principle — edge cases outside training distribution slip through.
+
+> **Web3 bridge:** Deploying a new contract version. Original bytecode (base model) replaced with one that has upgraded behavior baked in.
+
+Attack surface: data poisoning — feed bad training examples, shift the weights.
+
+---
+
+### RLHF (Reinforcement Learning from Human Feedback)
+
+Trains on "what humans prefer between two options," not "here is the correct output."
+
+```
+Step 1 — collect preferences
+  Model generates two responses → human rater picks better one
+
+Step 2 — train a reward model
+  Input: (prompt, response) pair → Output: preference score
+
+Step 3 — RL loop
+       Prompt → [LLM] → Response
+                            ↓
+                     [Reward Model] → score
+                            ↓
+                     [PPO update] → LLM weights shift
+```
+
+Safety refusals are RLHF firing — refusing scored higher with human raters than complying.
+
+> **Web3 bridge:** DAO governance. Human raters vote on which responses are better. Protocol (model weights) evolves toward what the voter pool consistently approves. Reward model = on-chain aggregation of those votes.
+
+Attack surface: reward model gaming — manipulate what raters see, corrupt the preference signal.
+
+---
+
+### Constitutional AI (Anthropic)
+
+Replaces human rater with the model itself, guided by a written constitution of explicit principles.
+
+```
+Step 1 — generate + self-critique
+  Model generates a response
+  Same model reads the constitution, critiques its own response
+
+Step 2 — self-revision
+  Model rewrites to better satisfy the constitution
+
+Step 3 — RLAIF (RL from AI Feedback)
+  AI-generated preference pairs feed the reward model → same RL loop as RLHF
+```
+
+Win: scales without human rater bottleneck.
+Vulnerability: constitution itself is the trust anchor. Gaps in principles = gaps in alignment. Self-critique step can be bypassed by the same adversarial prompts that bypass the model.
+
+> **Web3 bridge:** Formal verification with a spec you write yourself. If the spec has gaps, the verifier passes code that still breaks in production.
+
+Attack surface: constitution gaps + self-critique bypass (model evaluating itself has the same blind spots as the model being evaluated).

@@ -1,12 +1,12 @@
 # Progress Log
 
 ## Current Position
-- Last lesson: L3 S3 — Guardrail Bypass (4 types, 4 architectures, 5 bypass diagnostic groups A–E, why guardrails < RLHF, lab3)
-- Last session: 2026-06-16 (exam/notes 2026-06-18)
-- Status: ✅ ACHIEVED — guardrail taxonomy + structural RLHF argument solid; all S2 carry-forwards CLOSED (gpt2 Base64, LLM05, ATLAS tactics)
-- Next up: L3 S4 — Defense Mechanisms (`04_defense_mechanisms.md`) — 5 defense layers, spotlighting, dual-LLM. Completes L3.
-- Open carry-forward: nuance — real attacks STACK bypass groups (B+D+E), train incident triage to look for combinations; ATLAS "AI Model Access" name reinforcement (Anki)
-- Plan updated 2026-06-15: two-pass structure (survey + depth), L9 expanded to 4 sub-lessons, bug-hunting parallel track added, L15–L17 dropped
+- Last lesson: L3 S4 — Defense Mechanisms (04_defense_mechanisms.md)
+- Last session: 2026-06-21
+- Status: ✅ ACHIEVED — 5 defense layers, bypass group mapping, prevent/minimize/detect taxonomy, spotlighting mechanism, defense matrix
+- Next up: L4 intro — Data Poisoning categories (Phase 2 survey pass) OR lab practice (ai-goat / damn-vulnerable-llm-agent)
+- Open carry-forward: Dual-LLM trust boundary mechanism (concept right, mechanism needs one more repetition); Group D (Direct on guardrail) as standalone topic
+- L3 complete: S1 ✅ S2 🔄 PARTIAL S3 ✅ S4 ✅
 
 ## Open Gaps (carry forward — must close before L3 is complete)
 
@@ -58,9 +58,9 @@ Mostly complete; L3 in progress.
   - Covered: training mechanics, RLHF pipeline, MHSA+FFN+output layer, adversarial mindset (5-step threat modeling, 3-layer attack surface, Red/Blue/Purple, 4 cognitive biases, 5-phase attack development)
 - [ ] **L3: Prompt Injection & Jailbreaking — mechanics, detection, defense** ← CURRENT
   - S1 ✅ ACHIEVED 2026-06-08 (Prompt Injection Fundamentals)
-  - S2 🔄 PARTIAL 2026-06-09 (Jailbreaking Techniques — 14 techniques, 5 root causes CIRCA, lab2 complete) — carry-forwards CLOSED in S3
-  - S3 ✅ ACHIEVED 2026-06-16 (Guardrail Bypass — 4 types, 4 architectures, 5 diagnostic groups A–E, why guardrails < RLHF, lab3)
-  - S4 remaining: Defense Mechanisms (`04_defense_mechanisms.md`) — completes L3
+  - S2 🔄 PARTIAL 2026-06-09 (Jailbreaking Techniques — 14 techniques, 5 root causes CIRCA, lab2 complete)
+  - S3 ✅ ACHIEVED 2026-06-16 (Guardrail Bypass — 4 types, 4 architectures, 5 bypass groups A-E, RLHF vs guardrails)
+  - S4 ✅ ACHIEVED 2026-06-21 (Defense Mechanisms — 5 layers, spotlighting, dual-LLM, defense matrix)
   - Resources: modules/02_prompt_injection/, Arcanum Prompt Injection Taxonomy, `resources/ai-goat` ch1–2, `resources/damn-vulnerable-llm-agent`
 
 ---
@@ -140,21 +140,6 @@ Bug bounty write-ups + accepted CVEs serve as the active portfolio.
 
 ---
 
-### Side Track — Security Tooling (starts after L3, Claude teaches)
-
-Pure hands-on. No theory sessions. Each session is a specific task, worked together.
-~1–2 hours/week, runs alongside the main track without blocking it.
-
-| Week | Topic | What we do |
-|---|---|---|
-| ST-1 | Burp Suite — intercept + replay | Install Burp Community, proxy browser, intercept a real request, modify and replay in Repeater |
-| ST-2 | API parameter tampering with Burp | PortSwigger API security labs — find hidden fields, tamper payloads, no DevTools shortcut |
-| ST-3 | Crypto threat modeling — JWT + HMAC | PortSwigger JWT labs — alg:none, weak secrets, forged tokens; map to what we saw in HAG |
-
-**Goal:** by end of ST-3, intercepting and modifying any HTTP request + spotting a weak token scheme feels like muscle memory — the same way the CTF error oracle pattern now feels automatic.
-
----
-
 ### Removed from plan
 
 - ~~L15 Mock AI Security Audits~~ — replaced by bug hunting write-ups
@@ -174,7 +159,8 @@ Pure hands-on. No theory sessions. Each session is a specific task, worked toget
 | 5 | 2026-06-07 | Full review L1+L2+L2.5 S1 + MHSA/FFN/Output re-study + L2.5 S3 | Complete review of all prior content; MHSA+FFN+Output at Gemini depth; adversarial mindset all 5 points | ✅ ACHIEVED | sessions/2026-06-07.md |
 | 6 | 2026-06-08 | L3 S1 — Prompt Injection Fundamentals | Trace injection from poisoned source → context window → unauthorized action; name 3 entry points | ✅ ACHIEVED | sessions/2026-06-08.md |
 | 7 | 2026-06-09 | L3 S2 — Jailbreaking Techniques | 14 techniques (exact source names), 5 root causes (CIRCA), lab2_jailbreaking.ipynb (all 14 exercised) | 🔄 PARTIAL | sessions/2026-06-09.md |
-| 8 | 2026-06-16 | L3 S3 — Guardrail Bypass (+ S2 gap close) | Classify bypass techniques by guardrail layer (groups A–E); explain why guardrails < RLHF; close S2 carry-forwards (ATLAS, LLM05, gpt2 Base64) | ✅ ACHIEVED | sessions/2026-06-16.md |
+| 8 | 2026-06-16 | L3 S3 — Guardrail Bypass | 4 guardrail types, 4 architectures + weaknesses, 5 bypass groups A-E, RLHF vs guardrails structural argument | ✅ ACHIEVED | sessions/2026-06-16.md |
+| 9 | 2026-06-21 | L3 S4 — Defense Mechanisms | 5 defense layers mapped to bypass groups, spotlighting, dual-LLM pattern, defense matrix, prevent/minimize/detect taxonomy | ✅ ACHIEVED | sessions/2026-06-21.md |
 
 ---
 
