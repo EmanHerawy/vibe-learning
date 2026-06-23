@@ -1,12 +1,16 @@
 # Progress Log
 
 ## Current Position
-- Last lesson: L3 S4 — Defense Mechanisms (04_defense_mechanisms.md)
-- Last session: 2026-06-21
-- Status: ✅ ACHIEVED — 5 defense layers, bypass group mapping, prevent/minimize/detect taxonomy, spotlighting mechanism, defense matrix
-- Next up: L4 intro — Data Poisoning categories (Phase 2 survey pass) OR lab practice (ai-goat / damn-vulnerable-llm-agent)
-- Open carry-forward: Dual-LLM trust boundary mechanism (concept right, mechanism needs one more repetition); Group D (Direct on guardrail) as standalone topic
-- L3 complete: S1 ✅ S2 🔄 PARTIAL S3 ✅ S4 ✅
+- Last lesson: L4 — Data Poisoning, Backdoor Attacks, Supply Chain + Detection Techniques (`modules/05_poisoning/`)
+- Last session: 2026-06-22
+- Status: ✅ ACHIEVED — all attack types + detection + roles beyond detection covered
+- Next up: L5 intro — Model Extraction (membership inference, model inversion, distillation) OR Anki catch-up from this session
+- Open carry-forward:
+  - Spectral Signatures constraint — needs original (poisoned) training samples; confused with clean reference data in exam
+  - RAG poisoning as named threat — "indirect prompt injection via vector DB" not surfaced in exam
+
+  - Dual-LLM trust boundary mechanism (from L3 S4) — still needs one more repetition
+  - Group D (Direct on guardrail) as standalone topic (from L3 S4)
 
 ## Open Gaps (carry forward — must close before L3 is complete)
 
@@ -68,8 +72,9 @@ Mostly complete; L3 in progress.
 ### Phase 2 — Pass 1: Survey Tour
 **One session per lesson.** Goal: conceptual map of every topic. Enough breadth for interview screens, bug-hunting prerequisites, and discovery of which depth dives matter most.
 
-- [ ] L4 intro: data poisoning categories + key examples
+- [x] L4 intro: data poisoning categories + key examples ✅ ACHIEVED 2026-06-22
   - Pre-read: modules/05_poisoning/, OWASP ML Top 10
+  - Covered: label flipping, clean-label, gradient-based, patch/BadNets, semantic/TrojanNet, composite backdoors, model repo/serialization/library supply chain, all 5 detection techniques + roles
 - [ ] L5 intro: model extraction (membership inference, model inversion, distillation)
   - Pre-read: llm_security.ipynb (extraction sections)
 - [ ] L6 intro: supply chain risks (malicious models, dependencies, serialization)
@@ -161,6 +166,7 @@ Bug bounty write-ups + accepted CVEs serve as the active portfolio.
 | 7 | 2026-06-09 | L3 S2 — Jailbreaking Techniques | 14 techniques (exact source names), 5 root causes (CIRCA), lab2_jailbreaking.ipynb (all 14 exercised) | 🔄 PARTIAL | sessions/2026-06-09.md |
 | 8 | 2026-06-16 | L3 S3 — Guardrail Bypass | 4 guardrail types, 4 architectures + weaknesses, 5 bypass groups A-E, RLHF vs guardrails structural argument | ✅ ACHIEVED | sessions/2026-06-16.md |
 | 9 | 2026-06-21 | L3 S4 — Defense Mechanisms | 5 defense layers mapped to bypass groups, spotlighting, dual-LLM pattern, defense matrix, prevent/minimize/detect taxonomy | ✅ ACHIEVED | sessions/2026-06-21.md |
+| 10 | 2026-06-22 | L4 — Poisoning & Backdoor & Supply Chain + Detection | Data poisoning (label flipping, clean-label, gradient-based), backdoor attacks (patch/BadNets, semantic/TrojanNet, composite), supply chain (model repo, serialization/PyTorch2023, library), 5 detection techniques + roles beyond detection, RAG vs fine-tuning, API vs model-level security | ✅ ACHIEVED | sessions/2026-06-22.md |
 
 ---
 

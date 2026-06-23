@@ -1212,4 +1212,37 @@ Then map each finding to a Technique for ATLAS classification in the report.
 
 ---
 
+## Poisoning Detection Techniques — Quick Reference
+
+> Full narrative: `study-notes/summaries/L5-detection-techniques.md`
+> Source: `resources/genai-security-training/modules/05_poisoning/README.md`
+
+**Decision tree — which tool to reach for:**
+
+```
+Do you have training data (or a proxy dataset)?
+  YES ─┬─ Suspect patch-based trigger?  → Activation Clustering
+       └─ Auditing the dataset itself?  → Spectral Signatures
+
+  NO  ─┬─ Need to audit model at rest?  → Neural Cleanse
+       └─ Need runtime production guard? → STRIP
+
+Already know a backdoor exists and need to remove it?  → Fine-Pruning
+```
+
+| Technique | One-line method | Primary role | Secondary roles | Key limitation |
+|---|---|---|---|---|
+| **Activation Clustering** | Cluster last-layer activations — poisoned inputs form a separate cluster | Detection | Data cleaning, Forensics | Fails on semantic backdoors |
+| **Neural Cleanse** | Reverse-engineer the smallest perturbation that flips any input to target class | Detection | Runtime filter, Forensics | Computationally expensive (one run per class) |
+| **STRIP** | Blend input with noise N times — locked prediction = trigger present | Detection (runtime) | Runtime guard during remediation, Continuous monitoring | Can be evaded by weakening the trigger |
+| **Spectral Signatures** | SVD on activation matrix — poisoned samples spike along top singular vector | Detection | Data cleaning, Supply chain audit | Requires clean reference data |
+| **Fine-Pruning** | Zero out dormant neurons → fine-tune to recover accuracy | **Removal** | Proactive hardening, Model compression | Cannot confirm backdoor exists; may hurt clean accuracy |
+
+**Golden rules for poisoning audits:**
+- HuggingFace gives you weights, not training data → use a proxy dataset for AC and Spectral Signatures
+- All 5 techniques generalize to text/LLM models (transformer hidden states = activations)
+- Tools: ART (Adversarial Robustness Toolbox), BackdoorBox, TrojanZoo
+
+---
+
 *Updated each session. Run `/notes` at end of session to keep this current.*
