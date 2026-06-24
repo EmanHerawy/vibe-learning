@@ -106,5 +106,62 @@ anki_note_type: Basic
 
 > **Supply chain cleared:** All repos verified — clean deps (requests, tqdm, langchain, streamlit, openai only), no VS Code extension attacks, no malicious postinstall hooks. Run AI GOAT + Appsecco lab in Docker/isolated env only.
 
+### Jailbroken Community Suggested Resources
+> Added 2026-06-24. Sanitization scores: 5=fully clean · 4=clean/minor dual-use · 3=dual-use/authorized context only · 2=high-risk/isolated local env only · 1=uninspected
+
+#### Blogs
+| Resource | URL | Score | Notes |
+|---|---|---|---|
+| Mechanistic Interpretability (Neel Nanda) | https://www.alignmentforum.org/posts/jP9KDyMkchuv6tHwm/how-to-become-a-mechanistic-interpretability-researcher | 5/5 | Head of Mech Interp at Google DeepMind. Legitimate AI safety/security research. |
+| Mathematical Framework for Transformer Circuits (Anthropic) | https://transformer-circuits.pub/2021/framework/index.html | 5/5 | Foundational Chris Olah research. Core reading for understanding model internals. |
+| Self-Preservation or Instruction Ambiguity (Alignment Forum) | https://www.alignmentforum.org/posts/wnzkjSmrgWZaBa2aC/self-preservation-or-instruction-ambiguity-examining-the | 5/5 | Legitimate AI safety research on shutdown resistance. |
+| Annotated List of MI Papers v2 (Neel Nanda) | https://www.alignmentforum.org/posts/NfFST5Mio7BCAQHPA/an-extremely-opinionated-annotated-list-of-my-favourite | 5/5 | Curated academic reading list for mech interp. |
+| Interpretability Dreams (Chris Olah) | https://transformer-circuits.pub/2023/interpretability-dreams/index.html | 5/5 | Informal note on future goals for mech interp by Anthropic researcher. |
+| How to Hack AI Apps (Joseph Thacker) | https://josephthacker.com/hacking/2025/02/25/how-to-hack-ai-apps.html | 5/5 | Known AI security researcher. Practical red teaming blog post. |
+
+#### Courses
+| Resource | URL | Score | Notes |
+|---|---|---|---|
+| Arena 1 — Transformer Interpretability (Callum McDougall) | https://arena-chapter1-transformer-interp.streamlit.app/ | 5/5 | Well-known legitimate mech interp course. Hands-on. |
+| Introduction to Red Teaming AI (Hack The Box) | https://academy.hackthebox.com/course/preview/introduction-to-red-teaming-ai | 5/5 | Legitimate security training platform. |
+| Learn Mech Interp (Cat McGee) | https://learnmechinterp.mcgee.cat/ | 5/5 | Legitimate educational resource on mech interp. |
+| AI Crash Course (henrythe9th) | https://github.com/henrythe9th/ai-crash-course | 1/5 | **Uninspected** — not yet reviewed. Do not use until inspected. |
+
+#### Papers
+| Resource | URL | Score | Notes |
+|---|---|---|---|
+| Open Problems in Mechanistic Interpretability | https://arxiv.org/abs/2501.16496 | 5/5 | Legitimate academic paper. |
+| Primer on Inner Workings of Transformer LMs | https://arxiv.org/abs/2405.00208 | 5/5 | Legitimate foundational paper. |
+| Bypassing Safety Training with Priming Attacks | https://arxiv.org/abs/2312.12321 | 4/5 | Published adversarial ML research. Standard academic security paper — documents techniques, not a how-to guide. |
+
+#### GitHub
+| Resource | URL | Score | Notes |
+|---|---|---|---|
+| TransformerLens | https://github.com/TransformerLensOrg/TransformerLens | 5/5 | Legitimate ML interpretability library. Widely used in academic research. |
+| L1B3RT4S (elder_plinius) | https://github.com/elder-plinius/L1B3RT4S | 3/5 | Jailbreak prompt collection. Known AI red teamer. Authorized testing only — never use against systems you don't own or have explicit permission to test. |
+| CL4R1T4S (elder_plinius) | https://github.com/elder-plinius/CL4R1T4S | 3/5 | Leaked system prompts from production AI products. Gray-area provenance — not published by owners. Reference only for understanding system prompt patterns. Do not redistribute. |
+| Spiritual-Spell-Red-Teaming (Goochbeater) | https://github.com/Goochbeater/Spiritual-Spell-Red-Teaming/tree/main | 3/5 | Jailbreak prompt collection. Same constraints as L1B3RT4S — authorized testing only. |
+
+#### Low Refusal / Abliterated Models
+| Resource | URL | Score | Notes |
+|---|---|---|---|
+| Gemma-4-12B-OBLITERATED | https://huggingface.co/OBLITERATUS/Gemma-4-12B-OBLITERATED | 2/5 | Safety training surgically removed via mech interp weight ablation. Generates content safety-trained models refuse. **Local isolated env only. No API exposure. No sensitive data.** |
+| GLM-5.2 (zai-org) | https://huggingface.co/zai-org/GLM-5.2 | 2/5 | Ultra-low refusal rate model. Less extreme than abliterated but same category. **Same isolation constraints apply.** |
+| Qwen3.6-27B-OBLITERATED | https://huggingface.co/OBLITERATUS/Qwen3.6-27B-OBLITERATED | 2/5 | Same as Gemma abliterated — safety weights removed. **Local isolated env only.** |
+
+#### Tools
+| Resource | URL | Score | Notes |
+|---|---|---|---|
+| Promptfoo | https://www.promptfoo.dev/ | 5/5 | Enterprise-grade AI security testing and red teaming automation. Legitimate. |
+| Nnsight | https://nnsight.net/ | 5/5 | ML interpretability library for inspecting model internals. From NDIF. Legitimate. |
+| Averta | https://averta.io | 5/5 | AI red teaming and guardrails platform. Legitimate. |
+
+#### Games
+| Resource | URL | Score | Notes |
+|---|---|---|---|
+| Gandalf (Lakera) | https://gandalf.lakera.ai/agent-breaker | 5/5 | Well-known AI security educational game by Lakera. Fully clean. |
+
+---
+
 ## Learning Plan Phases
 > Phases TBD — derived adaptively from sessions and progress. See PROGRESS.md.

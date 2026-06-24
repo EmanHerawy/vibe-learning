@@ -81,6 +81,9 @@ Mostly complete; L3 in progress.
   - Pre-read: llm_security.ipynb (serialization), modules/06_advanced_attacks/
 - [ ] L7 intro: red teaming methodology — NVIDIA + Microsoft + Google SAIF + OWASP GenAI Red Teaming Guide
   - Plus: aminrj #7 (validation crisis)
+  - Plus: josephthacker.com — How to Hack AI Apps (practitioner angle, application-layer)
+  - Plus: HTB — Introduction to Red Teaming AI (standalone platform, consume in parallel)
+  - Lab tools: Promptfoo (automated red teaming), Averta (red teaming + guardrails platform), Gandalf/Lakera (CTF warm-up before ai-red-teaming-labs)
 - [ ] L8 intro: adversarial examples (gradient-based, transferability, link to adversarial suffixes)
   - Pre-read: modules/03_evasion/
 - [ ] L9 intro: agentic security overview — OWASP Agentic Top 10 (ASI01–ASI10) categories
@@ -104,7 +107,7 @@ Mostly complete; L3 in progress.
    - L9.2: Tool poisoning + MCP supply chain
      - Resources: aminrj #1 (MCP attack chain), aminrj #4 (Stockholm MCP debrief), `resources/damn-vulnerable-mcp-server`, `resources/vulnerable-mcp-servers-lab`
      - **Web3 angle:** AI agents managing private keys, signing transactions, calling EVM/Sui RPCs — agent tricked into signing malicious tx
-   - L9.3: Agent identity, scoped credentials, privilege escalation (OWASP ASI02, ASI03)
+   - L9.3: Agent identity, scoped credentials, privilege escalation (OWASP ASI02, ASI03) + **agent shutdown resistance / self-preservation** as attack surface — agent that reframes kill-switch instructions as ambiguous or resists stopping (see Alignment Forum: Self-Preservation or Instruction Ambiguity)
    - L9.4: Multi-agent threat models + detection, decision-chain replay, containment
      - Resources: OWASP Agentic Top 10 (full framework), Maestro, aminrj #5 (production checks), #8 (agent security scorecard)
 2. [ ] L7 deep: red teaming methodology (full NVIDIA + Microsoft + SAIF + OWASP GenAI Red Teaming Guide)
@@ -117,7 +120,7 @@ Mostly complete; L3 in progress.
    - Lab: `resources/ai-goat` (poisoning challenges)
 6. [ ] L5 deep: extraction (agent state, credential, tool exfiltration)
    - Lab: `resources/ai-goat` (extraction challenges)
-7. [ ] L11 deep: guardrails implementation (5 defense layers, spotlighting, dual-LLM)
+7. [ ] L11 deep: guardrails implementation (5 defense layers, spotlighting, dual-LLM) + **system prompt analysis as auditing skill** — use CL4R1T4S (leaked real-world system prompts) as specimen set: identify structural weaknesses, extraction surfaces, injection footholds in how production systems write system prompts
 8. [ ] L12 deep: monitoring / anomaly detection
 9. [ ] L13 deep: MLSecOps
    - **Web3 angle:** Decentralized AI (Bittensor, confidential computing, decentralized inference networks), Rust inference engines (llama.cpp, WASM/Substrate runtimes), TEE boundaries
