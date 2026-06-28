@@ -77,7 +77,7 @@ Mostly complete; L3 in progress.
 - [x] L4 intro: data poisoning categories + key examples ✅ ACHIEVED 2026-06-22
   - Pre-read: modules/05_poisoning/, OWASP ML Top 10
   - Covered: label flipping, clean-label, gradient-based, patch/BadNets, semantic/TrojanNet, composite backdoors, model repo/serialization/library supply chain, all 5 detection techniques + roles
-- [ ] L5 intro: model extraction (membership inference, model inversion, distillation)
+- [x] L5 intro: model extraction (membership inference, model inversion, distillation) ✅ 2026-06-24 / 2026-06-26 — 🔄 PARTIAL (theory + labs + AI GOAT Ch1 done; 2 exam gaps clarified post-exam)
   - Pre-read: llm_security.ipynb (extraction sections)
 - [ ] L6 intro: supply chain risks (malicious models, dependencies, serialization)
   - Pre-read: llm_security.ipynb (serialization), modules/06_advanced_attacks/
