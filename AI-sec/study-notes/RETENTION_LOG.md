@@ -17,3 +17,5 @@
 | Guardrail architectures + why-fail reasons | 2026-06-16 | 2026-06-18 | 8/10 | /examiner |
 | Guardrails vs RLHF (structural argument) | 2026-06-16 | 2026-06-18 | 9/10 | /examiner |
 | LLM05 + bypass diagnostic groups (A-E) | 2026-06-16 | 2026-06-18 | 8/10 | /examiner |
+| Model stealing — attack pipeline + soft label fidelity risk | 2026-06-26 | 2026-06-26 | 9/10 | /examiner |
+| Training data extraction — repetition test + memorization vs hallucination | 2026-06-26 | 2026-06-26 | 9/10 | /examiner |

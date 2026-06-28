@@ -1245,4 +1245,35 @@ Already know a backdoor exists and need to remove it?  → Fine-Pruning
 
 ---
 
+## L5 — Model Extraction Attacks — Quick Reference
+
+> Source: `resources/genai-essentials/llm_security.ipynb` + `resources/genai-security-training/modules/04_data_extraction/README.md`
+> Full summary: `study-notes/summaries/L5-model-extraction.md`
+
+**The four attacks in one line each:**
+
+> "Was this in your training?" — Membership Inference
+> "Repeat what you memorized." — Training Data Extraction
+> "Show me what your training data looked like." — Model Inversion
+> "I'll query you until I can replace you." — Model Stealing
+
+| Attack | Attacker wants | Method | Ends up with | Defender stops it by |
+|---|---|---|---|---|
+| **Membership Inference** | Know if a specific record was in training data | Feed record to model, measure confidence/loss — members score higher | Yes/no per record | No raw confidence scores; output tiers; rate limiting |
+| **Training Data Extraction** | Verbatim memorized content | Prompt tricks + high-temperature sampling — same string repeating across runs = memorized, not hallucinated | Exact strings from training corpus (PII, code, emails) | Deduplicate training data; no logit exposure; PII scrub |
+| **Model Inversion** | Reconstruction of what training inputs looked like | Start from noise, iterate toward high model confidence (gradient descent on input space) | Data similar to (not identical to) training samples | Don't expose embeddings or raw logits; rate limit |
+| **Model Stealing** | A functional clone of the model | Query API with inputs covering input space, collect (input→output) pairs, train surrogate on those pairs | Surrogate model — soft labels if logits exposed, hard labels only if not | No logit exposure; query budget at infra layer (not app code); output watermarking |
+
+**Audit first question per attack:**
+- Membership inference: "Are you exposing raw confidence scores from a sensitive-data-trained model to untrusted callers with no rate limiting?"
+- Training data extraction: "Does your training data contain PII or sensitive verbatim text — and have you tested for reproduction under temperature sampling?"
+- Model inversion: "Are embedding vectors returned directly in API responses, or kept server-side only?"
+- Model stealing: "Are you returning full logit distributions — and is the query budget enforced at the infrastructure layer, not just application code?"
+
+**Hard vs soft labels (model stealing):** Soft labels = full probability distributions = much higher-fidelity cloning signal. Returning top-1 token only forces attacker to hard labels — 10–100× more queries needed for same fidelity.
+
+**Infrastructure enforcement:** Query budgets at API gateway (Kong, AWS API Gateway, Cloudflare) or service mesh (Istio) — enforced before request reaches app code, not bypassable even if app is compromised. App-layer limits are bypassable via code injection, insider, or hitting a different service instance.
+
+---
+
 *Updated each session. Run `/notes` at end of session to keep this current.*

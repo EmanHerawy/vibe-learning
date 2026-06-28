@@ -1,16 +1,18 @@
 # Progress Log
 
 ## Current Position
-- Last lesson: L4 — Data Poisoning, Backdoor Attacks, Supply Chain + Detection Techniques (`modules/05_poisoning/`)
-- Last session: 2026-06-22
-- Status: ✅ ACHIEVED — all attack types + detection + roles beyond detection covered
-- Next up: L5 intro — Model Extraction (membership inference, model inversion, distillation) OR Anki catch-up from this session
+- Last lesson: L5 — Model Extraction (membership inference, training data extraction, model inversion, model stealing)
+- Last session: 2026-06-26
+- Goal status: 🔄 PARTIAL — theory ✅, Feynman ✅, labs ✅, AI GOAT Ch1 ✅, exam 🔄 (2 gaps clarified post-exam), Anki ✅, notes ✅
+- Next up: L6 — Supply Chain Risks (modules/06_advanced_attacks/ + llm_security.ipynb serialization section)
+
 - Open carry-forward:
   - Spectral Signatures constraint — needs original (poisoned) training samples; confused with clean reference data in exam
   - RAG poisoning as named threat — "indirect prompt injection via vector DB" not surfaced in exam
-
   - Dual-LLM trust boundary mechanism (from L3 S4) — still needs one more repetition
   - Group D (Direct on guardrail) as standalone topic (from L3 S4)
+  - AI GOAT Challenge 2 (Insecure Output Handling) — deferred to L6 lesson session
+  - **Python basics for ML security** — 2-session side track; needed for ML-layer attacks (shadow models, gradient-based inversion, ART/Garak/PyRIT tooling); NOT needed for prompt injection / API attacks / agentic security; TypeScript background makes this fast (~20–30 hrs); schedule at natural break between lessons
 
 ## Open Gaps (carry forward — must close before L3 is complete)
 
@@ -170,6 +172,8 @@ Bug bounty write-ups + accepted CVEs serve as the active portfolio.
 | 8 | 2026-06-16 | L3 S3 — Guardrail Bypass | 4 guardrail types, 4 architectures + weaknesses, 5 bypass groups A-E, RLHF vs guardrails structural argument | ✅ ACHIEVED | sessions/2026-06-16.md |
 | 9 | 2026-06-21 | L3 S4 — Defense Mechanisms | 5 defense layers mapped to bypass groups, spotlighting, dual-LLM pattern, defense matrix, prevent/minimize/detect taxonomy | ✅ ACHIEVED | sessions/2026-06-21.md |
 | 10 | 2026-06-22 | L4 — Poisoning & Backdoor & Supply Chain + Detection | Data poisoning (label flipping, clean-label, gradient-based), backdoor attacks (patch/BadNets, semantic/TrojanNet, composite), supply chain (model repo, serialization/PyTorch2023, library), 5 detection techniques + roles beyond detection, RAG vs fine-tuning, API vs model-level security | ✅ ACHIEVED | sessions/2026-06-22.md |
+| 11 | 2026-06-24 | L5 — Model Extraction theory (MI, training data extraction, model inversion) | Understand 3 of 4 L5 attack types: what attacker wants, method, what they end up with, how defender stops it | 🔄 PARTIAL — model stealing not taught | sessions/2026-06-24.md |
+| 12 | 2026-06-26 | L5 — Model Extraction continued (model stealing + all 3 labs + AI GOAT Ch1) | Seal all 4 L5 attack types with hands-on: labs 1-3 + AI GOAT prompt injection Ch1 | 🔄 PARTIAL — exam gaps on model inversion realism + MI audit method (clarified post-exam) | sessions/2026-06-26.md |
 
 ---
 
