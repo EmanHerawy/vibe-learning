@@ -1,10 +1,10 @@
 # Progress Log
 
 ## Current Position
-- Last lesson: L5 — Model Extraction (membership inference, training data extraction, model inversion, model stealing)
-- Last session: 2026-06-26
-- Goal status: 🔄 PARTIAL — theory ✅, Feynman ✅, labs ✅, AI GOAT Ch1 ✅, exam 🔄 (2 gaps clarified post-exam), Anki ✅, notes ✅
-- Next up: L6 — Supply Chain Risks (modules/06_advanced_attacks/ + llm_security.ipynb serialization section)
+- Last lesson: L6 — Supply Chain Security (pickle RCE, SafeTensors, TOCTOU, supply chain audit)
+- Last session: 2026-06-28
+- Goal status: 🔄 PARTIAL — theory ✅, Feynman ✅, practice ✅, exam 🔄 (TOCTOU + composite backdoor gaps — both carded)
+- Next up: L7 — Red Teaming Methodology (NVIDIA AI Red Team + Microsoft Threat Modeling + OWASP GenAI Red Teaming Guide)
 
 - Open carry-forward:
   - Spectral Signatures constraint — needs original (poisoned) training samples; confused with clean reference data in exam
@@ -79,7 +79,7 @@ Mostly complete; L3 in progress.
   - Covered: label flipping, clean-label, gradient-based, patch/BadNets, semantic/TrojanNet, composite backdoors, model repo/serialization/library supply chain, all 5 detection techniques + roles
 - [x] L5 intro: model extraction (membership inference, model inversion, distillation) ✅ 2026-06-24 / 2026-06-26 — 🔄 PARTIAL (theory + labs + AI GOAT Ch1 done; 2 exam gaps clarified post-exam)
   - Pre-read: llm_security.ipynb (extraction sections)
-- [ ] L6 intro: supply chain risks (malicious models, dependencies, serialization)
+- [x] L6 intro: supply chain risks (malicious models, dependencies, serialization) ✅ 2026-06-28 — 🔄 PARTIAL (TOCTOU + composite backdoor exam gaps — both Anki-carded)
   - Pre-read: llm_security.ipynb (serialization), modules/06_advanced_attacks/
 - [ ] L7 intro: red teaming methodology — NVIDIA + Microsoft + Google SAIF + OWASP GenAI Red Teaming Guide
   - Plus: aminrj #7 (validation crisis)
@@ -174,6 +174,7 @@ Bug bounty write-ups + accepted CVEs serve as the active portfolio.
 | 10 | 2026-06-22 | L4 — Poisoning & Backdoor & Supply Chain + Detection | Data poisoning (label flipping, clean-label, gradient-based), backdoor attacks (patch/BadNets, semantic/TrojanNet, composite), supply chain (model repo, serialization/PyTorch2023, library), 5 detection techniques + roles beyond detection, RAG vs fine-tuning, API vs model-level security | ✅ ACHIEVED | sessions/2026-06-22.md |
 | 11 | 2026-06-24 | L5 — Model Extraction theory (MI, training data extraction, model inversion) | Understand 3 of 4 L5 attack types: what attacker wants, method, what they end up with, how defender stops it | 🔄 PARTIAL — model stealing not taught | sessions/2026-06-24.md |
 | 12 | 2026-06-26 | L5 — Model Extraction continued (model stealing + all 3 labs + AI GOAT Ch1) | Seal all 4 L5 attack types with hands-on: labs 1-3 + AI GOAT prompt injection Ch1 | 🔄 PARTIAL — exam gaps on model inversion realism + MI audit method (clarified post-exam) | sessions/2026-06-26.md |
+| 13 | 2026-06-28 | L6 — Supply Chain Security (pickle RCE, SafeTensors, TOCTOU, audit methodology) | Trace supply chain attack from malicious model upload through pickle RCE to runtime | 🔄 PARTIAL — TOCTOU + composite backdoor/Neural Cleanse gaps (Anki-carded) | sessions/2026-06-28.md |
 
 ---
 

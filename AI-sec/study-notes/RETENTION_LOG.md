@@ -19,3 +19,5 @@
 | LLM05 + bypass diagnostic groups (A-E) | 2026-06-16 | 2026-06-18 | 8/10 | /examiner |
 | Model stealing — attack pipeline + soft label fidelity risk | 2026-06-26 | 2026-06-26 | 9/10 | /examiner |
 | Training data extraction — repetition test + memorization vs hallucination | 2026-06-26 | 2026-06-26 | 9/10 | /examiner |
+| Pickle __reduce__ RCE — S3 auth does not mitigate content-level attack | 2026-06-28 | 2026-06-29 | 9/10 | /examiner |
+| SafeTensors vs SHA256 — two separate threats two separate mitigations | 2026-06-28 | 2026-06-29 | 9/10 | /examiner |
